@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "COINBASE.TEOS",
+    "emails":  [
+                   "trade@coinbase.teos",
+                   "wallet@coinbase.teos",
+                   "vip@coinbase.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "Coinbase - USA - Nasdaq LISTED",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "USA users - High value",
+    "status":  "ACTIVE - SEALED"
+}

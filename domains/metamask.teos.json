@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "METAMASK.TEOS",
+    "emails":  [
+                   "trade@metamask.teos",
+                   "wallet@metamask.teos",
+                   "vip@metamask.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "MetaMask - 30M users - ETH Wallet King",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Every DeFi needs MetaMask",
+    "status":  "ACTIVE - SEALED"
+}

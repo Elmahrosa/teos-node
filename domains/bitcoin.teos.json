@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "BITCOIN.TEOS",
+    "emails":  [
+                   "trade@bitcoin.teos",
+                   "wallet@bitcoin.teos",
+                   "vip@bitcoin.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "Bitcoin - BTC - Digital Gold - 1T Market Cap",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "BTC King",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "TRON.TEOS",
+    "emails":  [
+                   "trade@tron.teos",
+                   "wallet@tron.teos",
+                   "vip@tron.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "Tron - TRX - USDT Transfers - Cheapest",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "USDT TRC20 - Every Egyptian uses",
+    "status":  "ACTIVE - SEALED"
+}

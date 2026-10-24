@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "ETHEREUM.TEOS",
+    "emails":  [
+                   "trade@ethereum.teos",
+                   "wallet@ethereum.teos",
+                   "vip@ethereum.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "Ethereum - ETH - Smart Contracts King",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "ETH King",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "TREZOR.TEOS",
+    "emails":  [
+                   "trade@trezor.teos",
+                   "wallet@trezor.teos",
+                   "vip@trezor.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "Trezor - Hardware - First ever",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "OG hardware",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "EXODUS.TEOS",
+    "emails":  [
+                   "trade@exodus.teos",
+                   "wallet@exodus.teos",
+                   "vip@exodus.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "Exodus - Desktop Beautiful",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Beautiful UI",
+    "status":  "ACTIVE - SEALED"
+}

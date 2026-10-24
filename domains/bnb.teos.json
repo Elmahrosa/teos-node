@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "BNB.TEOS",
+    "emails":  [
+                   "trade@bnb.teos",
+                   "wallet@bnb.teos",
+                   "vip@bnb.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "BNB Chain - Binance Chain",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "BSC fees",
+    "status":  "ACTIVE - SEALED"
+}
