@@ -1,0 +1,12 @@
+﻿{
+  "domain": "EUROPE.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "COUNTRIES.TEOS",
+  "vertical": "Europe Continent - 44 Countries - 500M people",
+  "type": "CONTINENT KING",
+  "status": "ACTIVE",
+  "value": "Europe = 44 countries x 500k franchise = 22M USD/year",
+  "countries": 44,
+  "emails": ["europe@europe.teos", "franchise@europe.teos"],
+  "note": "EUROPE.TEOS = 44 countries - Schengen visa business + Real estate"
+}

@@ -2,14 +2,15 @@
     "domain":  "UK.TEOS",
     "emails":  [
                    "info@uk.teos",
-                   "sales@uk.teos",
-                   "admin@uk.teos"
+                   "visa@uk.teos",
+                   "business@uk.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
-    "vertical":  "United Kingdom",
-    "parent":  "COUNTRIES.TEOS",
-    "type":  "EMPIRE CORE",
+    "note":  "Sealed 25/10/2026 02:54 AM - EUROPE EMPIRE - AYMAN.TEOS - Part of 150+ domains",
+    "vertical":  "United Kingdom - London - Finance King",
+    "parent":  "EUROPE.TEOS",
+    "type":  "EUROPE COUNTRY - FRANCHISE 500k USD/year",
     "owner":  "AYMAN.TEOS",
-    "value":  "3M Finance",
-    "status":  "ACTIVE - SEALED"
+    "value":  "United Kingdom - London - Finance King - EU Market - Franchise",
+    "status":  "ACTIVE - SEALED",
+    "continent":  "EUROPE"
 }
