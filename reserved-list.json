@@ -1,0 +1,10 @@
+{
+  "owner": "AYMAN.TEOS",
+  "standard": "ELM-INT-WEB4-001",
+  "law": "LAW OVER CODE",
+  "total_reserved": 195,
+  "note": "Full 200+ list - Egyptian and Global premium names",
+  "premium_eg": ["CIB.TEOS", "NBE.TEOS", "QNB.TEOS", "BM.TEOS", "ALEXBANK.TEOS", "ETISALAT.TEOS", "ORANGE.TEOS", "VODAFONE.TEOS", "WE.TEOS"],
+  "premium_global": ["GOOGLE.TEOS", "APPLE.TEOS", "TESLA.TEOS", "AMAZON.TEOS", "MICROSOFT.TEOS", "BINANCE.TEOS", "META.TEOS"],
+  "status": "RESERVED FOR AUCTION - NOT FOR DIRECT MINT"
+}
