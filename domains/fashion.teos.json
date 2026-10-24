@@ -1,0 +1,8 @@
+﻿{
+  "domain": "FASHION.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "LADIES.TEOS",
+  "vertical": "Fashion & Boutique Marketplace",
+  "monetization": "Boutique subscription 2000 EGP/mo + 15% sales",
+  "emails": ["shop@fashion.teos", "boutique@fashion.teos"]
+}

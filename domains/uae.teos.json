@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "UAE.TEOS",
+    "emails":  [
+                   "info@uae.teos",
+                   "sales@uae.teos",
+                   "admin@uae.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "UAE Dubai",
+    "parent":  "COUNTRIES.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "5M - Crypto",
+    "status":  "ACTIVE - SEALED"
+}

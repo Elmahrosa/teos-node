@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "AMAZON.TEOS",
+    "emails":  [
+                   "info@amazon.teos",
+                   "sales@amazon.teos",
+                   "admin@amazon.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Amazon Logistics",
+    "parent":  "ALEXANDRIA.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "1M",
+    "status":  "ACTIVE - SEALED"
+}

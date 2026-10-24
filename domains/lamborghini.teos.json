@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "LAMBORGHINI.TEOS",
+    "emails":  [
+                   "info@lamborghini.teos",
+                   "sales@lamborghini.teos",
+                   "admin@lamborghini.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Lambo",
+    "parent":  "CARS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "200k per car",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "GERMANY.TEOS",
+    "emails":  [
+                   "info@germany.teos",
+                   "sales@germany.teos",
+                   "admin@germany.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Germany Cars",
+    "parent":  "COUNTRIES.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "3M Industry",
+    "status":  "ACTIVE - SEALED"
+}

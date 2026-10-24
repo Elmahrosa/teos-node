@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "AUDI.TEOS",
+    "emails":  [
+                   "info@audi.teos",
+                   "sales@audi.teos",
+                   "admin@audi.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Audi Dealer",
+    "parent":  "CARS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "40k",
+    "status":  "ACTIVE - SEALED"
+}

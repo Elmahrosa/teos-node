@@ -1,0 +1,12 @@
+﻿{
+  "domain": "COUNTRIES.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "ALEXANDRIA.TEOS",
+  "vertical": "Global Sovereign Network",
+  "type": "WORLD EMPIRE CORE",
+  "status": "ACTIVE - 30 COUNTRIES SEALED",
+  "value": "30 countries x 100k USD/year = 3M USD/year",
+  "countries": ["USA.TEOS","EGYPT.TEOS","UAE.TEOS","SAUDI.TEOS","QATAR.TEOS","UK.TEOS","GERMANY.TEOS","FRANCE.TEOS","JAPAN.TEOS","CHINA.TEOS","INDIA.TEOS","RUSSIA.TEOS","TURKEY.TEOS","ITALY.TEOS","SPAIN.TEOS","BRAZIL.TEOS","CANADA.TEOS","AUSTRALIA.TEOS","SINGAPORE.TEOS","SWISS.TEOS"],
+  "emails": ["global@countries.teos","usa@countries.teos","uae@countries.teos"],
+  "note": "WORLD SOVEREIGN NETWORK 02:42 AM 25/10/2026"
+}

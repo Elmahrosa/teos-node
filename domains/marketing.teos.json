@@ -1,0 +1,18 @@
+﻿{
+  "domain": "MARKETING.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "PARTNER.TEOS",
+  "vertical": "Digital Marketing Agency - Web4 Marketing",
+  "type": "B2B MONEY PRINTER",
+  "status": "ACTIVE - AGENCY CORE",
+  "services": ["Social Media", "Ads", "Influencers", "Branding", "Events Marketing", "Real Estate Marketing"],
+  "monetization": {
+    "retainer": "20k-100k EGP/month per client - Target 50 clients = 2M/month",
+    "ads_cut": "20% of ad spend",
+    "influencer": "30% influencer deals",
+    "realestate_marketing": "REALESTATE.TEOS + MARKETING.TEOS = 100k per compound campaign"
+  },
+  "clients": ["REALESTATE.TEOS", "BEAUTYCENTER.TEOS", "CARS.TEOS", "WEDDING.TEOS", "MARKET.TEOS"],
+  "emails": ["agency@marketing.teos", "ads@marketing.teos", "brands@marketing.teos", "growth@marketing.teos"],
+  "note": "MARKETING.TEOS markets ALL other .teos domains - The engine of the empire"
+}

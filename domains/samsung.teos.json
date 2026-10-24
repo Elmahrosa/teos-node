@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "SAMSUNG.TEOS",
+    "emails":  [
+                   "info@samsung.teos",
+                   "sales@samsung.teos",
+                   "admin@samsung.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Samsung Store",
+    "parent":  "ALEXANDRIA.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "500k",
+    "status":  "ACTIVE - SEALED"
+}

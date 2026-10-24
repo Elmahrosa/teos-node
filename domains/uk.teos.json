@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "UK.TEOS",
+    "emails":  [
+                   "info@uk.teos",
+                   "sales@uk.teos",
+                   "admin@uk.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "United Kingdom",
+    "parent":  "COUNTRIES.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "3M Finance",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "SHARM.TEOS",
+    "emails":  [
+                   "info@sharm.teos",
+                   "sales@sharm.teos",
+                   "admin@sharm.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Tourism King",
+    "parent":  "EGYPT.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "5M/mo summer",
+    "status":  "ACTIVE - SEALED"
+}

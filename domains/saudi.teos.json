@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "SAUDI.TEOS",
+    "emails":  [
+                   "info@saudi.teos",
+                   "sales@saudi.teos",
+                   "admin@saudi.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Saudi NEOM",
+    "parent":  "COUNTRIES.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "5M - Oil",
+    "status":  "ACTIVE - SEALED"
+}

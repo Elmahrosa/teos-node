@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "TESLA.TEOS",
+    "emails":  [
+                   "info@tesla.teos",
+                   "sales@tesla.teos",
+                   "admin@tesla.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Tesla Dealer Alexandria",
+    "parent":  "CARS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "100k - EV King",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "CRYPTO.TEOS",
+    "emails":  [
+                   "info@crypto.teos",
+                   "sales@crypto.teos",
+                   "admin@crypto.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Web3 \u0026 Crypto Exchange",
+    "parent":  "MONEY.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "5M",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,17 @@
+﻿{
+  "domain": "LADIES.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "ALEXANDRIA.TEOS",
+  "vertical": "Ladies Community - Fashion, Beauty, Events, Fitness",
+  "type": "EMPIRE CORE - FEMALE ECONOMY",
+  "status": "ACTIVE - 2M WOMEN ALEX",
+  "sub_domains": ["BEAUTYCENTER.TEOS", "FASHION.TEOS", "WEDDING.TEOS", "FITNESS.TEOS", "SPA.TEOS"],
+  "monetization": {
+    "membership": "VIP Ladies Club 500 EGP/month x 10k members = 5M/month",
+    "events": "Ladies events, bazaars, exhibitions - 200k per event",
+    "fashion": "Fashion marketplace 15% commission",
+    "total": "LADIES economy = 70% of Alexandria spending"
+  },
+  "emails": ["vip@ladies.teos", "fashion@ladies.teos", "events@ladies.teos", "club@ladies.teos", "beauty@ladies.teos"],
+  "note": "LADIES.TEOS = The Queen Domain - Controls beauty + fashion + wedding + fitness"
+}
