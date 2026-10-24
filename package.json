@@ -1,0 +1,15 @@
+{
+  "name": "teos-node",
+  "version": "1.0.0-genesis",
+  "description": "Genesis Node Alexandria - Web4 .teos Resolver on Solana - ELM-INT-WEB4-001 - LAW OVER CODE",
+  "main": "teos-node.js",
+  "type": "module",
+  "scripts": {
+    "start": "node teos-node.js",
+    "resolve": "node teos-node.js resolve",
+    "seal": "node teos-node.js seal"
+  },
+  "keywords": ["web4", "teos", "solana", "dns", "alexandria", "ELM"],
+  "author": "AYMAN.TEOS",
+  "license": "ELM-INT-WEB4-001"
+}
