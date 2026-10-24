@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./seal.png.jpg" width="350" alt="Sovereign Seal ELM-INT-WEB4-001" />
+  <img src="./seal.png" width="350" alt="Sovereign Seal ELM-INT-WEB4-001" />
 </p>
 
 <h1 align="center">teos-node</h1>
