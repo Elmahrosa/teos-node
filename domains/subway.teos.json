@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "SUBWAY.TEOS",
+    "emails":  [
+                   "franchise@subway.teos",
+                   "delivery@subway.teos",
+                   "orders@subway.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Subway - Sandwich - 37k branches",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Subway - Sandwich - 37k branches - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

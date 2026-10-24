@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "BAZOOKA.TEOS",
+    "emails":  [
+                   "franchise@bazooka.teos",
+                   "delivery@bazooka.teos",
+                   "orders@bazooka.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Bazooka - Egypt Fried Chicken",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Bazooka - Egypt Fried Chicken - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,1 +1,17 @@
-{"domain":"FOOD.TEOS","owner":"AYMAN.TEOS","parent":"MALL.TEOS","vertical":"Restaurants & Delivery - Alexandria","monetization":"Restaurant subscription 1000 EGP/mo + Delivery 15%","emails":["order@food.teos","rest@food.teos"],"status":"ACTIVE"}
+﻿{
+  "domain": "FOOD.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "MARKET.TEOS",
+  "vertical": "Food Empire - 20 Chains - McDonald's + KFC + Starbucks",
+  "type": "FOOD KING - DAILY CASH",
+  "status": "ACTIVE - BILLIONS",
+  "value": "Food = Every human eats 3x/day - Market = 10B EGP/day Egypt - Delivery 15% cut",
+  "chains": 20,
+  "monetization": {
+    "franchise": "Franchise fee 50k USD x 20 chains x 10 branches = 10M USD",
+    "delivery": "Delivery 15% - 1000 orders/day x 100 EGP x 15% = 15k/day x 20 = 300k/day",
+    "cloud_kitchen": "Cloud kitchen - Cook for all 20 brands from 1 kitchen = 1M/mo"
+  },
+  "emails": ["food@food.teos", "delivery@food.teos", "franchise@food.teos"],
+  "note": "FOOD.TEOS = Most daily cash - People always hungry"
+}

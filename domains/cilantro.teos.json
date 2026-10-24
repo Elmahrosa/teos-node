@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "CILANTRO.TEOS",
+    "emails":  [
+                   "franchise@cilantro.teos",
+                   "delivery@cilantro.teos",
+                   "orders@cilantro.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Cilantro - Egypt Coffee King",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Cilantro - Egypt Coffee King - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

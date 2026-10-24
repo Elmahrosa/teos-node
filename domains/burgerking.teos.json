@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "BURGERKING.TEOS",
+    "emails":  [
+                   "franchise@burgerking.teos",
+                   "delivery@burgerking.teos",
+                   "orders@burgerking.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Burger King - Whopper - #2 Burger",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Burger King - Whopper - #2 Burger - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

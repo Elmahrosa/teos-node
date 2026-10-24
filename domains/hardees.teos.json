@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "HARDEES.TEOS",
+    "emails":  [
+                   "franchise@hardees.teos",
+                   "delivery@hardees.teos",
+                   "orders@hardees.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Hardee\u0027s - Egypt Strong - 200 branches EG",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Hardee\u0027s - Egypt Strong - 200 branches EG - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}
