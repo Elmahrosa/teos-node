@@ -1,0 +1,9 @@
+{
+  "domain": "FESTIVAL.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "EVENTS.TEOS",
+  "vertical": "Alexandria International Festival",
+  "monetization": "Booths 50k EGP + Sponsors 500k EGP",
+  "emails": ["booth@festival.teos", "sponsor@festival.teos"],
+  "status": "ACTIVE"
+}
