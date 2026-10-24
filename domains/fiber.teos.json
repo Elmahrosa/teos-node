@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "FIBER.TEOS",
+    "emails":  [
+                   "info@fiber.teos",
+                   "sales@fiber.teos",
+                   "support@fiber.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:44 AM - TELECOM EMPIRE - AYMAN.TEOS",
+    "vertical":  "Fiber Optic Network",
+    "parent":  "INTERNET.TEOS",
+    "type":  "TELECOM CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Fiber installation 5k per home",
+    "status":  "ACTIVE - SEALED"
+}

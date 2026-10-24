@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "MOBILE.TEOS",
+    "emails":  [
+                   "info@mobile.teos",
+                   "sales@mobile.teos",
+                   "support@mobile.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:44 AM - TELECOM EMPIRE - AYMAN.TEOS",
+    "vertical":  "Mobile Shop - Phones + Accessories",
+    "parent":  "TELECOM.TEOS",
+    "type":  "TELECOM CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Mobile sales 15% - iPhone 50k x 15% = 7.5k per phone",
+    "status":  "ACTIVE - SEALED"
+}

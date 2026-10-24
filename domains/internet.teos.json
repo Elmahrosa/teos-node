@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "INTERNET.TEOS",
+    "emails":  [
+                   "info@internet.teos",
+                   "sales@internet.teos",
+                   "support@internet.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:44 AM - TELECOM EMPIRE - AYMAN.TEOS",
+    "vertical":  "Internet ISP - ADSL + Fiber",
+    "parent":  "TELECOM.TEOS",
+    "type":  "TELECOM CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Fiber = 1M homes x 500 EGP = 500M/mo market",
+    "status":  "ACTIVE - SEALED"
+}
