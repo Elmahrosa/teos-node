@@ -1,0 +1,8 @@
+{
+  "domain": "EXHIBITIONS.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "EVENTS.TEOS",
+  "vertical": "Trade Shows & Real Estate Expos",
+  "monetization": "Exhibitor fees 25k-100k per booth",
+  "emails": ["exhibit@exhibitions.teos", "sales@exhibitions.teos"]
+}
