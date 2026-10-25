@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "FINANCE_EG.TEOS",
+    "emails":  [
+                   "info@finance_eg.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Ministry of Finance - المالية - الضرائب",
+    "parent":  "GOV.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Ministry of Finance - المالية - الضرائب",
+    "status":  "SEALED"
+}

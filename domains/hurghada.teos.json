@@ -3,11 +3,11 @@
     "emails":  [
                    "info@hurghada.teos"
                ],
-    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
-    "vertical":  "Hurghada 5M tourists Red Sea King",
-    "parent":  "TRAVEL.TEOS",
-    "type":  "EMPIRE",
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Hurghada - الغردقة - سياحة البحر الأحمر",
+    "parent":  "CITIES.TEOS",
+    "type":  "GOV INDUSTRY 600",
     "owner":  "AYMAN.TEOS",
-    "value":  "Hurghada 5M tourists Red Sea King",
+    "value":  "Hurghada - الغردقة - سياحة البحر الأحمر",
     "status":  "SEALED"
 }

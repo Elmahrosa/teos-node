@@ -1,14 +1,13 @@
 ﻿{
     "domain":  "ZAYED.TEOS",
     "emails":  [
-                   "info@zayed.teos",
-                   "vip@zayed.teos"
+                   "info@zayed.teos"
                ],
-    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
-    "vertical":  "Zayed - Sheikh Zayed City - Villas King",
-    "parent":  "REALESTATE.TEOS",
-    "type":  "EMPIRE CORE",
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Sheikh Zayed - الشيخ زايد - أغلى متر في مصر",
+    "parent":  "CITIES.TEOS",
+    "type":  "GOV INDUSTRY 600",
     "owner":  "AYMAN.TEOS",
-    "value":  "Zayed = Richest Egyptians",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Sheikh Zayed - الشيخ زايد - أغلى متر في مصر",
+    "status":  "SEALED"
 }
