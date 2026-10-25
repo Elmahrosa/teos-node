@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "LLM.TEOS",
+    "emails":  [
+                   "info@llm.teos",
+                   "ai@llm.teos"
+               ],
+    "note":  "03:36 AM 25/10/2026 - AI GLOBAL - AYMAN.TEOS",
+    "vertical":  "LLM - Large Language Model - Parent - All LLMs",
+    "parent":  "AI.TEOS",
+    "type":  "AI EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "LLM - Large Language Model - Parent - All LLMs",
+    "status":  "SEALED"
+}
