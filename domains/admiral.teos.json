@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ADMIRAL.TEOS",
+    "emails":  [
+                   "info@admiral.teos",
+                   "cargo@admiral.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Admiral - Admiral Egypt? Actually Suez Canal shipping",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Admiral - Admiral Egypt? Actually Suez Canal shipping",
+    "status":  "SEALED"
+}

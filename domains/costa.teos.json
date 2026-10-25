@@ -1,15 +1,14 @@
 ﻿{
     "domain":  "COSTA.TEOS",
     "emails":  [
-                   "franchise@costa.teos",
-                   "delivery@costa.teos",
-                   "orders@costa.teos"
+                   "info@costa.teos",
+                   "cargo@costa.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
-    "vertical":  "Costa Coffee - UK Coffee - Egypt",
-    "parent":  "FOOD.TEOS",
-    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Costa Cruises - Italy - Genoa - Europe - 15 ships",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Costa Coffee - UK Coffee - Egypt - Franchise 50k USD + 10% monthly - Delivery 15%",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Costa Cruises - Italy - Genoa - Europe - 15 ships",
+    "status":  "SEALED"
 }

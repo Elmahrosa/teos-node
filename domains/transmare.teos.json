@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "TRANSMARE.TEOS",
+    "emails":  [
+                   "info@transmare.teos",
+                   "cargo@transmare.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "TransMare - Egyptian shipping - Alexandria",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "TransMare - Egyptian shipping - Alexandria",
+    "status":  "SEALED"
+}

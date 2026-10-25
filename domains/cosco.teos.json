@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "COSCO.TEOS",
+    "emails":  [
+                   "info@cosco.teos",
+                   "cargo@cosco.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "COSCO - China - #4 World - 500 ships - China state - 3M TEU",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "COSCO - China - #4 World - 500 ships - China state - 3M TEU",
+    "status":  "SEALED"
+}

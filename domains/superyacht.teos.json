@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SUPERYACHT.TEOS",
+    "emails":  [
+                   "info@superyacht.teos",
+                   "cargo@superyacht.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Superyacht - 100M USD yachts - Monaco + Dubai",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Superyacht - 100M USD yachts - Monaco + Dubai",
+    "status":  "SEALED"
+}

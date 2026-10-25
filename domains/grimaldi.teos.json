@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "GRIMALDI.TEOS",
+    "emails":  [
+                   "info@grimaldi.teos",
+                   "cargo@grimaldi.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Grimaldi - Italy - Naples - RoRo + Ferry - Med King",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Grimaldi - Italy - Naples - RoRo + Ferry - Med King",
+    "status":  "SEALED"
+}

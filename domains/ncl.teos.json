@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "NCL.TEOS",
+    "emails":  [
+                   "info@ncl.teos",
+                   "cargo@ncl.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Norwegian Cruise Line - NCL - Miami - 30 ships",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Norwegian Cruise Line - NCL - Miami - 30 ships",
+    "status":  "SEALED"
+}

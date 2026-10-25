@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "JEDDAHPORT.TEOS",
+    "emails":  [
+                   "info@jeddahport.teos",
+                   "cargo@jeddahport.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Jeddah Port - Saudi #1 - 5M TEU - Red Sea King",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Jeddah Port - Saudi #1 - 5M TEU - Red Sea King",
+    "status":  "SEALED"
+}

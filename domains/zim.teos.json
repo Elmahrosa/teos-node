@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ZIM.TEOS",
+    "emails":  [
+                   "info@zim.teos",
+                   "cargo@zim.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "ZIM - Israel - Haifa - 100 ships - Tech shipping",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "ZIM - Israel - Haifa - 100 ships - Tech shipping",
+    "status":  "SEALED"
+}

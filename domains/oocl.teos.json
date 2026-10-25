@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "OOCL.TEOS",
+    "emails":  [
+                   "info@oocl.teos",
+                   "cargo@oocl.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "OOCL - Hong Kong - Orient Overseas - COSCO group",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "OOCL - Hong Kong - Orient Overseas - COSCO group",
+    "status":  "SEALED"
+}

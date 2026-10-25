@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "DAMIETTA.TEOS",
+    "emails":  [
+                   "info@damietta.teos",
+                   "cargo@damietta.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Damietta Port - Egypt - Container + LNG",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Damietta Port - Egypt - Container + LNG",
+    "status":  "SEALED"
+}

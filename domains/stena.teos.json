@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "STENA.TEOS",
+    "emails":  [
+                   "info@stena.teos",
+                   "cargo@stena.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Stena Line - Sweden - Ferry #1 Europe - 40 ferries",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Stena Line - Sweden - Ferry #1 Europe - 40 ferries",
+    "status":  "SEALED"
+}

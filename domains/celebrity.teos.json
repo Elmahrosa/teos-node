@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "CELEBRITY.TEOS",
+    "emails":  [
+                   "info@celebrity.teos",
+                   "cargo@celebrity.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Celebrity Cruises - Premium - Edge class",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Celebrity Cruises - Premium - Edge class",
+    "status":  "SEALED"
+}
