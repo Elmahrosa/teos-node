@@ -1,14 +1,13 @@
 ﻿{
     "domain":  "ALRAJHI.TEOS",
     "emails":  [
-                   "info@alrajhi.teos",
-                   "vip@alrajhi.teos"
+                   "info@alrajhi.teos"
                ],
-    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
-    "vertical":  "Al Rajhi Bank - Saudi #1 Islamic",
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Al Rajhi - Saudi #1 Islamic - 200B - Biggest Islamic world",
     "parent":  "BANKS.TEOS",
-    "type":  "EMPIRE CORE",
+    "type":  "BANKS EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Saudi biggest Islamic",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Al Rajhi - Saudi #1 Islamic - 200B - Biggest Islamic world",
+    "status":  "SEALED"
 }

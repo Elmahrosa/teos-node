@@ -1,15 +1,13 @@
 ﻿{
     "domain":  "COINBASE.TEOS",
     "emails":  [
-                   "trade@coinbase.teos",
-                   "wallet@coinbase.teos",
-                   "vip@coinbase.teos"
+                   "info@coinbase.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
-    "vertical":  "Coinbase - USA - Nasdaq LISTED",
-    "parent":  "CRYPTO.TEOS",
-    "type":  "CRYPTO CORE",
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Coinbase - USA Crypto #1 - 100M users - IPO - Brian",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "USA users - High value",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Coinbase - USA Crypto #1 - 100M users - IPO - Brian",
+    "status":  "SEALED"
 }

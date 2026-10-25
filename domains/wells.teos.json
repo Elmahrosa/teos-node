@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "WELLS.TEOS",
+    "emails":  [
+                   "info@wells.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Wells Fargo - USA - 1.9T - 4000 branches",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Wells Fargo - USA - 1.9T - 4000 branches",
+    "status":  "SEALED"
+}

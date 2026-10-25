@@ -1,14 +1,13 @@
 ﻿{
     "domain":  "NBE.TEOS",
     "emails":  [
-                   "info@nbe.teos",
-                   "vip@nbe.teos"
+                   "info@nbe.teos"
                ],
-    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
-    "vertical":  "NBE - National Bank Egypt - Ahly - #1 Egypt",
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "NBE - National Bank Egypt - #1 Egypt - Ahly - 150B assets - 600 branches",
     "parent":  "BANKS.TEOS",
-    "type":  "EMPIRE CORE",
+    "type":  "BANKS EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "NBE = 4T EGP assets - Government",
-    "status":  "ACTIVE - SEALED"
+    "value":  "NBE - National Bank Egypt - #1 Egypt - Ahly - 150B assets - 600 branches",
+    "status":  "SEALED"
 }

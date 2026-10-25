@@ -1,14 +1,13 @@
 ﻿{
     "domain":  "HSBC.TEOS",
     "emails":  [
-                   "info@hsbc.teos",
-                   "vip@hsbc.teos"
+                   "info@hsbc.teos"
                ],
-    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
-    "vertical":  "HSBC - World Bank - London",
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "HSBC - UK Hong Kong - 3T assets - World #1 international",
     "parent":  "BANKS.TEOS",
-    "type":  "EMPIRE CORE",
+    "type":  "BANKS EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "HSBC = Global",
-    "status":  "ACTIVE - SEALED"
+    "value":  "HSBC - UK Hong Kong - 3T assets - World #1 international",
+    "status":  "SEALED"
 }

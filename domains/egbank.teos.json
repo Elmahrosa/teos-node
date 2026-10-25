@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "EGBANK.TEOS",
+    "emails":  [
+                   "info@egbank.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "EG Bank - Egypt - Growing",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "EG Bank - Egypt - Growing",
+    "status":  "SEALED"
+}

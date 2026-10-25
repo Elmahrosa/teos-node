@@ -1,14 +1,13 @@
 ﻿{
     "domain":  "DIB.TEOS",
     "emails":  [
-                   "info@dib.teos",
-                   "vip@dib.teos"
+                   "info@dib.teos"
                ],
-    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
-    "vertical":  "DIB - Dubai Islamic Bank - #1 Islamic UAE",
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Dubai Islamic Bank - Dubai #1 Islamic - 80B",
     "parent":  "BANKS.TEOS",
-    "type":  "EMPIRE CORE",
+    "type":  "BANKS EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Dubai Islamic",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Dubai Islamic Bank - Dubai #1 Islamic - 80B",
+    "status":  "SEALED"
 }

@@ -1,15 +1,13 @@
 ﻿{
     "domain":  "BITCOIN.TEOS",
     "emails":  [
-                   "trade@bitcoin.teos",
-                   "wallet@bitcoin.teos",
-                   "vip@bitcoin.teos"
+                   "info@bitcoin.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
-    "vertical":  "Bitcoin - BTC - Digital Gold - 1T Market Cap",
-    "parent":  "CRYPTO.TEOS",
-    "type":  "CRYPTO CORE",
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Bitcoin - BTC - 1.3T market - King Crypto - Satoshi",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "BTC King",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Bitcoin - BTC - 1.3T market - King Crypto - Satoshi",
+    "status":  "SEALED"
 }

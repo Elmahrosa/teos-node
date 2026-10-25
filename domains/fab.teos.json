@@ -1,14 +1,13 @@
 ﻿{
     "domain":  "FAB.TEOS",
     "emails":  [
-                   "info@fab.teos",
-                   "vip@fab.teos"
+                   "info@fab.teos"
                ],
-    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
-    "vertical":  "FAB - First Abu Dhabi Bank - UAE #1",
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "FAB - First Abu Dhabi Bank - #1 UAE - 300B - Abu Dhabi",
     "parent":  "BANKS.TEOS",
-    "type":  "EMPIRE CORE",
+    "type":  "BANKS EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "FAB = UAE biggest",
-    "status":  "ACTIVE - SEALED"
+    "value":  "FAB - First Abu Dhabi Bank - #1 UAE - 300B - Abu Dhabi",
+    "status":  "SEALED"
 }
