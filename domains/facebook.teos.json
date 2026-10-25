@@ -1,13 +1,14 @@
 ﻿{
     "domain":  "FACEBOOK.TEOS",
     "emails":  [
-                   "info@facebook.teos"
+                   "info@facebook.teos",
+                   "ads@facebook.teos"
                ],
-    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
-    "vertical":  "Facebook 3B Meta",
-    "parent":  "MEDIA.TEOS",
-    "type":  "EMPIRE",
+    "note":  "03:25 AM 25/10/2026 - SOCIAL MEDIA GLOBAL - AYMAN.TEOS",
+    "vertical":  "Facebook - Meta - 3B users - Biggest social - Zuckerberg",
+    "parent":  "SOCIAL.TEOS",
+    "type":  "SOCIAL EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Facebook 3B Meta",
+    "value":  "Facebook - Meta - 3B users - Biggest social - Zuckerberg",
     "status":  "SEALED"
 }

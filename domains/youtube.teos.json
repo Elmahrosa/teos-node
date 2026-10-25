@@ -1,13 +1,14 @@
 ﻿{
     "domain":  "YOUTUBE.TEOS",
     "emails":  [
-                   "info@youtube.teos"
+                   "info@youtube.teos",
+                   "ads@youtube.teos"
                ],
-    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
-    "vertical":  "YouTube 2B users",
-    "parent":  "MEDIA.TEOS",
-    "type":  "EMPIRE",
+    "note":  "03:25 AM 25/10/2026 - SOCIAL MEDIA GLOBAL - AYMAN.TEOS",
+    "vertical":  "YouTube - Google - 2.5B users - Video King - 500B valuation",
+    "parent":  "SOCIAL.TEOS",
+    "type":  "SOCIAL EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "YouTube 2B users",
+    "value":  "YouTube - Google - 2.5B users - Video King - 500B valuation",
     "status":  "SEALED"
 }

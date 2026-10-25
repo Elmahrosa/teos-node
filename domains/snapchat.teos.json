@@ -1,13 +1,14 @@
 ﻿{
     "domain":  "SNAPCHAT.TEOS",
     "emails":  [
-                   "info@snapchat.teos"
+                   "info@snapchat.teos",
+                   "ads@snapchat.teos"
                ],
-    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
-    "vertical":  "Snapchat Saudi #1 400M",
-    "parent":  "MEDIA.TEOS",
-    "type":  "EMPIRE",
+    "note":  "03:25 AM 25/10/2026 - SOCIAL MEDIA GLOBAL - AYMAN.TEOS",
+    "vertical":  "Snapchat - 800M users - Saudi #1 - 90% Saudi youth - AR King",
+    "parent":  "SOCIAL.TEOS",
+    "type":  "SOCIAL EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Snapchat Saudi #1 400M",
+    "value":  "Snapchat - 800M users - Saudi #1 - 90% Saudi youth - AR King",
     "status":  "SEALED"
 }

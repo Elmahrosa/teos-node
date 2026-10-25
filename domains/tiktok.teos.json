@@ -1,13 +1,14 @@
 ﻿{
     "domain":  "TIKTOK.TEOS",
     "emails":  [
-                   "info@tiktok.teos"
+                   "info@tiktok.teos",
+                   "ads@tiktok.teos"
                ],
-    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
-    "vertical":  "TikTok 1B Short Video",
-    "parent":  "MEDIA.TEOS",
-    "type":  "EMPIRE",
+    "note":  "03:25 AM 25/10/2026 - SOCIAL MEDIA GLOBAL - AYMAN.TEOS",
+    "vertical":  "TikTok - ByteDance - 2B users - #1 Short video - 100B valuation - King MENA",
+    "parent":  "SOCIAL.TEOS",
+    "type":  "SOCIAL EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "TikTok 1B Short Video",
+    "value":  "TikTok - ByteDance - 2B users - #1 Short video - 100B valuation - King MENA",
     "status":  "SEALED"
 }

@@ -1,13 +1,14 @@
 ﻿{
     "domain":  "INSTAGRAM.TEOS",
     "emails":  [
-                   "info@instagram.teos"
+                   "info@instagram.teos",
+                   "ads@instagram.teos"
                ],
-    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
-    "vertical":  "Instagram 2B Meta",
-    "parent":  "MEDIA.TEOS",
-    "type":  "EMPIRE",
+    "note":  "03:25 AM 25/10/2026 - SOCIAL MEDIA GLOBAL - AYMAN.TEOS",
+    "vertical":  "Instagram - Meta - 2B users - Reels - 2T valuation part",
+    "parent":  "SOCIAL.TEOS",
+    "type":  "SOCIAL EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Instagram 2B Meta",
+    "value":  "Instagram - Meta - 2B users - Reels - 2T valuation part",
     "status":  "SEALED"
 }
