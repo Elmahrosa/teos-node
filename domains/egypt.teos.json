@@ -1,13 +1,13 @@
 ﻿{
-  "domain": "EGYPT.TEOS",
-  "owner": "AYMAN.TEOS",
-  "parent": "COUNTRIES.TEOS",
-  "vertical": "Egypt Sovereign Network - 27 Governorates + Top Cities",
-  "type": "COUNTRY KING - HOME BASE",
-  "status": "ACTIVE - 30 CITIES SEALED",
-  "value": "30 cities x 500k EGP = 15M + franchise",
-  "governorates": ["CAIRO.TEOS","ALEXANDRIA.TEOS","GIZA.TEOS","SHARM.TEOS","HURGHADA.TEOS","LUXOR.TEOS","ASWAN.TEOS","NORTHCOAST.TEOS","ELALAMEIN.TEOS","NEWCAIRO.TEOS","SHEIKHZAYED.TEOS","MANSOURA.TEOS","TANTA.TEOS","SUEZ.TEOS","PORTSAID.TEOS","DAHAB.TEOS"],
-  "top_money": "NORTHCOAST.TEOS = 10M/month summer - CAIRO = 1M/month",
-  "emails": ["egypt@egypt.teos","cairo@egypt.teos","sahel@egypt.teos"],
-  "note": "Sealed 02:48 AM 25/10/2026 - 27 Governorates"
+    "domain":  "EGYPT.TEOS",
+    "emails":  [
+                   "info@egypt.teos"
+               ],
+    "note":  "03:31 AM 25/10/2026 - AFRICA ASIA - AYMAN.TEOS",
+    "vertical":  "Egypt - 110M - #1 Arab - Cairo - Pyramids - Home Alexandria",
+    "parent":  "AFRICA.TEOS",
+    "type":  "AFRICA ASIA EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Egypt - 110M - #1 Arab - Cairo - Pyramids - Home Alexandria",
+    "status":  "SEALED"
 }

@@ -1,16 +1,13 @@
 ﻿{
     "domain":  "TURKEY.TEOS",
     "emails":  [
-                   "info@turkey.teos",
-                   "visa@turkey.teos",
-                   "business@turkey.teos"
+                   "info@turkey.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:54 AM - EUROPE EMPIRE - AYMAN.TEOS - Part of 150+ domains",
-    "vertical":  "Turkey - Istanbul - Gateway",
-    "parent":  "EUROPE.TEOS",
-    "type":  "EUROPE COUNTRY - FRANCHISE 500k USD/year",
+    "note":  "03:31 AM 25/10/2026 - AFRICA ASIA - AYMAN.TEOS",
+    "vertical":  "Turkey - 85M - Istanbul - Europe Asia bridge - 900B GDP",
+    "parent":  "ASIA.TEOS",
+    "type":  "AFRICA ASIA EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Turkey - Istanbul - Gateway - EU Market - Franchise",
-    "status":  "ACTIVE - SEALED",
-    "continent":  "EUROPE"
+    "value":  "Turkey - 85M - Istanbul - Europe Asia bridge - 900B GDP",
+    "status":  "SEALED"
 }

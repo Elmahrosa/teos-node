@@ -1,15 +1,13 @@
 ﻿{
     "domain":  "UAE.TEOS",
     "emails":  [
-                   "info@uae.teos",
-                   "sales@uae.teos",
-                   "admin@uae.teos"
+                   "info@uae.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
-    "vertical":  "UAE Dubai",
-    "parent":  "COUNTRIES.TEOS",
-    "type":  "EMPIRE CORE",
+    "note":  "03:31 AM 25/10/2026 - AFRICA ASIA - AYMAN.TEOS",
+    "vertical":  "UAE - 10M - Dubai Abu Dhabi - Richest per capita - Burj Khalifa",
+    "parent":  "ASIA.TEOS",
+    "type":  "AFRICA ASIA EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "5M - Crypto",
-    "status":  "ACTIVE - SEALED"
+    "value":  "UAE - 10M - Dubai Abu Dhabi - Richest per capita - Burj Khalifa",
+    "status":  "SEALED"
 }
