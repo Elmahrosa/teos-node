@@ -1,15 +1,13 @@
 ﻿{
     "domain":  "SHARM.TEOS",
     "emails":  [
-                   "info@sharm.teos",
-                   "sales@sharm.teos",
-                   "admin@sharm.teos"
+                   "info@sharm.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
-    "vertical":  "Tourism King",
-    "parent":  "EGYPT.TEOS",
-    "type":  "EMPIRE CORE",
+    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
+    "vertical":  "Sharm El Sheikh 3M Peace City",
+    "parent":  "TRAVEL.TEOS",
+    "type":  "EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "5M/mo summer",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Sharm El Sheikh 3M Peace City",
+    "status":  "SEALED"
 }

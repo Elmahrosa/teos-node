@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "EGYPTAIR.TEOS",
+    "emails":  [
+                   "info@egyptair.teos"
+               ],
+    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
+    "vertical":  "EgyptAir 13M pax Flag",
+    "parent":  "TRAVEL.TEOS",
+    "type":  "EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "EgyptAir 13M pax Flag",
+    "status":  "SEALED"
+}

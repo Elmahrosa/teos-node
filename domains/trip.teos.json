@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "TRIP.TEOS",
+    "emails":  [
+                   "info@trip.teos"
+               ],
+    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
+    "vertical":  "Trip.com China Travel",
+    "parent":  "TRAVEL.TEOS",
+    "type":  "EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Trip.com China Travel",
+    "status":  "SEALED"
+}

@@ -1,15 +1,13 @@
 ﻿{
     "domain":  "LUXOR.TEOS",
     "emails":  [
-                   "info@luxor.teos",
-                   "sales@luxor.teos",
-                   "admin@luxor.teos"
+                   "info@luxor.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
-    "vertical":  "Pharaohs",
-    "parent":  "EGYPT.TEOS",
-    "type":  "EMPIRE CORE",
+    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
+    "vertical":  "Luxor Pharaohs 1M History #1",
+    "parent":  "TRAVEL.TEOS",
+    "type":  "EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "1M tourists",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Luxor Pharaohs 1M History #1",
+    "status":  "SEALED"
 }

@@ -1,15 +1,13 @@
 ﻿{
     "domain":  "NETFLIX.TEOS",
     "emails":  [
-                   "info@netflix.teos",
-                   "sales@netflix.teos",
-                   "admin@netflix.teos"
+                   "info@netflix.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
-    "vertical":  "Media \u0026 Events",
-    "parent":  "ALEXANDRIA.TEOS",
-    "type":  "EMPIRE CORE",
+    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
+    "vertical":  "Netflix 250M subs King",
+    "parent":  "MEDIA.TEOS",
+    "type":  "EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Content",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Netflix 250M subs King",
+    "status":  "SEALED"
 }

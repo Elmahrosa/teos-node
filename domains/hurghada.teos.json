@@ -1,15 +1,13 @@
 ﻿{
     "domain":  "HURGHADA.TEOS",
     "emails":  [
-                   "info@hurghada.teos",
-                   "sales@hurghada.teos",
-                   "admin@hurghada.teos"
+                   "info@hurghada.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
-    "vertical":  "Red Sea Resorts",
-    "parent":  "EGYPT.TEOS",
-    "type":  "EMPIRE CORE",
+    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
+    "vertical":  "Hurghada 5M tourists Red Sea King",
+    "parent":  "TRAVEL.TEOS",
+    "type":  "EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "3M/mo",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Hurghada 5M tourists Red Sea King",
+    "status":  "SEALED"
 }
