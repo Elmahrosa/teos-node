@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "QNB.TEOS",
+    "emails":  [
+                   "info@qnb.teos",
+                   "vip@qnb.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "QNB - Qatar National Bank - #1 MENA",
+    "parent":  "BANKS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "QNB = 300B USD assets",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "CIB.TEOS",
+    "emails":  [
+                   "info@cib.teos",
+                   "vip@cib.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "CIB - Commercial International Bank - #1 Private Egypt",
+    "parent":  "BANKS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "CIB = 500B EGP assets",
+    "status":  "ACTIVE - SEALED"
+}

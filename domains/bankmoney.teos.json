@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "BANKMONEY.TEOS",
+    "emails":  [
+                   "info@bankmoney.teos",
+                   "vip@bankmoney.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "BANKMONEY - Banking Money - Fintech Parent",
+    "parent":  "MONEY.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Fintech",
+    "status":  "ACTIVE - SEALED"
+}

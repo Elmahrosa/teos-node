@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ATTIJARI.TEOS",
+    "emails":  [
+                   "info@attijari.teos",
+                   "vip@attijari.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "Attijariwafa Bank - Morocco #1",
+    "parent":  "BANKS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Morocco",
+    "status":  "ACTIVE - SEALED"
+}

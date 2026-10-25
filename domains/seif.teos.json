@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SEIF.TEOS",
+    "emails":  [
+                   "info@seif.teos",
+                   "vip@seif.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "Seif - Seif Pharmacies - Egypt Chain",
+    "parent":  "HEALTH.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Pharmacy chain",
+    "status":  "ACTIVE - SEALED"
+}

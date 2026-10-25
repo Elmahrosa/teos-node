@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "BMCE.TEOS",
+    "emails":  [
+                   "info@bmce.teos",
+                   "vip@bmce.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "BMCE - Bank of Africa - Morocco",
+    "parent":  "BANKS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Africa",
+    "status":  "ACTIVE - SEALED"
+}
