@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "PICKALBATROS.TEOS",
+    "emails":  [
+                   "info@pickalbatros.teos",
+                   "booking@pickalbatros.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Pickalbatros - Egypt - Hurghada - German Egyptian - 15 resorts",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Pickalbatros - Egypt - Hurghada - German Egyptian - 15 resorts",
+    "status":  "SEALED"
+}

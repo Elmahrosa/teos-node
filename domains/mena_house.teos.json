@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "MENA_HOUSE.TEOS",
+    "emails":  [
+                   "info@mena_house.teos",
+                   "booking@mena_house.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Mena House - Giza Pyramids view - Marriott - Historic 1869",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Mena House - Giza Pyramids view - Marriott - Historic 1869",
+    "status":  "SEALED"
+}

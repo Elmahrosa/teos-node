@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "HILTON.TEOS",
+    "emails":  [
+                   "info@hilton.teos",
+                   "booking@hilton.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Hilton - #1 World - 7000 hotels - 1M rooms - USA",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Hilton - #1 World - 7000 hotels - 1M rooms - USA",
+    "status":  "SEALED"
+}

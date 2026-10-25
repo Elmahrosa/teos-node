@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "BESTWESTERN.TEOS",
+    "emails":  [
+                   "info@bestwestern.teos",
+                   "booking@bestwestern.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Best Western - USA - 4000 hotels",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Best Western - USA - 4000 hotels",
+    "status":  "SEALED"
+}

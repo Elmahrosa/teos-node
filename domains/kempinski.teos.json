@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "KEMPINSKI.TEOS",
+    "emails":  [
+                   "info@kempinski.teos",
+                   "booking@kempinski.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Kempinski - Germany - Oldest luxury 1897 - 80 hotels - Europe",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Kempinski - Germany - Oldest luxury 1897 - 80 hotels - Europe",
+    "status":  "SEALED"
+}

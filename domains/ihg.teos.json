@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "IHG.TEOS",
+    "emails":  [
+                   "info@ihg.teos",
+                   "booking@ihg.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "IHG - InterContinental - UK - 6000 hotels - Holiday Inn Crowne Plaza",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "IHG - InterContinental - UK - 6000 hotels - Holiday Inn Crowne Plaza",
+    "status":  "SEALED"
+}

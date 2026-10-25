@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "HOSTEL.TEOS",
+    "emails":  [
+                   "info@hostel.teos",
+                   "booking@hostel.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Hostel - Hostel Parent - Backpacker - 50 EGP/night - Youth",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Hostel - Hostel Parent - Backpacker - 50 EGP/night - Youth",
+    "status":  "SEALED"
+}

@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SHANGRILA.TEOS",
+    "emails":  [
+                   "info@shangrila.teos",
+                   "booking@shangrila.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Shangri-La - Hong Kong - Asia #1 - 100 hotels",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Shangri-La - Hong Kong - Asia #1 - 100 hotels",
+    "status":  "SEALED"
+}

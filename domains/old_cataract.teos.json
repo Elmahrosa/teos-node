@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "OLD_CATARACT.TEOS",
+    "emails":  [
+                   "info@old_cataract.teos",
+                   "booking@old_cataract.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Old Cataract - Aswan - Agatha Christie - Legendary - Sofitel Legend",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Old Cataract - Aswan - Agatha Christie - Legendary - Sofitel Legend",
+    "status":  "SEALED"
+}
