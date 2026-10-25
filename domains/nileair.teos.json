@@ -1,13 +1,14 @@
 ﻿{
     "domain":  "NILEAIR.TEOS",
     "emails":  [
-                   "info@nileair.teos"
+                   "info@nileair.teos",
+                   "booking@nileair.teos"
                ],
-    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
-    "vertical":  "Nile Air Egypt Low Cost",
-    "parent":  "TRAVEL.TEOS",
-    "type":  "EMPIRE",
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "Nile Air - Cairo - Egypt Low Cost - Sharm Hurghada",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Nile Air Egypt Low Cost",
+    "value":  "Nile Air - Cairo - Egypt Low Cost - Sharm Hurghada",
     "status":  "SEALED"
 }

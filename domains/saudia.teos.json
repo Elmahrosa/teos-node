@@ -1,13 +1,14 @@
 ﻿{
     "domain":  "SAUDIA.TEOS",
     "emails":  [
-                   "info@saudia.teos"
+                   "info@saudia.teos",
+                   "booking@saudia.teos"
                ],
-    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
-    "vertical":  "Saudia 30M Saudi Flag",
-    "parent":  "TRAVEL.TEOS",
-    "type":  "EMPIRE",
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "Saudia - Saudi Flag - Jeddah Riyadh - 30M pax",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Saudia 30M Saudi Flag",
+    "value":  "Saudia - Saudi Flag - Jeddah Riyadh - 30M pax",
     "status":  "SEALED"
 }

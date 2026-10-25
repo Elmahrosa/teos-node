@@ -1,13 +1,14 @@
 ﻿{
     "domain":  "EMIRATES.TEOS",
     "emails":  [
-                   "info@emirates.teos"
+                   "info@emirates.teos",
+                   "booking@emirates.teos"
                ],
-    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
-    "vertical":  "Emirates Dubai #1 Luxury 60M",
-    "parent":  "TRAVEL.TEOS",
-    "type":  "EMPIRE",
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "Emirates - Dubai - #1 Luxury World - 60M pax - A380 King",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
     "owner":  "AYMAN.TEOS",
-    "value":  "Emirates Dubai #1 Luxury 60M",
+    "value":  "Emirates - Dubai - #1 Luxury World - 60M pax - A380 King",
     "status":  "SEALED"
 }

@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "KLM.TEOS",
+    "emails":  [
+                   "info@klm.teos",
+                   "booking@klm.teos"
+               ],
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "KLM - Amsterdam - Netherlands - Oldest airline 1919",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "KLM - Amsterdam - Netherlands - Oldest airline 1919",
+    "status":  "SEALED"
+}

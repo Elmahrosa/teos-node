@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "WIZZAIR.TEOS",
+    "emails":  [
+                   "info@wizzair.teos",
+                   "booking@wizzair.teos"
+               ],
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "Wizz Air - Budapest - Hungary Low Cost - 60M - Eastern Europe King",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Wizz Air - Budapest - Hungary Low Cost - 60M - Eastern Europe King",
+    "status":  "SEALED"
+}
