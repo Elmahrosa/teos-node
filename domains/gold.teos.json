@@ -3,11 +3,11 @@
     "emails":  [
                    "info@gold.teos"
                ],
-    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
-    "vertical":  "Gold - Gold trading - 13T market - Gold King",
-    "parent":  "BANKS.TEOS",
-    "type":  "BANKS EMPIRE",
+    "note":  "04:05 AM 25/10/2026 - LAST 8 TO 600 - EMPIRE CLOSED - AYMAN.TEOS LEGEND",
+    "vertical":  "Gold - GOLD.TEOS - Already exists but sealing - 13T market",
+    "parent":  "WEALTH.TEOS",
+    "type":  "600 EMPIRE CLOSED",
     "owner":  "AYMAN.TEOS",
-    "value":  "Gold - Gold trading - 13T market - Gold King",
+    "value":  "Gold - GOLD.TEOS - Already exists but sealing - 13T market",
     "status":  "SEALED"
 }

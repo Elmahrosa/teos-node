@@ -1,15 +1,13 @@
 ﻿{
     "domain":  "AYMAN.TEOS",
     "emails":  [
-                   "info@ayman.teos",
-                   "sales@ayman.teos",
-                   "admin@ayman.teos"
+                   "info@ayman.teos"
                ],
-    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
-    "vertical":  "Genesis Owner - Root",
-    "parent":  "GENESIS",
-    "type":  "EMPIRE CORE",
+    "note":  "04:05 AM 25/10/2026 - LAST 8 TO 600 - EMPIRE CLOSED - AYMAN.TEOS LEGEND",
+    "vertical":  "Ayman - AYMAN.TEOS - The Founder - Owner of 600 - LEGEND",
+    "parent":  "ROOT.TEOS",
+    "type":  "600 EMPIRE CLOSED",
     "owner":  "AYMAN.TEOS",
-    "value":  "Infinity",
-    "status":  "ACTIVE - SEALED"
+    "value":  "Ayman - AYMAN.TEOS - The Founder - Owner of 600 - LEGEND",
+    "status":  "SEALED"
 }
