@@ -2,6 +2,7 @@ import { Redis } from "@upstash/redis";
 import { parseDomain, isReservedWord } from "./domain-rules";
 import { isSealedDomain } from "./sealed";
 import { env } from "./env";
+import { isClaimed } from "./registry";
 
 export type Quote = {
   id: string;
@@ -46,6 +47,9 @@ export async function createQuote(rawDomain: unknown): Promise<CreateResult> {
   const domain = parsed.domain;
   if (isReservedWord(domain) || isSealedDomain(domain)) {
     return { ok: false, status: 200, body: { available: false, reason: "reserved", domain } };
+  }
+  if (await isClaimed(domain)) {
+    return { ok: false, status: 200, body: { available: false, reason: "taken", domain } };
   }
   const id = crypto.randomUUID();
   const expiresAt = Date.now() + TTL_SECONDS * 1000;
