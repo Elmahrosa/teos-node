@@ -3,6 +3,7 @@ import { parseDomain } from "../../../lib/domain-rules";
 import { getQuote, markUsed } from "../../../lib/quoteStore";
 import { verifyWalletSignature } from "../../../lib/sig";
 import { isClaimed, claimDomain, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
+import { env } from "../../../lib/env";
 import { verifyPayment } from "../../../lib/payment";
 import { mintTeosAsset } from "../../../lib/teos";
 
@@ -10,12 +11,15 @@ const bad = (reason: string) => NextResponse.json({ error: "invalid_quote", reas
 
 export async function POST(req: Request) {
   // Closed until on-chain payment verification ships. Set REGISTRATION_OPEN=true to enable.
-  if (process.env.REGISTRATION_OPEN !== "true") {
+  if (env("REGISTRATION_OPEN") !== "true") {
     return NextResponse.json({ error: "registration_closed" }, { status: 503, headers: { "Retry-After": "3600" } });
   }
-  const treasury = process.env.TREASURY_WALLET;
-  const prodNeedsRedis = process.env.NODE_ENV === "production" && !registryPersistent && process.env.ALLOW_MEMORY_REGISTRY !== "true";
-  if (!treasury || (!process.env.HELIUS_API_KEY && !process.env.HELIUS_RPC_URL) || prodNeedsRedis) {
+  const treasury = env("TREASURY_WALLET");
+  const hasHelius = !!(env("HELIUS_API_KEY") || env("HELIUS_RPC_URL"));
+  const storageOk = registryPersistent || process.env.NODE_ENV !== "production" || env("ALLOW_MEMORY_REGISTRY") === "true";
+  if (!treasury || !hasHelius || !storageOk) {
+    // Names only, never values.
+    console.error(`[register] not_configured: TREASURY_WALLET=${!!treasury} HELIUS=${hasHelius} UPSTASH_URL=${!!env("UPSTASH_REDIS_REST_URL")} UPSTASH_TOKEN=${!!env("UPSTASH_REDIS_REST_TOKEN")} persistent_registry=${registryPersistent}`);
     return NextResponse.json({ error: "registration_closed", reason: "not_configured" }, { status: 503 });
   }
   try {

@@ -1,6 +1,7 @@
 import { Redis } from "@upstash/redis";
 import { parseDomain, isReservedWord } from "./domain-rules";
 import { isSealedDomain } from "./sealed";
+import { env } from "./env";
 
 export type Quote = {
   id: string;
@@ -15,8 +16,8 @@ export const PRICE_LAMPORTS = Number(process.env.TEOS_PRICE_LAMPORTS) || 50_000_
 const TTL_SECONDS = Number(process.env.QUOTE_TTL_SECONDS) || 300;
 
 const redis =
-  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-    ? new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN })
+  env("UPSTASH_REDIS_REST_URL") && env("UPSTASH_REDIS_REST_TOKEN")
+    ? new Redis({ url: env("UPSTASH_REDIS_REST_URL")!, token: env("UPSTASH_REDIS_REST_TOKEN")! })
     : null;
 
 // In-memory fallback: per instance, lost on restart.
