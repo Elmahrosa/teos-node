@@ -1,6 +1,7 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import reservedData from "../../../domains/reserved-list.json";
 import { isSealedDomain } from "../../../lib/sealed";
+import { parseDomain, isReservedWord } from "../../../lib/domain-rules";
 import path from "path";
 import fs from "fs";
 
@@ -43,37 +44,42 @@ function isReserved(domainUpper: string): {reserved: boolean, entry: any} {
 }
 
 export async function GET(req: NextRequest) {
-  const domainParam = req.nextUrl.searchParams.get("domain") || "";
-  const domain = domainParam.trim();
-  if (!domain) {
-    return NextResponse.json({error: "domain required"}, {status: 400});
-  }
-  const domainUpper = domain.toUpperCase();
-  const check = isReserved(domainUpper);
-  if (!check.reserved && isSealedDomain(domainUpper)) {
-    check.reserved = true;
-    check.entry = { owner: "AYMAN.TEOS", tier: "FOUNDERS", note: "SEALED - NOT FOR SALE" };
-  }
+  try {
+    const parsed = parseDomain(req.nextUrl.searchParams.get("domain"));
+    if (!parsed.ok) return NextResponse.json(parsed.body, { status: parsed.status });
+    const domain = parsed.domain;
+    if (isReservedWord(domain)) {
+      return NextResponse.json({ available: false, reason: "reserved", domain });
+    }
+    const domainUpper = domain.toUpperCase();
+    const check = isReserved(domainUpper);
+    if (!check.reserved && isSealedDomain(domainUpper)) {
+      check.reserved = true;
+      check.entry = { owner: "AYMAN.TEOS", tier: "FOUNDERS", note: "SEALED - NOT FOR SALE" };
+    }
 
-  if (check.reserved) {
+    if (check.reserved) {
+      return NextResponse.json({
+        available: false,
+        reason: "reserved",
+        domain: domainUpper,
+        tier: check.entry.tier || "FOUNDERS",
+        owner: check.entry.owner || "ELMAHROSA FAMILY",
+        sealed: true,
+        status: "RESERVED_SEALED",
+        note: check.entry.note || "FAMILY SEALED 9 ONLY ZEBA DELETED"
+      });
+    }
+
     return NextResponse.json({
-      available: false,
-      reason: "RESERVED",
+      available: true,
+      reason: null,
       domain: domainUpper,
-      tier: check.entry.tier || "FOUNDERS",
-      owner: check.entry.owner || "ELMAHROSA FAMILY",
-      sealed: true,
-      status: "RESERVED_SEALED",
-      note: check.entry.note || "FAMILY SEALED 9 ONLY ZEBA DELETED"
+      tier: "STANDARD",
+      price_usd: 5,
+      status: "AVAILABLE"
     });
+  } catch {
+    return NextResponse.json({ error: "internal_error" }, { status: 500 });
   }
-
-  return NextResponse.json({
-    available: true,
-    reason: null,
-    domain: domainUpper,
-    tier: "STANDARD",
-    price_usd: 5,
-    status: "AVAILABLE"
-  });
 }
