@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import reservedData from "../../../domains/reserved-list.json";
 import { isSealedDomain } from "../../../lib/sealed";
+import { isClaimed } from "../../../lib/registry";
 import { parseDomain, isReservedWord } from "../../../lib/domain-rules";
 import path from "path";
 import fs from "fs";
@@ -50,6 +51,9 @@ export async function GET(req: NextRequest) {
     const domain = parsed.domain;
     if (isReservedWord(domain)) {
       return NextResponse.json({ available: false, reason: "reserved", domain });
+    }
+    if (await isClaimed(domain)) {
+      return NextResponse.json({ available: false, reason: "taken", domain });
     }
     const domainUpper = domain.toUpperCase();
     const check = isReserved(domainUpper);
