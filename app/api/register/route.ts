@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isSealedDomain } from "../../../lib/sealed";
 import { clientIp, rateLimit, store, verifyTransaction, solToLamports, getCharterState, getTier } from "../../../lib/teos";
 
 export async function POST(req: Request) {
@@ -9,6 +10,7 @@ export async function POST(req: Request) {
   if (!signature || !quoteId) return NextResponse.json({ error: "missing_signature_or_quote" }, { status: 400 });
   const quote = await store.getQuote(quoteId);
   if (!quote) return NextResponse.json({ error: "quote_invalid" }, { status: 400 });
+  if (isSealedDomain(quote.domain)) return NextResponse.json({ error: "domain_reserved_sealed" }, { status: 403 });
   if (new Date(quote.expires_at).getTime() < Date.now()) return NextResponse.json({ error: "quote_expired" }, { status: 410 });
   if (await store.isSignatureUsed(signature)) return NextResponse.json({ error: "signature_reused" }, { status: 409 });
   const expectedLamports = solToLamports(quote.price_usd, quote.sol_price_reference);
