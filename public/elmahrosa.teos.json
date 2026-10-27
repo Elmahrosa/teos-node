@@ -1,0 +1,20 @@
+{
+  "name": "ELMAHROSA.TEOS",
+  "symbol": "TEOS",
+  "description": "ELMAHROSA.TEOS - Genesis Brand Domain. The sovereign root of TEOS Network. First Egyptian decentralized Web4 domain namespace on Solana.",
+  "image": "https://web4.elmahrosa.org/crests/elmahrosa.teos.png",
+  "external_url": "https://web4.elmahrosa.org",
+  "attributes": [
+    {"trait_type": "Namespace", "value": ".teos"},
+    {"trait_type": "Name", "value": "elmahrosa"},
+    {"trait_type": "Tier", "value": "Genesis"},
+    {"trait_type": "Ownership", "value": "Permanent"},
+    {"trait_type": "Network", "value": "Solana"}
+  ],
+  "properties": {
+    "category": "image",
+    "creators": [{"address": "Aai9XYkpQMrVMLTP5CKHSin1UoJ12rU2FSupGwpNwMQ6", "share": 100}],
+    "files": [{"uri": "https://web4.elmahrosa.org/crests/elmahrosa.teos.png", "type": "image/png"}]
+  },
+  "collection": {"name": "TEOS Sovereign Domains", "family": "Elmahrosa"}
+}
