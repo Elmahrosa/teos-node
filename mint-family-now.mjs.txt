@@ -1,0 +1,30 @@
+import fs from "fs";
+
+const FAMILY = ["ASHRAF","ANAS","AMIRA","EKRAM","EHAB","ALEXANDRIA","EL-MAHROSA"];
+
+// محفظتك - غيره لو عايز
+const OWNER = "EL-MAHROSA-VAULT";
+
+console.log("🔥 بعمل MINT للعيلة دلوقتي...");
+
+for (const name of FAMILY) {
+  const record = {
+    domain: `${name}.TEOS`,
+    owner: OWNER,
+    sealed: true,
+    mintedAt: new Date().toISOString(),
+    price: "FAMILY - NOT FOR SALE",
+    ownerName: name === "ASHRAF" ? "Ashraf" 
+            : name === "ANAS" ? "Anas"
+            : name === "AMIRA" ? "Amira"
+            : name === "EKRAM" ? "Ekram"
+            : name === "EHAB" ? "Ehab"
+            : name
+  };
+  
+  fs.writeFileSync(`./vault/${name}.TEOS.json`, JSON.stringify(record, null, 2));
+  console.log(`✅ ${name}.TEOS -> MINTED لـ ${OWNER}`);
+}
+
+console.log("\n🎉 خلصت! الـ 7 دومينات بقوا في الـ Vault بتاعك");
+console.log("الـ 5 اخواتك خلصوا يا أيمن");

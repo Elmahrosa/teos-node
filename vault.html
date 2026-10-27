@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Family Vault - SEALED</title>
+<style>body{background:#000;color:#fff;font-family:Arial;text-align:center;padding:30px} .card{border:2px solid gold;padding:15px;margin:10px auto;max-width:500px;border-radius:12px;background:#111}</style>
+</head><body>
+<h1 style="color:gold">🔒 EL MAHROSA FAMILY VAULT 🔒</h1>
+<h3>7 Domains - MINTED & SEALED</h3>
+<div id="vault"></div>
+<script>
+fetch("./vault/").catch(()=>{});
+const files = ["ASHRAF","ANAS","AMIRA","EKRAM","EHAB","ALEXANDRIA","EL-MAHROSA"];
+let html="";
+files.forEach(n=>{
+ html+=`<div class="card">🔒 <b>${n}.TEOS</b><br>Owner: EL-MAHROSA-VAULT<br><span style="color:#0f0">SEALED - NOT FOR SALE</span><br><small>Minted: 27/10/2026</small></div>`;
+});
+document.getElementById("vault").innerHTML=html;
+</script>
+</body></html>
