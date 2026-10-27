@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "GUC.TEOS",
+    "emails":  [
+                   "info@guc.teos",
+                   "vip@guc.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "GUC - German University Cairo",
+    "parent":  "EDUCATION.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "GUC = German",
+    "status":  "ACTIVE - SEALED"
+}

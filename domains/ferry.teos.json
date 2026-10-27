@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "FERRY.TEOS",
+    "emails":  [
+                   "info@ferry.teos",
+                   "cargo@ferry.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Ferry - Ferry Parent - Mediterranean - Greece Italy Egypt",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Ferry - Ferry Parent - Mediterranean - Greece Italy Egypt",
+    "status":  "SEALED"
+}

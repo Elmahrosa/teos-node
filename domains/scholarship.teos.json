@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SCHOLARSHIP.TEOS",
+    "emails":  [
+                   "info@scholarship.teos",
+                   "vip@scholarship.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "Scholarship - Study Abroad - Visa",
+    "parent":  "EDUCATION.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Study abroad = 10k USD commission",
+    "status":  "ACTIVE - SEALED"
+}

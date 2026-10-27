@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "ROLLSROYCE.TEOS",
+    "emails":  [
+                   "info@rollsroyce.teos",
+                   "sales@rollsroyce.teos",
+                   "admin@rollsroyce.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Rolls Royce",
+    "parent":  "CARS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Ultra Luxury",
+    "status":  "ACTIVE - SEALED"
+}

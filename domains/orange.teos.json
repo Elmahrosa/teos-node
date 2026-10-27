@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "ORANGE.TEOS",
+    "emails":  [
+                   "info@orange.teos",
+                   "sales@orange.teos",
+                   "support@orange.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:44 AM - TELECOM EMPIRE - AYMAN.TEOS",
+    "vertical":  "Orange Egypt - 30M users",
+    "parent":  "TELECOM.TEOS",
+    "type":  "TELECOM CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "30M users",
+    "status":  "ACTIVE - SEALED"
+}

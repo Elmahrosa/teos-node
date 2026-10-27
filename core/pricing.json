@@ -1,0 +1,14 @@
+﻿{
+  "charter": {
+    "enabled": true,
+    "discount": "50%",
+    "total_spots": 100,
+    "note": "After first 100 charter spots, full pricing applies."
+  },
+  "tiers": [
+    { "name": "DIAMOND",  "chars": "1-2",  "price_charter": 50, "price_full": 100 },
+    { "name": "GOLD",     "chars": "3",    "price_charter": 30, "price_full": 60 },
+    { "name": "SILVER",   "chars": "4-5",  "price_charter": 15, "price_full": 30 },
+    { "name": "STANDARD", "chars": "6-20", "price_charter": 6,  "price_full": 10 }
+  ]
+}

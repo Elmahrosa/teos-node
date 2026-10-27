@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "CLEOPATRA.TEOS",
+    "emails":  [
+                   "info@cleopatra.teos",
+                   "vip@cleopatra.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "Cleopatra Hospital - Egypt Hospital #1",
+    "parent":  "HEALTH.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Hospital #1 - 6 hospitals",
+    "status":  "ACTIVE - SEALED"
+}

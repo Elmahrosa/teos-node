@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "ADCB.TEOS",
+    "emails":  [
+                   "info@adcb.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "ADCB - Abu Dhabi Commercial Bank",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "ADCB - Abu Dhabi Commercial Bank",
+    "status":  "SEALED"
+}

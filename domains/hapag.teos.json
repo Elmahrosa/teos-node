@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "HAPAG.TEOS",
+    "emails":  [
+                   "info@hapag.teos",
+                   "cargo@hapag.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Hapag-Lloyd - Germany - #5 World - Hamburg - 250 ships",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Hapag-Lloyd - Germany - #5 World - Hamburg - 250 ships",
+    "status":  "SEALED"
+}

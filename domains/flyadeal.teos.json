@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "FLYADEAL.TEOS",
+    "emails":  [
+                   "info@flyadeal.teos",
+                   "booking@flyadeal.teos"
+               ],
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "FlyAdeal - Saudi Low Cost - Jeddah - Saudia sister",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "FlyAdeal - Saudi Low Cost - Jeddah - Saudia sister",
+    "status":  "SEALED"
+}

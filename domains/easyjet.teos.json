@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "EASYJET.TEOS",
+    "emails":  [
+                   "info@easyjet.teos",
+                   "booking@easyjet.teos"
+               ],
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "EasyJet - London Luton - UK Low Cost #2 - 90M",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "EasyJet - London Luton - UK Low Cost #2 - 90M",
+    "status":  "SEALED"
+}

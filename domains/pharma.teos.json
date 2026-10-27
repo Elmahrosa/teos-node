@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "PHARMA.TEOS",
+    "emails":  [
+                   "info@pharma.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Pharma - الدواء - صناعة الأدوية - 5B مصر",
+    "parent":  "INDUSTRY.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Pharma - الدواء - صناعة الأدوية - 5B مصر",
+    "status":  "SEALED"
+}

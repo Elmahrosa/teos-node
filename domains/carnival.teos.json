@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "CARNIVAL.TEOS",
+    "emails":  [
+                   "info@carnival.teos",
+                   "cargo@carnival.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Carnival Cruise - Miami - #1 World - 100 ships - 12M passengers",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Carnival Cruise - Miami - #1 World - 100 ships - 12M passengers",
+    "status":  "SEALED"
+}

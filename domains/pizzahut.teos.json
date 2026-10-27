@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "PIZZAHUT.TEOS",
+    "emails":  [
+                   "franchise@pizzahut.teos",
+                   "delivery@pizzahut.teos",
+                   "orders@pizzahut.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Pizza Hut - Pizza + Pasta",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Pizza Hut - Pizza + Pasta - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

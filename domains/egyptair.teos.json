@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "EGYPTAIR.TEOS",
+    "emails":  [
+                   "info@egyptair.teos",
+                   "booking@egyptair.teos"
+               ],
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "EgyptAir - Cairo - Star Alliance - 13M - Flag Egypt",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "EgyptAir - Cairo - Star Alliance - 13M - Flag Egypt",
+    "status":  "SEALED"
+}

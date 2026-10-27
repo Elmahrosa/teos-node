@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "BAHRI.TEOS",
+    "emails":  [
+                   "info@bahri.teos",
+                   "cargo@bahri.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Bahri - Saudi - National Shipping - Riyadh - Tankers #1 world VLCC",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Bahri - Saudi - National Shipping - Riyadh - Tankers #1 world VLCC",
+    "status":  "SEALED"
+}

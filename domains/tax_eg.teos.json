@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "TAX_EG.TEOS",
+    "emails":  [
+                   "info@tax_eg.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Egyptian Tax Authority - مصلحة الضرائب",
+    "parent":  "GOV.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Egyptian Tax Authority - مصلحة الضرائب",
+    "status":  "SEALED"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "KRAKEN.TEOS",
+    "emails":  [
+                   "trade@kraken.teos",
+                   "wallet@kraken.teos",
+                   "vip@kraken.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "Kraken - USA - Security King",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Most secure",
+    "status":  "ACTIVE - SEALED"
+}

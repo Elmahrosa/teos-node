@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ARKAS.TEOS",
+    "emails":  [
+                   "info@arkas.teos",
+                   "cargo@arkas.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Arkas - Turkey - Izmir - Turkey #1 - 50 ships",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Arkas - Turkey - Izmir - Turkey #1 - 50 ships",
+    "status":  "SEALED"
+}

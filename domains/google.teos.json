@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "GOOGLE.TEOS",
+    "emails":  [
+                   "info@google.teos",
+                   "sales@google.teos",
+                   "admin@google.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Google Partner",
+    "parent":  "ALEXANDRIA.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "500k",
+    "status":  "ACTIVE - SEALED"
+}

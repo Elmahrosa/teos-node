@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "STEIGENBERGER.TEOS",
+    "emails":  [
+                   "info@steigenberger.teos",
+                   "booking@steigenberger.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Steigenberger - Egypt - Hurghada El Gouna - German Egypt #1",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Steigenberger - Egypt - Hurghada El Gouna - German Egypt #1",
+    "status":  "SEALED"
+}

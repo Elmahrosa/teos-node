@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SCCT.TEOS",
+    "emails":  [
+                   "info@scct.teos",
+                   "cargo@scct.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "SCCT - Suez Canal Container Terminal - Port Said - Biggest Egypt",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "SCCT - Suez Canal Container Terminal - Port Said - Biggest Egypt",
+    "status":  "SEALED"
+}

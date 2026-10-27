@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "STARBUCKS.TEOS",
+    "emails":  [
+                   "franchise@starbucks.teos",
+                   "delivery@starbucks.teos",
+                   "orders@starbucks.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Starbucks - Coffee King - 35k branches - 100B market",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Starbucks - Coffee King - 35k branches - 100B market - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

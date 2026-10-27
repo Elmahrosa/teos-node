@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "CHOICE.TEOS",
+    "emails":  [
+                   "info@choice.teos",
+                   "booking@choice.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Choice Hotels - USA - 7000 hotels - Comfort Inn",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Choice Hotels - USA - 7000 hotels - Comfort Inn",
+    "status":  "SEALED"
+}

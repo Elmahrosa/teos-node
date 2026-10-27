@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "MIU.TEOS",
+    "emails":  [
+                   "info@miu.teos",
+                   "vip@miu.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "MIU - Misr International University",
+    "parent":  "EDUCATION.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "MIU",
+    "status":  "ACTIVE - SEALED"
+}

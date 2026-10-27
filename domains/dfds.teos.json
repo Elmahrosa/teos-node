@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "DFDS.TEOS",
+    "emails":  [
+                   "info@dfds.teos",
+                   "cargo@dfds.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "DFDS - Denmark - Ferry - North Sea - 50 ferries",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "DFDS - Denmark - Ferry - North Sea - 50 ferries",
+    "status":  "SEALED"
+}

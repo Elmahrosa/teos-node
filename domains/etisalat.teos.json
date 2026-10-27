@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "ETISALAT.TEOS",
+    "emails":  [
+                   "info@etisalat.teos",
+                   "sales@etisalat.teos",
+                   "support@etisalat.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:44 AM - TELECOM EMPIRE - AYMAN.TEOS",
+    "vertical":  "Etisalat Egypt - Etisalat by e\u0026 - 25M users",
+    "parent":  "TELECOM.TEOS",
+    "type":  "TELECOM CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "25M users - UAE giant",
+    "status":  "ACTIVE - SEALED"
+}

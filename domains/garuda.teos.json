@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "GARUDA.TEOS",
+    "emails":  [
+                   "info@garuda.teos",
+                   "booking@garuda.teos"
+               ],
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "Garuda Indonesia - Jakarta - Indonesia Flag - 20M",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Garuda Indonesia - Jakarta - Indonesia Flag - 20M",
+    "status":  "SEALED"
+}

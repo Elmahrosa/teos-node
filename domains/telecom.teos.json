@@ -1,0 +1,17 @@
+﻿{
+  "domain": "TELECOM.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "ALEXANDRIA.TEOS",
+  "vertical": "Telecom Empire - Parent of All Networks",
+  "type": "TELECOM KING",
+  "status": "ACTIVE - BILLIONS MARKET",
+  "value": "Egypt Telecom Market = 100B EGP/year - 4 operators x 30M users",
+  "monetization": {
+    "sim": "SIM cards - 100k SIM x 100 EGP x 10% = 1M",
+    "internet": "Internet packages - 50k subscribers x 500 EGP x 20% = 5M/mo",
+    "business": "Corporate lines - 1000 companies x 10k = 10M/mo",
+    "total": "TELECOM.TEOS = Monthly recurring - People always need internet"
+  },
+  "emails": ["telecom@telecom.teos", "net@telecom.teos", "biz@telecom.teos"],
+  "note": "TELECOM = The most recurring money - Every Egyptian pays monthly"
+}

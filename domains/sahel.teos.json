@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SAHEL.TEOS",
+    "emails":  [
+                   "info@sahel.teos",
+                   "booking@sahel.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Sahel Hotels - North Coast - Sahel - Summer Egypt - 100 resorts",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Sahel Hotels - North Coast - Sahel - Summer Egypt - 100 resorts",
+    "status":  "SEALED"
+}

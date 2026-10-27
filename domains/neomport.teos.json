@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "NEOMPORT.TEOS",
+    "emails":  [
+                   "info@neomport.teos",
+                   "cargo@neomport.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Neom Port - Oxagon - Future Port - Saudi Vision 2030",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Neom Port - Oxagon - Future Port - Saudi Vision 2030",
+    "status":  "SEALED"
+}

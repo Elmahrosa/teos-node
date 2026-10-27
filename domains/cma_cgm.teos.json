@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "CMA_CGM.TEOS",
+    "emails":  [
+                   "info@cma_cgm.teos",
+                   "cargo@cma_cgm.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "CMA CGM - France - #3 World - 600 ships - Marseille",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "CMA CGM - France - #3 World - 600 ships - Marseille",
+    "status":  "SEALED"
+}

@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "BOOKING_HOTEL.TEOS",
+    "emails":  [
+                   "info@booking_hotel.teos",
+                   "booking@booking_hotel.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Booking.com Hotels - 28M listings - 15% commission",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Booking.com Hotels - 28M listings - 15% commission",
+    "status":  "SEALED"
+}

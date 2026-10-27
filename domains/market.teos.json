@@ -1,0 +1,16 @@
+﻿{
+  "domain": "MARKET.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "MALL.TEOS",
+  "vertical": "Super Market & Daily Market - Alexandria",
+  "type": "DAILY CASH FLOW",
+  "status": "ACTIVE - DAILY MONEY",
+  "categories": ["Supermarket", "Vegetables", "Meat", "Fish", "Bakery"],
+  "monetization": {
+    "delivery": "15% per order - 500 orders/day x 300 EGP x 15% = 22.5k/day",
+    "subscription": "Shop subscription 1500 EGP/mo x 200 shops = 300k/mo",
+    "ads": "Top listing for products"
+  },
+  "emails": ["order@market.teos", "shop@market.teos", "fresh@market.teos", "delivery@market.teos"],
+  "note": "MARKET.TEOS = Daily cash - People eat every day"
+}

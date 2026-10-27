@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "PAYPAL.TEOS",
+    "emails":  [
+                   "info@paypal.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "PayPal - 400M users - Payment #1 - 300B valuation",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "PayPal - 400M users - Payment #1 - 300B valuation",
+    "status":  "SEALED"
+}

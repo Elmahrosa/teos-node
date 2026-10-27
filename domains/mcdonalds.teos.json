@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "MCDONALDS.TEOS",
+    "emails":  [
+                   "franchise@mcdonalds.teos",
+                   "delivery@mcdonalds.teos",
+                   "orders@mcdonalds.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "McDonald\u0027s - #1 World - 40k branches - Burger King",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "McDonald\u0027s - #1 World - 40k branches - Burger King - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

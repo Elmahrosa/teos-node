@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "POPEYES.TEOS",
+    "emails":  [
+                   "franchise@popeyes.teos",
+                   "delivery@popeyes.teos",
+                   "orders@popeyes.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Popeyes - Chicken - Louisiana",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Popeyes - Chicken - Louisiana - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

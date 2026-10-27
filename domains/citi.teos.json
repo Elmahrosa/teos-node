@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "CITI.TEOS",
+    "emails":  [
+                   "info@citi.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Citi - Citibank - USA - 2.4T assets - 100 countries",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Citi - Citibank - USA - 2.4T assets - 100 countries",
+    "status":  "SEALED"
+}

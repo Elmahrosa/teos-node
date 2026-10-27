@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "TOURISM_EG.TEOS",
+    "emails":  [
+                   "info@tourism_eg.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Ministry Tourism - السياحة والآثار - الأهرامات",
+    "parent":  "GOV.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Ministry Tourism - السياحة والآثار - الأهرامات",
+    "status":  "SEALED"
+}

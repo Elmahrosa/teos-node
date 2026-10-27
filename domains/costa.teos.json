@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "COSTA.TEOS",
+    "emails":  [
+                   "info@costa.teos",
+                   "cargo@costa.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Costa Cruises - Italy - Genoa - Europe - 15 ships",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Costa Cruises - Italy - Genoa - Europe - 15 ships",
+    "status":  "SEALED"
+}

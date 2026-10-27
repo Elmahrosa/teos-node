@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "FOREIGN.TEOS",
+    "emails":  [
+                   "info@foreign.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Ministry Foreign Affairs - الخارجية - السفارات",
+    "parent":  "GOV.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Ministry Foreign Affairs - الخارجية - السفارات",
+    "status":  "SEALED"
+}

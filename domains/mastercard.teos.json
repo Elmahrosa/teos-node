@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "MASTERCARD.TEOS",
+    "emails":  [
+                   "info@mastercard.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Mastercard - Card #2 - 400B valuation",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Mastercard - Card #2 - 400B valuation",
+    "status":  "SEALED"
+}

@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "MANDARIN.TEOS",
+    "emails":  [
+                   "info@mandarin.teos",
+                   "booking@mandarin.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Mandarin Oriental - Hong Kong - Asia Luxury #1 - 40 hotels",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Mandarin Oriental - Hong Kong - Asia Luxury #1 - 40 hotels",
+    "status":  "SEALED"
+}

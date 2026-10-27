@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SOMABAY.TEOS",
+    "emails":  [
+                   "info@somabay.teos",
+                   "booking@somabay.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Soma Bay - Hurghada - Luxury resort - 5 hotels",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Soma Bay - Hurghada - Luxury resort - 5 hotels",
+    "status":  "SEALED"
+}

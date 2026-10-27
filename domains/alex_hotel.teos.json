@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ALEX_HOTEL.TEOS",
+    "emails":  [
+                   "info@alex_hotel.teos",
+                   "booking@alex_hotel.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Alexandria Hotels - Montaza + Cecil + Four Seasons Alex - Home",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Alexandria Hotels - Montaza + Cecil + Four Seasons Alex - Home",
+    "status":  "SEALED"
+}

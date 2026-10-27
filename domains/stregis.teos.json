@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "STREGIS.TEOS",
+    "emails":  [
+                   "info@stregis.teos",
+                   "booking@stregis.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "St Regis - Marriott - Butler service - Luxury",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "St Regis - Marriott - Butler service - Luxury",
+    "status":  "SEALED"
+}

@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "SANTANDER.TEOS",
+    "emails":  [
+                   "info@santander.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Santander - Spain - 1.8T - Latin America King",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Santander - Spain - 1.8T - Latin America King",
+    "status":  "SEALED"
+}

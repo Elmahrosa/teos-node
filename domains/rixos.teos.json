@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "RIXOS.TEOS",
+    "emails":  [
+                   "info@rixos.teos",
+                   "booking@rixos.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Rixos - Turkey - Egypt Sharm Alamein - All inclusive luxury - 30 hotels",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Rixos - Turkey - Egypt Sharm Alamein - All inclusive luxury - 30 hotels",
+    "status":  "SEALED"
+}

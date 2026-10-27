@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "KFC.TEOS",
+    "emails":  [
+                   "franchise@kfc.teos",
+                   "delivery@kfc.teos",
+                   "orders@kfc.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "KFC - Colonel - Chicken King - 25k branches",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "KFC - Colonel - Chicken King - 25k branches - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

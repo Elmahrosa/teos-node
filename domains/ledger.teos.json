@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "LEDGER.TEOS",
+    "emails":  [
+                   "trade@ledger.teos",
+                   "wallet@ledger.teos",
+                   "vip@ledger.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "Ledger - Hardware - Cold Wallet King",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "100 USD per device affiliate",
+    "status":  "ACTIVE - SEALED"
+}

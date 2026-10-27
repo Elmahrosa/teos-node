@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "ARAMCO.TEOS",
+    "emails":  [
+                   "info@aramco.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Aramco - Saudi - 2T valuation - Biggest oil world",
+    "parent":  "INDUSTRY.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Aramco - Saudi - 2T valuation - Biggest oil world",
+    "status":  "SEALED"
+}

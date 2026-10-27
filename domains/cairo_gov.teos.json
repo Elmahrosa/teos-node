@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "CAIRO_GOV.TEOS",
+    "emails":  [
+                   "info@cairo_gov.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Cairo Governorate - محافظة القاهرة - العاصمة",
+    "parent":  "GOV.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Cairo Governorate - محافظة القاهرة - العاصمة",
+    "status":  "SEALED"
+}

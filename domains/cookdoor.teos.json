@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "COOKDOOR.TEOS",
+    "emails":  [
+                   "franchise@cookdoor.teos",
+                   "delivery@cookdoor.teos",
+                   "orders@cookdoor.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Cook Door - Egypt Fast Food",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Cook Door - Egypt Fast Food - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "UNITED.TEOS",
+    "emails":  [
+                   "info@united.teos",
+                   "booking@united.teos"
+               ],
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "United Airlines - Chicago - Star Alliance - 160M",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "United Airlines - Chicago - Star Alliance - 160M",
+    "status":  "SEALED"
+}

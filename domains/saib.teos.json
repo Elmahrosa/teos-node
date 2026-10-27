@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SAIB.TEOS",
+    "emails":  [
+                   "info@saib.teos",
+                   "vip@saib.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "SAIB - Societe Arabe Internationale",
+    "parent":  "BANKS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Egypt",
+    "status":  "ACTIVE - SEALED"
+}

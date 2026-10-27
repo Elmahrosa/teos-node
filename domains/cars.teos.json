@@ -1,0 +1,12 @@
+﻿{
+  "domain": "CARS.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "ALEXANDRIA.TEOS",
+  "vertical": "Automotive Hub",
+  "type": "EMPIRE CORE",
+  "status": "ACTIVE - 32 BRANDS",
+  "brands": ["TESLA.TEOS","MERCEDES.TEOS","BMW.TEOS","AUDI.TEOS","PORSCHE.TEOS","LAMBORGHINI.TEOS","FERRARI.TEOS","ROLLSROYCE.TEOS","BENTLEY.TEOS","BUGATTI.TEOS","MCLAREN.TEOS","TOYOTA.TEOS","FORD.TEOS","JEEP.TEOS","RANGEROVER.TEOS"],
+  "value": "32 brands x 100k booth = 3.2M EXPO",
+  "emails": ["tesla@cars.teos","dealers@cars.teos","expo@cars.teos"],
+  "note": "AUTO EMPIRE 02:35 AM 25/10/2026"
+}

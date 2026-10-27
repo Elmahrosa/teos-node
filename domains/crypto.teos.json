@@ -1,0 +1,17 @@
+﻿{
+  "domain": "CRYPTO.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "MONEY.TEOS",
+  "vertical": "Crypto Empire Parent - All Exchanges + Wallets + Chains",
+  "type": "CRYPTO KING - BILLIONS MARKET",
+  "status": "ACTIVE - SEALED",
+  "value": "Crypto Market = 2T USD - Exchange fees 0.1% x Billions volume = Millions daily",
+  "monetization": {
+    "exchange": "Exchange affiliate - Binance 40% commission - 1 BTC volume = 400 USD commission",
+    "p2p": "P2P trading - 10k EGP x 100 traders/day x 1% = 10k/day",
+    "wallets": "Wallet affiliate - Every wallet signup = 10 USD",
+    "academy": "Crypto academy - 5k per student x 1000 = 5M"
+  },
+  "emails": ["crypto@crypto.teos", "trade@crypto.teos", "p2p@crypto.teos", "academy@crypto.teos"],
+  "note": "CRYPTO.TEOS = Money printer - 24/7 market"
+}

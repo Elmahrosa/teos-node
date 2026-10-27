@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "BOFA.TEOS",
+    "emails":  [
+                   "info@bofa.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Bank of America - USA - 3.2T assets - #2 USA",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Bank of America - USA - 3.2T assets - #2 USA",
+    "status":  "SEALED"
+}

@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "SABIC.TEOS",
+    "emails":  [
+                   "info@sabic.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "SABIC - Saudi - Chemical #1 MENA - 80B",
+    "parent":  "INDUSTRY.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "SABIC - Saudi - Chemical #1 MENA - 80B",
+    "status":  "SEALED"
+}

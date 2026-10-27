@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ATLANTIS.TEOS",
+    "emails":  [
+                   "info@atlantis.teos",
+                   "booking@atlantis.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Atlantis - Dubai Palm - 1500 rooms - Aquaventure - 1000 USD/night",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Atlantis - Dubai Palm - 1500 rooms - Aquaventure - 1000 USD/night",
+    "status":  "SEALED"
+}

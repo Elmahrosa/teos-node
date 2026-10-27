@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "STEEL.TEOS",
+    "emails":  [
+                   "info@steel.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Steel - الحديد والصلب - صناعة تقيلة",
+    "parent":  "INDUSTRY.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Steel - الحديد والصلب - صناعة تقيلة",
+    "status":  "SEALED"
+}

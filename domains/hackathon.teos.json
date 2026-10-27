@@ -1,0 +1,10 @@
+{
+  "domain": "HACKATHON.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "EVENTS.TEOS",
+  "vertical": "Web4 Hackathons - Solana",
+  "monetization": "Entry fees + Telco Sponsors + Prize pool cut",
+  "emails": ["join@hackathon.teos", "sponsor@hackathon.teos"],
+  "status": "ACTIVE",
+  "target": "Developers in Egypt - 500 devs x 500 EGP"
+}

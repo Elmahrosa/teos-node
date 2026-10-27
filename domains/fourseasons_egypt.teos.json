@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "FOURSEASONS_EGYPT.TEOS",
+    "emails":  [
+                   "info@fourseasons_egypt.teos",
+                   "booking@fourseasons_egypt.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Four Seasons Egypt - Cairo Nile Plaza + Sharm + Alex - 4 hotels",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Four Seasons Egypt - Cairo Nile Plaza + Sharm + Alex - 4 hotels",
+    "status":  "SEALED"
+}

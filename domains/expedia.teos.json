@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "EXPEDIA.TEOS",
+    "emails":  [
+                   "info@expedia.teos"
+               ],
+    "note":  "03:10 AM 25/10/2026 - 290 DOMAINS - AYMAN.TEOS",
+    "vertical":  "Expedia USA Travel",
+    "parent":  "TRAVEL.TEOS",
+    "type":  "EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Expedia USA Travel",
+    "status":  "SEALED"
+}

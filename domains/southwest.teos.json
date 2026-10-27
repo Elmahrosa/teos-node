@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SOUTHWEST.TEOS",
+    "emails":  [
+                   "info@southwest.teos",
+                   "booking@southwest.teos"
+               ],
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "Southwest - Dallas Love - USA Low Cost #1 - 130M - No fees",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Southwest - Dallas Love - USA Low Cost #1 - 130M - No fees",
+    "status":  "SEALED"
+}

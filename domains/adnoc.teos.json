@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "ADNOC.TEOS",
+    "emails":  [
+                   "info@adnoc.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "ADNOC - Abu Dhabi - 500B - UAE oil King",
+    "parent":  "INDUSTRY.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "ADNOC - Abu Dhabi - 500B - UAE oil King",
+    "status":  "SEALED"
+}

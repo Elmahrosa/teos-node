@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "DUNKIN.TEOS",
+    "emails":  [
+                   "franchise@dunkin.teos",
+                   "delivery@dunkin.teos",
+                   "orders@dunkin.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Dunkin\u0027 - Donuts + Coffee - Egypt 100 branches",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Dunkin\u0027 - Donuts + Coffee - Egypt 100 branches - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

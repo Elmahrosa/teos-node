@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "MARRIOTT.TEOS",
+    "emails":  [
+                   "info@marriott.teos",
+                   "booking@marriott.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Marriott - #2 World - 8000 hotels - 1.4M rooms - Biggest world",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Marriott - #2 World - 8000 hotels - 1.4M rooms - Biggest world",
+    "status":  "SEALED"
+}

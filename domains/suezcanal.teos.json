@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SUEZCANAL.TEOS",
+    "emails":  [
+                   "info@suezcanal.teos",
+                   "cargo@suezcanal.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Suez Canal - Egypt - 12% world trade - 10B USD revenue - 20000 ships/year",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Suez Canal - Egypt - 12% world trade - 10B USD revenue - 20000 ships/year",
+    "status":  "SEALED"
+}

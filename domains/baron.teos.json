@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "BARON.TEOS",
+    "emails":  [
+                   "info@baron.teos",
+                   "booking@baron.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Baron Hotels - Egypt - Sharm Hurghada - Baron Palace",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Baron Hotels - Egypt - Sharm Hurghada - Baron Palace",
+    "status":  "SEALED"
+}

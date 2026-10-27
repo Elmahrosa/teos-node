@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "TBS.TEOS",
+    "emails":  [
+                   "franchise@tbs.teos",
+                   "delivery@tbs.teos",
+                   "orders@tbs.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "TBS - The Bakery Shop - Egypt Bakery + Coffee",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "TBS - The Bakery Shop - Egypt Bakery + Coffee - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

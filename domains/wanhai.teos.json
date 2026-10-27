@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "WANHAI.TEOS",
+    "emails":  [
+                   "info@wanhai.teos",
+                   "cargo@wanhai.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Wan Hai - Taiwan - #11 - Asia",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Wan Hai - Taiwan - #11 - Asia",
+    "status":  "SEALED"
+}
