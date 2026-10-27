@@ -1,5 +1,21 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { clientIp, rateLimit, sanitizeDomain, validateDomain, store, getCurrentPriceUsd, getSolPrice, getCharterState, signQuote } from "../../../lib/teos";
+import reservedData from "../../../domains/reserved-list.json";
+
+function isFamilySealed(domainUpper: string): boolean {
+  const d = reservedData as any;
+  const all = [
+    ...(d.premium_global || []),
+    ...(d.brothers || []),
+    ...(d.sisters || []),
+    ...(d.premium_eg || []),
+    d.owner || ""
+  ].map((x: string) => x.toUpperCase().replace(".TEOS","").trim());
+  
+  const check = domainUpper.toUpperCase().replace(".TEOS","").trim();
+  return all.includes(check) || all.includes(`${check}.TEOS`);
+}
+
 export async function POST(req: Request) {
   if (!(await rateLimit(`quote:${clientIp(req)}`, 60, 60))) return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   const body = await req.json().catch(() => ({}));
@@ -7,6 +23,22 @@ export async function POST(req: Request) {
   if (!domain) return NextResponse.json({ error: "invalid_domain" }, { status: 400 });
   const check = validateDomain(domain);
   if (!check.ok) return NextResponse.json({ error: check.reason }, { status: 400 });
+
+  // --- FAMILY SEALED CHECK - MUST BE FIRST ---
+  if (isFamilySealed(domain)) {
+    return NextResponse.json({ 
+      error: "domain_reserved_sealed", 
+      domain: domain.toUpperCase(),
+      available: false,
+      sealed: true,
+      status: "RESERVED_SEALED",
+      owner: "EL-MAHROSA-VAULT",
+      price: null,
+      message: "🔒 FAMILY - NOT FOR SALE"
+    }, { status: 403 });
+  }
+  // --- END CHECK ---
+
   if (!(await store.isDomainAvailable(domain))) return NextResponse.json({ error: "domain_taken" }, { status: 409 });
   const oracle = await getSolPrice();
   if (!oracle) return NextResponse.json({ error: "oracle_unavailable" }, { status: 503 });
