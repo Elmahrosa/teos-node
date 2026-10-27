@@ -1,5 +1,6 @@
 ﻿import { NextResponse } from "next/server";
 import { clientIp, rateLimit, sanitizeDomain, validateDomain, store, getCurrentPriceUsd, getSolPrice, getCharterState, signQuote } from "../../../lib/teos";
+import { isSealedDomain } from "../../../lib/sealed";
 import reservedData from "../../../domains/reserved-list.json";
 
 function isFamilySealed(domainUpper: string): boolean {
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
   if (!check.ok) return NextResponse.json({ error: check.reason }, { status: 400 });
 
   // --- FAMILY SEALED CHECK - MUST BE FIRST ---
-  if (isFamilySealed(domain)) {
+  if (isFamilySealed(domain) || isSealedDomain(domain)) {
     return NextResponse.json({ 
       error: "domain_reserved_sealed", 
       domain: domain.toUpperCase(),
