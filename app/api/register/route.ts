@@ -45,6 +45,8 @@ export async function POST(req: Request) {
 
     const pay = await verifyPayment({ txSignature: payment_tx, payer: publicKey, treasury, minLamports: quote.priceLamports });
     if (!pay.ok) {
+      // Public data only (signature, addresses, amounts). No secrets.
+      console.error("[register] payment_not_verified", JSON.stringify({ reason: pay.reason, payment_tx, payer: publicKey, treasury, domain: quote.domain, detail: pay.detail }));
       const status = pay.reason === "rpc_unavailable" ? 503 : 402;
       return NextResponse.json({ error: "payment_not_verified", reason: pay.reason }, { status });
     }
