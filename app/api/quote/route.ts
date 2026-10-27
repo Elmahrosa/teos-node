@@ -1,6 +1,7 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { clientIp, rateLimit, sanitizeDomain, validateDomain, store, getCurrentPriceUsd, getSolPrice, getCharterState, signQuote } from "../../../lib/teos";
 import { isSealedDomain } from "../../../lib/sealed";
+import { parseDomain, isReservedWord } from "../../../lib/domain-rules";
 import reservedData from "../../../domains/reserved-list.json";
 
 function isFamilySealed(domainUpper: string): boolean {
@@ -20,10 +21,10 @@ function isFamilySealed(domainUpper: string): boolean {
 export async function POST(req: Request) {
   if (!(await rateLimit(`quote:${clientIp(req)}`, 60, 60))) return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   const body = await req.json().catch(() => ({}));
-  const domain = sanitizeDomain(body.domain);
-  if (!domain) return NextResponse.json({ error: "invalid_domain" }, { status: 400 });
-  const check = validateDomain(domain);
-  if (!check.ok) return NextResponse.json({ error: check.reason }, { status: 400 });
+  const parsed = parseDomain(body.domain);
+  if (!parsed.ok) return NextResponse.json(parsed.body, { status: parsed.status });
+  if (isReservedWord(parsed.domain)) return NextResponse.json({ available: false, reason: "reserved", domain: parsed.domain });
+  const domain = sanitizeDomain(parsed.domain);
 
   // --- FAMILY SEALED CHECK - MUST BE FIRST ---
   if (isFamilySealed(domain) || isSealedDomain(domain)) {
