@@ -1,5 +1,6 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
 import reservedData from "../../../domains/reserved-list.json";
+import { isSealedDomain } from "../../../lib/sealed";
 import path from "path";
 import fs from "fs";
 
@@ -49,6 +50,10 @@ export async function GET(req: NextRequest) {
   }
   const domainUpper = domain.toUpperCase();
   const check = isReserved(domainUpper);
+  if (!check.reserved && isSealedDomain(domainUpper)) {
+    check.reserved = true;
+    check.entry = { owner: "AYMAN.TEOS", tier: "FOUNDERS", note: "SEALED - NOT FOR SALE" };
+  }
 
   if (check.reserved) {
     return NextResponse.json({
