@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "BANQUE_MISR.TEOS",
+    "emails":  [
+                   "info@banque_misr.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Banque Misr - Egypt #2 - 100B - 700 branches",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Banque Misr - Egypt #2 - 100B - 700 branches",
+    "status":  "SEALED"
+}

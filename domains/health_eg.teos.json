@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "HEALTH_EG.TEOS",
+    "emails":  [
+                   "info@health_eg.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Ministry Health - الصحة - المستشفيات",
+    "parent":  "GOV.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Ministry Health - الصحة - المستشفيات",
+    "status":  "SEALED"
+}

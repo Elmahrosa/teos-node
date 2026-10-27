@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "AIRBNB_HOTEL.TEOS",
+    "emails":  [
+                   "info@airbnb_hotel.teos",
+                   "booking@airbnb_hotel.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Airbnb - 7M listings - Apartment rentals - 100B valuation",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Airbnb - 7M listings - Apartment rentals - 100B valuation",
+    "status":  "SEALED"
+}

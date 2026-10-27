@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "GPU.TEOS",
+    "emails":  [
+                   "info@gpu.teos",
+                   "ai@gpu.teos"
+               ],
+    "note":  "03:36 AM 25/10/2026 - AI GLOBAL - AYMAN.TEOS",
+    "vertical":  "GPU - GPU Cloud - CoreWeave - 20B - Nvidia cloud - H100",
+    "parent":  "AI.TEOS",
+    "type":  "AI EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "GPU - GPU Cloud - CoreWeave - 20B - Nvidia cloud - H100",
+    "status":  "SEALED"
+}

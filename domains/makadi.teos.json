@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "MAKADI.TEOS",
+    "emails":  [
+                   "info@makadi.teos",
+                   "booking@makadi.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Makadi Bay - Hurghada - Red Sea - 10 hotels",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Makadi Bay - Hurghada - Red Sea - 10 hotels",
+    "status":  "SEALED"
+}

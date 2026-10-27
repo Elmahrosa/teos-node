@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "BOEING.TEOS",
+    "emails":  [
+                   "info@boeing.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Boeing - USA - Aviation #1 - 120B",
+    "parent":  "INDUSTRY.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Boeing - USA - Aviation #1 - 120B",
+    "status":  "SEALED"
+}

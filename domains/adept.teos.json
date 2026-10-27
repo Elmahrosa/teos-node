@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ADEPT.TEOS",
+    "emails":  [
+                   "info@adept.teos",
+                   "ai@adept.teos"
+               ],
+    "note":  "03:36 AM 25/10/2026 - AI GLOBAL - AYMAN.TEOS",
+    "vertical":  "Adept AI - Action model - 1B - Automation",
+    "parent":  "AI.TEOS",
+    "type":  "AI EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Adept AI - Action model - 1B - Automation",
+    "status":  "SEALED"
+}

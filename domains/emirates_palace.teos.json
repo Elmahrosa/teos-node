@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "EMIRATES_PALACE.TEOS",
+    "emails":  [
+                   "info@emirates_palace.teos",
+                   "booking@emirates_palace.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Emirates Palace - Abu Dhabi - 3B USD - 7 star - Gold ATM",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Emirates Palace - Abu Dhabi - 3B USD - 7 star - Gold ATM",
+    "status":  "SEALED"
+}

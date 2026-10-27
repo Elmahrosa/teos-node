@@ -1,0 +1,30 @@
+{
+  "collection": "CENTRALBANKS.TEOS",
+  "owner": "AYMAN.TEOS",
+  "total_domains": 75,
+  "total_value_EGP": "75,000,000",
+  "status": "RESERVED - AUCTION ONLY",
+  "law": "LAW OVER CODE",
+  "root": {
+    "domain": "CENTRALBANKS.TEOS",
+    "price_EGP": 500000
+  },
+  "giants": [
+    {"domain": "FEDERALRESERVE.TEOS", "price": 1000000, "bank": "US Federal Reserve"},
+    {"domain": "FED.TEOS", "price": 1000000, "bank": "US Fed Short"},
+    {"domain": "ECB.TEOS", "price": 1000000, "bank": "European Central Bank"},
+    {"domain": "BOE.TEOS", "price": 1000000, "bank": "Bank of England"},
+    {"domain": "BOJ.TEOS", "price": 1000000, "bank": "Bank of Japan"},
+    {"domain": "PBOC.TEOS", "price": 1000000, "bank": "China"},
+    {"domain": "BUNDESBANK.TEOS", "price": 1000000, "bank": "Germany"}
+  ],
+  "mena": [
+    {"domain": "CBE.TEOS", "note": "MOST IMPORTANT - Egypt HQ", "price": 500000},
+    {"domain": "SAMA.TEOS", "price": 500000, "bank": "Saudi"},
+    {"domain": "UAECB.TEOS", "price": 500000, "bank": "UAE"},
+    {"domain": "QCB.TEOS", "price": 500000, "bank": "Qatar"},
+    {"domain": "CBK.TEOS", "price": 500000, "bank": "Kuwait"},
+    {"domain": "CBB.TEOS", "price": 500000, "bank": "Bahrain"},
+    {"domain": "CBO.TEOS", "price": 500000, "bank": "Oman"}
+  ]
+}

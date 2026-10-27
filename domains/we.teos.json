@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "WE.TEOS",
+    "emails":  [
+                   "info@we.teos",
+                   "sales@we.teos",
+                   "support@we.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:44 AM - TELECOM EMPIRE - AYMAN.TEOS",
+    "vertical":  "WE - Telecom Egypt - Government backbone",
+    "parent":  "TELECOM.TEOS",
+    "type":  "TELECOM CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "WE = Internet backbone of Egypt - 80% of ADSL",
+    "status":  "ACTIVE - SEALED"
+}

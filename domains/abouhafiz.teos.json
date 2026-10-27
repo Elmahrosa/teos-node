@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "ABOUHAFIZ.TEOS",
+    "emails":  [
+                   "franchise@abouhafiz.teos",
+                   "delivery@abouhafiz.teos",
+                   "orders@abouhafiz.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Abou Hafiz - Alexandria - Seafood? Actually Fast Food",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Abou Hafiz - Alexandria - Seafood? Actually Fast Food - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

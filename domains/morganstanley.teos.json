@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "MORGANSTANLEY.TEOS",
+    "emails":  [
+                   "info@morganstanley.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Morgan Stanley - Investment - 1.2T",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Morgan Stanley - Investment - 1.2T",
+    "status":  "SEALED"
+}

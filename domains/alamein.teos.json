@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ALAMEIN.TEOS",
+    "emails":  [
+                   "info@alamein.teos",
+                   "booking@alamein.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Alamein Hotels - New Alamein - North Coast New Capital",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Alamein Hotels - New Alamein - North Coast New Capital",
+    "status":  "SEALED"
+}

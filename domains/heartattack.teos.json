@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "HEARTATTACK.TEOS",
+    "emails":  [
+                   "franchise@heartattack.teos",
+                   "delivery@heartattack.teos",
+                   "orders@heartattack.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Heart Attack - Egypt Burger",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Heart Attack - Egypt Burger - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

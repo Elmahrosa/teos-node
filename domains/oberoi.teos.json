@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "OBEROI.TEOS",
+    "emails":  [
+                   "info@oberoi.teos",
+                   "booking@oberoi.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Oberoi - Egypt - Sahl Hasheesh - Luxury Egypt",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Oberoi - Egypt - Sahl Hasheesh - Luxury Egypt",
+    "status":  "SEALED"
+}

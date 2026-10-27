@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "EVERGREEN.TEOS",
+    "emails":  [
+                   "info@evergreen.teos",
+                   "cargo@evergreen.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Evergreen - Taiwan - #6 World - Green ships - Ever Given Suez",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Evergreen - Taiwan - #6 World - Green ships - Ever Given Suez",
+    "status":  "SEALED"
+}

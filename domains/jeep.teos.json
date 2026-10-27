@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "JEEP.TEOS",
+    "emails":  [
+                   "info@jeep.teos",
+                   "sales@jeep.teos",
+                   "admin@jeep.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Jeep 4x4",
+    "parent":  "CARS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Sahara",
+    "status":  "ACTIVE - SEALED"
+}

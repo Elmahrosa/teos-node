@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SOFITEL.TEOS",
+    "emails":  [
+                   "info@sofitel.teos",
+                   "booking@sofitel.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Sofitel - Egypt - Winter Palace Luxor - Legend - Old Cataract Aswan",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Sofitel - Egypt - Winter Palace Luxor - Legend - Old Cataract Aswan",
+    "status":  "SEALED"
+}

@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "LUFTHANSA.TEOS",
+    "emails":  [
+                   "info@lufthansa.teos",
+                   "booking@lufthansa.teos"
+               ],
+    "note":  "03:15 AM 25/10/2026 - AIRLINES GLOBAL - AYMAN.TEOS",
+    "vertical":  "Lufthansa - Frankfurt - Germany Flag - Star Alliance - 60M",
+    "parent":  "AIRLINES.TEOS",
+    "type":  "AIRLINE EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Lufthansa - Frankfurt - Germany Flag - Star Alliance - 60M",
+    "status":  "SEALED"
+}

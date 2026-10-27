@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "GATEIO.TEOS",
+    "emails":  [
+                   "trade@gateio.teos",
+                   "wallet@gateio.teos",
+                   "vip@gateio.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "Gate.io - 1400 coins - First listing",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "New coins first",
+    "status":  "ACTIVE - SEALED"
+}

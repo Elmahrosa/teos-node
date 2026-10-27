@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "RESORT.TEOS",
+    "emails":  [
+                   "info@resort.teos",
+                   "booking@resort.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Resort - Resort Parent - Red Sea Resorts - Hurghada Sharm Sahel",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Resort - Resort Parent - Red Sea Resorts - Hurghada Sharm Sahel",
+    "status":  "SEALED"
+}

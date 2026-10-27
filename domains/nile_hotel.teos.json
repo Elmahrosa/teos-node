@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "NILE_HOTEL.TEOS",
+    "emails":  [
+                   "info@nile_hotel.teos",
+                   "booking@nile_hotel.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Nile Hotels - Nile Cruise - 300 cruises - Luxor Aswan - Floating hotels",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Nile Hotels - Nile Cruise - 300 cruises - Luxor Aswan - Floating hotels",
+    "status":  "SEALED"
+}

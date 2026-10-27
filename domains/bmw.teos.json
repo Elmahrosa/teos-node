@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "BMW.TEOS",
+    "emails":  [
+                   "info@bmw.teos",
+                   "sales@bmw.teos",
+                   "admin@bmw.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "BMW Dealer",
+    "parent":  "CARS.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "50k",
+    "status":  "ACTIVE - SEALED"
+}

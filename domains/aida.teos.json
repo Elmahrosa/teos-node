@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "AIDA.TEOS",
+    "emails":  [
+                   "info@aida.teos",
+                   "cargo@aida.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "AIDA Cruises - Germany - Hamburg - German #1",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "AIDA Cruises - Germany - Hamburg - German #1",
+    "status":  "SEALED"
+}

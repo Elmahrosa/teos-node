@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "MEXC.TEOS",
+    "emails":  [
+                   "trade@mexc.teos",
+                   "wallet@mexc.teos",
+                   "vip@mexc.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "MEXC - Low fees - 0% maker",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Lowest fees",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "MAERSK.TEOS",
+    "emails":  [
+                   "info@maersk.teos",
+                   "cargo@maersk.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Maersk - Denmark - #2 World - 700 ships - 4M containers - Biggest Denmark",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Maersk - Denmark - #2 World - 700 ships - 4M containers - Biggest Denmark",
+    "status":  "SEALED"
+}

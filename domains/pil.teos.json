@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "PIL.TEOS",
+    "emails":  [
+                   "info@pil.teos",
+                   "cargo@pil.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "PIL - Pacific International - Singapore - 100 ships",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "PIL - Pacific International - Singapore - 100 ships",
+    "status":  "SEALED"
+}

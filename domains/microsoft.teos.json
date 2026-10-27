@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "MICROSOFT.TEOS",
+    "emails":  [
+                   "info@microsoft.teos",
+                   "sales@microsoft.teos",
+                   "admin@microsoft.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Microsoft Cloud",
+    "parent":  "ALEXANDRIA.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "500k",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "CAIRO.TEOS",
+    "emails":  [
+                   "info@cairo.teos",
+                   "sales@cairo.teos",
+                   "admin@cairo.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Capital - 10M pop",
+    "parent":  "EGYPT.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "2M/mo business",
+    "status":  "ACTIVE - SEALED"
+}

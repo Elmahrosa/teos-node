@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "OKX.TEOS",
+    "emails":  [
+                   "trade@okx.teos",
+                   "wallet@okx.teos",
+                   "vip@okx.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:53 AM - CRYPTO EMPIRE - AYMAN.TEOS",
+    "vertical":  "OKX - Seychelles - Web3 Wallet",
+    "parent":  "CRYPTO.TEOS",
+    "type":  "CRYPTO CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Web3 super app",
+    "status":  "ACTIVE - SEALED"
+}

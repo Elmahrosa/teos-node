@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "DEFENSE.TEOS",
+    "emails":  [
+                   "info@defense.teos"
+               ],
+    "note":  "03:52 AM 25/10/2026 - FINAL 47 TO 600 - AYMAN.TEOS",
+    "vertical":  "Ministry of Defense - الدفاع - الجيش المصري",
+    "parent":  "GOV.TEOS",
+    "type":  "GOV INDUSTRY 600",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Ministry of Defense - الدفاع - الجيش المصري",
+    "status":  "SEALED"
+}

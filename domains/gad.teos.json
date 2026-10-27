@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "GAD.TEOS",
+    "emails":  [
+                   "franchise@gad.teos",
+                   "delivery@gad.teos",
+                   "orders@gad.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Gad - Alexandria Original - Foul + Falafel King",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Gad - Alexandria Original - Foul + Falafel King - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "YANGMING.TEOS",
+    "emails":  [
+                   "info@yangming.teos",
+                   "cargo@yangming.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Yang Ming - Taiwan - #9 - 100 ships",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Yang Ming - Taiwan - #9 - 100 ships",
+    "status":  "SEALED"
+}

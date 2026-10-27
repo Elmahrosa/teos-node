@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "JUMEIRAH.TEOS",
+    "emails":  [
+                   "info@jumeirah.teos",
+                   "booking@jumeirah.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Jumeirah - Dubai - Burj Al Arab - 7 star - Luxury King Dubai",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Jumeirah - Dubai - Burj Al Arab - 7 star - Luxury King Dubai",
+    "status":  "SEALED"
+}

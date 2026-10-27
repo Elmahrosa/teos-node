@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "GIZA.TEOS",
+    "emails":  [
+                   "info@giza.teos",
+                   "sales@giza.teos",
+                   "admin@giza.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Pyramids",
+    "parent":  "EGYPT.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Tourism",
+    "status":  "ACTIVE - SEALED"
+}

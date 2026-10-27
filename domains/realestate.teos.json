@@ -1,0 +1,34 @@
+{
+  "domain": "REALESTATE.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "ALEXANDRIA.TEOS",
+  "vertical": "Alexandria Real Estate - Sea View King",
+  "type": "EMPIRE CORE",
+  "status": "ACTIVE - HIGHEST VALUE",
+  "monetization": {
+    "sale_commission": "2.5% - Average unit 5M EGP = 125k per deal",
+    "rental_commission": "1 month - Summer rentals 50k/mo",
+    "listing_fee": "5000 EGP/mo per developer",
+    "valuation": "If you close 10 units/mo = 1.25M EGP/mo"
+  },
+  "segments": [
+    "SEA.TEOS - Sea view North Coast",
+    "VILLA.TEOS - Villas",
+    "COMPOUND.TEOS - Compounds",
+    "RENTAL.TEOS - Summer rentals"
+  ],
+  "emails": [
+    "sale@realestate.teos",
+    "rent@realestate.teos",
+    "villa@realestate.teos",
+    "sea@realestate.teos",
+    "invest@realestate.teos"
+  ],
+  "partnerships": [
+    "Talaat Moustafa",
+    "Emaar Misr",
+    "SODIC",
+    "Mountain View"
+  ],
+  "note": "This domain alone can make 1M+ EGP/month in Alexandria summer - THE REAL MONEY PRINTER"
+}

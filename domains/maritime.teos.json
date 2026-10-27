@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "MARITIME.TEOS",
+    "emails":  [
+                   "info@maritime.teos",
+                   "cargo@maritime.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Maritime - Maritime Parent - All Shipping",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Maritime - Maritime Parent - All Shipping",
+    "status":  "SEALED"
+}

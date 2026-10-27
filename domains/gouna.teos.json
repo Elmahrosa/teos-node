@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "Gouna.TEOS",
+    "emails":  [
+                   "info@gouna.teos",
+                   "booking@gouna.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "El Gouna Hotels - Orascom Sawiris - 20 hotels - Red Sea",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "El Gouna Hotels - Orascom Sawiris - 20 hotels - Red Sea",
+    "status":  "SEALED"
+}

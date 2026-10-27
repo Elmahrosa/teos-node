@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "MSC_CRUISE.TEOS",
+    "emails":  [
+                   "info@msc_cruise.teos",
+                   "cargo@msc_cruise.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "MSC Cruises - Geneva - #3 - Europe #1 - 20 ships",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "MSC Cruises - Geneva - #3 - Europe #1 - 20 ships",
+    "status":  "SEALED"
+}

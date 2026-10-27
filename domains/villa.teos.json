@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "VILLA.TEOS",
+    "emails":  [
+                   "info@villa.teos",
+                   "vip@villa.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "Villa - Villa Parent - Luxury",
+    "parent":  "REALESTATE.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Luxury villas",
+    "status":  "ACTIVE - SEALED"
+}

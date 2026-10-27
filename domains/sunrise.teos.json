@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "SUNRISE.TEOS",
+    "emails":  [
+                   "info@sunrise.teos",
+                   "booking@sunrise.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Sunrise Resorts - Egypt - Hurghada #1 Egyptian chain - 10 resorts",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Sunrise Resorts - Egypt - Hurghada #1 Egyptian chain - 10 resorts",
+    "status":  "SEALED"
+}

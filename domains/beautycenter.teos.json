@@ -1,0 +1,17 @@
+﻿{
+  "domain": "BEAUTYCENTER.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "LADIES.TEOS",
+  "vertical": "Beauty Centers & Clinics - Alexandria & Cairo",
+  "type": "MONEY PRINTER - FEMALE ECONOMY",
+  "status": "ACTIVE - HIGHEST MARGIN",
+  "services": ["Laser", "Botox", "Filler", "Skincare", "Nails", "Hair"],
+  "monetization": {
+    "booking": "30% per session - Avg session 2000 EGP",
+    "franchise": "50k EGP/month per center",
+    "products": "Beauty products 40% margin",
+    "math": "100 clients/day x 1000 EGP x 30% = 30k/day = 900k/month per center"
+  },
+  "emails": ["book@beautycenter.teos", "laser@beautycenter.teos", "clinic@beautycenter.teos", "vip@beautycenter.teos"],
+  "note": "Female economy = 80% of beauty spending - Alexandria ladies market = 2M+ women"
+}

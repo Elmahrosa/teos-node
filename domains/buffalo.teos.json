@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "BUFFALO.TEOS",
+    "emails":  [
+                   "franchise@buffalo.teos",
+                   "delivery@buffalo.teos",
+                   "orders@buffalo.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Buffalo Burger - Egypt Burger King",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Buffalo Burger - Egypt Burger King - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

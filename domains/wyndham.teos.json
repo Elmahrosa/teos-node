@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "WYNDHAM.TEOS",
+    "emails":  [
+                   "info@wyndham.teos",
+                   "booking@wyndham.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Wyndham - USA - 9000 hotels - Biggest by count - La Quinta Ramada",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Wyndham - USA - 9000 hotels - Biggest by count - La Quinta Ramada",
+    "status":  "SEALED"
+}

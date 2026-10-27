@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "DPWORLD.TEOS",
+    "emails":  [
+                   "info@dpworld.teos",
+                   "cargo@dpworld.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "DP World - Dubai - #1 Port operator world - 80 terminals - Jebel Ali",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "DP World - Dubai - #1 Port operator world - 80 terminals - Jebel Ali",
+    "status":  "SEALED"
+}

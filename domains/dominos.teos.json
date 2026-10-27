@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "DOMINOS.TEOS",
+    "emails":  [
+                   "franchise@dominos.teos",
+                   "delivery@dominos.teos",
+                   "orders@dominos.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Domino\u0027s - Pizza King - Delivery #1",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Domino\u0027s - Pizza King - Delivery #1 - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,11 @@
+﻿{
+  "domain": "AI.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "CLAUDE.TEOS",
+  "vertical": "Artificial Intelligence Hub",
+  "type": "AI CORE",
+  "status": "ACTIVE",
+  "value": "AI Hub - All AI models",
+  "emails": ["ai@ai.teos", "models@ai.teos"],
+  "note": "AI.TEOS under CLAUDE.TEOS"
+}

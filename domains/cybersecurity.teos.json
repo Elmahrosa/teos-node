@@ -1,0 +1,20 @@
+﻿{
+  "domain": "CYBERSECURITY.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "ALEXANDRIA.TEOS",
+  "vertical": "Cybersecurity & Ethical Hacking - SOC & Pentest",
+  "type": "SECURITY CORE - HIGHEST DEMAND",
+  "status": "ACTIVE - SEALED",
+  "value": "Cyber = 10M USD - Every company needs security",
+  "services": ["Pentest", "SOC", "Bug Bounty", "Firewall", "Cloud Security", "Training", "Certifications"],
+  "sub_domains": ["HACKATHON.TEOS", "MINE.TEOS", "CRYPTO.TEOS"],
+  "monetization": {
+    "pentest": "50k EGP per company x 100 companies = 5M/year",
+    "soc": "SOC as service 100k/month per client x 10 = 1M/month",
+    "training": "CEH + OSCP courses 20k per student x 500 = 10M/year",
+    "bug_bounty": "TEOS Bug Bounty Platform - 20% cut"
+  },
+  "emails": ["soc@cybersecurity.teos", "pentest@cybersecurity.teos", "hack@cybersecurity.teos", "secure@cybersecurity.teos", "training@cybersecurity.teos"],
+  "hierarchy": "ALEXANDRIA.TEOS -> CYBERSECURITY.TEOS -> HACKATHON.TEOS + SOC + PENTEST",
+  "note": "Cyber is the NEW OIL - All companies in EGYPT.TEOS need CYBERSECURITY.TEOS"
+}

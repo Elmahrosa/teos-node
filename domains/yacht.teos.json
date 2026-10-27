@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "YACHT.TEOS",
+    "emails":  [
+                   "info@yacht.teos",
+                   "cargo@yacht.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Yacht - Yacht Parent - Luxury - Monaco - 10M per yacht",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Yacht - Yacht Parent - Luxury - Monaco - 10M per yacht",
+    "status":  "SEALED"
+}

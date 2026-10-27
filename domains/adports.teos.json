@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ADPORTS.TEOS",
+    "emails":  [
+                   "info@adports.teos",
+                   "cargo@adports.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "AD Ports - Abu Dhabi - Khalifa Port - 10M TEU",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "AD Ports - Abu Dhabi - Khalifa Port - 10M TEU",
+    "status":  "SEALED"
+}

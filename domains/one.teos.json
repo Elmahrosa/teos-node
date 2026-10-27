@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ONE.TEOS",
+    "emails":  [
+                   "info@one.teos",
+                   "cargo@one.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "ONE - Ocean Network Express - Japan - #7 - Tokyo - 200 ships",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "ONE - Ocean Network Express - Japan - #7 - Tokyo - 200 ships",
+    "status":  "SEALED"
+}

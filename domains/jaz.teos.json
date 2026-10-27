@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "JAZ.TEOS",
+    "emails":  [
+                   "info@jaz.teos",
+                   "booking@jaz.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Jaz Hotels - Egypt - Travco - Hurghada Sharm - 50 hotels",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Jaz Hotels - Egypt - Travco - Hurghada Sharm - 50 hotels",
+    "status":  "SEALED"
+}

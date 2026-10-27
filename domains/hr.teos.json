@@ -1,0 +1,10 @@
+{
+  "domain": "WEDDING.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "EVENTS.TEOS",
+  "vertical": "Luxury Weddings Alexandria",
+  "monetization": "Planner 20% - Venue 10% - Average wedding 500k EGP",
+  "emails": ["book@wedding.teos", "venue@wedding.teos"],
+  "status": "ACTIVE",
+  "note": "Highest margin - Alexandria weddings"
+}

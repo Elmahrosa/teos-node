@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "HELLO.TEOS",
+    "emails":  [
+                   "info@hello.teos",
+                   "ads@hello.teos"
+               ],
+    "note":  "03:25 AM 25/10/2026 - SOCIAL MEDIA GLOBAL - AYMAN.TEOS",
+    "vertical":  "Hello App - Hello - Arab social - Saudi",
+    "parent":  "SOCIAL.TEOS",
+    "type":  "SOCIAL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Hello App - Hello - Arab social - Saudi",
+    "status":  "SEALED"
+}

@@ -1,0 +1,12 @@
+﻿{
+  "AYMAN.TEOS": {"owner": "AYMAN", "tier": "FOUNDERS", "note": "OWNER"},
+  "ASHRAF.TEOS": {"owner": "ASHRAF", "tier": "FOUNDERS", "note": "BROTHER"},
+  "ANAS.TEOS": {"owner": "ANAS", "tier": "FOUNDERS", "note": "BROTHER"},
+  "EHAB.TEOS": {"owner": "EHAB", "tier": "FOUNDERS", "note": "BROTHER"},
+  "AMIRA.TEOS": {"owner": "AMIRA", "tier": "FOUNDERS", "note": "SISTER"},
+  "AMEIRA.TEOS": {"owner": "AMIRA", "tier": "FOUNDERS", "note": "SISTER ALT SPELLING"},
+  "EKRAM.TEOS": {"owner": "EKRAM", "tier": "FOUNDERS", "note": "SISTER"},
+  "ALEXANDRIA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "CITY"},
+  "EL-MAHROSA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "BRAND - NEVER FOR SALE"},
+  "ELMAHROSA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "BRAND ALT"}
+}

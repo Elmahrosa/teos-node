@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ALEXCONT.TEOS",
+    "emails":  [
+                   "info@alexcont.teos",
+                   "cargo@alexcont.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Alexandria Container - Alex Port - Home - 1.5M TEU",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Alexandria Container - Alex Port - Home - 1.5M TEU",
+    "status":  "SEALED"
+}

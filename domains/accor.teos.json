@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ACCOR.TEOS",
+    "emails":  [
+                   "info@accor.teos",
+                   "booking@accor.teos"
+               ],
+    "note":  "03:22 AM 25/10/2026 - HOTELS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Accor - France - 5500 hotels - Sofitel Novotel Mercure - Europe #1",
+    "parent":  "HOTELS.TEOS",
+    "type":  "HOTEL EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Accor - France - 5500 hotels - Sofitel Novotel Mercure - Europe #1",
+    "status":  "SEALED"
+}

@@ -1,0 +1,10 @@
+{
+  "domain": "MUSIC.TEOS",
+  "owner": "AYMAN.TEOS",
+  "parent": "EVENTS.TEOS",
+  "vertical": "Concerts & Festivals",
+  "monetization": "Ticketing 15% + Sponsors",
+  "emails": ["book@music.teos", "tickets@music.teos"],
+  "status": "ACTIVE",
+  "value": "High - Alexandria Summer Concerts"
+}

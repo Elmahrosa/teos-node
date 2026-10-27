@@ -1,0 +1,13 @@
+﻿{
+    "domain":  "SAUDI_NATIONAL.TEOS",
+    "emails":  [
+                   "info@saudi_national.teos"
+               ],
+    "note":  "03:41 AM 25/10/2026 - BANKS GLOBAL - AYMAN.TEOS",
+    "vertical":  "Saudi National Bank - SNB - #1 Saudi - 250B - Aramco bank",
+    "parent":  "BANKS.TEOS",
+    "type":  "BANKS EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Saudi National Bank - SNB - #1 Saudi - 250B - Aramco bank",
+    "status":  "SEALED"
+}

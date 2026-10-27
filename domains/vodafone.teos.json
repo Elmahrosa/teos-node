@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "VODAFONE.TEOS",
+    "emails":  [
+                   "info@vodafone.teos",
+                   "sales@vodafone.teos",
+                   "support@vodafone.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:44 AM - TELECOM EMPIRE - AYMAN.TEOS",
+    "vertical":  "Vodafone Egypt - 45M users - RED King",
+    "parent":  "TELECOM.TEOS",
+    "type":  "TELECOM CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "45M users x 100 EGP = 4.5B/mo market",
+    "status":  "ACTIVE - SEALED"
+}

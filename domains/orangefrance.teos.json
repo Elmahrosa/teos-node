@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "ORANGEFRANCE.TEOS",
+    "emails":  [
+                   "info@orangefrance.teos",
+                   "sales@orangefrance.teos",
+                   "support@orangefrance.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:44 AM - TELECOM EMPIRE - AYMAN.TEOS",
+    "vertical":  "Orange France Global",
+    "parent":  "ORANGE.TEOS",
+    "type":  "TELECOM CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "France Parent",
+    "status":  "ACTIVE - SEALED"
+}

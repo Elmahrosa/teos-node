@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "ROYALCARIBBEAN.TEOS",
+    "emails":  [
+                   "info@royalcaribbean.teos",
+                   "cargo@royalcaribbean.teos"
+               ],
+    "note":  "03:17 AM 25/10/2026 - SHIPPING GLOBAL - AYMAN.TEOS",
+    "vertical":  "Royal Caribbean - Miami - #2 - Oasis Wonder Icon - Biggest ships",
+    "parent":  "SHIPPING.TEOS",
+    "type":  "SHIPPING EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Royal Caribbean - Miami - #2 - Oasis Wonder Icon - Biggest ships",
+    "status":  "SEALED"
+}

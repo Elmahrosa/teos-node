@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "TRAINING.TEOS",
+    "emails":  [
+                   "info@training.teos",
+                   "vip@training.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "Training - Corporate Training",
+    "parent":  "EDUCATION.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Corporate = 50k per company",
+    "status":  "ACTIVE - SEALED"
+}

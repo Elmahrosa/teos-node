@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "19011.TEOS",
+    "emails":  [
+                   "info@19011.teos",
+                   "vip@19011.teos"
+               ],
+    "note":  "Sealed 25/10/2026 03:00 AM - MEGA ALL EMPIRE - AYMAN.TEOS",
+    "vertical":  "19011 - Delivery Pharmacy - Egypt #1 Delivery",
+    "parent":  "HEALTH.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Delivery = 24h",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "TIKKA.TEOS",
+    "emails":  [
+                   "franchise@tikka.teos",
+                   "delivery@tikka.teos",
+                   "orders@tikka.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:55 AM - FOOD EMPIRE - AYMAN.TEOS",
+    "vertical":  "Tikka - Egypt #1 - Grills",
+    "parent":  "FOOD.TEOS",
+    "type":  "FOOD CHAIN - FRANCHISE + DELIVERY",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Tikka - Egypt #1 - Grills - Franchise 50k USD + 10% monthly - Delivery 15%",
+    "status":  "ACTIVE - SEALED"
+}

@@ -1,0 +1,14 @@
+﻿{
+    "domain":  "VOICE_AI.TEOS",
+    "emails":  [
+                   "info@voice_ai.teos",
+                   "ai@voice_ai.teos"
+               ],
+    "note":  "03:36 AM 25/10/2026 - AI GLOBAL - AYMAN.TEOS",
+    "vertical":  "Voice AI - ElevenLabs - 1B - Voice cloning - Arabic #1",
+    "parent":  "AI.TEOS",
+    "type":  "AI EMPIRE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "Voice AI - ElevenLabs - 1B - Voice cloning - Arabic #1",
+    "status":  "SEALED"
+}
