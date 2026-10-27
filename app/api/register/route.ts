@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { parseDomain } from "../../../lib/domain-rules";
 import { getQuote, markUsed } from "../../../lib/quoteStore";
 import { verifyWalletSignature } from "../../../lib/sig";
+import { isClaimed, claim } from "../../../lib/registry";
 import { mintTeosAsset } from "../../../lib/teos";
 
 const bad = (reason: string) => NextResponse.json({ error: "invalid_quote", reason }, { status: 401 });
@@ -26,6 +27,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "invalid_signature" }, { status: 401 });
     }
 
+    if (isClaimed(quote.domain)) return NextResponse.json({ error: "already_minted" }, { status: 401 });
+    claim(quote.domain, publicKey);
     await markUsed(quote.id);
     await mintTeosAsset(quote.domain, publicKey); // stub until #5
     return NextResponse.json({
