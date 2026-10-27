@@ -8,6 +8,10 @@ import { mintTeosAsset } from "../../../lib/teos";
 const bad = (reason: string) => NextResponse.json({ error: "invalid_quote", reason }, { status: 401 });
 
 export async function POST(req: Request) {
+  // Closed until on-chain payment verification ships. Set REGISTRATION_OPEN=true to enable.
+  if (process.env.REGISTRATION_OPEN !== "true") {
+    return NextResponse.json({ error: "registration_closed" }, { status: 503, headers: { "Retry-After": "3600" } });
+  }
   try {
     const body = await req.json().catch(() => ({}));
     const { quote_id, signature, publicKey } = body ?? {};
