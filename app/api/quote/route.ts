@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { env } from "../../../lib/env";
 import { createQuote } from "../../../lib/quoteStore";
 
 export async function POST(req: Request) {
@@ -14,6 +15,7 @@ export async function POST(req: Request) {
       price_lamports: q.priceLamports,
       expires_at: q.expiresAt,
       message_to_sign: q.message,
+      pay_to: env("TREASURY_WALLET") ?? null,
     });
   } catch {
     return NextResponse.json({ error: "internal_error" }, { status: 500 });

@@ -1,11 +1,12 @@
+import { env } from "./env";
 // Verifies a SOL payment on-chain through Helius RPC.
 const MAX_AGE_SECONDS = 600;
 
 export type PaymentResult = { ok: true } | { ok: false; reason: string };
 
 function rpcUrl() {
-  if (process.env.HELIUS_RPC_URL) return process.env.HELIUS_RPC_URL; // override (tests)
-  return `https://mainnet.helius-rpc.com/?api-key=${process.env.HELIUS_API_KEY}`;
+  if (env("HELIUS_RPC_URL")) return env("HELIUS_RPC_URL")!; // override (tests)
+  return `https://mainnet.helius-rpc.com/?api-key=${env("HELIUS_API_KEY")}`;
 }
 
 export async function verifyPayment(opts: {
