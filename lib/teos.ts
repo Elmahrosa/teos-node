@@ -5,8 +5,6 @@ const pricingPath = path.join(process.cwd(), "domains", "teos-domains.json");
 function getReserved(): any { try { return JSON.parse(fs.readFileSync(reservedPath, "utf8")); } catch { return {}; } }
 function getPricing(): any { try { return JSON.parse(fs.readFileSync(pricingPath, "utf8")); } catch { return {}; } }
 
-export function clientIp(req: Request): string { try { return (req as any).headers?.get?.("x-forwarded-for")?.split(",")[0] || "127.0.0.1"; } catch { return "127.0.0.1"; } }
-export async function rateLimit(ip: string, limit: number, win: number) { return true; }
 export function sanitizeDomain(d: string | null) { if (!d) return ""; return d.toUpperCase().trim().replace(/[^A-Z0-9-]/g,"").slice(0,32); }
 export function validateDomain(d: string): any {
   if (!d || d.length < 2) return { ok: false, reason: "too_short", valid: false };
@@ -67,3 +65,7 @@ export const store: any = {
   saveDomain: async (d: any) => true,
   getAll: async () => getReserved(),
 };
+export async function mintTeosAsset(domain: string, owner: string): Promise<{ signature: string }> {
+  console.log("[teos] mintTeosAsset stub", { domain, owner });
+  return { signature: "stub" };
+}
