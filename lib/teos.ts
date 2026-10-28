@@ -65,7 +65,3 @@ export const store: any = {
   saveDomain: async (d: any) => true,
   getAll: async () => getReserved(),
 };
-export async function mintTeosAsset(domain: string, owner: string): Promise<{ signature: string }> {
-  console.log("[teos] mintTeosAsset stub", { domain, owner });
-  return { signature: "stub" };
-}
