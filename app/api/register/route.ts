@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { parseDomain } from "../../../lib/domain-rules";
 import { getQuote, markUsed } from "../../../lib/quoteStore";
 import { verifyWalletSignature } from "../../../lib/sig";
-import { isClaimed, claimDomain, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
+import { isClaimed, claimDomain, recordMint, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
 import { env } from "../../../lib/env";
 import { verifyPayment } from "../../../lib/payment";
-import { mintTeosAsset } from "../../../lib/teos";
+import { mintTeosAsset } from "../../../lib/mint";
 
 const bad = (reason: string) => NextResponse.json({ error: "invalid_quote", reason }, { status: 401 });
 
@@ -58,14 +58,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "already_minted" }, { status: 409 });
     }
     await markUsed(quote.id);
-    await mintTeosAsset(quote.domain, publicKey); // stub until #5
+    // The claim and payment are already recorded. If minting fails, the registration stays pending and is logged for a retry.
+    let mint: { asset: string; signature: string } | null = null;
+    try {
+      mint = await mintTeosAsset(quote.domain, publicKey);
+      if (mint) await recordMint(quote.domain, mint);
+    } catch (e: any) {
+      console.error("[register] mint_failed", JSON.stringify({ domain: quote.domain, owner: publicKey, payment_tx, error: String(e?.message ?? e).slice(0, 300) }));
+    }
     return NextResponse.json({
       success: true,
-      pending_mint: true,
+      pending_mint: !mint,
       domain: `${quote.domain}.teos`,
       owner: publicKey,
       payment_tx,
       quote_id: quote.id,
+      ...(mint ? { asset: mint.asset, mint_tx: mint.signature } : {}),
     });
   } catch {
     return NextResponse.json({ error: "internal_error" }, { status: 500 });
