@@ -4,3 +4,9 @@ out
 dist
 .env
 .vercel
+
+# Secrets: never commit keypairs
+wallet.json
+*.keypair.json
+.env
+.env.*
