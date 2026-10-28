@@ -36,3 +36,17 @@ export const claimDomain = (domain: string, owner: string, tx: string) =>
 export const releaseDomain = (domain: string) => del(dKey(domain));
 export const claimTx = (sig: string, domain: string) => setNx(tKey(sig), domain.toLowerCase());
 export const releaseTx = (sig: string) => del(tKey(sig));
+
+const mKey = (d: string) => `teos:mint:${d.toLowerCase()}`;
+
+export async function getClaim(domain: string): Promise<{ owner: string; tx: string; at: number } | null> {
+  const raw = redis ? await redis.get<unknown>(dKey(domain)) : mem.get(dKey(domain));
+  if (!raw) return null;
+  return typeof raw === "string" ? JSON.parse(raw) : (raw as any);
+}
+
+export async function recordMint(domain: string, data: { asset: string; signature: string }) {
+  const v = JSON.stringify({ ...data, at: Date.now() });
+  if (redis) await redis.set(mKey(domain), v);
+  else mem.set(mKey(domain), v);
+}
