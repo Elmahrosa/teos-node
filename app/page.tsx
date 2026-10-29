@@ -39,7 +39,10 @@ export default function Home() {
     const j = await r.json();
     if (!r.ok) throw new Error(j.error || "Invalid name");
     setAvail(j);
-    if (j.available && open) {
+    // Re-read the live state so a page opened before registration opened still works.
+    const st = await fetch("/api/stats", { cache: "no-store" }).then((x) => x.json()).catch(() => stats);
+    setStats(st);
+    if (j.available && st?.registration_open === true) {
       const q = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain: clean }) });
       const qj = await q.json();
       if (!q.ok) throw new Error(qj.error || "Could not get a price");
