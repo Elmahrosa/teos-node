@@ -8,5 +8,6 @@
   "EKRAM.TEOS": {"owner": "EKRAM", "tier": "FOUNDERS", "note": "SISTER"},
   "ALEXANDRIA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "CITY"},
   "EL-MAHROSA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "BRAND - NEVER FOR SALE"},
-  "ELMAHROSA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "BRAND ALT"}
+  "ELMAHROSA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "BRAND ALT"},
+  "KOSASIH.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "RESERVED - NOT FOR SALE"}
 }
