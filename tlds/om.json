@@ -3,7 +3,7 @@
   "label": ".OM",
   "flag": "🇴🇲",
   "standard": "metaplex-core",
-  "live": false,
+  "live": true,
   "promo_limit": 100,
   "promo_usd": 5
 }
