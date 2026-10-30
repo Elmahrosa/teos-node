@@ -1,9 +1,10 @@
-<p align="center">
+ <p align="center">
   <img src="./seal.png" width="350" alt="Sovereign Seal ELM-INT-WEB4-001" />
 </p>
 
 <h1 align="center">teos-node</h1>
-<p align="center"><strong>Genesis Node Alexandria - Web4 .teos Resolver on Solana - ELM-INT-WEB4-001</strong></p>
+<p align="center"><strong>Genesis Node Alexandria - Web4 .teos Resolver on Solana</strong></p>
+<p align="center"><strong>ELM-INT-WEB4-001 | LAW OVER CODE</strong></p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Chain-Solana-9945FF?style=for-the-badge&logo=solana" />
@@ -22,33 +23,37 @@
 
 ---
 
-# ELMAHROSA TEOS NODE - ELM-INT-WEB4-001
+## ELMAHROSA TEOS NODE | ELM-INT-WEB4-001
 
 ### Alexandria Sovereign Node | Web4 Resolver
 
-> This is not a logo. This is a Sovereign Seal. ELMAHROSA INTERNATIONAL • TEOS • EST. 2021 Founder of WEB4 | Sovereign Architect from Alexandria
+> **This is not a logo. This is a Sovereign Seal.**
+> ELMAHROSA INTERNATIONAL • TEOS • EST. 2021
+> Founder of WEB4 | Sovereign Architect from Alexandria
 
-**Owner:** AYMAN.TEOS  
-**Network:** Solana Mainnet  
+**Founder Type:** Individual Founder  
+**Owner:** `AYMAN.TEOS` - `3jDzy...GLzG`  
+**Network:** Solana Mainnet - Metaplex Core  
 **Seal Date:** 25/10/2026 - Alexandria, Egypt  
 **Standard:** ELM-INT-WEB4-001 - LAW OVER CODE  
-**Status:** SEALED 1/1 GENESIS
+**Status:** SEALED 1/1 GENESIS  
+**Repository:** web4.elmahrosa.org
 
 ---
 
-### 🔱 DOMAINS - GENESIS COLLECTION
+### 🔱 GENESIS COLLECTION
 
 | Domain | Purpose | Status |
-|--------|---------|--------|
+| :--- | :--- | :--- |
 | **AYMAN.TEOS** | Genesis Seal - Non-transferable | SEALED |
-| **CONSENSUS.TEOS** | Voting & Governance Layer | ACTIVE |
+| **CONSENSUS.TEOS** | Voting & Governance | ACTIVE |
 | **EVENTS.TEOS** | Web4 Summits & Alexandria Events | ACTIVE |
-| **MONEY.TEOS** | Treasury & Auction Payments | ACTIVE |
+| **MONEY.TEOS** | Treasury & Auction Payments `Aai9...MQ6` | ACTIVE |
 | **PARTNER.TEOS** | B2B Partnerships - Banks & Telcos | ACTIVE |
-| **CENTRALBANKS.TEOS** | 75 Central Banks Reserve | AUCTION ONLY |
+| **CENTRALBANKS.TEOS** | 75 Central Banks Reserve | AUCTION |
 | **RESERVED.TEOS** | 195 Premium EG + Global | RESERVED |
 
-**Total Reserved:** 75 Central Banks + 195 Premium = 270 Sovereign Domains
+**Total Sovereign Reserve:** 270 Domains
 
 ---
 
@@ -56,13 +61,37 @@
 
 `domains/central-banks-reserve.json`
 
-Collection Value: **75,000,000 EGP** (1M per domain) - Auction Only
-Includes: CBE.TEOS, FED.TEOS, ECB.TEOS, BOJ.TEOS, BOE.TEOS + 70 more
-
-See full list in `domains/`
+**Value:** 75,000,000 EGP (1M per domain) - Auction Only  
+**Includes:** `CBE.TEOS`, `FED.TEOS`, `ECB.TEOS`, `BOJ.TEOS`, `BOE.TEOS` + 70 more
 
 ---
 
-### 📧 TEOS EMAIL SYSTEM - WEB4 IDENTITY
+### 🌍 INDIVIDUAL FOUNDER PACKAGE
 
-Use your domain as email:
+**16 Domains - Owner Wallet: `3jDzy...GLzG`**
+
+`AYMAN.TEOS / .EG / .SA / .AE / .QA / .KW / .BH / .OM`
+`ELMAHROSA.TEOS / .EG / .SA / .AE / .QA / .KW / .BH / .OM`
+
+View on `core.metaplex.com` - Standard: Metaplex Core (Phantom > Collectibles > Core)
+
+---
+
+### 📧 TEOS EMAIL SYSTEM
+
+Use your domain as Web4 Identity:
+
+`you@ayman.teos`
+`contact@elmahrosa.teos`
+`gov@cbe.teos`
+
+Resolver: `web4.elmahrosa.org/resolve/[domain]`
+
+---
+
+### ⚖️ LICENSE - TESL v5.1.1
+
+TEOS ELMAHROSA Sovereign License. LAW OVER CODE.
+
+---
+<p align="center"><strong>Built in Alexandria - ELMAHROSA INTERNATIONAL - EST. 2021</strong></p>
