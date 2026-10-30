@@ -2,12 +2,15 @@ import { Redis } from "@upstash/redis";
 import { parseDomain, isReservedWord } from "./domain-rules";
 import { isSealedDomain } from "./sealed";
 import { env } from "./env";
-import { isClaimed } from "./registry";
+import { isClaimed, getSoldCount } from "./registry";
+import { priceForName, getSolUsd, usdToLamports } from "./pricing";
 
 export type Quote = {
   id: string;
   domain: string; // lowercase, validated
   priceLamports: number;
+  priceUsd?: number;
+  isPromo?: boolean;
   message: string; // exact bytes the wallet must sign
   expiresAt: number; // epoch ms
   used: boolean;
@@ -51,12 +54,18 @@ export async function createQuote(rawDomain: unknown): Promise<CreateResult> {
   if (await isClaimed(domain)) {
     return { ok: false, status: 200, body: { available: false, reason: "taken", domain } };
   }
+  const price = priceForName(domain, await getSoldCount());
+  const solUsd = await getSolUsd();
+  if (!solUsd) return { ok: false, status: 503, body: { error: "price_unavailable" } };
+  const priceLamports = usdToLamports(price.usd, solUsd);
   const id = crypto.randomUUID();
   const expiresAt = Date.now() + TTL_SECONDS * 1000;
   const quote: Quote = {
     id,
     domain,
-    priceLamports: PRICE_LAMPORTS,
+    priceLamports,
+    priceUsd: price.usd,
+    isPromo: price.isPromo,
     message: `teos://register/${domain}.teos/${id}/${expiresAt}`,
     expiresAt,
     used: false,
