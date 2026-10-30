@@ -13,23 +13,6 @@ export async function GET() {
   }));
   return NextResponse.json({
     tlds,
-import { priceFor } from "../../../lib/pricing";
-
-export const dynamic = "force-dynamic";
-export async function GET() {
-  const s = await getCharterState();
-  let early: any = {};
-  try { const p = await priceFor("earlybird"); early = { total_minted: p.totalMinted, remaining: p.remaining, early_bird_price_sol: p.isEarlyBird ? p.priceSOL : null }; } catch {}
-  return NextResponse.json({ spots_left: s.spots_left, spots_sold: s.spots_sold, total_spots: s.total_spots, charter_enabled: s.charter_enabled, charter_active: s.charter_active,
-    registration_open: ["REGISTRATION_OPEN","REGISTRATION_ENABLED","NEXT_PUBLIC_REGISTRATION_OPEN","NEXT_PUBLIC_REGISTRATION_ENABLED"].some((k) => process.env[k]?.trim() === "true"),
-    ...early,
-import { getSoldCount } from "../../../lib/registry";
-import { getSolUsd, PROMO_LIMIT, PROMO_USD, MARKET_USD } from "../../../lib/pricing";
-export async function GET() {
-  const s = await getCharterState();
-  const sold = await getSoldCount().catch(() => null);
-  const solUsd = await getSolUsd();
-  return NextResponse.json({
     sold,
     promo_limit: PROMO_LIMIT,
     promo_left: sold === null ? null : Math.max(0, PROMO_LIMIT - sold),
