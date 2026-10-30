@@ -50,3 +50,21 @@ export async function recordMint(domain: string, data: { asset: string; signatur
   if (redis) await redis.set(mKey(domain), v);
   else mem.set(mKey(domain), v);
 }
+
+// Founder names minted outside the registry (also reserved in domain-rules).
+export const FOUNDER_MINTED = 2;
+
+export async function countClaimed(): Promise<number> {
+  let n = 0;
+  if (redis) {
+    let cursor: string | number = 0;
+    do {
+      const [next, keys] = (await redis.scan(cursor, { match: "teos:domain:*", count: 500 })) as [string | number, string[]];
+      n += keys.length;
+      cursor = next;
+    } while (String(cursor) !== "0");
+  } else {
+    mem.forEach((_v, k) => { if (k.startsWith("teos:domain:")) n++; });
+  }
+  return n;
+}

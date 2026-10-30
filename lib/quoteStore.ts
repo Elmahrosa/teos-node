@@ -3,6 +3,7 @@ import { parseDomain, isReservedWord } from "./domain-rules";
 import { isSealedDomain } from "./sealed";
 import { env } from "./env";
 import { isClaimed } from "./registry";
+import { priceFor } from "./pricing";
 
 export type Quote = {
   id: string;
@@ -51,12 +52,14 @@ export async function createQuote(rawDomain: unknown): Promise<CreateResult> {
   if (await isClaimed(domain)) {
     return { ok: false, status: 200, body: { available: false, reason: "taken", domain } };
   }
+  let price;
+  try { price = await priceFor(domain); } catch { return { ok: false, status: 503, body: { error: "price_unavailable" } }; }
   const id = crypto.randomUUID();
   const expiresAt = Date.now() + TTL_SECONDS * 1000;
   const quote: Quote = {
     id,
     domain,
-    priceLamports: PRICE_LAMPORTS,
+    priceLamports: Math.round(price.priceSOL * 1e9),
     message: `teos://register/${domain}.teos/${id}/${expiresAt}`,
     expiresAt,
     used: false,
