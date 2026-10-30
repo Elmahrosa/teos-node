@@ -56,6 +56,18 @@ export async function recordMint(domain: string, data: { asset: string; signatur
   else mem.set(mKey(domain), v);
 }
 
+// Number of names sold through the site. Incremented once per successful claim.
+// One counter per TLD. .teos keeps the original key.
+const soldKey = (tld: string) => (tld === "teos" ? "teos:sold" : `teos:sold:${tld}`);
+export async function getSoldCount(tld = "teos"): Promise<number> {
+  const k = soldKey(tld);
+  if (redis) return Number((await withTimeout(redis.get<number | string>(k))) ?? 0) || 0;
+  return Number(mem.get(k) ?? 0) || 0;
+}
+export async function incrSold(tld = "teos"): Promise<void> {
+  const k = soldKey(tld);
+  if (redis) await withTimeout(redis.incr(k));
+  else mem.set(k, String((Number(mem.get(k) ?? 0) || 0) + 1));
 // Founder names minted outside the registry (also reserved in domain-rules).
 export const FOUNDER_MINTED = 2;
 
