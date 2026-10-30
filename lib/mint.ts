@@ -25,7 +25,7 @@ function rpc(): string {
 
 // Mints a Metaplex Core asset (into the TEOS collection if COLLECTION_ADDRESS is set), owned by the buyer.
 // Returns null when minting is not configured (the registration stays "pending_mint").
-export async function mintTeosAsset(domain: string, owner: string): Promise<MintResult | null> {
+export async function mintTeosAsset(domain: string, owner: string, tld = "teos"): Promise<MintResult | null> {
   if (!mintConfigured()) return null;
   const umi = createUmi(rpc()).use(mplCore());
   const kp = umi.eddsa.createKeypairFromSecretKey(secretKeyBytes());
@@ -39,8 +39,8 @@ export async function mintTeosAsset(domain: string, owner: string): Promise<Mint
   const res = await create(umi, {
     asset,
     collection,
-    name: `${domain.toUpperCase()}.TEOS`,
-    uri: `${base}/api/metadata/${domain}`,
+    name: `${domain.toUpperCase()}.${tld.toUpperCase()}`,
+    uri: `${base}/api/metadata/${domain}${tld === "teos" ? "" : `?tld=${tld}`}`,
     owner: publicKey(owner),
   }).sendAndConfirm(umi);
   return { asset: asset.publicKey.toString(), signature: base58.deserialize(res.signature)[0] };

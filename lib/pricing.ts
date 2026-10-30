@@ -41,6 +41,9 @@ export const MARKET_USD = { long: 30, four: 150, short: 400 } as const; // 5+ le
 
 export type Price = { usd: number; isPromo: boolean; tier: "promo" | "market_5plus" | "premium_4" | "premium_3" };
 
+export function priceForName(name: string, sold: number, promoLimit = PROMO_LIMIT): Price {
+  const len = name.toLowerCase().replace(/\.teos$/, "").trim().length;
+  if (sold < promoLimit && len >= 5) return { usd: PROMO_USD, isPromo: true, tier: "promo" };
 export function priceForName(name: string, sold: number): Price {
   const len = name.toLowerCase().replace(/\.teos$/, "").trim().length;
   if (sold < PROMO_LIMIT && len >= 5) return { usd: PROMO_USD, isPromo: true, tier: "promo" };
