@@ -2,6 +2,8 @@ import { Redis } from "@upstash/redis";
 import { parseDomain, isReservedWord } from "./domain-rules";
 import { isSealedDomain } from "./sealed";
 import { env } from "./env";
+import { isClaimed } from "./registry";
+import { priceFor } from "./pricing";
 import { isClaimed, getSoldCount } from "./registry";
 import { priceForName, getSolUsd, usdToLamports } from "./pricing";
 
@@ -54,6 +56,8 @@ export async function createQuote(rawDomain: unknown): Promise<CreateResult> {
   if (await isClaimed(domain)) {
     return { ok: false, status: 200, body: { available: false, reason: "taken", domain } };
   }
+  let price;
+  try { price = await priceFor(domain); } catch { return { ok: false, status: 503, body: { error: "price_unavailable" } }; }
   const price = priceForName(domain, await getSoldCount());
   const solUsd = await getSolUsd();
   if (!solUsd) return { ok: false, status: 503, body: { error: "price_unavailable" } };
@@ -63,6 +67,7 @@ export async function createQuote(rawDomain: unknown): Promise<CreateResult> {
   const quote: Quote = {
     id,
     domain,
+    priceLamports: Math.round(price.priceSOL * 1e9),
     priceLamports,
     priceUsd: price.usd,
     isPromo: price.isPromo,

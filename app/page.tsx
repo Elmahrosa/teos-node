@@ -80,6 +80,9 @@ export default function Home() {
       <h1 style={{ fontSize: 44, margin: 0 }}>TEOS</h1>
       <p style={{ fontSize: 20, color: "#a9b0c3" }}>Your name on Solana. Register a <b>.teos</b> name as a Metaplex Core asset that you own in your own wallet.</p>
 
+      {stats?.total_minted !== undefined && stats.remaining > 0 && (
+        <div style={{ background: "#facc15", color: "black", padding: 12, textAlign: "center", fontWeight: "bold", margin: "0 -20px 24px" }}>
+          EARLY BIRD: {stats.total_minted}/100 Minted - {stats.remaining} LEFT AT $5{stats.early_bird_price_sol ? ` (~${Number(stats.early_bird_price_sol).toFixed(3)} SOL)` : ""}
       {stats && stats.promo_left !== null && stats.promo_left !== undefined && (
         <div style={{ ...card, borderColor: "#7c5cff", textAlign: "center" }}>
           <div style={{ fontSize: 24, fontWeight: 700 }}>
@@ -104,13 +107,21 @@ export default function Home() {
         </div>
         {avail && (
           <p style={{ marginBottom: 0 }}>
-            <b>{clean}.teos</b> is {avail.available ? <span style={{ color: "#4ade80" }}>available</span> : <span style={{ color: "#f87171" }}>not available ({avail.reason || "taken"})</span>}.
+            <b>{clean}.teos</b> is {avail.available ? <span style={{ color: "#4ade80" }}>available</span> : <span style={{ color: "#f87171" }}>TAKEN{avail.reason === "reserved" ? " (reserved)" : ""}</span>}.
           </p>
         )}
       </div>
 
       <div style={card}>
         <b>Pricing</b>
+        <table style={{ width: "100%", marginTop: 8, borderCollapse: "collapse" }}>
+          <tbody>
+            <tr><td>Now (first 100)</td><td>5+ letters = $5</td></tr>
+            <tr><td rowSpan={3} style={{ verticalAlign: "top" }}>After 100</td><td>5+ letters = 0.2 SOL</td></tr>
+            <tr><td>4 letters = 1.0 SOL</td></tr>
+            <tr><td>3 letters = 2.5 SOL</td></tr>
+          </tbody>
+        </table>
         <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 10 }}>
           <thead>
             <tr style={{ textAlign: "left", color: "#a9b0c3" }}><th style={{ padding: 6 }}>Name length</th><th style={{ padding: 6 }}>First {stats?.promo_limit ?? 100} names</th><th style={{ padding: 6 }}>After</th></tr>
@@ -134,6 +145,7 @@ export default function Home() {
 
       {open && quote && step !== "done" && (
         <div style={card}>
+          <h2 style={{ marginTop: 0 }}>Buy {clean}.teos for {quote.price_sol} SOL{quote.price_sol < 0.5 && avail?.early_bird ? " ($5)" : ""}</h2>
           <h2 style={{ marginTop: 0 }}>Buy {clean}.teos for {quote.price_sol} SOL{quote.price_usd ? ` ($${quote.price_usd})` : ""}</h2>
           <p><b>1. Prove it is your wallet.</b> Phantom asks you to sign a message. This costs nothing.</p>
           <button style={btn} disabled={busy || step !== "sign"} onClick={sign}>{pubkey ? "Signed" : "Connect Phantom and sign"}</button>
