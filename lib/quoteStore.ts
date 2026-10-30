@@ -4,6 +4,7 @@ import { env } from "./env";
 import { getSolUsd, usdToLamports } from "./pricing";
 import { checkTlds } from "./check";
 import { parseTlds } from "./tlds";
+import { mintFunds } from "./mint";
 
 export type Quote = {
   id: string;
@@ -54,6 +55,7 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown): Promis
   const checks = await checkTlds(domain, tlds);
   const bad = checks.find((c) => !c.available);
   if (bad) return { ok: false, status: 200, body: { available: false, reason: bad.reason, domain, tld: bad.tld } };
+  if (!(await mintFunds(tlds.length)).ok) return { ok: false, status: 503, body: { error: "mint_unavailable" } };
   const solUsd = await getSolUsd();
   if (!solUsd) return { ok: false, status: 503, body: { error: "price_unavailable" } };
   const totalUsd = checks.reduce((n, c) => n + c.price_usd, 0);
