@@ -4,6 +4,10 @@ import { env } from "./env";
 import { getSolUsd, usdToLamports } from "./pricing";
 import { checkTlds } from "./check";
 import { parseTlds } from "./tlds";
+import { isClaimed } from "./registry";
+import { priceFor } from "./pricing";
+import { isClaimed, getSoldCount } from "./registry";
+import { priceForName, getSolUsd, usdToLamports } from "./pricing";
 
 export type Quote = {
   id: string;
@@ -58,6 +62,18 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown): Promis
   if (!solUsd) return { ok: false, status: 503, body: { error: "price_unavailable" } };
   const totalUsd = checks.reduce((n, c) => n + c.price_usd, 0);
   const priceLamports = usdToLamports(totalUsd, solUsd);
+  if (isReservedWord(domain) || isSealedDomain(domain)) {
+    return { ok: false, status: 200, body: { available: false, reason: "reserved", domain } };
+  }
+  if (await isClaimed(domain)) {
+    return { ok: false, status: 200, body: { available: false, reason: "taken", domain } };
+  }
+  let price;
+  try { price = await priceFor(domain); } catch { return { ok: false, status: 503, body: { error: "price_unavailable" } }; }
+  const price = priceForName(domain, await getSoldCount());
+  const solUsd = await getSolUsd();
+  if (!solUsd) return { ok: false, status: 503, body: { error: "price_unavailable" } };
+  const priceLamports = usdToLamports(price.usd, solUsd);
   const id = crypto.randomUUID();
   const expiresAt = Date.now() + TTL_SECONDS * 1000;
   // Single .teos keeps the original message format.
@@ -70,6 +86,11 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown): Promis
     isPromo: checks.every((c) => c.is_promo),
     tlds,
     message: `teos://register/${domain}.${suffix}/${id}/${expiresAt}`,
+    priceLamports: Math.round(price.priceSOL * 1e9),
+    priceLamports,
+    priceUsd: price.usd,
+    isPromo: price.isPromo,
+    message: `teos://register/${domain}.teos/${id}/${expiresAt}`,
     expiresAt,
     used: false,
   };

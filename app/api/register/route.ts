@@ -3,6 +3,7 @@ import { parseDomain } from "../../../lib/domain-rules";
 import { getQuote, markUsed } from "../../../lib/quoteStore";
 import { verifyWalletSignature } from "../../../lib/sig";
 import { isClaimed, claimDomain, releaseDomain, recordMint, incrSold, getClaim, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
+import { isClaimed, claimDomain, recordMint, incrSold, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
 import { env } from "../../../lib/env";
 import { verifyPayment } from "../../../lib/payment";
 import { mintTeosAsset } from "../../../lib/mint";
@@ -12,7 +13,7 @@ const bad = (reason: string) => NextResponse.json({ error: "invalid_quote", reas
 
 export async function POST(req: Request) {
   // Closed until on-chain payment verification ships. Set REGISTRATION_OPEN=true to enable.
-  if (env("REGISTRATION_OPEN") !== "true") {
+  if (!["REGISTRATION_OPEN", "REGISTRATION_ENABLED"].some((k) => env(k) === "true")) {
     return NextResponse.json({ error: "registration_closed" }, { status: 503, headers: { "Retry-After": "3600" } });
   }
   const treasury = env("TREASURY_WALLET");
@@ -86,6 +87,14 @@ export async function POST(req: Request) {
         console.error("[register] mint_failed", JSON.stringify({ domain: quote.domain, tld: t, owner: publicKey, payment_tx, error: String(e?.message ?? e).slice(0, 300) }));
       }
       items.push({ domain: `${quote.domain}.${t}`, tld: t, ...(mint ? { asset: mint.asset, mint_tx: mint.signature } : {}), pending_mint: !mint });
+    await incrSold().catch((e) => console.error("[register] counter_failed", String(e?.message ?? e).slice(0, 200)));
+    // The claim and payment are already recorded. If minting fails, the registration stays pending and is logged for a retry.
+    let mint: { asset: string; signature: string } | null = null;
+    try {
+      mint = await mintTeosAsset(quote.domain, publicKey);
+      if (mint) await recordMint(quote.domain, mint);
+    } catch (e: any) {
+      console.error("[register] mint_failed", JSON.stringify({ domain: quote.domain, owner: publicKey, payment_tx, error: String(e?.message ?? e).slice(0, 300) }));
     }
     const first = items[0];
     return NextResponse.json({
