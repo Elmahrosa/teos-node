@@ -1,0 +1,9 @@
+{
+  "tld": "om",
+  "label": ".OM",
+  "flag": "🇴🇲",
+  "standard": "metaplex-core",
+  "live": false,
+  "promo_limit": 100,
+  "promo_usd": 5
+}

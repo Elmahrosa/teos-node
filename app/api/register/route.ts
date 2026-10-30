@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import { parseDomain } from "../../../lib/domain-rules";
 import { getQuote, markUsed } from "../../../lib/quoteStore";
 import { verifyWalletSignature } from "../../../lib/sig";
-import { isClaimed, claimDomain, recordMint, incrSold, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
+import { isClaimed, claimDomain, releaseDomain, recordMint, incrSold, getClaim, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
 import { env } from "../../../lib/env";
 import { verifyPayment } from "../../../lib/payment";
 import { mintTeosAsset } from "../../../lib/mint";
+import { fullName } from "../../../lib/tlds";
 
 const bad = (reason: string) => NextResponse.json({ error: "invalid_quote", reason }, { status: 401 });
 
@@ -41,7 +42,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "invalid_signature" }, { status: 401 });
     }
 
-    if (await isClaimed(quote.domain)) return NextResponse.json({ error: "already_minted" }, { status: 401 });
+    const tlds = quote.tlds ?? ["teos"];
+    for (const t of tlds) {
+      if (await isClaimed(fullName(quote.domain, t))) return NextResponse.json({ error: "already_minted", tld: t }, { status: 401 });
+    }
+    // Other TLDs need the same name under .teos: in this basket, or already owned by this wallet.
+    if (!tlds.includes("teos")) {
+      const own = await getClaim(quote.domain);
+      if (!own || own.owner !== publicKey) return NextResponse.json({ error: "teos_required", message: "Register the .teos name first." }, { status: 403 });
+    }
 
     const pay = await verifyPayment({ txSignature: payment_tx, payer: publicKey, treasury, minLamports: quote.priceLamports });
     if (!pay.ok) {
@@ -53,28 +62,41 @@ export async function POST(req: Request) {
 
     // Consume the payment first, then the name. If the name was taken meanwhile, free the payment so it can be reused.
     if (!(await claimTx(payment_tx, quote.domain))) return NextResponse.json({ error: "payment_already_used" }, { status: 409 });
-    if (!(await claimDomain(quote.domain, publicKey, payment_tx))) {
-      await releaseTx(payment_tx);
-      return NextResponse.json({ error: "already_minted" }, { status: 409 });
+    const claimed: string[] = [];
+    for (const t of tlds) {
+      if (!(await claimDomain(fullName(quote.domain, t), publicKey, payment_tx))) {
+        for (const c of claimed) await releaseDomain(c);
+        await releaseTx(payment_tx);
+        return NextResponse.json({ error: "already_minted", tld: t }, { status: 409 });
+      }
+      claimed.push(fullName(quote.domain, t));
     }
     await markUsed(quote.id);
-    await incrSold().catch((e) => console.error("[register] counter_failed", String(e?.message ?? e).slice(0, 200)));
-    // The claim and payment are already recorded. If minting fails, the registration stays pending and is logged for a retry.
-    let mint: { asset: string; signature: string } | null = null;
-    try {
-      mint = await mintTeosAsset(quote.domain, publicKey);
-      if (mint) await recordMint(quote.domain, mint);
-    } catch (e: any) {
-      console.error("[register] mint_failed", JSON.stringify({ domain: quote.domain, owner: publicKey, payment_tx, error: String(e?.message ?? e).slice(0, 300) }));
+    for (const t of tlds) {
+      await incrSold(t).catch((e) => console.error("[register] counter_failed", t, String(e?.message ?? e).slice(0, 200)));
     }
+    // The claims and payment are already recorded. If a mint fails, that name stays pending and is logged for a retry.
+    const items: { domain: string; tld: string; asset?: string; mint_tx?: string; pending_mint: boolean }[] = [];
+    for (const t of tlds) {
+      let mint: { asset: string; signature: string } | null = null;
+      try {
+        mint = await mintTeosAsset(quote.domain, publicKey, t);
+        if (mint) await recordMint(fullName(quote.domain, t), mint);
+      } catch (e: any) {
+        console.error("[register] mint_failed", JSON.stringify({ domain: quote.domain, tld: t, owner: publicKey, payment_tx, error: String(e?.message ?? e).slice(0, 300) }));
+      }
+      items.push({ domain: `${quote.domain}.${t}`, tld: t, ...(mint ? { asset: mint.asset, mint_tx: mint.signature } : {}), pending_mint: !mint });
+    }
+    const first = items[0];
     return NextResponse.json({
       success: true,
-      pending_mint: !mint,
-      domain: `${quote.domain}.teos`,
+      pending_mint: items.some((i) => i.pending_mint),
+      domain: first.domain,
       owner: publicKey,
       payment_tx,
       quote_id: quote.id,
-      ...(mint ? { asset: mint.asset, mint_tx: mint.signature } : {}),
+      items,
+      ...(first.asset ? { asset: first.asset, mint_tx: first.mint_tx } : {}),
     });
   } catch {
     return NextResponse.json({ error: "internal_error" }, { status: 500 });
