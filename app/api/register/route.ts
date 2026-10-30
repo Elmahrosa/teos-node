@@ -11,7 +11,7 @@ const bad = (reason: string) => NextResponse.json({ error: "invalid_quote", reas
 
 export async function POST(req: Request) {
   // Closed until on-chain payment verification ships. Set REGISTRATION_OPEN=true to enable.
-  if (env("REGISTRATION_OPEN") !== "true") {
+  if (!["REGISTRATION_OPEN", "REGISTRATION_ENABLED"].some((k) => env(k) === "true")) {
     return NextResponse.json({ error: "registration_closed" }, { status: 503, headers: { "Retry-After": "3600" } });
   }
   const treasury = env("TREASURY_WALLET");
