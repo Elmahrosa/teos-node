@@ -52,7 +52,14 @@ export default function Home() {
 
   const sign = () => run(async () => {
     const p = phantom();
-    if (!p) throw new Error("Install the Phantom wallet to continue.");
+    if (!p) {
+      // Phone browsers do not inject a wallet. Phantom's deep link reopens this page inside the Phantom app's own browser.
+      if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+        window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(window.location.href)}?ref=${encodeURIComponent(window.location.origin)}`;
+        return;
+      }
+      throw new Error("Install the Phantom wallet to continue.");
+    }
     const { publicKey } = await p.connect();
     const { signature } = await p.signMessage(new TextEncoder().encode(quote.message_to_sign), "utf8");
     setPubkey(publicKey.toString()); setSig(b64(signature)); setStep("pay");
