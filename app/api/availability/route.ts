@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import reservedData from "../../../domains/reserved-list.json";
 import { isSealedDomain } from "../../../lib/sealed";
-import { isClaimed } from "../../../lib/registry";
+import { isClaimed, getSoldCount } from "../../../lib/registry";
+import { priceForName } from "../../../lib/pricing";
 import { parseDomain, isReservedWord } from "../../../lib/domain-rules";
 import path from "path";
 import fs from "fs";
@@ -75,12 +76,14 @@ export async function GET(req: NextRequest) {
       });
     }
 
+    const price = priceForName(domain, await getSoldCount());
     return NextResponse.json({
       available: true,
       reason: null,
       domain: domainUpper,
       tier: "STANDARD",
-      price_usd: 5,
+      price_usd: price.usd,
+      is_promo: price.isPromo,
       status: "AVAILABLE"
     });
   } catch {

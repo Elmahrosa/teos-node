@@ -13,6 +13,8 @@ export async function POST(req: Request) {
       domain: q.domain,
       price_sol: q.priceLamports / 1e9,
       price_lamports: q.priceLamports,
+      price_usd: q.priceUsd,
+      is_promo: q.isPromo,
       expires_at: q.expiresAt,
       message_to_sign: q.message,
       pay_to: env("TREASURY_WALLET") ?? null,
