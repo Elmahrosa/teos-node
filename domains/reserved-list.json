@@ -9,5 +9,20 @@
   "ALEXANDRIA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "CITY"},
   "EL-MAHROSA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "BRAND - NEVER FOR SALE"},
   "ELMAHROSA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "BRAND ALT"},
-  "KOSASIH.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "RESERVED - NOT FOR SALE"}
+  "KOSASIH.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "RESERVED - NOT FOR SALE"},
+  "BOE.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "BOJ.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "BUNDESBANK.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "CBB.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "CBE.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "CBK.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "CBO.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "CENTRALBANKS.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "ECB.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "FED.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "FEDERALRESERVE.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "PBOC.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "QCB.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "SAMA.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
+  "UAECB.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"}
 }
