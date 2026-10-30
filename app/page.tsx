@@ -83,6 +83,19 @@ export default function Home() {
       {stats?.total_minted !== undefined && stats.remaining > 0 && (
         <div style={{ background: "#facc15", color: "black", padding: 12, textAlign: "center", fontWeight: "bold", margin: "0 -20px 24px" }}>
           EARLY BIRD: {stats.total_minted}/100 Minted - {stats.remaining} LEFT AT $5{stats.early_bird_price_sol ? ` (~${Number(stats.early_bird_price_sol).toFixed(3)} SOL)` : ""}
+      {stats && stats.promo_left !== null && stats.promo_left !== undefined && (
+        <div style={{ ...card, borderColor: "#7c5cff", textAlign: "center" }}>
+          <div style={{ fontSize: 24, fontWeight: 700 }}>
+            EARLY BIRD: {stats.sold}/{stats.promo_limit} registered - {stats.promo_left} left at ${stats.promo_usd}
+            {stats.sol_usd ? ` (~${(stats.promo_usd / stats.sol_usd).toFixed(3)} SOL)` : ""}
+          </div>
+          <div style={{ color: "#a9b0c3", marginTop: 6 }}>For names of 5 letters or more. Shorter names are market price from the start.</div>
+        </div>
+      )}
+
+      {stats && !open && (
+        <div style={{ ...card, borderColor: "#b8860b" }}>
+          <b>Registration opens soon.</b> You can check whether a name is free now.
         </div>
       )}
 
@@ -109,11 +122,31 @@ export default function Home() {
             <tr><td>3 letters = 2.5 SOL</td></tr>
           </tbody>
         </table>
+        <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 10 }}>
+          <thead>
+            <tr style={{ textAlign: "left", color: "#a9b0c3" }}><th style={{ padding: 6 }}>Name length</th><th style={{ padding: 6 }}>First {stats?.promo_limit ?? 100} names</th><th style={{ padding: 6 }}>After</th></tr>
+          </thead>
+          <tbody>
+            {[
+              ["5 letters or more", `$${stats?.promo_usd ?? 5}`, `$${stats?.market_usd?.long ?? 30}`],
+              ["4 letters", "market price", `$${stats?.market_usd?.four ?? 150}`],
+              ["3 letters", "market price", `$${stats?.market_usd?.short ?? 400}`],
+            ].map(([a, b, c]) => (
+              <tr key={a} style={{ borderTop: "1px solid #262c3b" }}>
+                <td style={{ padding: 6 }}>{a}</td>
+                <td style={{ padding: 6 }}>{b}{b.startsWith("$") && stats?.sol_usd ? ` (~${(Number(b.slice(1)) / stats.sol_usd).toFixed(3)} SOL)` : ""}</td>
+                <td style={{ padding: 6 }}>{c}{c.startsWith("$") && stats?.sol_usd ? ` (~${(Number(c.slice(1)) / stats.sol_usd).toFixed(2)} SOL)` : ""}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p style={{ marginBottom: 0, color: "#a9b0c3", fontSize: 13 }}>Paid in SOL at the live rate, locked for 5 minutes when you get a quote. Names under 5 letters are never part of the early-bird offer.</p>
       </div>
 
       {open && quote && step !== "done" && (
         <div style={card}>
           <h2 style={{ marginTop: 0 }}>Buy {clean}.teos for {quote.price_sol} SOL{quote.price_sol < 0.5 && avail?.early_bird ? " ($5)" : ""}</h2>
+          <h2 style={{ marginTop: 0 }}>Buy {clean}.teos for {quote.price_sol} SOL{quote.price_usd ? ` ($${quote.price_usd})` : ""}</h2>
           <p><b>1. Prove it is your wallet.</b> Phantom asks you to sign a message. This costs nothing.</p>
           <button style={btn} disabled={busy || step !== "sign"} onClick={sign}>{pubkey ? "Signed" : "Connect Phantom and sign"}</button>
           {pubkey && <p style={{ wordBreak: "break-all", color: "#a9b0c3" }}>Wallet: {pubkey}</p>}

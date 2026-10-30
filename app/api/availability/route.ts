@@ -3,6 +3,8 @@ import reservedData from "../../../domains/reserved-list.json";
 import { isSealedDomain } from "../../../lib/sealed";
 import { priceFor } from "../../../lib/pricing";
 import { isClaimed } from "../../../lib/registry";
+import { isClaimed, getSoldCount } from "../../../lib/registry";
+import { priceForName } from "../../../lib/pricing";
 import { parseDomain, isReservedWord } from "../../../lib/domain-rules";
 import path from "path";
 import fs from "fs";
@@ -77,6 +79,7 @@ export async function GET(req: NextRequest) {
     }
 
     const price = await priceFor(domain).catch(() => null);
+    const price = priceForName(domain, await getSoldCount());
     return NextResponse.json({
       available: true,
       reason: null,
@@ -85,6 +88,8 @@ export async function GET(req: NextRequest) {
       price_usd: price?.isEarlyBird ? 5 : null,
       price_sol: price?.priceSOL ?? null,
       early_bird: price?.isEarlyBird ?? false,
+      price_usd: price.usd,
+      is_promo: price.isPromo,
       status: "AVAILABLE"
     });
   } catch {

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { parseDomain } from "../../../lib/domain-rules";
 import { getQuote, markUsed } from "../../../lib/quoteStore";
 import { verifyWalletSignature } from "../../../lib/sig";
-import { isClaimed, claimDomain, recordMint, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
+import { isClaimed, claimDomain, recordMint, incrSold, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
 import { env } from "../../../lib/env";
 import { verifyPayment } from "../../../lib/payment";
 import { mintTeosAsset } from "../../../lib/mint";
@@ -58,6 +58,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "already_minted" }, { status: 409 });
     }
     await markUsed(quote.id);
+    await incrSold().catch((e) => console.error("[register] counter_failed", String(e?.message ?? e).slice(0, 200)));
     // The claim and payment are already recorded. If minting fails, the registration stays pending and is logged for a retry.
     let mint: { asset: string; signature: string } | null = null;
     try {

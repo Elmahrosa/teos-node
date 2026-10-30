@@ -4,11 +4,15 @@ import { isSealedDomain } from "./sealed";
 import { env } from "./env";
 import { isClaimed } from "./registry";
 import { priceFor } from "./pricing";
+import { isClaimed, getSoldCount } from "./registry";
+import { priceForName, getSolUsd, usdToLamports } from "./pricing";
 
 export type Quote = {
   id: string;
   domain: string; // lowercase, validated
   priceLamports: number;
+  priceUsd?: number;
+  isPromo?: boolean;
   message: string; // exact bytes the wallet must sign
   expiresAt: number; // epoch ms
   used: boolean;
@@ -54,12 +58,19 @@ export async function createQuote(rawDomain: unknown): Promise<CreateResult> {
   }
   let price;
   try { price = await priceFor(domain); } catch { return { ok: false, status: 503, body: { error: "price_unavailable" } }; }
+  const price = priceForName(domain, await getSoldCount());
+  const solUsd = await getSolUsd();
+  if (!solUsd) return { ok: false, status: 503, body: { error: "price_unavailable" } };
+  const priceLamports = usdToLamports(price.usd, solUsd);
   const id = crypto.randomUUID();
   const expiresAt = Date.now() + TTL_SECONDS * 1000;
   const quote: Quote = {
     id,
     domain,
     priceLamports: Math.round(price.priceSOL * 1e9),
+    priceLamports,
+    priceUsd: price.usd,
+    isPromo: price.isPromo,
     message: `teos://register/${domain}.teos/${id}/${expiresAt}`,
     expiresAt,
     used: false,
