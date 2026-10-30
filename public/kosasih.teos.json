@@ -13,7 +13,7 @@
   ],
   "properties": {
     "category": "image",
-    "creators": [{"address": "Aai9XYkpQMrVMLTP5CKH5in1UoJ12rU2FSupGwpNwMQ6", "share": 100}],
+    "creators": [{"address": "Aai9XYkpQMrVMLTP5CKHSin1UoJ12rU2FSupGwpNwMQ6", "share": 100}],
     "files": [{"uri": "https://web4.elmahrosa.org/crests/kosasih.teos.png", "type": "image/png"}]
   },
   "collection": {"name": "TEOS Sovereign Domains", "family": "Elmahrosa"}
