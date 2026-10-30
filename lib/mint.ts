@@ -45,3 +45,29 @@ export async function mintTeosAsset(domain: string, owner: string, tld = "teos")
   }).sendAndConfirm(umi);
   return { asset: asset.publicKey.toString(), signature: base58.deserialize(res.signature)[0] };
 }
+
+// --- Balance guard: never take a payment the mint wallet cannot cover. ---
+const MINT_COST_LAMPORTS = Number(env("MINT_COST_LAMPORTS")) || 3_200_000; // about 0.0032 SOL per Core asset
+const BUFFER_LAMPORTS = 1_000_000;
+let balCache: { lamports: number; at: number } | null = null;
+
+// Returns { ok, needed } for n mints. Fails closed: not configured or balance unreadable means not ok.
+export async function mintFunds(n: number): Promise<{ ok: boolean; needed: number }> {
+  const needed = n * MINT_COST_LAMPORTS + BUFFER_LAMPORTS;
+  if (!mintConfigured()) return { ok: false, needed };
+  try {
+    if (!balCache || Date.now() - balCache.at > 20_000) {
+      const umi = createUmi(rpc());
+      const kp = umi.eddsa.createKeypairFromSecretKey(secretKeyBytes());
+      const bal = await Promise.race([
+        umi.rpc.getBalance(kp.publicKey),
+        new Promise<never>((_, rej) => setTimeout(() => rej(new Error("balance_timeout")), 4000)),
+      ]);
+      balCache = { lamports: Number(bal.basisPoints), at: Date.now() };
+    }
+    return { ok: balCache.lamports >= needed, needed };
+  } catch (e: any) {
+    console.error("[mint] balance_check_failed", String(e?.message ?? e).slice(0, 200));
+    return { ok: false, needed };
+  }
+}

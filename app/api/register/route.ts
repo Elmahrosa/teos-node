@@ -5,7 +5,7 @@ import { verifyWalletSignature } from "../../../lib/sig";
 import { isClaimed, claimDomain, releaseDomain, recordMint, incrSold, getClaim, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
 import { env } from "../../../lib/env";
 import { verifyPayment } from "../../../lib/payment";
-import { mintTeosAsset } from "../../../lib/mint";
+import { mintTeosAsset, mintFunds } from "../../../lib/mint";
 import { fullName } from "../../../lib/tlds";
 
 const bad = (reason: string) => NextResponse.json({ error: "invalid_quote", reason }, { status: 401 });
@@ -51,6 +51,9 @@ export async function POST(req: Request) {
       const own = await getClaim(quote.domain);
       if (!own || own.owner !== publicKey) return NextResponse.json({ error: "teos_required", message: "Register the .teos name first." }, { status: 403 });
     }
+
+    // Checked before the payment is consumed, so a buyer can retry once the mint wallet is funded.
+    if (!(await mintFunds(tlds.length)).ok) return NextResponse.json({ error: "mint_unavailable" }, { status: 503 });
 
     const pay = await verifyPayment({ txSignature: payment_tx, payer: publicKey, treasury, minLamports: quote.priceLamports });
     if (!pay.ok) {
