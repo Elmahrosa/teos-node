@@ -6,14 +6,18 @@
 // Example:
 //   MINT_KEY='...' node scripts/mint-reserved.mjs KOSASIH 3jDzy3rR9VpxXhCnnRpZ2wXQxpprQDNGT2XpL6knGLzG --dry
 //
-// MINT_KEY signs and pays the fee (about 0.003 SOL). OWNER_PUBKEY becomes both owner and update authority.
+// MINT_KEY signs and pays the fee (about 0.003 SOL). OWNER_PUBKEY becomes the owner.
+// By default OWNER_PUBKEY is also the update authority. To keep control of the metadata yourself:
+//   ... --authority <YOUR_PUBKEY>
 // Metadata is read from https://web4.elmahrosa.org/<name>.teos.json (must already be deployed).
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { keypairIdentity, publicKey, generateSigner } from "@metaplex-foundation/umi";
 import { mplCore, create } from "@metaplex-foundation/mpl-core";
 import bs58 from "bs58";
 
-const args = process.argv.slice(2).filter((a) => !a.startsWith("--"));
+const ai = process.argv.indexOf("--authority");
+const authorityArg = ai > -1 ? process.argv[ai + 1] : undefined;
+const args = process.argv.slice(2).filter((a, i, all) => !a.startsWith("--") && all[i - 1] !== "--authority");
 const dry = process.argv.includes("--dry");
 const [rawName, owner] = args;
 if (!rawName || !owner || !process.env.MINT_KEY) {
@@ -35,7 +39,8 @@ const kp = umi.eddsa.createKeypairFromSecretKey(secret);
 umi.use(keypairIdentity(kp));
 const bal = Number((await umi.rpc.getBalance(kp.publicKey)).basisPoints) / 1e9;
 
-console.log(`name      ${name.toUpperCase()}.TEOS\nmetadata  ${uri}\nowner     ${owner}\nsigner    ${kp.publicKey} (${bal} SOL)`);
+const authority = authorityArg || owner;
+console.log(`name      ${name.toUpperCase()}.TEOS\nmetadata  ${uri}\nowner     ${owner}\nupdate authority ${authority}\nsigner    ${kp.publicKey} (${bal} SOL)`);
 if (dry) { console.log("dry run: nothing sent"); process.exit(0); }
 if (bal < 0.005) { console.error("signer needs at least 0.005 SOL"); process.exit(1); }
 
@@ -45,6 +50,6 @@ const res = await create(umi, {
   name: `${name.toUpperCase()}.TEOS`,
   uri,
   owner: publicKey(owner),
-  updateAuthority: publicKey(owner),
+  updateAuthority: publicKey(authority),
 }).sendAndConfirm(umi);
 console.log(`minted ${asset.publicKey}\ntx ${bs58.encode(res.signature)}\nhttps://core.metaplex.com/explorer/${asset.publicKey}?env=mainnet`);
