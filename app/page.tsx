@@ -25,7 +25,7 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => { fetch("/api/stats").then((r) => r.json()).then(setStats).catch(() => {}); }, []);
-  const open = stats?.registration_open === true;
+  const open = stats?.registration_open === true && stats?.mint_ready !== false;
   const phantom = () => (typeof window !== "undefined" ? window.phantom?.solana ?? window.solana : undefined);
   const clean = name.trim().toLowerCase().replace(/\.(teos|eg|sa|ae|qa|kw|bh|om)$/, "");
   const tldInfo = (t: string) => stats?.tlds?.find((x: any) => x.tld === t);
@@ -95,7 +95,7 @@ export default function Home() {
 
       {stats && !open && (
         <div style={{ ...card, borderColor: "#b8860b" }}>
-          <b>Registration opens soon.</b> You can check whether a name is free now.
+          <b>{stats.registration_open === true ? "Minting is paused for a short time." : "Registration opens soon."}</b> You can check whether a name is free now.
         </div>
       )}
 
@@ -129,7 +129,7 @@ export default function Home() {
             <button style={btn} disabled={busy || !open} onClick={mint}>
               Mint Selected (Total ${total}{totalSol ? ` ~ ${totalSol.toFixed(3)} SOL` : ""})
             </button>
-            {!open && <span style={{ color: "#a9b0c3", marginLeft: 10 }}>Registration opens soon.</span>}
+            {!open && <span style={{ color: "#a9b0c3", marginLeft: 10 }}>{stats?.registration_open === true ? "Minting is paused for a short time." : "Registration opens soon."}</span>}
           </p>
         )}
         {checked && !res("teos")?.available && <p style={{ color: "#a9b0c3", marginBottom: 0 }}>{clean}.teos is not available. Other names under {clean} need you to already own {clean}.teos.</p>}
