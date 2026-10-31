@@ -1,13 +1,18 @@
 import { Redis } from "@upstash/redis";
-import { parseDomain, isReservedWord } from "./domain-rules";
-import { isSealedDomain } from "./sealed";
+import { parseDomain } from "./domain-rules";
 import { env } from "./env";
-import { isClaimed } from "./registry";
+import { getSolUsd, usdToLamports } from "./pricing";
+import { checkTlds } from "./check";
+import { parseTlds } from "./tlds";
+import { mintFunds } from "./mint";
 
 export type Quote = {
   id: string;
   domain: string; // lowercase, validated
   priceLamports: number;
+  priceUsd?: number;
+  isPromo?: boolean;
+  tlds?: string[]; // absent on quotes made before multi-TLD: means ["teos"]
   message: string; // exact bytes the wallet must sign
   expiresAt: number; // epoch ms
   used: boolean;
@@ -41,23 +46,32 @@ export type CreateResult =
   | { ok: true; quote: Quote }
   | { ok: false; status: number; body: Record<string, unknown> };
 
-export async function createQuote(rawDomain: unknown): Promise<CreateResult> {
+export async function createQuote(rawDomain: unknown, rawTlds?: unknown): Promise<CreateResult> {
   const parsed = parseDomain(rawDomain);
   if (!parsed.ok) return { ok: false, status: parsed.status, body: parsed.body };
   const domain = parsed.domain;
-  if (isReservedWord(domain) || isSealedDomain(domain)) {
-    return { ok: false, status: 200, body: { available: false, reason: "reserved", domain } };
-  }
-  if (await isClaimed(domain)) {
-    return { ok: false, status: 200, body: { available: false, reason: "taken", domain } };
-  }
+  const tlds = rawTlds === undefined ? ["teos"] : parseTlds(rawTlds);
+  if (!tlds) return { ok: false, status: 400, body: { error: "invalid_tlds" } };
+  const checks = await checkTlds(domain, tlds);
+  const bad = checks.find((c) => !c.available);
+  if (bad) return { ok: false, status: 200, body: { available: false, reason: bad.reason, domain, tld: bad.tld } };
+  if (!(await mintFunds(tlds.length)).ok) return { ok: false, status: 503, body: { error: "mint_unavailable" } };
+  const solUsd = await getSolUsd();
+  if (!solUsd) return { ok: false, status: 503, body: { error: "price_unavailable" } };
+  const totalUsd = checks.reduce((n, c) => n + c.price_usd, 0);
+  const priceLamports = usdToLamports(totalUsd, solUsd);
   const id = crypto.randomUUID();
   const expiresAt = Date.now() + TTL_SECONDS * 1000;
+  // Single .teos keeps the original message format.
+  const suffix = tlds.length === 1 ? tlds[0] : tlds.join("+");
   const quote: Quote = {
     id,
     domain,
-    priceLamports: PRICE_LAMPORTS,
-    message: `teos://register/${domain}.teos/${id}/${expiresAt}`,
+    priceLamports,
+    priceUsd: totalUsd,
+    isPromo: checks.every((c) => c.is_promo),
+    tlds,
+    message: `teos://register/${domain}.${suffix}/${id}/${expiresAt}`,
     expiresAt,
     used: false,
   };
