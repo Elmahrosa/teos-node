@@ -8,11 +8,7 @@ import { env } from "./env";
 export type MintResult = { asset: string; signature: string };
 
 export function mintConfigured(): boolean {
-<<<<<<< HEAD
-  return !!(env("MINT_AUTHORITY_KEYPAIR") && env("COLLECTION_ADDRESS"));
-=======
   return !!env("MINT_AUTHORITY_KEYPAIR");
->>>>>>> d78208a1ed9f64f37dd20993dc2d812e0e4b259f
 }
 
 function secretKeyBytes(): Uint8Array {
@@ -27,11 +23,7 @@ function rpc(): string {
   return `https://mainnet.helius-rpc.com/?api-key=${env("HELIUS_API_KEY")}`;
 }
 
-<<<<<<< HEAD
-// Mints a Metaplex Core asset into the TEOS collection, owned by the buyer.
-=======
 // Mints a Metaplex Core asset (into the TEOS collection if COLLECTION_ADDRESS is set), owned by the buyer.
->>>>>>> d78208a1ed9f64f37dd20993dc2d812e0e4b259f
 // Returns null when minting is not configured (the registration stays "pending_mint").
 export async function mintTeosAsset(domain: string, owner: string, tld = "teos"): Promise<MintResult | null> {
   if (!mintConfigured()) return null;
@@ -39,13 +31,9 @@ export async function mintTeosAsset(domain: string, owner: string, tld = "teos")
   const kp = umi.eddsa.createKeypairFromSecretKey(secretKeyBytes());
   umi.use(keypairIdentity(kp));
 
-<<<<<<< HEAD
-  const collection = await fetchCollection(umi, publicKey(env("COLLECTION_ADDRESS")!));
-=======
   // COLLECTION_ADDRESS is optional: without it the asset is a standalone Core asset, like AYMAN.TEOS and ELMAHROSA.TEOS.
   const collectionAddress = env("COLLECTION_ADDRESS");
   const collection = collectionAddress ? await fetchCollection(umi, publicKey(collectionAddress)) : undefined;
->>>>>>> d78208a1ed9f64f37dd20993dc2d812e0e4b259f
   const base = env("PUBLIC_BASE_URL") ?? "https://web4.elmahrosa.org";
   const asset = generateSigner(umi);
   const res = await create(umi, {

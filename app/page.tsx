@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-﻿export default function Page() { return <div>TEOS Web4 v4.3 - API ready at /api/availability, /api/quote, /api/register, /api/stats</div>; }
-=======
 "use client";
 import { useEffect, useState } from "react";
 
@@ -199,4 +196,3 @@ export default function Home() {
     </main>
   );
 }
->>>>>>> d78208a1ed9f64f37dd20993dc2d812e0e4b259f

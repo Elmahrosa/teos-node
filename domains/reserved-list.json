@@ -8,12 +8,8 @@
   "EKRAM.TEOS": {"owner": "EKRAM", "tier": "FOUNDERS", "note": "SISTER"},
   "ALEXANDRIA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "CITY"},
   "EL-MAHROSA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "BRAND - NEVER FOR SALE"},
-<<<<<<< HEAD
-  "ELMAHROSA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "BRAND ALT"}
-=======
   "ELMAHROSA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "BRAND ALT"},
   "KOSASIH.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "RESERVED - NOT FOR SALE"},
-  "ELKASASSIA.TEOS": {"owner": "FAMILY", "tier": "FOUNDERS", "note": "RESERVED - NOT FOR SALE"},
   "BOE.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
   "BOJ.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
   "BUNDESBANK.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
@@ -29,5 +25,4 @@
   "QCB.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
   "SAMA.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"},
   "UAECB.TEOS": {"owner": "AYMAN.TEOS", "tier": "FOUNDERS", "note": "CENTRAL BANKS - RESERVED, AUCTION ONLY"}
->>>>>>> d78208a1ed9f64f37dd20993dc2d812e0e4b259f
 }
