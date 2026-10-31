@@ -1,16 +1,9 @@
-import teos from "../tlds/teos.json";
-import eg from "../tlds/eg.json";
-import sa from "../tlds/sa.json";
-import ae from "../tlds/ae.json";
-import qa from "../tlds/qa.json";
-import kw from "../tlds/kw.json";
-import bh from "../tlds/bh.json";
-import om from "../tlds/om.json";
+import all from "../tlds/all.json";
 
-export type Tld = { tld: string; label: string; flag: string; live: boolean; promo_limit: number; promo_usd: number };
+export type Tld = { tld: string; label: string; flag: string; live: boolean; promo_limit: number; promo_usd: number; name?: string; region?: string };
 
 // All TLDs are Metaplex Core assets minted by the same mint key, like .teos. A TLD is sold only when live is true in tlds/<tld>.json.
-export const TLDS: Tld[] = [teos, eg, sa, ae, qa, kw, bh, om] as Tld[];
+export const TLDS: Tld[] = all as Tld[];
 export const liveTlds = () => TLDS.filter((t) => t.live);
 export const getTld = (t: string) => TLDS.find((x) => x.tld === t.toLowerCase());
 

@@ -1,9 +1,0 @@
-{
-  "tld": "qa",
-  "label": ".QA",
-  "flag": "🇶🇦",
-  "standard": "metaplex-core",
-  "live": true,
-  "promo_limit": 100,
-  "promo_usd": 10
-}
