@@ -10,7 +10,7 @@ export async function GET() {
   const mint_ready = (await mintFunds(1)).ok;
   const tlds = await Promise.all(TLDS.map(async (t) => {
     const n = await getSoldCount(t.tld).catch(() => null);
-    return { tld: t.tld, label: t.label, flag: t.flag, live: t.live, sold: n, promo_limit: t.promo_limit, promo_left: n === null ? null : Math.max(0, t.promo_limit - n), promo_usd: t.promo_usd };
+    return { tld: t.tld, label: t.label, flag: t.flag, name: t.name, region: t.region, live: t.live, sold: n, promo_limit: t.promo_limit, promo_left: n === null ? null : Math.max(0, t.promo_limit - n), promo_usd: t.promo_usd };
   }));
   return NextResponse.json({
     tlds,
