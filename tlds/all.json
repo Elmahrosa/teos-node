@@ -840,6 +840,18 @@
     "chain": "solana"
   },
   {
+    "tld": "us",
+    "label": ".US",
+    "name": "United States",
+    "flag": "🇺🇸",
+    "region": "North America",
+    "standard": "metaplex-core",
+    "live": true,
+    "promo_limit": 100,
+    "promo_usd": 10,
+    "chain": "solana"
+  },
+  {
     "tld": "teos",
     "label": ".TEOS",
     "name": "TEOS Global",
