@@ -11,3 +11,8 @@ wallet.json
 .env
 .env.*
 *.tsbuildinfo
+wallet.json
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
