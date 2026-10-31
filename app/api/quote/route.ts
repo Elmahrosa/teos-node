@@ -5,7 +5,7 @@ import { createQuote } from "../../../lib/quoteStore";
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));
-    const r = await createQuote(body?.domain);
+    const r = await createQuote(body?.domain, body?.tlds);
     if (!r.ok) return NextResponse.json(r.body, { status: r.status });
     const q = r.quote;
     return NextResponse.json({
@@ -13,6 +13,9 @@ export async function POST(req: Request) {
       domain: q.domain,
       price_sol: q.priceLamports / 1e9,
       price_lamports: q.priceLamports,
+      price_usd: q.priceUsd,
+      is_promo: q.isPromo,
+      tlds: q.tlds ?? ["teos"],
       expires_at: q.expiresAt,
       message_to_sign: q.message,
       pay_to: env("TREASURY_WALLET") ?? null,

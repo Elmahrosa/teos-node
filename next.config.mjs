@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === "production";
+const scriptSrc = `script-src 'self' 'unsafe-inline'${isProd ? "" : " 'unsafe-eval'"}`;
+
 const nextConfig = {
   poweredByHeader: false,
-  experimental: { serverActions: { allowedOrigins: ["*"] } },
+  experimental: { serverActions: { allowedOrigins: ["web4.elmahrosa.org", "localhost:3000", "localhost:8080"] } },
   async headers() {
     return [
       {
@@ -15,7 +18,7 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: https://api.mainnet-beta.solana.com https://*.helius-rpc.com https://*.helius.xyz wss:; frame-ancestors 'none'",
+              "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; " + scriptSrc + "; connect-src 'self' https: https://api.mainnet-beta.solana.com https://*.helius-rpc.com https://*.helius.xyz wss:; frame-ancestors 'none'",
           },
         ],
       },
