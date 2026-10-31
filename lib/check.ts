@@ -12,7 +12,7 @@ export async function checkTlds(name: string, tlds: string[]): Promise<TldCheck[
   return Promise.all(
     tlds.map(async (tld) => {
       const sold = await getSoldCount(tld);
-      const price = priceForName(name, sold, getTld(tld)?.promo_limit);
+      const price = priceForName(name, sold, getTld(tld)?.promo_limit, getTld(tld)?.promo_usd);
       const taken = blocked ? false : await isClaimed(fullName(name, tld));
       return {
         tld,
