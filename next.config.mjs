@@ -4,7 +4,7 @@ const scriptSrc = `script-src 'self' 'unsafe-inline'${isProd ? "" : " 'unsafe-ev
 
 const nextConfig = {
   poweredByHeader: false,
-  experimental: { serverActions: { allowedOrigins: ["web4.elmahrosa.org", "localhost:3000", "localhost:8080"] } },
+  experimental: { serverActions: { allowedOrigins: ["web4.elmahrosa.org", "ayman.elmahrosa.org", "localhost:3000", "localhost:8080"] } },
   async headers() {
     return [
       {
