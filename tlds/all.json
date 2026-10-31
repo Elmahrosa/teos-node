@@ -796,11 +796,11 @@
     "label": ".TR",
     "name": "Turkey",
     "flag": "🇹🇷",
-    "region": "MENA Non-Arab",
+    "region": "MENA",
     "standard": "metaplex-core",
     "live": true,
     "promo_limit": 100,
-    "promo_usd": 10,
+    "promo_usd": 8,
     "chain": "solana"
   },
   {
