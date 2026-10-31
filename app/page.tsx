@@ -268,6 +268,7 @@ export default function Home() {
         {" "}- <a style={{ color: "#eab308" }} href="https://ayman.elmahrosa.org" target="_blank" rel="noopener noreferrer">ayman.elmahrosa.org</a>
         {" "}<a title="Facebook" aria-label="Facebook" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://www.facebook.com/share/19p8WPE4tf/" target="_blank" rel="noopener noreferrer">f</a>
         {" "}<a title="X" aria-label="X" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://x.com/king_teos" target="_blank" rel="noopener noreferrer">X</a>
+        {" "}<a title="Telegram" aria-label="Telegram" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://t.me/Elmahrosapi" target="_blank" rel="noopener noreferrer">Telegram</a>
       </footer>
       <AymanContact lang={lang} />
     </main>
