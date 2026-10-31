@@ -1,6 +1,6 @@
 // USD price tiers, converted to SOL with a live rate. Fails closed: no rate, no quote.
 export const PROMO_LIMIT = 100;
-export const PROMO_USD = 5;
+export const PROMO_USD = 10;
 export const MARKET_USD = { long: 30, four: 150, short: 400 } as const; // 5+ letters, 4 letters, 3 letters
 
 export type Price = { usd: number; isPromo: boolean; tier: "promo" | "market_5plus" | "premium_4" | "premium_3" };
