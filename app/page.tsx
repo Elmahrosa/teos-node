@@ -46,6 +46,8 @@ export default function Home() {
   const pickLang = (l: Lang) => { setLang(l); localStorage.setItem("lang", l); };
 
   useEffect(() => { fetch("/api/stats").then((r) => r.json()).then(setStats).catch(() => {}); }, []);
+  const [hasWallet, setHasWallet] = useState(true);
+  useEffect(() => { setHasWallet(!!(window.phantom?.solana ?? window.solana)); }, []);
   const open = stats?.registration_open === true && stats?.mint_ready !== false;
   const phantom = () => (typeof window !== "undefined" ? window.phantom?.solana ?? window.solana : undefined);
   const clean = name.trim().toLowerCase().replace(/\.[a-z]{2,6}$/, "");
@@ -85,7 +87,7 @@ export default function Home() {
         window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(window.location.href)}?ref=${encodeURIComponent(window.location.origin)}`;
         return;
       }
-      throw new Error("Install the Phantom wallet to continue.");
+      throw new Error("Phantom not found - install it or open this page in the Phantom app to connect");
     }
     const { publicKey } = await p.connect();
     const { signature } = await p.signMessage(new TextEncoder().encode(quote.message_to_sign), "utf8");
@@ -110,7 +112,7 @@ export default function Home() {
   const [wallet, setWallet] = useState("");
   const connectWallet = () => run(async () => {
     const p = phantom();
-    if (!p) throw new Error("Install the Phantom wallet to continue.");
+    if (!p) throw new Error("Phantom not found - install it or open this page in the Phantom app to connect");
     const { publicKey } = await p.connect();
     setWallet(publicKey.toString());
   });
@@ -128,6 +130,9 @@ export default function Home() {
       </div>
     </nav>
     <main dir={lang === "ar" ? "rtl" : "ltr"} lang={lang} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
+      {!hasWallet && (
+        <div role="status" style={{ background: "#854d0e", color: "#fef9c3", border: "1px solid #eab308", borderRadius: 4, padding: "6px 12px", fontSize: 13, marginBottom: 10, textAlign: "center" }}>Phantom not found - You can browse, connect to mint</div>
+      )}
       <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
         {LANGS.map((l) => <button key={l.code} onClick={() => pickLang(l.code)} style={{ ...tablet, background: lang === l.code ? "#713f12" : "#292321", color: lang === l.code ? "#fef3c7" : "#d6cbb5" }}>{l.label}</button>)}
       </div>
@@ -253,13 +258,15 @@ export default function Home() {
         <p style={{ marginBottom: 0, color: "#a89a80" }}>{L.foundersText}{" "}
           {stats?.mints?.map((m: string) => <a key={m} style={{ color: "#eab308", marginRight: 10 }} href={`https://core.metaplex.com/explorer/${m}?env=mainnet`}>{L.view}</a>)}</p>
       </div>
-      <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px", textAlign: "center", margin: "16px 0" }}>
+      <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px 96px", textAlign: "center", margin: "16px 0" }}>
         <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={72} /></div>
         <h2 dir="auto" style={{ fontFamily: SERIF, margin: "10px 0 4px" }}>{L.certTitle} - Dig Certificate</h2>
         <p dir="auto" style={{ margin: 0 }}>{L.certText}</p>
       </div>
       <footer style={{ ...card, textAlign: "center", color: "#a89a80", fontSize: 14 }}>
         Founder TEOS - Alexandria Egypt - WhatsApp: <a style={{ color: "#25D366" }} href="https://wa.me/201006167293" target="_blank" rel="noopener noreferrer">01006167293</a>
+        {" "}- <a style={{ color: "#eab308" }} href="https://ayman.elmahrosa.org" target="_blank" rel="noopener noreferrer">ayman.elmahrosa.org</a>
+        {" "}<span title="Coming soon" aria-label="Facebook - coming soon" style={{ opacity: 0.5, cursor: "default", fontWeight: 700 }}>f</span>
       </footer>
       <AymanContact lang={lang} />
     </main>
