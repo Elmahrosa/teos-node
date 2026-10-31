@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { DICTS, LANGS, type Lang } from "../lib/i18n";
 
 declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
@@ -23,11 +24,19 @@ export default function Home() {
   const [msg, setMsg] = useState("");
   const [result, setResult] = useState<any>(null);
   const [busy, setBusy] = useState(false);
+  const [lang, setLang] = useState<Lang>("en");
+  const L = DICTS[lang];
+  useEffect(() => {
+    const saved = localStorage.getItem("lang") as Lang | null;
+    const guess = saved ?? (navigator.language.startsWith("ar") ? "ar" : navigator.language.startsWith("id") ? "id" : "en");
+    if (guess in DICTS) setLang(guess as Lang);
+  }, []);
+  const pickLang = (l: Lang) => { setLang(l); localStorage.setItem("lang", l); };
 
   useEffect(() => { fetch("/api/stats").then((r) => r.json()).then(setStats).catch(() => {}); }, []);
   const open = stats?.registration_open === true && stats?.mint_ready !== false;
   const phantom = () => (typeof window !== "undefined" ? window.phantom?.solana ?? window.solana : undefined);
-  const clean = name.trim().toLowerCase().replace(/\.(teos|eg|sa|ae|qa|kw|bh|om)$/, "");
+  const clean = name.trim().toLowerCase().replace(/\.[a-z]{2,6}$/, "");
   const tldInfo = (t: string) => stats?.tlds?.find((x: any) => x.tld === t);
   const res = (t: string) => checked?.results?.find((x: any) => x.tld === t);
   const total = picked.reduce((n, t) => n + (res(t)?.price_usd ?? 0), 0);
@@ -89,22 +98,25 @@ export default function Home() {
   });
 
   return (
-    <main style={{ maxWidth: 680, margin: "0 auto", padding: "48px 20px" }}>
+    <main dir={lang === "ar" ? "rtl" : "ltr"} lang={lang} style={{ maxWidth: 680, margin: "0 auto", padding: "48px 20px" }}>
+      <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+        {LANGS.map((l) => <button key={l.code} onClick={() => pickLang(l.code)} style={{ background: lang === l.code ? "#7c5cff" : "transparent", color: "#e8eaf0", border: "1px solid #333a4d", borderRadius: 8, padding: "4px 10px", cursor: "pointer" }}>{l.label}</button>)}
+      </div>
       <h1 style={{ fontSize: 44, margin: 0 }}>TEOS</h1>
-      <p style={{ fontSize: 20, color: "#a9b0c3" }}>Your name on Solana. Register your name as a Metaplex Core asset that you own in your own wallet: <b>.teos</b> and country names.</p>
+      <p style={{ fontSize: 20, color: "#a9b0c3" }}>{L.intro} <b>.teos</b> {L.intro2}</p>
 
       {stats && !open && (
         <div style={{ ...card, borderColor: "#b8860b" }}>
-          <b>{stats.registration_open === true ? "Minting is paused for a short time." : "Registration opens soon."}</b> You can check whether a name is free now.
+          <b>{stats.registration_open === true ? L.paused : L.soon}</b> {L.checkNow}
         </div>
       )}
 
       <style>{`.tlds{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}@media(min-width:640px){.tlds{grid-template-columns:repeat(4,1fr)}}`}</style>
       <div style={card}>
-        <label htmlFor="n" style={{ display: "block", marginBottom: 8 }}>Find your name</label>
+        <label htmlFor="n" style={{ display: "block", marginBottom: 8 }}>{L.find}</label>
         <div style={{ display: "flex", gap: 8 }}>
-          <input id="n" dir="auto" style={input} value={name} placeholder="اكتب اسمك مثلا ahmed" onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
-          <button style={btn} disabled={busy || !clean} onClick={check}>Search</button>
+          <input id="n" dir="auto" style={input} value={name} placeholder={L.placeholder} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
+          <button style={btn} disabled={busy || !clean} onClick={check}>{L.search}</button>
         </div>
         <div className="tlds">
           {(stats?.tlds ?? []).map((t: any) => {
@@ -115,10 +127,10 @@ export default function Home() {
             return (
               <label key={t.tld} style={{ border: `1px solid ${on ? "#7c5cff" : "#262c3b"}`, borderRadius: 10, padding: 10, opacity: t.live ? 1 : 0.45, cursor: usable && !required ? "pointer" : "default", background: on ? "#1b1f2e" : "transparent" }}>
                 <input type="checkbox" checked={on} disabled={!usable || !checked || required || step !== "search"} onChange={() => toggle(t.tld)} />{" "}
-                <b>{t.label}</b> {t.tld.length === 2 ? <img src={`https://flagcdn.com/w40/${t.tld}.png`} alt={t.name ?? t.tld} width={22} height={16} style={{ verticalAlign: "middle", borderRadius: 2 }} onError={(e) => { e.currentTarget.style.display = "none"; }} /> : t.flag}{t.name ? <span style={{ color: "#a9b0c3", fontSize: 12 }}> {t.name}</span> : null}
+                <b dir="ltr">{t.label}</b> {t.tld.length === 2 ? <img src={`https://flagcdn.com/w40/${t.tld}.png`} alt={t.name ?? t.tld} width={22} height={16} style={{ verticalAlign: "middle", borderRadius: 2 }} onError={(e) => { e.currentTarget.style.display = "none"; }} /> : t.flag}{t.name ? <span style={{ color: "#a9b0c3", fontSize: 12 }}> {t.name}</span> : null}
                 <div style={{ color: "#a9b0c3", fontSize: 13 }}>{t.sold ?? "-"}/{t.promo_limit} - ${t.promo_usd}</div>
                 <div style={{ fontSize: 13 }}>
-                  {!t.live ? <span style={{ color: "#a9b0c3" }}>soon</span> : !checked ? "" : r?.available ? <span style={{ color: "#4ade80" }}>✅ available{required ? " (required)" : ""}</span> : <span style={{ color: "#f87171" }}>❌ {r?.reason ?? "taken"}</span>}
+                  {!t.live ? <span style={{ color: "#a9b0c3" }}>soon</span> : !checked ? "" : r?.available ? <span style={{ color: "#4ade80" }}>✅ {L.available}{required ? ` (${L.required})` : ""}</span> : <span style={{ color: "#f87171" }}>❌ {r?.reason ?? L.taken}</span>}
                 </div>
               </label>
             );
@@ -127,25 +139,25 @@ export default function Home() {
         {checked && picked.length > 0 && step === "search" && (
           <p style={{ marginBottom: 0 }}>
             <button style={btn} disabled={busy || !open} onClick={mint}>
-              Mint Selected (Total ${total}{totalSol ? ` ~ ${totalSol.toFixed(3)} SOL` : ""})
+              {L.mint} ({L.total} ${total}{totalSol ? ` ~ ${totalSol.toFixed(3)} SOL` : ""})
             </button>
-            {!open && <span style={{ color: "#a9b0c3", marginLeft: 10 }}>{stats?.registration_open === true ? "Minting is paused for a short time." : "Registration opens soon."}</span>}
+            {!open && <span style={{ color: "#a9b0c3", marginLeft: 10 }}>{stats?.registration_open === true ? L.paused : L.soon}</span>}
           </p>
         )}
         {checked && !res("teos")?.available && <p style={{ color: "#a9b0c3", marginBottom: 0 }}>{clean}.teos is not available. Other names under {clean} need you to already own {clean}.teos.</p>}
       </div>
 
       <div style={card}>
-        <b>Pricing (per name, same for every TLD)</b>
+        <b>{L.pricing}</b>
         <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 10 }}>
           <thead>
-            <tr style={{ textAlign: "left", color: "#a9b0c3" }}><th style={{ padding: 6 }}>Name length</th><th style={{ padding: 6 }}>First {stats?.promo_limit ?? 100} per TLD</th><th style={{ padding: 6 }}>After</th></tr>
+            <tr style={{ textAlign: "left", color: "#a9b0c3" }}><th style={{ padding: 6 }}>{L.length}</th><th style={{ padding: 6 }}>{L.first} {stats?.promo_limit ?? 100} {L.perTld}</th><th style={{ padding: 6 }}>{L.after}</th></tr>
           </thead>
           <tbody>
             {[
-              ["5 letters or more", `$${stats?.promo_usd ?? 10}`, `$${stats?.market_usd?.long ?? 30}`],
-              ["4 letters", "market price", `$${stats?.market_usd?.four ?? 150}`],
-              ["3 letters", "market price", `$${stats?.market_usd?.short ?? 400}`],
+              [L.l5, `$${stats?.promo_usd ?? 10}`, `$${stats?.market_usd?.long ?? 30}`],
+              [L.l4, L.market, `$${stats?.market_usd?.four ?? 150}`],
+              [L.l3, L.market, `$${stats?.market_usd?.short ?? 400}`],
             ].map(([a, b, c]) => (
               <tr key={a} style={{ borderTop: "1px solid #262c3b" }}>
                 <td style={{ padding: 6 }}>{a}</td>
@@ -155,7 +167,7 @@ export default function Home() {
             ))}
           </tbody>
         </table>
-        <p style={{ marginBottom: 0, color: "#a9b0c3", fontSize: 13 }}>Paid in SOL at the live rate, locked for 5 minutes when you get a quote. Names under 5 letters are never part of the early-bird offer.</p>
+        <p style={{ marginBottom: 0, color: "#a9b0c3", fontSize: 13 }}>{L.payNote}</p>
       </div>
 
       {open && quote && step !== "done" && (
@@ -189,9 +201,9 @@ export default function Home() {
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
       <div style={card}>
-        <b>Founders</b>
-        <p style={{ marginBottom: 0, color: "#a9b0c3" }}>AYMAN.TEOS and ELMAHROSA.TEOS are minted on Solana mainnet.{" "}
-          {stats?.mints?.map((m: string) => <a key={m} style={{ color: "#9d86ff", marginRight: 10 }} href={`https://core.metaplex.com/explorer/${m}?env=mainnet`}>view</a>)}</p>
+        <b>{L.founders}</b>
+        <p style={{ marginBottom: 0, color: "#a9b0c3" }}>{L.foundersText}{" "}
+          {stats?.mints?.map((m: string) => <a key={m} style={{ color: "#9d86ff", marginRight: 10 }} href={`https://core.metaplex.com/explorer/${m}?env=mainnet`}>{L.view}</a>)}</p>
       </div>
     </main>
   );
