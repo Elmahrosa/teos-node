@@ -88,7 +88,7 @@ export function CheckoutPanel({ domain, tlds, durationYears = 2, treasury, amoun
     setError(null);
     setLoading("sign");
     try {
-      if (!connected || !publicKey || !signMessage) throw new Error("Connect a wallet first - Phantom, Solflare, Backpack, Glow, etc.");
+      if (!connected || !publicKey || !signMessage || !quote) throw new Error("Connect a wallet first - Phantom, Solflare, Backpack, Glow, etc.");
       const encoded = new TextEncoder().encode(quote.message_to_sign);
       const signed = (await signMessage(encoded)) as any;
       const sigBytes: Uint8Array = signed?.signature ?? signed;
