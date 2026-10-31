@@ -5,5 +5,5 @@
   "standard": "metaplex-core",
   "live": true,
   "promo_limit": 100,
-  "promo_usd": 5
+  "promo_usd": 10
 }
