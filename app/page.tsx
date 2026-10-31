@@ -266,7 +266,8 @@ export default function Home() {
       <footer style={{ ...card, textAlign: "center", color: "#a89a80", fontSize: 14 }}>
         Founder TEOS - Alexandria Egypt - WhatsApp: <a style={{ color: "#25D366" }} href="https://wa.me/201006167293" target="_blank" rel="noopener noreferrer">01006167293</a>
         {" "}- <a style={{ color: "#eab308" }} href="https://ayman.elmahrosa.org" target="_blank" rel="noopener noreferrer">ayman.elmahrosa.org</a>
-        {" "}<span title="Coming soon" aria-label="Facebook - coming soon" style={{ opacity: 0.5, cursor: "default", fontWeight: 700 }}>f</span>
+        {" "}<a title="Facebook" aria-label="Facebook" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://www.facebook.com/share/19p8WPE4tf/" target="_blank" rel="noopener noreferrer">f</a>
+        {" "}<a title="X" aria-label="X" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://x.com/king_teos" target="_blank" rel="noopener noreferrer">X</a>
       </footer>
       <AymanContact lang={lang} />
     </main>
