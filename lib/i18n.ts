@@ -6,6 +6,14 @@ export const LANGS: { code: Lang; label: string }[] = [
 ];
 
 const en = {
+  sonPlaceholder: "Put your son's name and check if available... e.g. Yassin",
+  checkBtn: "Check Now",
+  sovereignKey: "Sovereign key - REQUIRED",
+  locked: "LOCKED",
+  needsTeos: "Requires .teos first",
+  country: "Search country...",
+  certTitle: "Dig Certificate",
+  certText: "Dig Site 022 Alexandria - TEOS Sovereign Root",
   intro: "Your name on Solana. Register your name as a Metaplex Core asset that you own in your own wallet:",
   intro2: "and country names.",
   soon: "Registration opens soon.",
@@ -36,6 +44,14 @@ const en = {
 export type Dict = typeof en;
 
 const ar: Dict = {
+  sonPlaceholder: "حط اسم ولدك وشوف متاح ولا مش متاح... مثلا: ياسين، آدم، سليم",
+  checkBtn: "افحص الاسم الآن",
+  sovereignKey: "المفتاح السيادي - REQUIRED",
+  locked: "مقفول",
+  needsTeos: "يتطلب .teos أولاً",
+  country: "ابحث عن الدولة...",
+  certTitle: "شهادة الحفر",
+  certText: "موقع الحفر 022 الإسكندرية - جذر TEOS السيادي",
   intro: "اسمك على سولانا. سجّل اسمك كأصل Metaplex Core تمتلكه في محفظتك الخاصة:",
   intro2: "وأسماء الدول.",
   soon: "التسجيل يبدأ قريبا.",
@@ -65,6 +81,14 @@ const ar: Dict = {
 };
 
 const id: Dict = {
+  sonPlaceholder: "Masukkan nama putra Anda dan cek ketersediaan... mis. Yassin",
+  checkBtn: "Cek Sekarang",
+  sovereignKey: "Kunci berdaulat - WAJIB",
+  locked: "TERKUNCI",
+  needsTeos: "Perlu .teos dulu",
+  country: "Cari negara...",
+  certTitle: "Sertifikat Galian",
+  certText: "Situs Galian 022 Alexandria - Akar TEOS Berdaulat",
   intro: "Nama Anda di Solana. Daftarkan nama Anda sebagai aset Metaplex Core yang Anda miliki di dompet sendiri:",
   intro2: "dan nama negara.",
   soon: "Pendaftaran segera dibuka.",
