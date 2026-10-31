@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+import FounderSeal from "../components/FounderSeal";
+import FoundersBanner from "../components/FoundersBanner";
 import { DICTS, LANGS, type Lang } from "../lib/i18n";
 
 declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
@@ -133,7 +135,7 @@ export default function Home() {
     return (
       <label key={`${group}-${t.tld}`} style={{ display: "block", border: king ? "2px solid #ffd700" : `1px solid ${on ? "#7c5cff" : "#262c3b"}`, boxShadow: king ? "0 0 40px rgba(255,215,0,.35)" : undefined, borderRadius: king ? 20 : 10, padding: king ? 28 : 10, opacity: t.live ? 1 : 0.45, cursor: usable && !required ? "pointer" : "default", background: king ? "linear-gradient(160deg,#241c06,#151923)" : on ? "#1b1f2e" : "transparent", textAlign: king ? "center" : undefined }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: king ? "center" : undefined, flexDirection: king ? "column" : undefined }}>
-          <Flag t={t} size={king ? 96 : 28} />
+          {king ? <FounderSeal size={110} /> : <Flag t={t} size={28} />}
           <div>
             <b dir="ltr" style={{ fontSize: king ? 44 : undefined, color: king ? "#ffd700" : undefined }}>{t.label}</b>
             {t.name && <div style={{ color: "#a9b0c3", fontSize: king ? 15 : 12 }}>{t.name}</div>}
@@ -153,7 +155,7 @@ export default function Home() {
     <>
     <nav style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(11,13,18,.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid #262c3b" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-        <b style={{ fontSize: 22, color: "#ffd700" }}>🔱 TEOS</b>
+        <b style={{ fontSize: 22, color: "#ffd700", display: "flex", alignItems: "center", gap: 8 }}><FounderSeal size={40} /> TEOS</b>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a href="#search" style={{ color: "#e8eaf0", textDecoration: "none" }}>{L.search}</a>
           <button style={{ ...btn, padding: "6px 14px", fontSize: 14 }} disabled={busy} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : "Connect Wallet"}</button>
@@ -166,6 +168,7 @@ export default function Home() {
         {LANGS.map((l) => <button key={l.code} onClick={() => pickLang(l.code)} style={{ background: lang === l.code ? "#7c5cff" : "transparent", color: "#e8eaf0", border: "1px solid #333a4d", borderRadius: 8, padding: "4px 10px", cursor: "pointer" }}>{l.label}</button>)}
       </div>
       <h1 style={{ fontSize: 14, margin: 0, color: "#a9b0c3", letterSpacing: 3 }}>TEOS</h1>
+      <FoundersBanner />
       {king && <div style={{ maxWidth: 420, margin: "16px auto" }}>
         <div style={{ textAlign: "center", color: "#ffd700", fontWeight: 700, letterSpacing: 2, marginBottom: 8 }}>KING TEOS - Sovereign Root</div>
         {tldCard(king, true, "hero")}
