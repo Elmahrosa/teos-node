@@ -2,7 +2,9 @@
 import { useEffect, useState } from "react";
 import FounderSeal from "../components/FounderSeal";
 import FoundersBanner from "../components/FoundersBanner";
-import DomainSearchPopup from "../components/DomainSearchPopup";
+import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopup";
+import CountryDropdown from "../components/CountryDropdown";
+import AymanContact from "../components/AymanContact";
 import { DICTS, LANGS, type Lang } from "../lib/i18n";
 
 declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
@@ -32,11 +34,13 @@ export default function Home() {
   const [popup, setPopup] = useState(false);
   const [owned, setOwned] = useState<string[]>([]); // names whose .teos was registered in this browser (UI hint only)
   useEffect(() => { try { setOwned(JSON.parse(localStorage.getItem("teosOwned") || "[]")); } catch {} }, []);
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useState<Lang>("ar");
+  const [selectedTld, setSelectedTld] = useState("eg");
   const L = DICTS[lang];
   useEffect(() => {
     const saved = localStorage.getItem("lang") as Lang | null;
-    const guess = saved ?? (navigator.language.startsWith("ar") ? "ar" : navigator.language.startsWith("id") ? "id" : "en");
+    const guess = saved ?? "ar";
+    const lc = localeCountry(); if (lc) setSelectedTld(lc);
     if (guess in DICTS) setLang(guess as Lang);
   }, []);
   const pickLang = (l: Lang) => { setLang(l); localStorage.setItem("lang", l); };
@@ -137,14 +141,44 @@ export default function Home() {
         </div>
       )}
 
-      <style>{`.tlds{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}@media(min-width:640px){.tlds{grid-template-columns:repeat(4,1fr)}}@media(min-width:960px){.tlds{grid-template-columns:repeat(6,1fr)}}.wa{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:#14532d;border:2px solid #4ade80;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:50;transition:transform .15s}.wa:hover{transform:scale(1.1)}`}</style>
-      <div id="search" style={{ ...card, textAlign: "center", padding: "32px 20px" }}>
-        <label htmlFor="n" style={{ display: "block", marginBottom: 12, fontFamily: SERIF, letterSpacing: "0.15em", fontSize: 18 }}>{L.find}</label>
-        <input id="n" dir="auto" style={{ ...input, fontSize: 22, padding: "16px 14px", textAlign: "center", maxWidth: 640 }} value={name} placeholder="Search your sovereign name... e.g. ayman, elMahrosa, cairo" onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
-        <p style={{ margin: "16px 0 0" }}>
-          <button style={{ ...btn, fontSize: 18, padding: "14px 28px", letterSpacing: "0.08em" }} disabled={busy || !clean} onClick={check}>⚓ SEARCH SOVEREIGN NAME</button>
-        </p>
-        <p style={{ margin: "14px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.08em" }}>{all.length ? `${all.length} sovereign TLDs` : "Sovereign TLDs"} • Dig Site 022 Alexandria • Rule: TEOS Root Required</p>
+      <style>{`.tlds{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}@media(min-width:640px){.tlds{grid-template-columns:repeat(4,1fr)}}@media(min-width:960px){.tlds{grid-template-columns:repeat(6,1fr)}}`}</style>
+      <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px" }}>
+        <div aria-hidden="true" style={{ position: "absolute", inset: 0, opacity: 0.15, backgroundImage: "repeating-linear-gradient(0deg,#6b5a3e 0 1px,transparent 1px 38px),repeating-linear-gradient(90deg,#6b5a3e 0 1px,transparent 1px 64px),radial-gradient(circle at 30% 20%,#8a7550,transparent 60%)" }} />
+        <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 24, alignItems: "center", justifyContent: "center" }}>
+          <svg aria-hidden="true" viewBox="0 0 400 400" width="100%" style={{ maxWidth: 300, height: "auto", filter: "drop-shadow(0 0 22px rgba(234,179,8,.55))" }}>
+            <g fill="none" stroke="#eab308" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round">
+              <ellipse cx="200" cy="105" rx="52" ry="68" />
+              <path d="M200 173V350M130 215H270" />
+              <path d="M150 300c0 40 100 40 100 0M130 280l20 20M270 280l-20 20" strokeWidth="10" />
+            </g>
+            <circle cx="200" cy="105" r="14" fill="#7f1d1d" stroke="#eab308" strokeWidth="4" />
+          </svg>
+          <div style={{ flex: "1 1 360px", textAlign: "center", minWidth: 0 }}>
+            <label htmlFor="n" style={{ display: "block", marginBottom: 10, fontFamily: SERIF, letterSpacing: "0.1em", fontSize: 18 }}>{L.find}</label>
+            <input id="n" dir="auto" style={{ ...input, fontSize: 21, padding: "16px 14px", textAlign: "center" }} value={name} placeholder={L.sonPlaceholder} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
+            <div style={{ margin: "12px 0" }}>
+              <CountryDropdown tlds={all} selected={selectedTld} onSelect={setSelectedTld} placeholder={L.country} />
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, textAlign: "center" }}>
+              <div style={{ flex: "1 1 200px", background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, minWidth: 0 }}>
+                <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={56} /></div>
+                <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.teos</div>
+                <div dir="auto" style={{ fontSize: 12, color: "#7f1d1d", fontWeight: 700 }}>{L.sovereignKey}</div>
+                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>${tldInfo("teos")?.promo_usd ?? 10}</div>
+              </div>
+              <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
+                <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
+                <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
+                <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : `${L.locked} - ${L.needsTeos}`}</div>
+                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>${tldInfo(selectedTld)?.promo_usd ?? 10}</div>
+              </div>
+            </div>
+            <p style={{ margin: "16px 0 0" }}>
+              <button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button>
+            </p>
+            <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? `${all.length} sovereign TLDs` : "Sovereign TLDs"} • Dig Site 022 Alexandria • Rule: TEOS Root Required</p>
+          </div>
+        </div>
       </div>
 
       {popup && (
@@ -219,10 +253,15 @@ export default function Home() {
         <p style={{ marginBottom: 0, color: "#a89a80" }}>{L.foundersText}{" "}
           {stats?.mints?.map((m: string) => <a key={m} style={{ color: "#eab308", marginRight: 10 }} href={`https://core.metaplex.com/explorer/${m}?env=mainnet`}>{L.view}</a>)}</p>
       </div>
+      <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px", textAlign: "center", margin: "16px 0" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={72} /></div>
+        <h2 dir="auto" style={{ fontFamily: SERIF, margin: "10px 0 4px" }}>{L.certTitle} - Dig Certificate</h2>
+        <p dir="auto" style={{ margin: 0 }}>{L.certText}</p>
+      </div>
       <footer style={{ ...card, textAlign: "center", color: "#a89a80", fontSize: 14 }}>
         Founder TEOS - Alexandria Egypt - WhatsApp: <a style={{ color: "#25D366" }} href="https://wa.me/201006167293" target="_blank" rel="noopener noreferrer">01006167293</a>
       </footer>
-      <a className="wa" href="https://wa.me/201006167293" target="_blank" rel="noopener noreferrer" aria-label="Founder on WhatsApp" title="Founder - 01006167293"><svg viewBox="0 0 24 24" width="30" height="30" fill="#fff" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.300.2-1.400-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.600 15.100L2 22l5-1.300A10 10 0 1 0 12 2zm0 18.200c-1.500 0-3-.4-4.200-1.200l-.3-.2-3 .8.8-2.900-.2-.3A8.200 8.200 0 1 1 12 20.200z"/></svg></a>
+      <AymanContact lang={lang} />
     </main>
     </>
   );
