@@ -115,7 +115,7 @@ export default function Home() {
             return (
               <label key={t.tld} style={{ border: `1px solid ${on ? "#7c5cff" : "#262c3b"}`, borderRadius: 10, padding: 10, opacity: t.live ? 1 : 0.45, cursor: usable && !required ? "pointer" : "default", background: on ? "#1b1f2e" : "transparent" }}>
                 <input type="checkbox" checked={on} disabled={!usable || !checked || required || step !== "search"} onChange={() => toggle(t.tld)} />{" "}
-                <b>{t.label}</b> {t.flag}
+                <b>{t.label}</b> {t.tld.length === 2 ? <img src={`https://flagcdn.com/w40/${t.tld}.png`} alt={t.name ?? t.tld} width={22} height={16} style={{ verticalAlign: "middle", borderRadius: 2 }} onError={(e) => { e.currentTarget.style.display = "none"; }} /> : t.flag}{t.name ? <span style={{ color: "#a9b0c3", fontSize: 12 }}> {t.name}</span> : null}
                 <div style={{ color: "#a9b0c3", fontSize: 13 }}>{t.sold ?? "-"}/{t.promo_limit} - ${t.promo_usd}</div>
                 <div style={{ fontSize: 13 }}>
                   {!t.live ? <span style={{ color: "#a9b0c3" }}>soon</span> : !checked ? "" : r?.available ? <span style={{ color: "#4ade80" }}>✅ available{required ? " (required)" : ""}</span> : <span style={{ color: "#f87171" }}>❌ {r?.reason ?? "taken"}</span>}
