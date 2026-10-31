@@ -10,3 +10,4 @@ wallet.json
 *.keypair.json
 .env
 .env.*
+*.tsbuildinfo
