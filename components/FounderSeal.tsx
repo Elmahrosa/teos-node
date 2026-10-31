@@ -10,7 +10,7 @@ export default function FounderSeal({ size = 96 }: { size?: number }) {
       height={size}
       role="img"
       aria-label="Founder seal: AYMAN TEOS, Alexandria Egypt"
-      style={{ display: "block", flexShrink: 0, filter: "drop-shadow(0 0 10px rgba(255,215,0,.45)) drop-shadow(0 4px 6px rgba(0,0,0,.6))" }}
+      style={{ display: "block", flexShrink: 0, filter: "drop-shadow(0 4px 15px rgba(0,0,0,.8)) drop-shadow(0 0 8px rgba(255,215,0,.3))" }}
     >
       <defs>
         <radialGradient id={`w${id}`} cx="35%" cy="30%" r="80%">
@@ -27,6 +27,7 @@ export default function FounderSeal({ size = 96 }: { size?: number }) {
       </defs>
       {/* wax blob with uneven edge */}
       <path d="M100 6c18 0 26 10 42 14 16 4 34 12 40 30 6 18-4 30-2 46 2 16 10 30 0 46-10 16-28 18-42 26-14 8-26 28-44 28s-28-18-44-26c-16-8-34-12-42-28-8-16 2-30 2-46S4 68 12 52c8-16 26-24 42-30C70 16 82 6 100 6z" fill={`url(#w${id})`} stroke="#4a0a07" strokeWidth="4" />
+      <path d="M100 6c18 0 26 10 42 14 16 4 34 12 40 30 6 18-4 30-2 46 2 16 10 30 0 46-10 16-28 18-42 26-14 8-26 28-44 28s-28-18-44-26c-16-8-34-12-42-28-8-16 2-30 2-46S4 68 12 52c8-16 26-24 42-30C70 16 82 6 100 6z" fill="none" stroke="rgba(255,255,255,.35)" strokeWidth="3" transform="translate(-1.5 -1.5)" />
       <circle cx="100" cy="100" r="86" fill="none" stroke={`url(#g${id})`} strokeWidth="3" />
       <circle cx="100" cy="100" r="50" fill="none" stroke={`url(#g${id})`} strokeWidth="2" />
       <text fontSize="15" fontWeight="700" letterSpacing="2" fill={`url(#g${id})`} textAnchor="middle" fontFamily="Georgia, serif">
