@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import FounderSeal from "../components/FounderSeal";
 import FoundersBanner from "../components/FoundersBanner";
+import DomainSearchPopup from "../components/DomainSearchPopup";
 import { DICTS, LANGS, type Lang } from "../lib/i18n";
 
 declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
@@ -28,6 +29,9 @@ export default function Home() {
   const [msg, setMsg] = useState("");
   const [result, setResult] = useState<any>(null);
   const [busy, setBusy] = useState(false);
+  const [popup, setPopup] = useState(false);
+  const [owned, setOwned] = useState<string[]>([]); // names whose .teos was registered in this browser (UI hint only)
+  useEffect(() => { try { setOwned(JSON.parse(localStorage.getItem("teosOwned") || "[]")); } catch {} }, []);
   const [lang, setLang] = useState<Lang>("en");
   const L = DICTS[lang];
   useEffect(() => {
@@ -52,28 +56,21 @@ export default function Home() {
   }
 
   const check = () => run(async () => {
-    setChecked(null); setQuote(null); setStep("search");
-    const r = await fetch(`/api/check?name=${encodeURIComponent(clean)}`);
+    setChecked(null); setQuote(null); setStep("search"); setPopup(true);
+    const r = await fetch(`/api/check?name=${encodeURIComponent(clean)}&tlds=teos`);
     const j = await r.json();
-    if (!r.ok) throw new Error(j.error || "Invalid name");
+    if (!r.ok) { setPopup(false); throw new Error(j.error || "Invalid name"); }
     setChecked(j);
-    const st = await fetch("/api/stats", { cache: "no-store" }).then((x) => x.json()).catch(() => stats);
-    setStats(st);
-    // .teos is required and pre-selected whenever it is available.
-    setPicked(j.results.find((x: any) => x.tld === "teos" && x.available) ? ["teos"] : []);
+    if (!stats?.tlds) setStats(await fetch("/api/stats", { cache: "no-store" }).then((x) => x.json()).catch(() => stats));
   });
 
-  const toggle = (t: string) => {
-    if (t === "teos" && res("teos")?.available) return; // required
-    setPicked((p) => (p.includes(t) ? p.filter((x) => x !== t) : [...p, t]));
-  };
-
-  const mint = () => run(async () => {
-    const q = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain: clean, tlds: picked }) });
+  const mint = (tlds: string[]) => run(async () => {
+    const q = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain: clean, tlds }) });
     const qj = await q.json();
     if (!q.ok) throw new Error(qj.error || "Could not get a price");
     if (qj.available === false) throw new Error(`.${qj.tld} is ${qj.reason}`);
-    setQuote(qj); setStep("sign");
+    setQuote(qj); setStep("sign"); setPopup(false);
+    setTimeout(() => document.getElementById("pay")?.scrollIntoView({ behavior: "smooth" }), 50);
   });
 
   const sign = () => run(async () => {
@@ -99,21 +96,13 @@ export default function Home() {
     const j = await r.json().catch(() => ({}));
     if (!r.ok) throw new Error(j.message || (j.error ? `Registration failed: ${j.error}` : `Registration failed (${r.status})`));
     setResult(j); setStep("done");
+    if ((quote.tlds ?? ["teos"]).includes("teos")) {
+      const next = Array.from(new Set([...owned, clean]));
+      setOwned(next); localStorage.setItem("teosOwned", JSON.stringify(next));
+    }
   });
 
-  const ARAB = ["sa","ae","qa","kw","bh","om","eg","jo","lb","sy","iq","ye","ps","ma","dz","tn","ly","sd","so","dj","km","mr"];
-  const AFRICA_REGIONS = ["North Africa","West Africa","Central Africa","East Africa","Southern Africa","Indian Ocean","Horn"];
-  const META = ["mena","africa"];
   const all: any[] = stats?.tlds ?? [];
-  const by = (codes: string[]) => codes.map((c) => all.find((t) => t.tld === c)).filter(Boolean);
-  const africa = all.filter((t) => AFRICA_REGIONS.includes(t.region));
-  const world = all.filter((t) => t.tld !== "teos" && !META.includes(t.tld) && !ARAB.includes(t.tld) && !AFRICA_REGIONS.includes(t.region));
-  const sections = [
-    { key: "arab", title: "🇸🇦 ALL ARAB", sub: "Arab nations", items: by(ARAB) },
-    { key: "africa", title: "🌍 AFRICA", sub: "Africa, all regions", items: africa },
-    { key: "world", title: "🌐 WORLD POWERS", sub: "Europe | USA RU CN | Asia | Americas | Oceania", items: world },
-    { key: "meta", title: "🔱 META ROOTS", sub: ".mena and .africa sit under the .teos root", items: by(META) },
-  ];
   const [wallet, setWallet] = useState("");
   const connectWallet = () => run(async () => {
     const p = phantom();
@@ -121,37 +110,6 @@ export default function Home() {
     const { publicKey } = await p.connect();
     setWallet(publicKey.toString());
   });
-
-  const Flag = ({ t, size }: { t: any; size: number }) => {
-    const base: React.CSSProperties = { width: size, height: size, borderRadius: "50%", flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", overflow: "hidden" };
-    if (t.tld === "teos") return <span style={{ ...base, background: "radial-gradient(circle at 30% 30%, #ffe08a, #b8860b)", border: "2px solid #ffd700", fontSize: size * 0.55 }} title="TEOS">🔱</span>;
-    if (t.tld.length === 2) return <img src={`https://flagcdn.com/w80/${t.tld}.png`} alt={t.name ?? t.tld} width={size} height={size} style={{ ...base, objectFit: "cover", border: "1px solid #4a4032" }} onError={(e) => { e.currentTarget.style.display = "none"; }} />;
-    return <span style={{ ...base, background: "#3a3128", border: "1px solid #4a4032", fontSize: size * 0.55 }}>{t.flag}</span>;
-  };
-
-  const tldCard = (t: any, king: boolean, group = "") => {
-    const r = res(t.tld);
-    const required = t.tld === "teos" && r?.available;
-    const on = picked.includes(t.tld);
-    const usable = t.live && (!checked || r?.available);
-    return (
-      <label key={`${group}-${t.tld}`} style={{ display: "block", position: "relative", border: king ? "3px double #713f12" : `1px solid ${on ? "#ca8a04" : "#3d352a"}`, boxShadow: king ? "0 10px 40px rgba(0,0,0,.7), inset 0 0 30px rgba(113,63,18,.35)" : "inset 0 2px 8px rgba(0,0,0,.5)", borderRadius: king ? 2 : 4, padding: king ? "40px 28px 28px" : 10, opacity: t.live ? 1 : 0.45, cursor: usable && !required ? "pointer" : "default", background: king ? "#d4c5a9" : on ? "#3a3128" : "linear-gradient(160deg,#2a2520,#1f1a15)", color: king ? "#2a2520" : undefined, textAlign: king ? "center" : undefined }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: king ? "center" : undefined, flexDirection: king ? "column" : undefined }}>
-          {king ? <><span style={{ position: "absolute", top: -14, left: -14 }}><FounderSeal size={64} /></span><span style={{ position: "absolute", top: -14, right: -14 }}><FounderSeal size={64} /></span></> : <Flag t={t} size={28} />}
-          <div>
-            <b dir="ltr" style={{ fontSize: king ? 48 : undefined, fontFamily: SERIF, letterSpacing: king ? "0.08em" : undefined, color: king ? "#451a03" : "#f5e6c4" }}>{t.label}</b>
-            {t.name && <div style={{ color: king ? "#57493a" : "#a89a80", fontSize: king ? 15 : 12 }}>{t.name}</div>}
-          </div>
-          <input type="checkbox" style={{ marginInlineStart: king ? 0 : "auto" }} checked={on} disabled={!usable || !checked || required || step !== "search"} onChange={() => toggle(t.tld)} />
-        </div>
-        <div style={{ color: king ? "#451a03" : "#a89a80", fontSize: king ? 18 : 12, marginTop: 6, fontFamily: "ui-monospace, monospace" }}>{t.sold === null || t.sold === undefined ? "-" : Math.max(0, t.promo_limit - t.sold)} of {t.promo_limit} available{king ? " - GENESIS" : ""} - ${t.promo_usd}</div>
-        <div style={{ fontSize: 13 }}>
-          {!t.live ? <span style={{ color: "#a89a80" }}>soon</span> : !checked ? "" : r?.available ? <span style={{ color: "#4ade80" }}>✅ {L.available}{required ? ` (${L.required})` : ""}</span> : <span style={{ color: "#f87171" }}>❌ {r?.reason ?? L.taken}</span>}
-        </div>
-      </label>
-    );
-  };
-  const king = all.find((t) => t.tld === "teos");
 
   return (
     <>
@@ -171,10 +129,6 @@ export default function Home() {
       </div>
       <h1 style={{ fontFamily: SERIF, fontSize: 14, margin: "0 0 12px", color: "#a89a80", letterSpacing: "0.3em" }}>TEOS</h1>
       <FoundersBanner />
-      {king && <div style={{ maxWidth: 420, margin: "16px auto" }}>
-        <div style={{ textAlign: "center", fontFamily: SERIF, color: "#eab308", fontWeight: 700, letterSpacing: "0.2em", marginBottom: 14 }}>KING TEOS - SOVEREIGN ROOT</div>
-        {tldCard(king, true, "hero")}
-      </div>}
       <p style={{ fontSize: 20, color: "#a89a80" }}>{L.intro} <b>.teos</b> {L.intro2}</p>
 
       {stats && !open && (
@@ -184,30 +138,28 @@ export default function Home() {
       )}
 
       <style>{`.tlds{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}@media(min-width:640px){.tlds{grid-template-columns:repeat(4,1fr)}}@media(min-width:960px){.tlds{grid-template-columns:repeat(6,1fr)}}.wa{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:#14532d;border:2px solid #4ade80;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:50;transition:transform .15s}.wa:hover{transform:scale(1.1)}`}</style>
-      <div id="search" style={card}>
-        <label htmlFor="n" style={{ display: "block", marginBottom: 8 }}>{L.find}</label>
-        <div style={{ display: "flex", gap: 8 }}>
-          <input id="n" dir="auto" style={input} value={name} placeholder={L.placeholder} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
-          <button style={btn} disabled={busy || !clean} onClick={check}>{L.search}</button>
-        </div>
-        {all.length > 0 && <div style={{ marginTop: 22, background: "#c9b896", color: "#2a2520", textAlign: "center", fontFamily: SERIF, letterSpacing: "0.25em", fontWeight: 700, padding: "8px 12px", borderInline: "8px double #7a6540" }}>{all.length} TLDS • CARVED IN STONE</div>}
-        {sections.map((sec) => sec.items.length > 0 && (
-          <section key={sec.key} style={{ marginTop: 22 }}>
-            <h2 style={{ fontFamily: SERIF, fontSize: 20, margin: 0, letterSpacing: "0.1em", color: "#fef3c7" }}>{sec.title} <span style={{ color: "#a89a80", fontSize: 14, fontWeight: 400 }}>({sec.items.length})</span></h2>
-            {sec.sub && <div style={{ color: "#a89a80", fontSize: 13 }}>{sec.sub}</div>}
-            <div className="tlds">{sec.items.map((t: any) => tldCard(t, false, sec.key))}</div>
-          </section>
-        ))}
-        {checked && picked.length > 0 && step === "search" && (
-          <p style={{ marginBottom: 0 }}>
-            <button style={btn} disabled={busy || !open} onClick={mint}>
-              {L.mint} ({L.total} ${total}{totalSol ? ` ~ ${totalSol.toFixed(3)} SOL` : ""})
-            </button>
-            {!open && <span style={{ color: "#a89a80", marginLeft: 10 }}>{stats?.registration_open === true ? L.paused : L.soon}</span>}
-          </p>
-        )}
-        {checked && !res("teos")?.available && <p style={{ color: "#a89a80", marginBottom: 0 }}>{clean}.teos is not available. Other names under {clean} need you to already own {clean}.teos.</p>}
+      <div id="search" style={{ ...card, textAlign: "center", padding: "32px 20px" }}>
+        <label htmlFor="n" style={{ display: "block", marginBottom: 12, fontFamily: SERIF, letterSpacing: "0.15em", fontSize: 18 }}>{L.find}</label>
+        <input id="n" dir="auto" style={{ ...input, fontSize: 22, padding: "16px 14px", textAlign: "center", maxWidth: 640 }} value={name} placeholder="Search your sovereign name... e.g. ayman, elMahrosa, cairo" onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
+        <p style={{ margin: "16px 0 0" }}>
+          <button style={{ ...btn, fontSize: 18, padding: "14px 28px", letterSpacing: "0.08em" }} disabled={busy || !clean} onClick={check}>⚓ SEARCH SOVEREIGN NAME</button>
+        </p>
+        <p style={{ margin: "14px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.08em" }}>{all.length ? `${all.length} sovereign TLDs` : "Sovereign TLDs"} • Dig Site 022 Alexandria • Rule: TEOS Root Required</p>
       </div>
+
+      {popup && (
+        <DomainSearchPopup
+          name={clean}
+          teos={checked ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null}
+          tlds={all}
+          ownsTeos={owned.includes(clean)}
+          founder={clean === "elmahrosa"}
+          open={open}
+          busy={busy}
+          onBuy={mint}
+          onClose={() => setPopup(false)}
+        />
+      )}
 
       <div style={card}>
         <b>{L.pricing}</b>
@@ -233,7 +185,7 @@ export default function Home() {
       </div>
 
       {open && quote && step !== "done" && (
-        <div style={card}>
+        <div id="pay" style={card}>
           <h2 style={{ marginTop: 0 }}>Buy {(quote.tlds ?? ["teos"]).map((t: string) => `${clean}.${t}`).join(", ")} for {quote.price_sol} SOL{quote.price_usd ? ` ($${quote.price_usd})` : ""}</h2>
           <p><b>1. Prove it is your wallet.</b> Phantom asks you to sign a message. This costs nothing.</p>
           <button style={btn} disabled={busy || step !== "sign"} onClick={sign}>{pubkey ? "Signed" : "Connect Phantom and sign"}</button>
