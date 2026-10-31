@@ -34,7 +34,7 @@ export default function FoundersBanner() {
           <div style={{ fontSize: 15, color: "#3d352a" }}>ملكية أبدية على سولانا - إرث لا يحذف</div>
           <div style={{ fontSize: 26, margin: "10px 0", letterSpacing: 6 }} aria-hidden="true">🇪🇬 🇸🇦 🇦🇪 🇶🇦 🇲🇦 🇯🇴</div>
           <span style={{ display: "inline-block", background: "linear-gradient(90deg,#b45309,#ca8a04)", color: "#000", border: "2px solid #713f12", padding: "8px 22px", fontWeight: 700, fontSize: 14, boxShadow: "0 4px 10px rgba(0,0,0,.4)" }}>احجز مفتاحك الآن عبر واتساب ←</span>
-          <div dir="ltr" style={{ fontSize: 12, marginTop: 10, letterSpacing: "0.2em", color: "#57493a" }}>web4.elmahrosa.org • TEOS SOVEREIGN ROOT</div>
+          <div dir="ltr" style={{ fontSize: 12, marginTop: 10, letterSpacing: "0.2em", color: "#57493a" }}>ayman.elmahrosa.org • TEOS SOVEREIGN ROOT</div>
         </div>
         <Ankh />
       </div>
