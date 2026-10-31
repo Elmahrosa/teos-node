@@ -143,7 +143,7 @@ export default function Home() {
           </thead>
           <tbody>
             {[
-              ["5 letters or more", `$${stats?.promo_usd ?? 5}`, `$${stats?.market_usd?.long ?? 30}`],
+              ["5 letters or more", `$${stats?.promo_usd ?? 10}`, `$${stats?.market_usd?.long ?? 30}`],
               ["4 letters", "market price", `$${stats?.market_usd?.four ?? 150}`],
               ["3 letters", "market price", `$${stats?.market_usd?.short ?? 400}`],
             ].map(([a, b, c]) => (
