@@ -7,9 +7,9 @@ import { getTld, fullName } from "../../../../lib/tlds";
 
 const BASE = process.env.PUBLIC_BASE_URL?.trim() || "https://web4.elmahrosa.org";
 
-export async function GET(req: Request, { params }: { params: { name: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ name: string }> }) {
   try {
-    const parsed = parseDomain(params.name);
+    const parsed = parseDomain((await params).name);
     if (!parsed.ok) return NextResponse.json({ error: "not_found" }, { status: 404 });
     const name = parsed.domain;
     const tld = (new URL(req.url).searchParams.get("tld") || "teos").toLowerCase();
