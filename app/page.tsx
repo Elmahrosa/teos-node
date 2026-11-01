@@ -16,11 +16,8 @@ import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt } from "../lib/i18n";
 import { useLang } from "../lib/useLang";
 import { SOCIAL } from "../lib/social";
-import { DICTS, LANGS, fmt, type Lang } from "../lib/i18n";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { WalletMultiButton, useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { DICTS, LANGS, type Lang } from "../lib/i18n";
 
+declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const card: React.CSSProperties = { background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #3d352a", borderRadius: 4, padding: 20, margin: "16px 0", boxShadow: "inset 0 2px 12px rgba(0,0,0,.6)" };
@@ -46,12 +43,6 @@ export default function Home() {
     fetch("/api/stats").then((r) => r.json()).then(setStats).catch(() => {});
   }, []);
 
-  useEffect(() => { fetch("/api/stats").then((r) => r.json()).then(setStats).catch(() => {}); }, []);
-  const { wallets, publicKey, signMessage } = useWallet();
-  const { setVisible } = useWalletModal();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  const hasWallet = !mounted || wallets.some((w) => w.readyState === "Installed");
   const open = stats?.registration_open === true && stats?.mint_ready !== false;
   const clean = name.trim().toLowerCase().replace(/\.[a-z]{2,6}$/, "");
   const tldInfo = (t: string) => stats?.tlds?.find((x: any) => x.tld === t);
@@ -94,43 +85,6 @@ export default function Home() {
 
   const tiers = { promo: stats?.promo_usd ?? 10, long: stats?.market_usd?.long ?? 30, four: stats?.market_usd?.four ?? 150, short: stats?.market_usd?.short ?? 400 };
 
-    setQuote(qj); setStep("sign"); setPopup(false);
-    setTimeout(() => document.getElementById("pay")?.scrollIntoView({ behavior: "smooth" }), 50);
-  });
-
-  const sign = () => run(async () => {
-    const p = phantom();
-    if (!p) {
-      // Phone browsers do not inject a wallet. Phantom's deep link reopens this page inside the Phantom app's own browser.
-      if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
-        window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(window.location.href)}?ref=${encodeURIComponent(window.location.origin)}`;
-        return;
-      }
-      throw new Error(L.installPhantom);
-    }
-    const { publicKey } = await p.connect();
-    const { signature } = await p.signMessage(new TextEncoder().encode(quote.message_to_sign), "utf8");
-    setPubkey(publicKey.toString()); setSig(b64(signature)); setStep("pay");
-    if (!publicKey || !signMessage) { setVisible(true); throw new Error("Connect a wallet first, then press sign again"); }
-    const signature = await signMessage(new TextEncoder().encode(quote.message_to_sign));
-    setPubkey(publicKey.toBase58()); setSig(b64(signature)); setStep("pay");
-  });
-
-  const register = () => run(async () => {
-    const r = await fetch("/api/register", {
-      method: "POST", headers: { "content-type": "application/json" },
-      body: JSON.stringify({ domain: clean, quote_id: quote.quote_id, signature: sig, publicKey: pubkey, payment_tx: tx.trim() }),
-    });
-    const j = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(j.message || (j.error ? `Registration failed: ${j.error}` : `Registration failed (${r.status})`));
-    setResult(j); setStep("done");
-    if ((quote.tlds ?? ["teos"]).includes("teos")) {
-      const next = Array.from(new Set([...owned, clean]));
-      setOwned(next); localStorage.setItem("teosOwned", JSON.stringify(next));
-    }
-  });
-
-  const all: any[] = stats?.tlds ?? [];
   return (
     <>
     <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
@@ -141,8 +95,6 @@ export default function Home() {
           <a href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
           <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} disabled={busy} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
           <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}>{all.length || "..."} {L.tldsWord}</span>
-          <WalletMultiButton style={{ background: "#FF8C00", color: "#000", fontWeight: 700, height: 36, fontSize: 14, padding: "0 14px" }}>{publicKey ? undefined : "Connect Wallet"}</WalletMultiButton>
-          <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}>{all.length || "..."} TLDs</span>
         </span>
       </div>
     </nav>
@@ -154,16 +106,6 @@ export default function Home() {
         <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>{L.heroTitle}</h1>
         <p style={{ margin: 0, fontSize: 18, color: "#d6cbb5" }}>{L.heroSub}</p>
       </header>
-    <main dir={lang === "ar" ? "rtl" : "ltr"} lang={lang} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
-      {!hasWallet && (
-        <div role="status" style={{ background: "#854d0e", color: "#fef9c3", border: "1px solid #eab308", borderRadius: 4, padding: "6px 12px", fontSize: 13, marginBottom: 10, textAlign: "center" }}>No wallet found - You can browse, connect to mint (Phantom, Solflare, Backpack, Glow)</div>
-      )}
-      <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-        {LANGS.map((l) => <button key={l.code} onClick={() => pickLang(l.code)} style={{ ...tablet, background: lang === l.code ? "#713f12" : "#292321", color: lang === l.code ? "#fef3c7" : "#d6cbb5" }}>{l.label}</button>)}
-      </div>
-      <h1 style={{ fontFamily: SERIF, fontSize: 14, margin: "0 0 12px", color: "#a89a80", letterSpacing: "0.3em" }}>TEOS</h1>
-      <FoundersBanner t={L} rtl={lang === "ar"} />
-      <p style={{ fontSize: 20, color: "#a89a80" }}>{L.intro} <b>.teos</b> {L.intro2}</p>
 
       {stats && !open && (
         <div style={{ ...card, borderColor: "#b8860b" }}>
@@ -232,27 +174,6 @@ export default function Home() {
 
       {/* Why buy */}
       <WhyBuy t={L} countries={Math.max(0, all.length - 1)} onCta={goSearch} />
-      {open && quote && step !== "done" && (
-        <div id="pay" style={card}>
-          <h2 style={{ marginTop: 0 }}>{fmt(L.buyTitle, { list: (quote.tlds ?? ["teos"]).map((t: string) => `${clean}.${t}`).join(", "), sol: `${quote.price_sol}${quote.price_usd ? ` ($${quote.price_usd})` : ""}` })}</h2>
-          <p><b>{L.step1}</b> {L.step1b}</p>
-          <button style={btn} disabled={busy || step !== "sign"} onClick={sign}>{pubkey ? L.signed : L.connectSign}</button>
-          {pubkey && <p style={{ wordBreak: "break-all", color: "#a89a80" }}>{L.walletLbl}: {pubkey}</p>}
-          <h2 style={{ marginTop: 0 }}>Buy {(quote.tlds ?? ["teos"]).map((t: string) => `${clean}.${t}`).join(", ")} for {quote.price_sol} SOL{quote.price_usd ? ` ($${quote.price_usd})` : ""}</h2>
-          <p><b>1. Prove it is your wallet.</b> Your wallet asks you to sign a message. This costs nothing.</p>
-          <button style={btn} disabled={busy || step !== "sign"} onClick={sign}>{pubkey ? "Signed" : "Connect wallet and sign"}</button>
-          {pubkey && <p style={{ wordBreak: "break-all", color: "#a89a80" }}>Wallet: {pubkey}</p>}
-          {step === "pay" && (
-            <>
-              <p><b>{L.step2}</b> {fmt(L.step2b, { sol: quote.price_sol })}</p>
-              <code style={{ wordBreak: "break-all", display: "block", background: "#0a0806", padding: 10, borderRadius: 8 }}>{quote.pay_to}</code>
-              <p><b>{L.step3}</b> {L.step3b}</p>
-              <input style={input} value={tx} placeholder={L.txPh} onChange={(e) => setTx(e.target.value)} />
-              <p><button style={btn} disabled={busy || !tx.trim()} onClick={register}>{L.register}</button></p>
-            </>
-          )}
-        </div>
-      )}
 
       {/* Pricing */}
       <PricingTable t={L} tiers={tiers} solUsd={stats?.sol_usd ?? null} />
@@ -273,22 +194,11 @@ export default function Home() {
 
       <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px", textAlign: "center", margin: "16px 0" }}>
         <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={72} ticker={false} /></div>
-      <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px 96px", textAlign: "center", margin: "16px 0" }}>
-        <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={72} /></div>
         <h2 dir="auto" style={{ fontFamily: SERIF, margin: "10px 0 4px" }}>{L.certTitle}</h2>
         <p dir="auto" style={{ margin: 0 }}>{L.certText}</p>
       </div>
       <SiteFooter t={L} />
       <AymanContact t={L} rtl={rtl} />
-      <AymanContact t={L} rtl={lang === "ar"} />
-      <footer style={{ ...card, textAlign: "center", color: "#a89a80", fontSize: 14 }}>
-        Founder TEOS - Alexandria Egypt - WhatsApp: <a style={{ color: "#25D366" }} href="https://wa.me/201006167293" target="_blank" rel="noopener noreferrer">01006167293</a>
-        {" "}- <a style={{ color: "#eab308" }} href="https://ayman.elmahrosa.org" target="_blank" rel="noopener noreferrer">ayman.elmahrosa.org</a>
-        {" "}<a title="Facebook" aria-label="Facebook" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://www.facebook.com/share/19p8WPE4tf/" target="_blank" rel="noopener noreferrer">f</a>
-        {" "}<a title="X" aria-label="X" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://x.com/king_teos" target="_blank" rel="noopener noreferrer">X</a>
-        {" "}<a title="Telegram" aria-label="Telegram" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://t.me/Elmahrosapi" target="_blank" rel="noopener noreferrer">Telegram</a>
-      </footer>
-      <AymanContact lang={lang} />
     </main>
     </>
   );
