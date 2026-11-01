@@ -10,6 +10,9 @@ import LanguageToggle from "../components/LanguageToggle";
 import Divider from "../components/Divider";
 import PricingTable from "../components/PricingTable";
 import TrustSection from "../components/TrustSection";
+import PaymentOptions from "../components/PaymentOptions";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import LiveTicker from "../components/LiveTicker";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
@@ -36,7 +39,9 @@ export default function Home() {
   const [popup, setPopup] = useState(false);
   const [owned, setOwned] = useState<string[]>([]); // names whose .teos was registered in this browser (UI hint only)
   const [selectedTld, setSelectedTld] = useState("eg");
-  const [wallet, setWallet] = useState("");
+  const { publicKey } = useWallet();
+  const { setVisible } = useWalletModal();
+  const wallet = publicKey?.toBase58() ?? "";
   useEffect(() => {
     try { setOwned(JSON.parse(localStorage.getItem("teosOwned") || "[]")); } catch {}
     const lc = localeCountry(); if (lc) setSelectedTld(lc);
@@ -75,13 +80,7 @@ export default function Home() {
     document.getElementById("search")?.scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => document.getElementById("n")?.focus(), 400);
   };
-  const phantom = () => (typeof window !== "undefined" ? window.phantom?.solana ?? window.solana : undefined);
-  const connectWallet = () => run(async () => {
-    const p = phantom();
-    if (!p) throw new Error(L.installPhantom);
-    const { publicKey } = await p.connect();
-    setWallet(publicKey.toString());
-  });
+  const connectWallet = () => setVisible(true);
 
   const tiers = { promo: stats?.promo_usd ?? 10, long: stats?.market_usd?.long ?? 30, four: stats?.market_usd?.four ?? 150, short: stats?.market_usd?.short ?? 400 };
 
@@ -93,7 +92,7 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}><FounderSeal size={48} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.3em", color: "#fef3c7", lineHeight: 1 }}>SOVEREIGN</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
-          <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} disabled={busy} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
+          <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
           <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}>{all.length || "..."} {L.tldsWord}</span>
         </span>
       </div>
@@ -185,9 +184,8 @@ export default function Home() {
       {/* C. Action */}
       <div style={{ textAlign: "center", margin: "8px 0 8px" }}>
         <button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button>
-        <p style={{ margin: "10px 0 0", color: "#a89a80", fontSize: 14 }}>{L.reserveHint}</p>
-        <p style={{ margin: "6px 0 0", fontSize: 13 }}><a style={{ color: "#a89a80" }} href={SOCIAL.help} target="_blank" rel="noopener noreferrer">{L.needHelp}</a></p>
       </div>
+      <PaymentOptions t={L} rtl={rtl} />
 
       <Divider />
       <TrustSection t={L} founders={stats?.founders ?? []} mints={stats?.mints ?? []} />
