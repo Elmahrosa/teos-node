@@ -10,7 +10,7 @@ const Flag = ({ t, size = 22 }: { t: T; size?: number }) =>
   );
 
 // Vertical country picker, same look as the language tablets. The list is only rendered while open.
-export default function CountryDropdown({ tlds, selected, onSelect, placeholder = "Search country..." }: { tlds: T[]; selected: string; onSelect: (tld: string) => void; placeholder?: string }) {
+export default function CountryDropdown({ tlds, selected, onSelect, placeholder = "Search country...", empty = "-" }: { tlds: T[]; selected: string; onSelect: (tld: string) => void; placeholder?: string; empty?: string }) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const ref = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ export default function CountryDropdown({ tlds, selected, onSelect, placeholder 
                 <Flag t={t} /><span style={{ flex: 1 }}>{t.name ?? t.label}</span><span style={{ color: "#a89a80", fontFamily: "ui-monospace, monospace" }}>.{t.tld}</span>
               </button>
             ))}
-            {rows.length === 0 && <div style={{ padding: 12, color: "#a89a80", fontSize: 13 }}>-</div>}
+            {rows.length === 0 && <div style={{ padding: 12, color: "#a89a80", fontSize: 13 }}>{empty}</div>}
           </div>
         </div>
       )}
