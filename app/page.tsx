@@ -4,8 +4,9 @@ import FounderSeal from "../components/FounderSeal";
 import FoundersBanner from "../components/FoundersBanner";
 import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopup";
 import CountryDropdown from "../components/CountryDropdown";
+import SiteFooter from "../components/SiteFooter";
 import AymanContact from "../components/AymanContact";
-import { DICTS, LANGS, type Lang } from "../lib/i18n";
+import { DICTS, LANGS, fmt, type Lang } from "../lib/i18n";
 
 declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
@@ -85,7 +86,7 @@ export default function Home() {
         window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(window.location.href)}?ref=${encodeURIComponent(window.location.origin)}`;
         return;
       }
-      throw new Error("Install the Phantom wallet to continue.");
+      throw new Error(L.installPhantom);
     }
     const { publicKey } = await p.connect();
     const { signature } = await p.signMessage(new TextEncoder().encode(quote.message_to_sign), "utf8");
@@ -119,11 +120,11 @@ export default function Home() {
     <>
     <nav style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><FounderSeal size={48} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.3em", color: "#fef3c7", lineHeight: 1 }}>SOVEREIGN</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>WEB3 DOMAIN MARKETPLACE</div></div></div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><FounderSeal size={48} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.3em", color: "#fef3c7", lineHeight: 1 }}>SOVEREIGN</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
-          <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} disabled={busy} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : "Connect Wallet"}</button>
-          <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}>{all.length || "..."} TLDs</span>
+          <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} disabled={busy} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
+          <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}>{all.length || "..."} {L.tldsWord}</span>
         </span>
       </div>
     </nav>
@@ -132,7 +133,7 @@ export default function Home() {
         {LANGS.map((l) => <button key={l.code} onClick={() => pickLang(l.code)} style={{ ...tablet, background: lang === l.code ? "#713f12" : "#292321", color: lang === l.code ? "#fef3c7" : "#d6cbb5" }}>{l.label}</button>)}
       </div>
       <h1 style={{ fontFamily: SERIF, fontSize: 14, margin: "0 0 12px", color: "#a89a80", letterSpacing: "0.3em" }}>TEOS</h1>
-      <FoundersBanner />
+      <FoundersBanner t={L} rtl={lang === "ar"} />
       <p style={{ fontSize: 20, color: "#a89a80" }}>{L.intro} <b>.teos</b> {L.intro2}</p>
 
       {stats && !open && (
@@ -157,7 +158,7 @@ export default function Home() {
             <label htmlFor="n" style={{ display: "block", marginBottom: 10, fontFamily: SERIF, letterSpacing: "0.1em", fontSize: 18 }}>{L.find}</label>
             <input id="n" dir="auto" style={{ ...input, fontSize: 21, padding: "16px 14px", textAlign: "center" }} value={name} placeholder={L.sonPlaceholder} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
             <div style={{ margin: "12px 0" }}>
-              <CountryDropdown tlds={all} selected={selectedTld} onSelect={setSelectedTld} placeholder={L.country} />
+              <CountryDropdown tlds={all} selected={selectedTld} onSelect={setSelectedTld} placeholder={L.country} empty={L.dropdownEmpty} />
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, textAlign: "center" }}>
               <div style={{ flex: "1 1 200px", background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, minWidth: 0 }}>
@@ -176,13 +177,16 @@ export default function Home() {
             <p style={{ margin: "16px 0 0" }}>
               <button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button>
             </p>
-            <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? `${all.length} sovereign TLDs` : "Sovereign TLDs"} • Dig Site 022 Alexandria • Rule: TEOS Root Required</p>
+            <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? fmt(L.sovTlds, { n: all.length }) : ""} • {L.rule}</p>
           </div>
         </div>
       </div>
 
       {popup && (
         <DomainSearchPopup
+          t={L}
+          rtl={lang === "ar"}
+          homeTld={selectedTld}
           name={clean}
           teos={checked ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null}
           tlds={all}
@@ -220,17 +224,17 @@ export default function Home() {
 
       {open && quote && step !== "done" && (
         <div id="pay" style={card}>
-          <h2 style={{ marginTop: 0 }}>Buy {(quote.tlds ?? ["teos"]).map((t: string) => `${clean}.${t}`).join(", ")} for {quote.price_sol} SOL{quote.price_usd ? ` ($${quote.price_usd})` : ""}</h2>
-          <p><b>1. Prove it is your wallet.</b> Phantom asks you to sign a message. This costs nothing.</p>
-          <button style={btn} disabled={busy || step !== "sign"} onClick={sign}>{pubkey ? "Signed" : "Connect Phantom and sign"}</button>
-          {pubkey && <p style={{ wordBreak: "break-all", color: "#a89a80" }}>Wallet: {pubkey}</p>}
+          <h2 style={{ marginTop: 0 }}>{fmt(L.buyTitle, { list: (quote.tlds ?? ["teos"]).map((t: string) => `${clean}.${t}`).join(", "), sol: `${quote.price_sol}${quote.price_usd ? ` ($${quote.price_usd})` : ""}` })}</h2>
+          <p><b>{L.step1}</b> {L.step1b}</p>
+          <button style={btn} disabled={busy || step !== "sign"} onClick={sign}>{pubkey ? L.signed : L.connectSign}</button>
+          {pubkey && <p style={{ wordBreak: "break-all", color: "#a89a80" }}>{L.walletLbl}: {pubkey}</p>}
           {step === "pay" && (
             <>
-              <p><b>2. Pay.</b> From the same wallet, send exactly {quote.price_sol} SOL to:</p>
+              <p><b>{L.step2}</b> {fmt(L.step2b, { sol: quote.price_sol })}</p>
               <code style={{ wordBreak: "break-all", display: "block", background: "#0a0806", padding: 10, borderRadius: 8 }}>{quote.pay_to}</code>
-              <p><b>3. Paste the transaction signature</b> and register within 5 minutes of the quote.</p>
-              <input style={input} value={tx} placeholder="transaction signature" onChange={(e) => setTx(e.target.value)} />
-              <p><button style={btn} disabled={busy || !tx.trim()} onClick={register}>Register</button></p>
+              <p><b>{L.step3}</b> {L.step3b}</p>
+              <input style={input} value={tx} placeholder={L.txPh} onChange={(e) => setTx(e.target.value)} />
+              <p><button style={btn} disabled={busy || !tx.trim()} onClick={register}>{L.register}</button></p>
             </>
           )}
         </div>
@@ -238,10 +242,10 @@ export default function Home() {
 
       {step === "done" && result && (
         <div style={{ ...card, borderColor: "#4ade80" }}>
-          <h2 style={{ marginTop: 0 }}>{result.items ? result.items.map((i: any) => i.domain).join(", ") : `${clean}.teos`} registered</h2>
+          <h2 style={{ marginTop: 0 }}>{result.items ? result.items.map((i: any) => i.domain).join(", ") : `${clean}.teos`} {L.registered}</h2>
           {result.pending_mint
-            ? <p>Your payment and name are recorded. The asset is not minted yet, so save this page and contact support with your transaction signature.</p>
-            : <p>The asset was minted to your wallet.</p>}
+            ? <p>{L.recorded}</p>
+            : <p>{L.minted}</p>}
           <pre style={{ whiteSpace: "pre-wrap", wordBreak: "break-all", color: "#a89a80" }}>{JSON.stringify(result, null, 2)}</pre>
         </div>
       )}
@@ -255,13 +259,11 @@ export default function Home() {
       </div>
       <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px", textAlign: "center", margin: "16px 0" }}>
         <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={72} /></div>
-        <h2 dir="auto" style={{ fontFamily: SERIF, margin: "10px 0 4px" }}>{L.certTitle} - Dig Certificate</h2>
+        <h2 dir="auto" style={{ fontFamily: SERIF, margin: "10px 0 4px" }}>{L.certTitle}</h2>
         <p dir="auto" style={{ margin: 0 }}>{L.certText}</p>
       </div>
-      <footer style={{ ...card, textAlign: "center", color: "#a89a80", fontSize: 14 }}>
-        Founder TEOS - Alexandria Egypt - WhatsApp: <a style={{ color: "#25D366" }} href="https://wa.me/201006167293" target="_blank" rel="noopener noreferrer">01006167293</a>
-      </footer>
-      <AymanContact lang={lang} />
+      <SiteFooter t={L} />
+      <AymanContact t={L} rtl={lang === "ar"} />
     </main>
     </>
   );
