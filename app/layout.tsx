@@ -10,6 +10,10 @@ export const metadata: Metadata = {
   description: DESC,
   openGraph: { title: TITLE, description: DESC, url: SITE, siteName: "TEOS", type: "website" },
   twitter: { card: "summary_large_image", title: TITLE, description: DESC },
+import Providers from "./providers";
+export const metadata = {
+  title: "TEOS - .teos names on Solana",
+  description: "Register your .teos name as a Metaplex Core asset on Solana.",
 };
 
 const jsonLd = {
@@ -31,6 +35,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body style={{ margin: 0, background: "radial-gradient(ellipse at top,#1a1611,#0a0806 70%)", color: "#f5e6c4", fontFamily: "Georgia, serif", minHeight: "100vh" }}>{children}</body>
+      <head><link rel="preconnect" href="https://fonts.googleapis.com" /><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet" /></head>
+      <body style={{ margin: 0, background: "radial-gradient(ellipse at top,#1a1611,#0a0806 70%)", color: "#f5e6c4", fontFamily: "Georgia, serif", minHeight: "100vh" }}><Providers>{children}</Providers></body>
     </html>
   );
 }
