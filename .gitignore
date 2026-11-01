@@ -17,3 +17,4 @@ wallet.json
 !package-lock.json
 !tsconfig.json
 !tlds/*.json
+!locales/*.json
