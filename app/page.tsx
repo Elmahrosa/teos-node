@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import PricingLogic from "../components/PricingLogic";
 import Bidi from "../components/Bidi";
 import Image from "next/image";
 import FounderSeal from "../components/FounderSeal";
@@ -53,7 +54,7 @@ const tablet: React.CSSProperties = { background: "#292321", color: "#d6cbb5", b
 const input: React.CSSProperties = { background: "#c9b896", color: "#2a2520", border: "1px solid #8a7550", borderInline: "8px double #7a6540", borderRadius: 0, padding: "10px 12px", fontSize: 16, width: "100%", boxSizing: "border-box" };
 
 export default function Home() {
-  const { lang, setLang, L, rtl } = useLang();
+  const { lang, setLang, L, t, rtl } = useLang();
   const [stats, setStats] = useState<any>(null);
   const [name, setName] = useState("");
   const [checked, setChecked] = useState<any>(null); // /api/check response
@@ -117,7 +118,7 @@ export default function Home() {
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
           <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
-          <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}>{all.length || "..."} {L.tldsWord}</span>
+          <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}><Bidi text={t("header.tlds")} /></span>
         </span>
       </div>
     </nav>
@@ -126,15 +127,14 @@ export default function Home() {
 
       {/* A. Hero */}
       <header style={{ textAlign: "center", margin: "24px 0 8px" }}>
-        <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>TEOS Sovereign Root</h1>
-        <p style={{ margin: 0, fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h1} /></p>
-        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h2} /></p>
-        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h3} /></p>
-        <p style={{ margin: "16px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h4} /></p>
-        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h5} /></p>
-        <p style={{ margin: "16px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h6} /></p>
+        <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>{t("hero.title")}</h1>
+        <p dir="auto" style={{ margin: 0, fontSize: 18, color: "#d6cbb5" }}><Bidi text={t("hero.subtitle")} /></p>
+        <p dir="auto" style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={t("hero.founded")} /></p>
+        <p dir="auto" style={{ margin: "16px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={t("hero.desc1")} /></p>
+        <p dir="auto" style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={t("hero.desc2")} /></p>
+        <p dir="auto" style={{ margin: "16px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={t("hero.cta")} /></p>
         <p style={{ margin: "16px 0 0" }}><b style={{ color: "#fef3c7" }}><Bidi text={fmt(L.h7, { sol: "" })} />{stats?.sol_usd ? <bdi dir="ltr"> (~{(10 / stats.sol_usd).toFixed(3)} SOL)</bdi> : null}</b></p>
-        <button onClick={goSearch} style={{ ...btn, fontSize: 20, padding: "14px 34px", marginTop: 14 }}>{L.h8}</button>
+        <button onClick={goSearch} style={{ ...btn, fontSize: 20, padding: "14px 34px", marginTop: 14 }}>{t("hero.getKey")}</button>
       </header>
       <FounderIntro t={L} rtl={rtl} tlds={all.length} solUsd={stats?.sol_usd ?? null} />
 
@@ -157,7 +157,7 @@ export default function Home() {
           </svg>
           <div style={{ flex: "1 1 360px", textAlign: "center", minWidth: 0 }}>
             <label htmlFor="n" style={{ display: "block", marginBottom: 10, fontFamily: SERIF, letterSpacing: "0.1em", fontSize: 18 }}>{L.find}</label>
-            <input id="n" dir="auto" style={{ ...input, fontSize: 21, padding: "16px 14px", textAlign: "center" }} value={name} placeholder={L.sonPlaceholder} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
+            <input id="n" dir="auto" style={{ ...input, fontSize: 21, padding: "16px 14px", textAlign: "center" }} value={name} placeholder={t("hero.searchPlaceholder")} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
             <div style={{ margin: "12px 0" }}>
               <CountryDropdown tlds={all} selected={selectedTld} onSelect={setSelectedTld} placeholder={L.country} empty={L.dropdownEmpty} />
             </div>
@@ -171,7 +171,7 @@ export default function Home() {
               <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
                 <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
-                <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={`${L.locked} - ${L.needsTeos}`} />}</div>
+                <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
                 <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>${tldInfo(selectedTld)?.promo_usd ?? 10}</div>
               </div>
             </div>
@@ -218,6 +218,7 @@ export default function Home() {
 
       {/* Pricing */}
       <PricingTable t={L} tiers={tiers} solUsd={stats?.sol_usd ?? null} />
+      <PricingLogic t={t} tlds={all} />
 
       <Divider />
       {/* B. Offer */}

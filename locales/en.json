@@ -1,0 +1,33 @@
+{
+  "header": {
+    "search": "Search your name",
+    "connect": "Connect Wallet",
+    "tlds": "125 Sovereign Namespaces",
+    "live": "LIVE • ALEXANDRIA • 125 TLD • WEB4 MARKET"
+  },
+  "hero": {
+    "title": "TEOS Sovereign Root",
+    "subtitle": "From Alexandria, Egypt.",
+    "founded": "Founded by Ayman Seif • 125 Sovereign Namespaces • One Root Key • WEB4 Identity Infrastructure",
+    "desc1": "teos is the master root credential of the TEOS ecosystem. It serves as the foundation for sovereign country identities and next-generation digital ownership.",
+    "desc2": "This is not a domain marketplace. We do not sell domains. We distribute sovereign identity keys that enable participation in the WEB4 ecosystem.",
+    "cta": "Claim your sovereign identity. Own your name across 125 nations.",
+    "welcome": "Welcome to my marketplace web4.elmahrosa.org",
+    "searchPlaceholder": "Search your name",
+    "mandatory": "Sovereign Key - MANDATORY",
+    "locked": "LOCKED - Requires {tld} first",
+    "checkNow": "Check Now",
+    "getKey": "Claim your sovereign key"
+  },
+  "pricing": {
+    "howTitle": "How it works",
+    "how1": ".teos is the root key. A country name such as saloma.eg only unlocks if the wallet has saloma.teos, either in same purchase or already owned. Server enforces this.",
+    "how2": "After .teos, buyer can unlock 124 country domains. List in tlds/all.json",
+    "priceTitle": "Pricing",
+    "price5": "$10 for 5+ letter names while fewer than 100 sold on that TLD. After that $30",
+    "price4": "4-letter names are always $150",
+    "price3": "3-letter names are always $400",
+    "priceTR": ".tr is $8 in Genesis phase",
+    "ownership": "Every name is a Metaplex Core asset on Solana, owned by buyer wallet. No renewal fee, tradable from Phantom, Solflare, Backpack"
+  }
+}

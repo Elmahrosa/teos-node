@@ -11,7 +11,7 @@ export default function AymanContact({ t, rtl = false }: { t: Dict; rtl?: boolea
   const label = t.ayman;
   return (
     <>
-      <button onClick={() => setOpen(true)} aria-label={label} title={label} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 50, border: 0, background: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+      <button onClick={() => setOpen(true)} aria-label={label} title={label} style={{ position: "fixed", bottom: 20, insetInlineEnd: 20, zIndex: 50, border: 0, background: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
         <span style={{ width: 56, height: 56, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%,#ca8a04,#713f12)", border: "2px solid #eab308", boxShadow: "0 6px 20px rgba(0,0,0,.6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, color: "#2a1a05" }}>⚓</span>
         <span style={{ fontSize: 11, color: "#f5e6c4", background: "#1a1611cc", border: "1px solid #3d352a", borderRadius: 3, padding: "1px 6px" }}>{label}</span>
       </button>
