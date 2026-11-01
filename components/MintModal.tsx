@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { fmt, type Dict } from "../lib/i18n";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
@@ -10,31 +12,19 @@ const tablet: React.CSSProperties = { background: "#292321", color: "#f5e6c4", b
 
 export type MintQuote = { quote_id: string; price_sol: number; price_usd?: number; expires_at: number; message_to_sign: string; pay_to: string | null; tlds?: string[] };
 
-type Wallet = { id: string; name: string; provider: any };
 type Phase = "choose" | "approve" | "signing" | "paying" | "minting" | "error";
-
-// Injected browser wallets. Each exposes connect, signMessage and signAndSendTransaction.
-const detect = (): Wallet[] => {
-  const w = window as any;
-  const found: Wallet[] = [];
-  const ph = w.phantom?.solana ?? (w.solana?.isPhantom ? w.solana : null);
-  if (ph) found.push({ id: "phantom", name: "Phantom", provider: ph });
-  if (w.solflare?.isSolflare) found.push({ id: "solflare", name: "Solflare", provider: w.solflare });
-  const bp = w.backpack?.solana ?? w.backpack;
-  if (bp?.isBackpack || bp?.connect) found.push({ id: "backpack", name: "Backpack", provider: bp });
-  return found;
-};
 
 export default function MintModal(props: { t: Dict; rtl: boolean; domain: string; quote: MintQuote; onClose: () => void; helpHref: string }) {
   const { t, rtl, domain, quote, onClose, helpHref } = props;
-  const [wallets, setWallets] = useState<Wallet[]>([]);
+  const { publicKey, connected, signMessage, sendTransaction, wallet } = useWallet();
+  const { connection } = useConnection();
+  const { setVisible } = useWalletModal();
   const [phase, setPhase] = useState<Phase>("choose");
   const [err, setErr] = useState("");
   const [left, setLeft] = useState(() => Math.max(0, Math.floor((quote.expires_at - Date.now()) / 1000)));
   const tlds = quote.tlds ?? ["teos"];
   const list = tlds.map((x) => `${domain}.${x}`).join(" + ");
 
-  useEffect(() => { setWallets(detect()); }, []);
   useEffect(() => {
     const iv = setInterval(() => setLeft(Math.max(0, Math.floor((quote.expires_at - Date.now()) / 1000))), 1000);
     return () => clearInterval(iv);
@@ -49,24 +39,23 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
   const clock = useMemo(() => `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`, [left]);
   const mobile = typeof navigator !== "undefined" && /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-  async function pay(w: Wallet) {
+  async function pay() {
     setErr("");
     try {
       if (!quote.pay_to) throw new Error("no_treasury");
+      if (!publicKey) throw new Error(t.mmNone);
+      if (!signMessage) throw new Error(t.mmNoSign);
       setPhase("signing");
-      const p = w.provider;
-      const res = await p.connect();
-      const pk = new PublicKey((res?.publicKey ?? p.publicKey).toString());
-      const signed = await p.signMessage(new TextEncoder().encode(quote.message_to_sign), "utf8");
-      const signature = b64(signed?.signature ?? signed);
+      const pk = publicKey;
+      const signed = await signMessage(new TextEncoder().encode(quote.message_to_sign));
+      const signature = b64(signed);
 
       const bh = await fetch("/api/blockhash", { cache: "no-store" }).then((r) => r.json());
       if (!bh.blockhash) throw new Error("rpc_unavailable");
       const tx = new Transaction({ feePayer: pk, recentBlockhash: bh.blockhash }).add(
         SystemProgram.transfer({ fromPubkey: pk, toPubkey: new PublicKey(quote.pay_to), lamports: Math.round(quote.price_sol * 1e9) }),
       );
-      const sent = await p.signAndSendTransaction(tx);
-      const payment_tx: string = typeof sent === "string" ? sent : sent.signature;
+      const payment_tx: string = await sendTransaction(tx, connection);
 
       setPhase("minting");
       // The server reads the payment from the chain, so give it a few tries while the transfer confirms.
@@ -110,16 +99,20 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
         {!expired && (phase === "choose" || phase === "error") && (
           <>
             <p style={{ margin: "0 0 8px", color: "#a89a80", fontSize: 14 }}>{t.mmTwice}</p>
-            {wallets.length > 0 ? (
-              <div style={{ display: "grid", gap: 8 }}>
-                <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.1em", color: "#a89a80" }}>{t.mmChoose}</div>
-                {wallets.map((w) => <button key={w.id} style={phase === "error" ? tablet : gold} onClick={() => pay(w)}>{w.name} - {t.mmApprove}</button>)}
-              </div>
-            ) : mobile ? (
-              <a style={{ ...gold, display: "block", textAlign: "center", textDecoration: "none" }} href={`https://phantom.app/ul/browse/${encodeURIComponent(location.href)}?ref=${encodeURIComponent(location.origin)}`}>{t.mmOpenPhantom}</a>
-            ) : (
-              <p style={{ color: "#fca5a5" }}>{t.mmNone}</p>
-            )}
+            <div style={{ display: "grid", gap: 8 }}>
+              {!connected ? (
+                <button style={gold} onClick={() => setVisible(true)}>{t.connect}</button>
+              ) : (
+                <>
+                  <div dir="ltr" style={{ fontSize: 13, color: "#a89a80" }}>{wallet?.adapter.name}: {publicKey?.toBase58().slice(0, 4)}...{publicKey?.toBase58().slice(-4)}</div>
+                  <button style={phase === "error" ? tablet : gold} onClick={pay}>{t.mmApprove}</button>
+                  <button style={tablet} onClick={() => setVisible(true)}>{t.mmChoose}</button>
+                </>
+              )}
+              {mobile && !connected && (
+                <a style={{ ...tablet, display: "block", textAlign: "center", textDecoration: "none" }} href={`https://phantom.app/ul/browse/${encodeURIComponent(location.href)}?ref=${encodeURIComponent(location.origin)}`}>{t.mmOpenPhantom}</a>
+              )}
+            </div>
           </>
         )}
         {busy && <p role="status" style={{ fontWeight: 700 }}>{phase === "signing" ? t.mmSigning : phase === "paying" ? t.mmPaying : t.mmMinting}</p>}
