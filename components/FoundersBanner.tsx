@@ -15,7 +15,7 @@ import type { Dict } from "../lib/i18n";
 
 export default function FoundersBanner({ t, rtl = false }: { t: Dict; rtl?: boolean }) {
   return (
-    <a href="https://wa.me/201006167293" target="_blank" rel="noopener noreferrer" style={{ display: "block", textDecoration: "none", maxWidth: 900, margin: "0 auto 28px", filter: "drop-shadow(0 10px 24px rgba(0,0,0,.7))" }}>
+    <div style={{ maxWidth: 900, margin: "0 auto 28px", filter: "drop-shadow(0 10px 24px rgba(0,0,0,.7))" }}>
       <div style={{ background: "linear-gradient(180deg,#3a3128,#292321)", border: "1px solid #57493a", borderBottom: 0, textAlign: "center", padding: "10px 12px", color: "#eab308", fontFamily: "Cinzel, Georgia, serif", fontWeight: 700, letterSpacing: "0.22em", fontSize: 13 }}>
         {t.bTop}
       </div>
@@ -31,6 +31,9 @@ export default function FoundersBanner({ t, rtl = false }: { t: Dict; rtl?: bool
             </g>
             <circle cx="52" cy="26" r="9" fill="#451a03" />
           </svg>
+          <div style={{ fontSize: 38, fontWeight: 800, margin: "0 0 4px", color: "#451a03" }}>{t.offerTitle}</div>
+          <div style={{ fontSize: 20, fontWeight: 700 }}>{t.offerLine}</div>
+          <div style={{ fontSize: 15, color: "#3d352a" }}>{t.offerNote}</div>
           <div style={{ fontSize: 20, fontWeight: 700 }}>{t.bTitle}</div>
           <div style={{ fontSize: 38, fontWeight: 800, margin: "6px 0", color: "#451a03" }}>{t.bPrice} <span style={{ fontSize: 18, fontWeight: 400, textDecoration: "line-through", color: "#57493a" }}>{t.bInstead}</span></div>
           <div style={{ fontSize: 15, color: "#3d352a" }}>{t.bSub}</div>
@@ -42,6 +45,6 @@ export default function FoundersBanner({ t, rtl = false }: { t: Dict; rtl?: bool
         </div>
         <Ankh />
       </div>
-    </a>
+    </div>
   );
 }
