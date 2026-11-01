@@ -140,7 +140,14 @@ export default function Home() {
 
       {stats && !open && (
         <div style={{ ...card, borderColor: "#b8860b" }}>
-          <b>{stats.registration_open === true ? L.paused : L.soon}</b> {L.checkNow}
+          {stats.registration_open === true ? (
+            <><b>{L.paused}</b> {L.checkNow}</>
+          ) : (
+            <>
+              <b>{L.pioneerNote}</b> {L.checkNow}{" "}
+              <a href={SOCIAL.whatsapp} target="_blank" rel="noopener noreferrer" style={{ color: "#fbbf24", fontWeight: 700 }}>{L.pioneerCta}</a>
+            </>
+          )}
         </div>
       )}
 
