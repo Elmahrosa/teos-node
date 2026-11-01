@@ -5,6 +5,7 @@ import type { Dict } from "../lib/i18n";
 // Items come from real data: founder names minted, total sold (when the API reports it), TLD count.
 export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; rtl: boolean; founders: string[]; sold: number | null; tlds: number }) {
   const items = [
+    t.tkTop,
     ...founders.map((f) => `${f} ${t.tkMinted}`),
     ...(sold && sold > 0 ? [`${sold} ${t.tkSold}`] : []),
     t.tkGenesis,

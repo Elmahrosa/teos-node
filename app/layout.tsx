@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Providers from "./providers";
 
 const SITE = "https://web4.elmahrosa.org";
-const TITLE = "TEOS - Sovereign WEB4 Domains - web4.elmahrosa.org";
-const DESC = "Register .teos and country domains as Solana assets. $10 genesis.";
+const TITLE = "TEOS Sovereign Root - From Alexandria, Egypt. Founded by Ayman Elmahrosa.";
+const DESC = "TEOS Sovereign Root - 125 Sovereign Namespaces. One Root Key. WEB4 Identity Infrastructure. .teos is the master root credential. Founded by Ayman Elmahrosa from Alexandria, Egypt. Genesis Access $10.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
