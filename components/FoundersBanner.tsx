@@ -11,9 +11,9 @@ const Ankh = () => (
 
 const TORN = "polygon(0% 6%,4% 0%,9% 5%,15% 1%,22% 6%,30% 0%,38% 5%,46% 1%,54% 6%,62% 0%,70% 5%,78% 1%,86% 6%,93% 0%,100% 5%,99% 40%,100% 70%,98% 100%,92% 95%,85% 100%,77% 95%,69% 100%,60% 95%,52% 100%,44% 95%,35% 100%,27% 95%,18% 100%,10% 95%,4% 100%,0% 94%,1% 60%)";
 
-import type { Dict } from "../lib/i18n";
+import { fmt, type Dict } from "../lib/i18n";
 
-export default function FoundersBanner({ t, rtl = false }: { t: Dict; rtl?: boolean }) {
+export default function FoundersBanner({ t, rtl = false, left = null }: { t: Dict; rtl?: boolean; left?: number | null }) {
   return (
     <div style={{ maxWidth: 900, margin: "0 auto 28px", filter: "drop-shadow(0 10px 24px rgba(0,0,0,.7))" }}>
       <div style={{ background: "linear-gradient(180deg,#3a3128,#292321)", border: "1px solid #57493a", borderBottom: 0, textAlign: "center", padding: "10px 12px", color: "#eab308", fontFamily: "Cinzel, Georgia, serif", fontWeight: 700, letterSpacing: "0.22em", fontSize: 13 }}>
@@ -31,8 +31,15 @@ export default function FoundersBanner({ t, rtl = false }: { t: Dict; rtl?: bool
             </g>
             <circle cx="52" cy="26" r="9" fill="#451a03" />
           </svg>
-          <div style={{ fontSize: 38, fontWeight: 800, margin: "0 0 4px", color: "#451a03" }}>{t.offerTitle}</div>
-          <div style={{ fontSize: 20, fontWeight: 700 }}>{t.offerLine}</div>
+          {left === 0 ? (
+            <div style={{ fontSize: 22, fontWeight: 800, margin: "8px 0", color: "#7f1d1d" }}>{t.offerEnded}</div>
+          ) : (
+            <>
+              <div style={{ fontSize: 38, fontWeight: 800, margin: "0 0 4px", color: "#451a03" }}>{t.offerTitle}</div>
+              <div style={{ fontSize: 20, fontWeight: 700 }}>{t.offerLine}</div>
+              {left !== null && <div style={{ fontSize: 16, fontWeight: 700, margin: "6px 0", color: "#7f1d1d" }}>{fmt(t.offerLeft, { n: left })}</div>}
+            </>
+          )}
           <div style={{ fontSize: 15, color: "#3d352a" }}>{t.offerNote}</div>
         </div>
         <Ankh />
