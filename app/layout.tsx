@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Providers from "./providers";
 
 const SITE = "https://web4.elmahrosa.org";
-const TITLE = "TEOS - Sovereign Web3 Domains - web4.elmahrosa.org";
+const TITLE = "TEOS - Sovereign WEB4 Domains - web4.elmahrosa.org";
 const DESC = "Register .teos and country domains as Solana assets. $10 genesis.";
 
 export const metadata: Metadata = {

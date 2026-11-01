@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "TEOS - Sovereign Web3 Domains";
+export const alt = "TEOS - Sovereign WEB4 Domains";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
