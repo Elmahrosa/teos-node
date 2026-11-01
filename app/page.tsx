@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Bidi from "../components/Bidi";
 import Image from "next/image";
 import FounderSeal from "../components/FounderSeal";
 import FoundersBanner from "../components/FoundersBanner";
@@ -126,14 +127,14 @@ export default function Home() {
       {/* A. Hero */}
       <header style={{ textAlign: "center", margin: "24px 0 8px" }}>
         <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>TEOS Sovereign Root</h1>
-        <p style={{ margin: 0, fontSize: 18, color: "#d6cbb5" }}>From Alexandria, Egypt.</p>
-        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}>Founded by Ayman Elmahrosa.</p>
-        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}>125 Sovereign Namespaces • One Root Key • WEB4 Identity Infrastructure</p>
-        <p style={{ margin: "16px 0 0", fontSize: 18, color: "#d6cbb5" }}>.teos is the master root credential of the TEOS ecosystem. It serves as the foundation for sovereign country identities and next-generation digital ownership.</p>
-        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}>This is not a domain marketplace. We do not sell domains. We distribute sovereign identity keys that enable participation in the WEB4 ecosystem.</p>
-        <p style={{ margin: "16px 0 0", fontSize: 18, color: "#d6cbb5" }}>Claim your sovereign identity. Own your name across 125 nations.</p>
-        <p style={{ margin: "16px 0 0" }}><b style={{ color: "#fef3c7" }}>Genesis Access: $10 (~0.105 SOL)</b></p>
-        <button onClick={goSearch} style={{ ...btn, fontSize: 20, padding: "14px 34px", marginTop: 14 }}>Claim your sovereign key</button>
+        <p style={{ margin: 0, fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h1} /></p>
+        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h2} /></p>
+        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h3} /></p>
+        <p style={{ margin: "16px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h4} /></p>
+        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h5} /></p>
+        <p style={{ margin: "16px 0 0", fontSize: 18, color: "#d6cbb5" }}><Bidi text={L.h6} /></p>
+        <p style={{ margin: "16px 0 0" }}><b style={{ color: "#fef3c7" }}><Bidi text={fmt(L.h7, { sol: "" })} />{stats?.sol_usd ? <bdi dir="ltr"> (~{(10 / stats.sol_usd).toFixed(3)} SOL)</bdi> : null}</b></p>
+        <button onClick={goSearch} style={{ ...btn, fontSize: 20, padding: "14px 34px", marginTop: 14 }}>{L.h8}</button>
       </header>
       <FounderIntro t={L} rtl={rtl} tlds={all.length} solUsd={stats?.sol_usd ?? null} />
 
@@ -170,7 +171,7 @@ export default function Home() {
               <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
                 <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
-                <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : `${L.locked} - ${L.needsTeos}`}</div>
+                <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={`${L.locked} - ${L.needsTeos}`} />}</div>
                 <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>${tldInfo(selectedTld)?.promo_usd ?? 10}</div>
               </div>
             </div>
