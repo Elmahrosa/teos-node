@@ -6,7 +6,7 @@ export const LANGS: { code: Lang; label: string }[] = [
 ];
 
 const en = {
-  footerLine: "Founder TEOS - Alexandria, Egypt",
+  footerLine: "Founder TEOS - Alexandria Egypt",
   tagline: "WEB3 DOMAIN MARKETPLACE",
   connect: "Connect Wallet",
   tldsWord: "TLDs",

@@ -1,9 +1,8 @@
-// Founder contact links shown in the footer. An icon renders only when its URL is set.
+// Founder links shown in the footer.
 export const SOCIAL = {
   website: "https://ayman.elmahrosa.org",
-  whatsapp: "https://wa.me/201006167293",
-  whatsappLabel: "01006167293",
-  facebook: "", // e.g. https://facebook.com/<page>
-  x: "", // e.g. https://x.com/<handle>
-  telegram: "", // e.g. https://t.me/<handle>
+  linkedin: "https://www.linkedin.com/in/aymanseif/",
+  x: "https://x.com/elmahrosa",
+  facebook: "https://facebook.com/elmahrosa.org",
+  telegram: "https://t.me/elmahrosa",
 };
