@@ -20,7 +20,7 @@ export default function AymanContact({ t, rtl = false }: { t: Dict; rtl?: boolea
           <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", maxWidth: 380, width: "100%", background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #57493a", borderRadius: 4, padding: 12, boxShadow: "0 20px 50px rgba(0,0,0,.8)" }}>
             <button onClick={() => setOpen(false)} aria-label={t.close} style={{ position: "absolute", top: 6, insetInlineEnd: 12, background: "none", border: 0, color: "#d6cbb5", fontSize: 24, cursor: "pointer" }}>×</button>
             <div style={{ background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: "20px 16px", textAlign: "center" }}>
-              <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={110} /></div>
+              <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={110} ticker={false} /></div>
               <h2 style={{ fontFamily: SERIF, margin: "12px 0 4px" }}>{label}</h2>
               <p style={{ margin: 0, fontWeight: 700 }}>{t.contactTitle}</p>
               <p style={{ margin: "2px 0 12px", fontSize: 13 }}>{t.contactLine}</p>

@@ -27,6 +27,18 @@ export const localeCountry = () => {
   return m ? m[1].toLowerCase() : "";
 };
 
+const StepBadge = ({ n, dark }: { n: number; dark?: boolean }) => (
+  <span aria-hidden="true" style={{ width: 26, height: 26, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontFamily: MONO, background: dark ? "#451a03" : "#3d352a", color: dark ? "#fde68a" : "#eab308", border: "2px solid #ca8a04", flexShrink: 0 }}>{n}</span>
+);
+
+const Arrow = () => (
+  <div aria-hidden="true" style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "6px 0", color: "#eab308" }}>
+    <span style={{ width: 2, height: 12, background: "#b8860b" }} />
+    <svg viewBox="0 0 40 70" width="12" height="20"><g fill="none" stroke="#eab308" strokeWidth="6" strokeLinecap="round"><ellipse cx="20" cy="16" rx="11" ry="13" /><path d="M20 29V66M6 42H34" /></g></svg>
+    <span style={{ fontSize: 14, lineHeight: 1 }}>▼</span>
+  </div>
+);
+
 export default function DomainSearchPopup(props: {
   t: Dict;
   rtl: boolean;
@@ -81,7 +93,12 @@ export default function DomainSearchPopup(props: {
     const free = r?.available;
     const bundle = teosFree && !unlocked;
     return (
-      <div key={c.tld} style={{ background: "#241f1a", border: "1px solid #3d352a", padding: 12, boxShadow: "inset 0 2px 8px rgba(0,0,0,.5)" }}>
+      <div key={c.tld} title={unlocked || bundle ? undefined : fmt(t.lockTip, { n: name })} style={{ background: "#241f1a", border: "1px solid #3d352a", padding: 12, boxShadow: "inset 0 2px 8px rgba(0,0,0,.5)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, fontSize: 13, color: unlocked ? "#4ade80" : "#a89a80" }}>
+          <StepBadge n={2} /><b dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step2Title, { n: name, t: c.tld })}</b><span>{t.step2Tag}</span>
+          <span title={fmt(t.lockTip, { n: name })} style={{ marginInlineStart: "auto", fontSize: 18 }}>{unlocked ? "🔓" : "🔒"}</span>
+        </div>
+        <div style={{ fontSize: 12, color: unlocked ? "#4ade80" : "#fca5a5", marginBottom: 8 }}>{unlocked ? t.step2Open : t.step2Locked}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <Flag t={c} />
           <span dir="ltr" style={{ fontFamily: SERIF, fontSize: 18, flex: 1, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{name}.{c.tld} <span style={{ color: "#a89a80", fontSize: 13 }}>{c.name}{tag ? ` • ${tag}` : ""}</span></span>
@@ -113,7 +130,7 @@ export default function DomainSearchPopup(props: {
 
         {founder ? (
           <div style={{ background: "linear-gradient(160deg,#3a2a08,#1a1611)", border: "3px double #eab308", padding: 20, textAlign: "center", boxShadow: "0 0 40px rgba(234,179,8,.25)" }}>
-            <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={120} /></div>
+            <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={120} ticker={false} /></div>
             <div style={{ fontFamily: SERIF, color: "#eab308", letterSpacing: "0.18em", fontWeight: 700, marginTop: 10 }}>{t.genesis}</div>
             <div dir="ltr" style={{ fontFamily: SERIF, fontSize: 30, color: "#fef3c7", margin: "6px 0" }}>elMahrosa.teos</div>
             <div style={{ color: "#a89a80", fontSize: 14 }}>{t.claimed}</div>
@@ -122,6 +139,9 @@ export default function DomainSearchPopup(props: {
           <>
             {/* name.teos first: can be bought alone */}
             <div style={{ background: "#d4c5a9", color: "#2a2520", border: "3px double #713f12", padding: 18, boxShadow: "0 8px 24px rgba(0,0,0,.6)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, fontSize: 13, fontWeight: 700 }}>
+                <StepBadge n={1} dark /><span dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step1Title, { n: name })}</span><span style={{ color: "#7f1d1d" }}>{t.step1Tag} 🔑</span>
+              </div>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "baseline", flexWrap: "wrap" }}>
                 <span dir="ltr" style={{ fontFamily: SERIF, fontSize: 26, fontWeight: 700, color: "#451a03", wordBreak: "break-all" }}>{name}.teos</span>
                 <span style={{ fontFamily: MONO, fontWeight: 700, color: !teos ? "#57493a" : teosFree ? "#14532d" : "#7f1d1d" }}>
@@ -145,8 +165,9 @@ export default function DomainSearchPopup(props: {
               {ownsTeos && !teosFree && <div style={{ fontSize: 13, color: "#14532d", fontWeight: 700 }}>{fmt(t.holdTeos, { n: name })}</div>}
             </div>
 
+            <Arrow />
             {/* visitor's country second, shown directly */}
-            <div style={{ marginTop: 20 }}>
+            <div>
               <div style={{ fontFamily: SERIF, letterSpacing: "0.15em", fontSize: 13, color: "#a89a80", marginBottom: 6 }}>{query.trim() ? t.otherCountry : t.yourCountry}</div>
               <div style={{ maxHeight: 340, overflowY: "auto", display: "grid", gap: 8 }}>
                 {visible.map((c) => countryCard(c, c.tld === homeTld ? t.yourCountryTag : ""))}
@@ -159,6 +180,10 @@ export default function DomainSearchPopup(props: {
                 placeholder={t.countryPh2}
                 style={{ display: "block", width: "100%", boxSizing: "border-box", background: "#c9b896", color: "#2a2520", border: "1px solid #8a7550", borderInline: "8px double #7a6540", padding: "10px 12px", fontSize: 16, marginTop: 10 }}
               />
+              <div style={{ marginTop: 14, padding: "10px 12px", border: "1px solid #7a6540", background: "#1a1611" }}>
+                <div style={{ color: "#eab308", fontWeight: 700, fontSize: 14 }}>{t.ruleTitle}</div>
+                <div style={{ color: "#a89a80", fontSize: 13 }}>{t.ruleSub}</div>
+              </div>
             </div>
           </>
         )}
