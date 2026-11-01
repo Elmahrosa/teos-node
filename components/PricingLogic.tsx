@@ -23,7 +23,7 @@ export default function PricingLogic({ t, tlds }: { t: TFn; tlds: { tld: string;
       <p dir="auto" style={p}><Bidi text={t("pricing.how1")} /></p>
       <p dir="auto" style={p}><Bidi text={t("pricing.how2")} /></p>
       <h3 style={{ ...h, fontSize: 17, marginTop: 18 }}>{t("pricing.priceTitle")}</h3>
-      {["price5", "price4", "price3", "priceTR"].map((k) => <p key={k} dir="auto" style={p}><Bidi text={t(`pricing.${k}`)} /></p>)}
+      {["price5", "price4", "price3"].map((k) => <p key={k} dir="auto" style={p}><Bidi text={t(`pricing.${k}`)} /></p>)}
       <p dir="auto" style={p}><Bidi text={t("pricing.ownership")} /></p>
       {rows.length > 0 && (
         <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 14, fontSize: 15 }}>
