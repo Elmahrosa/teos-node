@@ -7,8 +7,10 @@ import CountryDropdown from "../components/CountryDropdown";
 import SiteFooter from "../components/SiteFooter";
 import AymanContact from "../components/AymanContact";
 import { DICTS, LANGS, fmt, type Lang } from "../lib/i18n";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton, useWalletModal } from "@solana/wallet-adapter-react-ui";
+import { DICTS, LANGS, type Lang } from "../lib/i18n";
 
-declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
 const b64 = (u: Uint8Array) => btoa(String.fromCharCode(...Array.from(u)));
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
@@ -47,8 +49,12 @@ export default function Home() {
   const pickLang = (l: Lang) => { setLang(l); localStorage.setItem("lang", l); };
 
   useEffect(() => { fetch("/api/stats").then((r) => r.json()).then(setStats).catch(() => {}); }, []);
+  const { wallets, publicKey, signMessage } = useWallet();
+  const { setVisible } = useWalletModal();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const hasWallet = !mounted || wallets.some((w) => w.readyState === "Installed");
   const open = stats?.registration_open === true && stats?.mint_ready !== false;
-  const phantom = () => (typeof window !== "undefined" ? window.phantom?.solana ?? window.solana : undefined);
   const clean = name.trim().toLowerCase().replace(/\.[a-z]{2,6}$/, "");
   const tldInfo = (t: string) => stats?.tlds?.find((x: any) => x.tld === t);
   const res = (t: string) => checked?.results?.find((x: any) => x.tld === t);
@@ -91,6 +97,9 @@ export default function Home() {
     const { publicKey } = await p.connect();
     const { signature } = await p.signMessage(new TextEncoder().encode(quote.message_to_sign), "utf8");
     setPubkey(publicKey.toString()); setSig(b64(signature)); setStep("pay");
+    if (!publicKey || !signMessage) { setVisible(true); throw new Error("Connect a wallet first, then press sign again"); }
+    const signature = await signMessage(new TextEncoder().encode(quote.message_to_sign));
+    setPubkey(publicKey.toBase58()); setSig(b64(signature)); setStep("pay");
   });
 
   const register = () => run(async () => {
@@ -108,14 +117,6 @@ export default function Home() {
   });
 
   const all: any[] = stats?.tlds ?? [];
-  const [wallet, setWallet] = useState("");
-  const connectWallet = () => run(async () => {
-    const p = phantom();
-    if (!p) throw new Error("Install the Phantom wallet to continue.");
-    const { publicKey } = await p.connect();
-    setWallet(publicKey.toString());
-  });
-
   return (
     <>
     <nav style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
@@ -125,10 +126,15 @@ export default function Home() {
           <a href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
           <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} disabled={busy} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
           <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}>{all.length || "..."} {L.tldsWord}</span>
+          <WalletMultiButton style={{ background: "#FF8C00", color: "#000", fontWeight: 700, height: 36, fontSize: 14, padding: "0 14px" }}>{publicKey ? undefined : "Connect Wallet"}</WalletMultiButton>
+          <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}>{all.length || "..."} TLDs</span>
         </span>
       </div>
     </nav>
     <main dir={lang === "ar" ? "rtl" : "ltr"} lang={lang} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
+      {!hasWallet && (
+        <div role="status" style={{ background: "#854d0e", color: "#fef9c3", border: "1px solid #eab308", borderRadius: 4, padding: "6px 12px", fontSize: 13, marginBottom: 10, textAlign: "center" }}>No wallet found - You can browse, connect to mint (Phantom, Solflare, Backpack, Glow)</div>
+      )}
       <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
         {LANGS.map((l) => <button key={l.code} onClick={() => pickLang(l.code)} style={{ ...tablet, background: lang === l.code ? "#713f12" : "#292321", color: lang === l.code ? "#fef3c7" : "#d6cbb5" }}>{l.label}</button>)}
       </div>
@@ -228,6 +234,10 @@ export default function Home() {
           <p><b>{L.step1}</b> {L.step1b}</p>
           <button style={btn} disabled={busy || step !== "sign"} onClick={sign}>{pubkey ? L.signed : L.connectSign}</button>
           {pubkey && <p style={{ wordBreak: "break-all", color: "#a89a80" }}>{L.walletLbl}: {pubkey}</p>}
+          <h2 style={{ marginTop: 0 }}>Buy {(quote.tlds ?? ["teos"]).map((t: string) => `${clean}.${t}`).join(", ")} for {quote.price_sol} SOL{quote.price_usd ? ` ($${quote.price_usd})` : ""}</h2>
+          <p><b>1. Prove it is your wallet.</b> Your wallet asks you to sign a message. This costs nothing.</p>
+          <button style={btn} disabled={busy || step !== "sign"} onClick={sign}>{pubkey ? "Signed" : "Connect wallet and sign"}</button>
+          {pubkey && <p style={{ wordBreak: "break-all", color: "#a89a80" }}>Wallet: {pubkey}</p>}
           {step === "pay" && (
             <>
               <p><b>{L.step2}</b> {fmt(L.step2b, { sol: quote.price_sol })}</p>
@@ -257,13 +267,21 @@ export default function Home() {
         <p style={{ marginBottom: 0, color: "#a89a80" }}>{L.foundersText}{" "}
           {stats?.mints?.map((m: string) => <a key={m} style={{ color: "#eab308", marginRight: 10 }} href={`https://core.metaplex.com/explorer/${m}?env=mainnet`}>{L.view}</a>)}</p>
       </div>
-      <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px", textAlign: "center", margin: "16px 0" }}>
+      <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px 96px", textAlign: "center", margin: "16px 0" }}>
         <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={72} /></div>
         <h2 dir="auto" style={{ fontFamily: SERIF, margin: "10px 0 4px" }}>{L.certTitle}</h2>
         <p dir="auto" style={{ margin: 0 }}>{L.certText}</p>
       </div>
       <SiteFooter t={L} />
       <AymanContact t={L} rtl={lang === "ar"} />
+      <footer style={{ ...card, textAlign: "center", color: "#a89a80", fontSize: 14 }}>
+        Founder TEOS - Alexandria Egypt - WhatsApp: <a style={{ color: "#25D366" }} href="https://wa.me/201006167293" target="_blank" rel="noopener noreferrer">01006167293</a>
+        {" "}- <a style={{ color: "#eab308" }} href="https://ayman.elmahrosa.org" target="_blank" rel="noopener noreferrer">ayman.elmahrosa.org</a>
+        {" "}<a title="Facebook" aria-label="Facebook" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://www.facebook.com/share/19p8WPE4tf/" target="_blank" rel="noopener noreferrer">f</a>
+        {" "}<a title="X" aria-label="X" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://x.com/king_teos" target="_blank" rel="noopener noreferrer">X</a>
+        {" "}<a title="Telegram" aria-label="Telegram" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://t.me/Elmahrosapi" target="_blank" rel="noopener noreferrer">Telegram</a>
+      </footer>
+      <AymanContact lang={lang} />
     </main>
     </>
   );
