@@ -112,7 +112,7 @@ export default function Home() {
     <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
     <nav style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><FounderSeal size={48} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.3em", color: "#fef3c7", lineHeight: 1 }}>SOVEREIGN</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><FounderSeal size={48} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.2em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
           <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
@@ -125,8 +125,15 @@ export default function Home() {
 
       {/* A. Hero */}
       <header style={{ textAlign: "center", margin: "24px 0 8px" }}>
-        <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>{L.heroTitle}</h1>
-        <p style={{ margin: 0, fontSize: 18, color: "#d6cbb5" }}>{L.heroSub}</p>
+        <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>TEOS Sovereign Root</h1>
+        <p style={{ margin: 0, fontSize: 18, color: "#d6cbb5" }}>From Alexandria, Egypt.</p>
+        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}>Founded by Ayman Elmahrosa.</p>
+        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}>125 Sovereign Namespaces • One Root Key • WEB4 Identity Infrastructure</p>
+        <p style={{ margin: "16px 0 0", fontSize: 18, color: "#d6cbb5" }}>.teos is the master root credential of the TEOS ecosystem. It serves as the foundation for sovereign country identities and next-generation digital ownership.</p>
+        <p style={{ margin: "8px 0 0", fontSize: 18, color: "#d6cbb5" }}>This is not a domain marketplace. We do not sell domains. We distribute sovereign identity keys that enable participation in the WEB4 ecosystem.</p>
+        <p style={{ margin: "16px 0 0", fontSize: 18, color: "#d6cbb5" }}>Claim your sovereign identity. Own your name across 125 nations.</p>
+        <p style={{ margin: "16px 0 0" }}><b style={{ color: "#fef3c7" }}>Genesis Access: $10 (~0.105 SOL)</b></p>
+        <button onClick={goSearch} style={{ ...btn, fontSize: 20, padding: "14px 34px", marginTop: 14 }}>Claim your sovereign key</button>
       </header>
       <FounderIntro t={L} rtl={rtl} tlds={all.length} solUsd={stats?.sol_usd ?? null} />
 
@@ -175,9 +182,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* TEOS banner - directly under the search card */}
-      <div style={{ maxWidth: 760, margin: "20px auto 0", textAlign: "center" }}>
-        <Image src="/images/teos-banner.webp" width={960} height={540} alt={ALT.banner[lang]} style={imgStyle} priority />
+      {/* TEOS banner - directly under the search card, capped to content column */}
+      <div style={{ width: "100%", maxWidth: "640px", margin: "0 auto", padding: "24px 0" }}>
+        <Image src="/images/teos-banner.webp" width={960} height={540} alt={ALT.banner[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "50vh", objectFit: "cover" }} sizes="(max-width: 640px) 100vw, 640px" priority />
       </div>
 
       {popup && (
@@ -200,9 +207,9 @@ export default function Home() {
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
-      {/* TEOS gate - between the search card and the Why Buy section */}
-      <div style={{ maxWidth: 900, margin: "28px auto 0" }}>
-        <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} style={imgStyle} />
+      {/* TEOS gate - between the search card and the Why Buy section, capped to content column */}
+      <div style={{ width: "100%", maxWidth: "640px", margin: "0 auto", padding: "24px 0" }}>
+        <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "60vh", objectFit: "cover" }} sizes="(max-width: 640px) 100vw, 640px" />
       </div>
 
       {/* Why buy */}
