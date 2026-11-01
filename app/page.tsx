@@ -222,7 +222,7 @@ export default function Home() {
 
       <Divider />
       {/* B. Offer */}
-      <FoundersBanner t={L} rtl={rtl} />
+      <FoundersBanner t={L} rtl={rtl} left={typeof tldInfo("teos")?.promo_left === "number" ? tldInfo("teos").promo_left : null} />
 
       {/* C. Action */}
       <div style={{ textAlign: "center", margin: "8px 0 8px" }}>
