@@ -10,6 +10,7 @@ import LanguageToggle from "../components/LanguageToggle";
 import Divider from "../components/Divider";
 import PricingTable from "../components/PricingTable";
 import TrustSection from "../components/TrustSection";
+import LiveTicker from "../components/LiveTicker";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt } from "../lib/i18n";
@@ -86,6 +87,7 @@ export default function Home() {
 
   return (
     <>
+    <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
     <nav style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}><FounderSeal size={48} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.3em", color: "#fef3c7", lineHeight: 1 }}>SOVEREIGN</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
