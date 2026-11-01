@@ -1,6 +1,8 @@
 // Founder links shown in the footer.
 export const SOCIAL = {
   website: "https://ayman.elmahrosa.org",
+  vodafone: "01006167293",
+  paypal: "elma7rosa@gmx.com",
   help: "https://wa.me/201006167293", // "Need help?" link only, not shown in the footer
   linkedin: "https://www.linkedin.com/in/aymanseif/",
   x: "https://x.com/elmahrosa",
