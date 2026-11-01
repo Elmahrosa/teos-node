@@ -27,7 +27,6 @@
     "price5": "$10 for 5+ letter names while fewer than 100 sold on that TLD. After that $30",
     "price4": "4-letter names are always $150",
     "price3": "3-letter names are always $400",
-    "priceTR": ".tr is $8 in Genesis phase",
     "ownership": "Every name is a Metaplex Core asset on Solana, owned by buyer wallet. No renewal fee, tradable from Phantom, Solflare, Backpack"
   }
 }
