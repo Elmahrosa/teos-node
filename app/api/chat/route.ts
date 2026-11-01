@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Website assistant, speaking in the brand voice of KING TEOS. Written and approved by the founder, Ayman Seif.
-// It is an AI assistant and says so if asked. Uses ANTHROPIC_API_KEY, or GROQ_API_KEY if that is the one set; without either the route answers 503.
+// It is an AI assistant and says so if asked. Uses Google Gemini (GEMINI_API_KEY); without it the route answers 503.
 const SYSTEM = `You are the official website assistant for web4.elmahrosa.org, speaking on behalf of KING TEOS. The founder, Ayman Seif, authorized you to answer visitors in first person as "I am KING TEOS". This is the founder-approved brand voice of the website. If a visitor asks whether you are a human or an AI, say plainly that you are the website's AI assistant.
 Facts, use only these:
 - 125 TLDs including .teos. .teos is the sovereign root key. Country names (.eg, .sa, .us and others) need a .teos name in the same purchase or already owned by the wallet.
@@ -23,9 +24,8 @@ const limited = (ip: string) => {
 type Msg = { role: "user" | "assistant"; content: string };
 
 export async function POST(req: Request) {
-  const anthropic = process.env.ANTHROPIC_API_KEY;
-  const groq = process.env.GROQ_API_KEY;
-  if (!anthropic && !groq) return NextResponse.json({ error: "chat_not_configured" }, { status: 503 });
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) return NextResponse.json({ error: "chat_not_configured" }, { status: 503 });
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   if (limited(ip)) return NextResponse.json({ error: "rate_limited" }, { status: 429 });
 
@@ -39,26 +39,17 @@ export async function POST(req: Request) {
   if (!msgs.length || msgs[msgs.length - 1].role !== "user") return NextResponse.json({ error: "empty_message" }, { status: 400 });
 
   try {
-    let reply = "";
-    if (anthropic) {
-      const r = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "content-type": "application/json", "x-api-key": anthropic, "anthropic-version": "2023-06-01" },
-        body: JSON.stringify({ model: process.env.CHAT_MODEL || "claude-3-5-haiku-latest", max_tokens: 200, system: SYSTEM, messages: msgs }),
-      });
-      if (!r.ok) throw new Error(`anthropic_${r.status}`);
-      reply = (await r.json())?.content?.[0]?.text ?? "";
-    } else {
-      const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: { "content-type": "application/json", authorization: `Bearer ${groq}` },
-        body: JSON.stringify({ model: process.env.CHAT_MODEL || "llama-3.3-70b-versatile", max_tokens: 200, messages: [{ role: "system", content: SYSTEM }, ...msgs] }),
-      });
-      if (!r.ok) throw new Error(`groq_${r.status}`);
-      reply = (await r.json())?.choices?.[0]?.message?.content ?? "";
-    }
-    return NextResponse.json({ reply, text: reply });
-  } catch {
+    const model = new GoogleGenerativeAI(key).getGenerativeModel({
+      model: process.env.CHAT_MODEL || "gemini-2.5-flash",
+      systemInstruction: SYSTEM,
+      generationConfig: { maxOutputTokens: 300 },
+    });
+    const history = msgs.slice(0, -1).map((m) => ({ role: m.role === "user" ? "user" : "model", parts: [{ text: m.content }] }));
+    const result = await model.startChat({ history }).sendMessage(msgs[msgs.length - 1].content);
+    const reply = result.response.text();
+    return NextResponse.json({ reply, text: reply, role: "assistant", content: reply });
+  } catch (e) {
+    console.error("chat_unavailable", e instanceof Error ? e.message : e);
     return NextResponse.json({ error: "chat_unavailable" }, { status: 502 });
   }
 }
