@@ -1,3 +1,4 @@
+import Bidi from "./Bidi";
 import { SOCIAL } from "../lib/social";
 import { fmt, type Dict } from "../lib/i18n";
 
@@ -32,8 +33,8 @@ export default function WhyBuy({ t, countries, onCta }: { t: Dict; countries: nu
           {items.map((it, i) => (
             <article key={i} className="why-card" style={{ background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #3d352a", borderRadius: 4, padding: 18, boxShadow: "inset 0 2px 12px rgba(0,0,0,.6)" }}>
               <div aria-hidden="true" style={{ fontSize: 30 }}>{it.icon}</div>
-              <h3 style={{ fontFamily: SERIF, color: GOLD, fontSize: 15, letterSpacing: "0.04em", margin: "8px 0", textShadow: "0 1px 2px rgba(0,0,0,.8)" }}>{it.title}</h3>
-              <p style={{ margin: 0, color: "#f5e6c4", lineHeight: 1.55, fontSize: 15 }}>{it.text}</p>
+              <h3 style={{ fontFamily: SERIF, color: GOLD, fontSize: 15, letterSpacing: "0.04em", margin: "8px 0", textShadow: "0 1px 2px rgba(0,0,0,.8)" }}><Bidi text={it.title} /></h3>
+              <p style={{ margin: 0, color: "#f5e6c4", lineHeight: 1.55, fontSize: 15 }}><Bidi text={it.text} /></p>
               {it.link && <a href={it.link} target="_blank" rel="noopener noreferrer" style={{ color: GOLD, display: "inline-block", marginTop: 8, fontSize: 14 }}>LinkedIn</a>}
             </article>
           ))}
