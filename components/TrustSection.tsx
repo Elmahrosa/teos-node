@@ -1,18 +1,30 @@
+import Image from "next/image";
 import FounderSeal from "./FounderSeal";
-import { fmt, type Dict } from "../lib/i18n";
+import { fmt, type Dict, type Lang } from "../lib/i18n";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const box: React.CSSProperties = { background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 16 };
 const h: React.CSSProperties = { fontFamily: SERIF, margin: "0 0 8px", fontSize: 16, letterSpacing: "0.06em", color: "#451a03" };
 const a: React.CSSProperties = { color: "#7f1d1d", fontWeight: 700 };
+const imgStyle: React.CSSProperties = { borderRadius: 20, border: "1px solid #1F3B44" };
+
+const ALT: Record<Lang, string> = {
+  en: "TEOS dig certificate - on-chain proof of the founder sovereign name",
+  ar: "شهادة التخذ TEOS - الإثبات على السلسلة الاسم السيادي للمؤسس",
+  id: "Sertifikat TEOS - bukti on-chain nama sovereign founder",
+};
 
 // Mint addresses come from /api/stats (stats.mints), same order as stats.founders.
-export default function TrustSection({ t, founders, mints }: { t: Dict; founders: string[]; mints: string[] }) {
+export default function TrustSection({ t, founders, mints, lang = "en" }: { t: Dict; founders: string[]; mints: string[]; lang?: Lang }) {
   return (
     <section aria-labelledby="trust" style={{ margin: "16px 0" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: "center", marginBottom: 14 }}>
         <FounderSeal size={56} ticker={false} />
         <h2 id="trust" style={{ fontFamily: SERIF, letterSpacing: "0.1em", color: "#fef3c7", margin: 0 }}>{t.trustTitle}</h2>
+      </div>
+      {/* Founder dig certificate - under the founder names, max width 760px */}
+      <div style={{ maxWidth: 760, margin: "0 auto 16px", textAlign: "center" }}>
+        <Image src="/images/teos-dig-certificate.webp" width={1600} height={1067} alt={ALT[lang]} style={imgStyle} />
       </div>
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))" }}>
         <div style={box}>
