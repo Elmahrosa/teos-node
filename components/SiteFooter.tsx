@@ -12,13 +12,20 @@ export default function SiteFooter({ t }: { t: Dict }) {
     { label: "Telegram", href: SOCIAL.telegram, I: FaTelegram },
   ];
   return (
-    <footer style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8, padding: "12px 16px", background: "#000", borderTop: "1px solid rgba(212,175,55,.2)", margin: "16px 0 96px" }}>
-      <span style={{ color: "#D4AF37", fontSize: 14 }}>{t.footerLine} - <a href={SOCIAL.website} target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>ayman.elmahrosa.org</a></span>
-      <div style={{ display: "flex", gap: 16 }}>
-        {links.map(({ label, href, I }) => (
-          <a key={label} href={href} target="_blank" rel="noopener noreferrer" title={label} aria-label={label} style={icon} className="soc"><I size={20} /></a>
-        ))}
+    <footer style={{ background: "#000", borderTop: "1px solid rgba(212,175,55,.2)", margin: "16px 0 96px", padding: "12px 16px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+        <span style={{ color: "#D4AF37", fontSize: 14 }}>{t.footerLine} - <a href={SOCIAL.website} target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>ayman.elmahrosa.org</a></span>
+        <div style={{ display: "flex", gap: 16 }}>
+          {links.map(({ label, href, I }) => (
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer" title={label} aria-label={label} style={icon} className="soc"><I size={20} /></a>
+          ))}
+        </div>
       </div>
+      <div style={{ marginTop: 10, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8, fontSize: 13, color: "#a89a80" }}>
+        <span>{t.wallets}</span>
+        <span><a href="/terms" style={{ color: "inherit" }}>{t.terms}</a> · <a href="/privacy" style={{ color: "inherit" }}>{t.privacy}</a></span>
+      </div>
+      <div dir="ltr" style={{ marginTop: 10, textAlign: "center", fontSize: 11, letterSpacing: "0.2em", color: "#D4AF37" }}>{t.ticker}</div>
       <style>{`.soc:hover{color:#fff!important}`}</style>
     </footer>
   );
