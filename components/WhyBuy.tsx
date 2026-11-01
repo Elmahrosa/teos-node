@@ -1,3 +1,4 @@
+import { SOCIAL } from "../lib/social";
 import { fmt, type Dict } from "../lib/i18n";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
@@ -15,7 +16,7 @@ export default function WhyBuy({ t, countries, onCta }: { t: Dict; countries: nu
     { icon: "🔑", title: t.why1T, text: t.why1 },
     { icon: "🌍", title: fmt(t.why2T, { n: countries || "" }).trim(), text: t.why2 },
     { icon: "💰", title: t.why3T, text: t.why3 },
-    { icon: "⚓", title: t.why4T, text: t.why4, link: "https://www.linkedin.com/in/aymanseif/" },
+    { icon: "⚓", title: t.why4T, text: t.why4, link: SOCIAL.linkedin },
     { icon: "🔗", title: t.why5T, text: t.why5 },
     { icon: "📜", title: t.why6T, text: t.why6 },
   ];

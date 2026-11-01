@@ -1,9 +1,12 @@
-// Founder links shown in the footer.
+// The only approved social and payment links. Do not add others.
 export const SOCIAL = {
   website: "https://ayman.elmahrosa.org",
-  help: "https://wa.me/201006167293", // "Need help?" link only, not shown in the footer
-  linkedin: "https://www.linkedin.com/in/aymanseif/",
-  x: "https://x.com/elmahrosa",
-  facebook: "https://facebook.com/elmahrosa.org",
-  telegram: "https://t.me/elmahrosa",
+  vodafone: "01006167293",
+  paypal: "elma7rosa@gmx.com",
+  whatsapp: "https://wa.me/201006167293",
+  help: "https://wa.me/201006167293",
+  linkedin: "https://eg.linkedin.com/in/aymanseif/",
+  x: "https://x.com/KING_TEOS",
+  facebook: "https://www.facebook.com/share/r/1BVnQEpmNs/",
+  telegram: "https://t.me/Elmahrosapi",
 };

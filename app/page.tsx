@@ -11,6 +11,10 @@ import LanguageToggle from "../components/LanguageToggle";
 import Divider from "../components/Divider";
 import PricingTable from "../components/PricingTable";
 import TrustSection from "../components/TrustSection";
+import PaymentOptions from "../components/PaymentOptions";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import FounderIntro from "../components/FounderIntro";
 import LiveTicker from "../components/LiveTicker";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
@@ -19,6 +23,8 @@ import { useLang } from "../lib/useLang";
 import { SOCIAL } from "../lib/social";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton, useWalletModal } from "@solana/wallet-adapter-react-ui";
+
+declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const card: React.CSSProperties = { background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #3d352a", borderRadius: 4, padding: 20, margin: "16px 0", boxShadow: "inset 0 2px 12px rgba(0,0,0,.6)" };
@@ -66,6 +72,9 @@ export default function Home() {
   const [result, setResult] = useState<any>(null);
   const [step, setStep] = useState<"sign" | "pay" | "done">("sign");
 
+  const { publicKey } = useWallet();
+  const { setVisible } = useWalletModal();
+  const wallet = publicKey?.toBase58() ?? "";
   useEffect(() => {
     try { setOwned(JSON.parse(localStorage.getItem("teosOwned") || "[]")); } catch {}
     const lc = localeCountry(); if (lc) setSelectedTld(lc);
@@ -76,6 +85,7 @@ export default function Home() {
   const { setVisible } = useWalletModal();
   useEffect(() => { setMounted(true); }, []);
   const hasWallet = !mounted || wallets.some((w) => w.readyState === "Installed");
+
   const open = stats?.registration_open === true && stats?.mint_ready !== false;
   const clean = name.trim().toLowerCase().replace(/\.[a-z]{2,6}$/, "");
   const tldInfo = (t: string) => stats?.tlds?.find((x: any) => x.tld === t);
@@ -107,13 +117,7 @@ export default function Home() {
     document.getElementById("search")?.scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => document.getElementById("n")?.focus(), 400);
   };
-  const phantom = () => (typeof window !== "undefined" ? window.phantom?.solana ?? window.solana : undefined);
-  const connectWallet = () => run(async () => {
-    const p = phantom();
-    if (!p) throw new Error(L.installPhantom);
-    const { publicKey } = await p.connect();
-    setWallet(publicKey.toString());
-  });
+  const connectWallet = () => setVisible(true);
 
   const tiers = { promo: stats?.promo_usd ?? 10, long: stats?.market_usd?.long ?? 30, four: stats?.market_usd?.four ?? 150, short: stats?.market_usd?.short ?? 400 };
 
@@ -159,6 +163,32 @@ export default function Home() {
             <WalletMultiButton style={{ background: "#FF8C00", color: "#000", fontWeight: 700, height: 36, fontSize: 14, padding: "0 14px" }}>{publicKey ? undefined : "Connect Wallet"}</WalletMultiButton>
             <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}>{all.length || "..."} TLDs</span>
           </span>
+  return (
+    <>
+    <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
+    <nav style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><FounderSeal size={48} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.3em", color: "#fef3c7", lineHeight: 1 }}>SOVEREIGN</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
+        <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+          <a href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
+          <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
+          <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}>{all.length || "..."} {L.tldsWord}</span>
+        </span>
+      </div>
+    </nav>
+    <main dir={rtl ? "rtl" : "ltr"} lang={lang} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
+      <LanguageToggle lang={lang} onChange={setLang} />
+
+      {/* A. Hero */}
+      <header style={{ textAlign: "center", margin: "24px 0 8px" }}>
+        <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>{L.heroTitle}</h1>
+        <p style={{ margin: 0, fontSize: 18, color: "#d6cbb5" }}>{L.heroSub}</p>
+      </header>
+      <FounderIntro t={L} rtl={rtl} tlds={all.length} solUsd={stats?.sol_usd ?? null} />
+
+      {stats && !open && (
+        <div style={{ ...card, borderColor: "#b8860b" }}>
+          <b>{stats.registration_open === true ? L.paused : L.soon}</b> {L.checkNow}
         </div>
       </nav>
       <main dir={rtl ? "rtl" : "ltr"} lang={lang} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
@@ -245,6 +275,8 @@ export default function Home() {
         <div style={{ maxWidth: 900, margin: "28px auto 0" }}>
           <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} style={imgStyle} />
         </div>
+      {/* Why buy */}
+      <WhyBuy t={L} countries={Math.max(0, all.length - 1)} onCta={goSearch} />
 
         {open && quote && step !== "done" && (
           <div id="pay" style={card}>
@@ -277,6 +309,11 @@ export default function Home() {
         <Divider />
         {/* B. Offer */}
         <FoundersBanner t={L} rtl={rtl} />
+      {/* C. Action */}
+      <div style={{ textAlign: "center", margin: "8px 0 8px" }}>
+        <button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button>
+      </div>
+      <PaymentOptions t={L} rtl={rtl} />
 
         {/* C. Action */}
         <div style={{ textAlign: "center", margin: "8px 0 8px" }}>
@@ -303,6 +340,14 @@ export default function Home() {
           {" "}<a title="Telegram" aria-label="Telegram" style={{ color: "#eab308", fontWeight: 700, textDecoration: "none" }} href="https://t.me/Elmahrosapi" target="_blank" rel="noopener noreferrer">Telegram</a>
         </footer>
       </main>
+      <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px", textAlign: "center", margin: "16px 0" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={72} ticker={false} /></div>
+        <h2 dir="auto" style={{ fontFamily: SERIF, margin: "10px 0 4px" }}>{L.certTitle}</h2>
+        <p dir="auto" style={{ margin: 0 }}>{L.certText}</p>
+      </div>
+      <SiteFooter t={L} />
+      <AymanContact t={L} rtl={rtl} />
+    </main>
     </>
   );
 }
