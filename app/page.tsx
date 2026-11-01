@@ -10,6 +10,7 @@ import LanguageToggle from "../components/LanguageToggle";
 import Divider from "../components/Divider";
 import PricingTable from "../components/PricingTable";
 import TrustSection from "../components/TrustSection";
+import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt } from "../lib/i18n";
 import { useLang } from "../lib/useLang";
@@ -170,6 +171,7 @@ export default function Home() {
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
       {/* Why buy */}
+      <WhyBuy t={L} countries={Math.max(0, all.length - 1)} onCta={goSearch} />
 
       {/* Pricing */}
       <PricingTable t={L} tiers={tiers} solUsd={stats?.sol_usd ?? null} />
