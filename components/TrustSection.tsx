@@ -22,9 +22,9 @@ export default function TrustSection({ t, founders, mints, lang = "en" }: { t: D
         <FounderSeal size={56} ticker={false} />
         <h2 id="trust" style={{ fontFamily: SERIF, letterSpacing: "0.1em", color: "#fef3c7", margin: 0 }}>{t.trustTitle}</h2>
       </div>
-      {/* Founder dig certificate - under the founder names, max width 760px */}
-      <div style={{ maxWidth: 760, margin: "0 auto 16px", textAlign: "center" }}>
-        <Image src="/images/teos-dig-certificate.webp" width={1600} height={1067} alt={ALT[lang]} style={imgStyle} />
+      {/* Founder dig certificate - under the founder names, capped to content column */}
+      <div style={{ width: "100%", maxWidth: "560px", margin: "0 auto 16px", textAlign: "center" }}>
+        <Image src="/images/teos-dig-certificate.webp" width={1600} height={1067} alt={ALT[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "50vh", objectFit: "cover" }} sizes="(max-width: 640px) 100vw, 640px" />
       </div>
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))" }}>
         <div style={box}>
