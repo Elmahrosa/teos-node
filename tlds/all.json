@@ -816,18 +816,6 @@
     "chain": "solana"
   },
   {
-    "tld": "il",
-    "label": ".IL",
-    "name": "Israel",
-    "flag": "🇮🇱",
-    "region": "MENA Non-Arab",
-    "standard": "metaplex-core",
-    "live": true,
-    "promo_limit": 100,
-    "promo_usd": 10,
-    "chain": "solana"
-  },
-  {
     "tld": "id",
     "label": ".ID",
     "name": "Indonesia",
