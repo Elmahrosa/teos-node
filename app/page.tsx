@@ -207,9 +207,9 @@ export default function Home() {
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
-      {/* TEOS gate - between the search card and the Why Buy section, capped to content column */}
-      <div style={{ width: "100%", maxWidth: "640px", margin: "0 auto", padding: "24px 0" }}>
-        <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "60vh", objectFit: "cover" }} sizes="(max-width: 640px) 100vw, 640px" />
+      {/* TEOS gate - between the search card and the Why Buy section, mobile-adjusted */}
+      <div style={{ width: "90%", maxWidth: "500px", margin: "0 auto", padding: "24px 0" }}>
+        <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "60vh", objectFit: "cover" }} sizes="(max-width: 768px) 90vw, 50vw" />
       </div>
 
       {/* Why buy */}
