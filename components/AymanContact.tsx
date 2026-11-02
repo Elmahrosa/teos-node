@@ -24,7 +24,7 @@ export default function AymanContact({ t, rtl = false }: { t: Dict; rtl?: boolea
               <h2 style={{ fontFamily: SERIF, margin: "12px 0 4px" }}>{label}</h2>
               <p style={{ margin: 0, fontWeight: 700 }}>{t.contactTitle}</p>
               <p style={{ margin: "2px 0 12px", fontSize: 13 }}>{t.contactLine}</p>
-              <a style={link} href="https://web4.elmahrosa.org" target="_blank" rel="noopener noreferrer">web4.elmahrosa.org</a>
+              <a style={link} href="https://ayman.elmahrosa.org" target="_blank" rel="noopener noreferrer">http://ayman.elmahrosa.org</a>
               <a style={link} href="https://wa.me/201006167293" target="_blank" rel="noopener noreferrer">WhatsApp 01006167293</a>
             </div>
           </div>
