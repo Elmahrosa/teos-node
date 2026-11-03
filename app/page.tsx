@@ -176,7 +176,7 @@ export default function Home() {
         <Image src="/images/teos-banner.webp" width={960} height={540} alt={ALT.banner[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "50vh", objectFit: "cover" }} sizes="(max-width: 640px) 100vw, 640px" priority />
       </div>
 
-      {popup && (<DomainSearchPopup t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={owned.includes(clean)} founder={["elmahrosa","ayman"].includes(clean)} open={open} busy={busy} onBuy={mint} onClose={() => setPopup(false)} />)}
+      {popup && (<DomainSearchPopup t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={owned.includes(clean)} founder={clean === "elmahrosa"} open={open} busy={busy} onBuy={mint} onClose={() => setPopup(false)} />)}
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
