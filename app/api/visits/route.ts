@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
+import { verifySession } from "../../../lib/founderAuth";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
-  const cookie = req.headers.get("cookie") || "";
-  if (!cookie.includes("founder-auth=1")) {
+  if (!verifySession(req.headers.get("cookie"))) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   return NextResponse.json({ total: 0, countries: [] });
