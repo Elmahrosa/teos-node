@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   const expected = process.env.FOUNDER_PASSWORD;
   if (!expected) {
@@ -11,4 +14,15 @@ export async function POST(req: Request) {
   const res = NextResponse.json({ ok: true });
   res.cookies.set("founder-auth", "1", { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 7 });
   return res;
+}
+
+export async function DELETE() {
+  const res = NextResponse.json({ ok: true });
+  res.cookies.set("founder-auth", "", { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: 0 });
+  return res;
+}
+
+export async function GET() {
+  const configured = !!process.env.FOUNDER_PASSWORD;
+  return NextResponse.json({ configured });
 }
