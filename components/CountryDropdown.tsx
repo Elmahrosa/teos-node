@@ -24,7 +24,7 @@ export default function CountryDropdown({ tlds, selected, onSelect, placeholder 
   const rows = useMemo(() => {
     if (!open) return [];
     const s = q.trim().toLowerCase().replace(/^\./, "");
-    return tlds.filter((t) => t.tld !== "teos" && (!s || t.tld.includes(s) || (t.name ?? t.label).toLowerCase().includes(s)));
+    return tlds.filter((t) => t.tld !== "teos" && t.tld.toLowerCase() !== "il" && (!s || t.tld.includes(s) || (t.name ?? t.label).toLowerCase().includes(s)));
   }, [open, q, tlds]);
   return (
     <div ref={ref} style={{ position: "relative", display: "inline-block" }}>
