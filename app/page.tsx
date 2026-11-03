@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 import PricingLogic from "../components/PricingLogic";
 import Bidi from "../components/Bidi";
@@ -18,6 +18,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import FounderIntro from "../components/FounderIntro";
 import TeosChatbot from "../components/TeosChatbot";
+import BuildSiteAfterPurchase from "../components/BuildSiteAfterPurchase";
 import LiveTicker from "../components/LiveTicker";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";

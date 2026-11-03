@@ -1,5 +1,6 @@
-"use client";
+﻿"use client";
 import { useEffect, useMemo, useRef, useState } from "react";
+import BuildSiteAfterPurchase from "./BuildSiteAfterPurchase";
 import FounderSeal from "./FounderSeal";
 import { fmt, type Dict } from "../lib/i18n";
 import { SOCIAL } from "../lib/social";
@@ -19,7 +20,6 @@ const Flag = ({ t, size = 28 }: { t: TldInfo; size?: number }) =>
     <span style={{ width: size, height: size, borderRadius: "50%", background: "#3a3128", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{t.flag}</span>
   );
 
-// Visitor's country: time zone first (closest to physical location), then the country part of the browser locale.
 const TZ: Record<string, string> = { "Africa/Cairo": "eg", "Asia/Riyadh": "sa", "Asia/Dubai": "ae", "Asia/Qatar": "qa", "Africa/Casablanca": "ma", "Asia/Amman": "jo", "Asia/Kuwait": "kw", "Asia/Bahrain": "bh", "Asia/Muscat": "om", "Asia/Baghdad": "iq", "Asia/Beirut": "lb", "Africa/Tunis": "tn", "Africa/Algiers": "dz", "Africa/Tripoli": "ly", "Africa/Khartoum": "sd", "Asia/Jakarta": "id", "Europe/Istanbul": "tr", "Europe/London": "gb" };
 export const localeCountry = () => {
   if (typeof navigator === "undefined") return "";
@@ -43,13 +43,13 @@ const Arrow = () => (
 export default function DomainSearchPopup(props: {
   t: Dict;
   rtl: boolean;
-  homeTld: string; // visitor's country TLD, shown directly under .teos
+  homeTld: string;
   name: string;
-  teos: Row | null; // availability of name.teos, null while loading
+  teos: Row | null;
   tlds: TldInfo[];
-  ownsTeos: boolean; // UI hint from this browser; the server checks wallet ownership at registration
-  founder: boolean; // searched name is the genesis name
-  open: boolean; // registration open
+  ownsTeos: boolean;
+  founder: boolean;
+  open: boolean;
   busy: boolean;
   onBuy: (tlds: string[]) => void;
   onClose: () => void;
@@ -74,7 +74,6 @@ export default function DomainSearchPopup(props: {
     return [...list].sort((a, b) => Number(b.tld === homeTld) - Number(a.tld === homeTld)).slice(0, 6);
   }, [query, countries, home, homeTld]);
 
-  // Availability for the rows on screen only.
   useEffect(() => {
     const need = visible.map((x) => x.tld).filter((x) => !fetched.current.has(x));
     if (!need.length || !name) return;
@@ -138,7 +137,6 @@ export default function DomainSearchPopup(props: {
           </div>
         ) : (
           <>
-            {/* name.teos first: can be bought alone */}
             <div style={{ background: "#d4c5a9", color: "#2a2520", border: "3px double #713f12", padding: 18, boxShadow: "0 8px 24px rgba(0,0,0,.6)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, fontSize: 13, fontWeight: 700 }}>
                 <StepBadge n={1} dark /><span dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step1Title, { n: name })}</span><span style={{ color: "#7f1d1d" }}>{t.step1Tag} 🔑</span>
@@ -164,10 +162,14 @@ export default function DomainSearchPopup(props: {
               )}
               {teosFree && !open && <div style={{ fontSize: 13, marginTop: 8 }}>{t.pioneerNote} <a href={SOCIAL.whatsapp} target="_blank" rel="noopener noreferrer" style={{ color: "#7f1d1d", fontWeight: 700 }}>{t.pioneerCta}</a></div>}
               {ownsTeos && !teosFree && <div style={{ fontSize: 13, color: "#14532d", fontWeight: 700 }}>{fmt(t.holdTeos, { n: name })}</div>}
+
+              {/* === ابني موقعك بعد الشراء - هنا === */}
+              <div style={{ marginTop: 14 }}>
+                <BuildSiteAfterPurchase domain={`${name}.teos`} />
+              </div>
             </div>
 
             <Arrow />
-            {/* visitor's country second, shown directly */}
             <div>
               <div style={{ fontFamily: SERIF, letterSpacing: "0.15em", fontSize: 13, color: "#a89a80", marginBottom: 6 }}>{query.trim() ? t.otherCountry : t.yourCountry}</div>
               <div style={{ maxHeight: 340, overflowY: "auto", display: "grid", gap: 8 }}>
