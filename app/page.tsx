@@ -112,7 +112,8 @@ export default function Home() {
       <LanguageToggle lang={lang} onChange={setLang} />
 
       {/* HERO V14 SOVEREIGN - DUAL PATH */}
-      <header<a href="/founder" style={{background:"#eab308",color:"#000",padding:"8px 14px",borderRadius:9999,fontWeight:900,fontSize:12,textDecoration:"none",marginRight:8}}>👑 لوحة الفاوندر</a> style={{ textAlign: "center", margin: "24px 0 8px" }}>
+      <div style={{textAlign:"center", marginBottom:12}}><a href="/founder" style={{background:"#eab308",color:"#000",padding:"8px 14px",borderRadius:9999,fontWeight:900,fontSize:12,textDecoration:"none"}}>👑 لوحة الفاوندر</a></div>
+      <headerstyle={{ textAlign: "center", margin: "24px 0 8px" }}>
         <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>
           {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : "TEOS Sovereign Root - Alexandria"}
         </h1>
