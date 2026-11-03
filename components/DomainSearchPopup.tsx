@@ -164,7 +164,7 @@ export default function DomainSearchPopup(props: {
               {ownsTeos && !teosFree && <div style={{ fontSize: 13, color: "#14532d", fontWeight: 700 }}>{fmt(t.holdTeos, { n: name })}</div>}
 
               {/* === ابني موقعك بعد الشراء - هنا === */}
-              <div style={{ marginTop: 14 }}>
+              <div style={{ marginTop: 14, display:"block !important" }}><div style={{fontSize:11,color:"#eab308",marginBottom:6}}>🔓 FOUNDER PREVIEW - {name}.teos</div>
                 <BuildSiteAfterPurchase domain={`${name}.teos`} />
               </div>
             </div>
