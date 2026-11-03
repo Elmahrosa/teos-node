@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import FounderSeal from "./FounderSeal";
 import { fmt, type Dict } from "../lib/i18n";
+import { SOCIAL } from "../lib/social";
 
 type TldInfo = { tld: string; label: string; name?: string; region?: string; flag: string; live: boolean; promo_usd: number };
 type Row = { tld: string; available: boolean; reason: string | null; price_usd: number; is_promo: boolean };
@@ -161,7 +162,7 @@ export default function DomainSearchPopup(props: {
                   {fmt(t.carve, { n: name })}
                 </button>
               )}
-              {teosFree && !open && <div style={{ fontSize: 13, marginTop: 8 }}>{t.soon}</div>}
+              {teosFree && !open && <div style={{ fontSize: 13, marginTop: 8 }}>{t.pioneerNote} <a href={SOCIAL.whatsapp} target="_blank" rel="noopener noreferrer" style={{ color: "#7f1d1d", fontWeight: 700 }}>{t.pioneerCta}</a></div>}
               {ownsTeos && !teosFree && <div style={{ fontSize: 13, color: "#14532d", fontWeight: 700 }}>{fmt(t.holdTeos, { n: name })}</div>}
             </div>
 

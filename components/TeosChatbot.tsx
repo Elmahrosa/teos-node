@@ -31,7 +31,7 @@ export default function TeosChatbot({ t, rtl }: { t: Dict; rtl: boolean }) {
   }
 
   const shown: Msg[] = [{ role: "assistant", content: t.chatHello }, ...messages];
-  const side = rtl ? { right: 20 } : { left: 20 };
+  const side = { insetInlineStart: 20 };
   return (
     <div dir={rtl ? "rtl" : "ltr"} style={{ position: "fixed", bottom: 20, zIndex: 9999, ...side }}>
       {!open && (
