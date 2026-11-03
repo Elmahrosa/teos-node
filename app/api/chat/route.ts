@@ -1,25 +1,27 @@
- import { NextResponse } from "next/server";
-
-const KNOWLEDGE: Record<string, string> = {
-  price: "الاسعار السيادية: 5+ حروف $30 | 4 حروف $150 | 3 حروف $400 - المفتاح $10",
-  founder: "المؤسس الوحيد هو ايمن سيف - ايمن المحروسة من الاسكندرية. Solo Founder of TEOS & ELMAHROSA.TEOS",
-  teos: "TEOS يعني انت تملك اسمك للابد، محفوظ في محفظتك على سولانا Metaplex Core، مفيش تجديد سنوي.",
-};
+import { NextResponse } from "next/server";
 
 function getAnswer(q: string): string {
-  q = q.toLowerCase();
-  if (q.includes("سعر") || q.includes("price") || q.includes("$") || q.includes("كم")) return KNOWLEDGE.price;
-  if (q.includes("ايمن") || q.includes("ayman") || q.includes("مؤسس") || q.includes("founder") || q.includes("محروسة")) return KNOWLEDGE.founder;
-  if (q.includes("teos") || q.includes("تيوس") || q.includes("web4") || q.includes("domain")) return KNOWLEDGE.teos;
-  return `تواصل مباشر مع الملك على واتساب: https://wa.me/201006167293 - هو الوحيد اللي يرد`;
+  const s = q.toLowerCase().trim();
+  if (!s || s === "hi" || s === "h8" || s === "hello" || s.includes("هلا") || s.includes("سلام") || s.includes("مرحبا")) {
+    return "اهلا يا ملك 👑 في TEOS Sovereign Root\nمن الاسكندرية - مصر\n\nاسألني:\n• سعر؟\n• ايمن سيف؟\n• يعني ايه TEOS؟\n\nمباشر: https://wa.me/201006167293";
+  }
+  if (s.includes("سعر") || s.includes("price") || s.includes("$") || s.includes("cost") || s.includes("كم") || s.includes("125") || s.includes("10g")) {
+    return "الاسعار السيادية:\n• 5+ حروف: $30\n• 4 حروف: $150\n• 3 حروف: $400\n• المفتاح الملكي: $10 يفتح 100 اسم\n\nhttps://wa.me/201006167293";
+  }
+  if (s.includes("ايمن") || s.includes("ayman") || s.includes("مؤسس") || s.includes("founder") || s.includes("محروسة") || s.includes("elmahrosa")) {
+    return "المؤسس الوحيد: ايمن سيف - ايمن المحروسة\nمن الاسكندرية\nSolo Founder TEOS & ELMAHROSA.TEOS\nhttps://wa.me/201006167293";
+  }
+  if (s.includes("teos") || s.includes("تيوس") || s.includes("web4") || s.includes("tld") || s.includes("domain")) {
+    return "TEOS = انت تملك اسمك للابد\nمحفوظ في محفظتك على سولانا Metaplex Core\nمفيش تجديد سنوي - 125 TLD\nhttps://wa.me/201006167293";
+  }
+  return "انا KING TEOS المساعد السيادي 👑\nاسأل: سعر، مؤسس، TEOS\nاو كلم الملك مباشر:\nhttps://wa.me/201006167293";
 }
 
 export async function POST(req: Request) {
   try {
     const { message } = await req.json();
-    const answer = getAnswer(message || "");
-    return NextResponse.json({ reply: answer });
-  } catch (e) {
-    return NextResponse.json({ reply: "تواصل على https://wa.me/201006167293" });
+    return NextResponse.json({ reply: getAnswer(message || "") });
+  } catch {
+    return NextResponse.json({ reply: "تواصل: https://wa.me/201006167293" });
   }
 }
