@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { parseDomain } from "../../../lib/domain-rules";
-import { getQuote, markUsed } from "../../../lib/quoteStore";
+import { getQuote, markUsed, GRACE_MS } from "../../../lib/quoteStore";
 import { verifyWalletSignature } from "../../../lib/sig";
-import { isClaimed, claimDomain, releaseDomain, recordMint, incrSold, getClaim, claimTx, releaseTx, registryPersistent } from "../../../lib/registry";
+import { isClaimed, claimDomain, releaseDomain, recordMint, incrSold, getClaim, claimTx, releaseTx, registryPersistent, logPendingMint } from "../../../lib/registry";
 import { env } from "../../../lib/env";
 import { verifyPayment } from "../../../lib/payment";
 import { mintTeosAsset, mintFunds } from "../../../lib/mint";
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     if (!quote) return bad("not_found_or_expired");
     if (quote.used) return bad("already_used");
     if (quote.domain !== parsed.domain) return bad("domain_mismatch");
-    if (Date.now() > quote.expiresAt) return bad("expired");
+    if (Date.now() > quote.expiresAt + GRACE_MS) return bad("expired");
 
     if (!(await verifyWalletSignature(quote.message, signature, publicKey))) {
       return NextResponse.json({ error: "invalid_signature" }, { status: 401 });
@@ -88,6 +88,7 @@ export async function POST(req: Request) {
       } catch (e: any) {
         console.error("[register] mint_failed", JSON.stringify({ domain: quote.domain, tld: t, owner: publicKey, payment_tx, error: String(e?.message ?? e).slice(0, 300) }));
       }
+      if (!mint) await logPendingMint(quote.domain, t, publicKey, payment_tx).catch(() => {});
       items.push({ domain: `${quote.domain}.${t}`, tld: t, ...(mint ? { asset: mint.asset, mint_tx: mint.signature } : {}), pending_mint: !mint });
     }
     const first = items[0];

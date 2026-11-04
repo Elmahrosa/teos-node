@@ -69,3 +69,10 @@ export async function incrSold(tld = "teos"): Promise<void> {
   if (redis) await withTimeout(redis.incr(k));
   else mem.set(k, String((Number(mem.get(k) ?? 0) || 0) + 1));
 }
+
+// Paid but not minted: a human or script must retry. Read with LRANGE teos:pending-mints 0 -1.
+export async function logPendingMint(domain: string, tld: string, owner: string, tx: string) {
+  const v = JSON.stringify({ domain, tld, owner, tx, at: Date.now() });
+  if (redis) await withTimeout(redis.lpush("teos:pending-mints", v));
+  else console.error("[pending-mint]", v);
+}
