@@ -18,7 +18,7 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; " + scriptSrc + "; connect-src 'self' https: https://api.mainnet-beta.solana.com https://*.helius-rpc.com https://*.helius.xyz wss:; frame-ancestors 'self'",
+              "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; " + scriptSrc + "; connect-src 'self' https: https://api.mainnet-beta.solana.com https://*.helius-rpc.com https://*.helius.xyz wss:; frame-src 'self' https://*.walletconnect.com; frame-ancestors 'self'",
           },
         ],
       },
