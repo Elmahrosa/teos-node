@@ -1,9 +1,21 @@
 import sealedNames from "../domains/sealed-list.json";
 import reservedData from "../domains/reserved-list.json";
+import banks from "../domains/central-banks-reserve.json";
 
 // Every name with a file in domains/*.teos.json is sealed: never for sale.
 // Regenerate domains/sealed-list.json when adding a file to domains/.
 const sealed = new Set<string>((sealedNames as string[]).map(norm));
+
+// Central-bank names are auction-only: never sold through the public flow.
+(function walk(o: any) {
+  if (Array.isArray(o)) o.forEach(walk);
+  else if (o && typeof o === "object") {
+    if (typeof o.domain === "string") sealed.add(norm(o.domain));
+    Object.values(o).forEach(walk);
+  }
+})(banks);
+// Vault spelling (vault/AMIRA.TEOS.json); reserved-list.json spells it AMEIRA.
+sealed.add("AMIRA");
 
 function norm(d: string) { return d.toUpperCase().trim().replace(/\.TEOS$/, ""); }
 
