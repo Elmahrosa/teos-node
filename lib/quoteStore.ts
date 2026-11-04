@@ -20,6 +20,8 @@ export type Quote = {
 
 export const PRICE_LAMPORTS = Number(process.env.TEOS_PRICE_LAMPORTS) || 50_000_000;
 const TTL_SECONDS = Number(process.env.QUOTE_TTL_SECONDS) || 300;
+// A buyer whose wallet approval ran past the quote TTL has already paid: keep the quote for register() this much longer.
+export const GRACE_MS = 600_000;
 
 const redis =
   env("UPSTASH_REDIS_REST_URL") && env("UPSTASH_REDIS_REST_TOKEN")
@@ -30,14 +32,14 @@ const redis =
 const mem = new Map<string, Quote>();
 function sweep() {
   const now = Date.now();
-  mem.forEach((q, k) => { if (q.expiresAt < now) mem.delete(k); });
+  mem.forEach((q, k) => { if (q.expiresAt + GRACE_MS < now) mem.delete(k); });
 }
 if (!redis) setInterval(sweep, 60_000).unref?.();
 
 const key = (id: string) => `teos:quote:${id}`;
 
 async function put(q: Quote) {
-  const ttl = Math.max(1, Math.ceil((q.expiresAt - Date.now()) / 1000));
+  const ttl = Math.max(1, Math.ceil((q.expiresAt - Date.now()) / 1000)) + GRACE_MS / 1000;
   if (redis) await redis.set(key(q.id), JSON.stringify(q), { ex: ttl });
   else mem.set(q.id, q);
 }
@@ -87,7 +89,7 @@ export async function getQuote(id: string): Promise<Quote | null> {
   } else {
     q = mem.get(id) ?? null;
   }
-  if (!q || q.expiresAt < Date.now()) return null;
+  if (!q || q.expiresAt + GRACE_MS < Date.now()) return null;
   return q;
 }
 
