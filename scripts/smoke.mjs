@@ -43,7 +43,8 @@ const home = await fetch(BASE + "/");
 ok("homepage 200", home.status === 200);
 ok("CSP header", !!home.headers.get("content-security-policy"));
 ok("HSTS header", !!home.headers.get("strict-transport-security"));
-ok("X-Frame-Options DENY", home.headers.get("x-frame-options") === "DENY");
+ok("X-Frame-Options SAMEORIGIN", home.headers.get("x-frame-options") === "SAMEORIGIN");
+ok("CSP frame-ancestors self", (home.headers.get("content-security-policy") || "").includes("frame-ancestors 'self'"));
 for (const p of ["/terms", "/privacy"]) ok(`${p} 200`, (await fetch(BASE + p)).status === 200);
 
 // 7. Health (public view is ok/not-ok only).
