@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { parseDomain } from "../../../lib/domain-rules";
+import { parseDomain, isNotForSaleDomain } from "../../../lib/domain-rules";
 import { getQuote, markUsed, GRACE_MS } from "../../../lib/quoteStore";
 import { verifyWalletSignature } from "../../../lib/sig";
 import { isClaimed, claimDomain, releaseDomain, recordMint, incrSold, getClaim, claimTx, releaseTx, registryPersistent, logPendingMint } from "../../../lib/registry";
@@ -28,6 +28,12 @@ export async function POST(req: Request) {
     const { quote_id, signature, publicKey, payment_tx } = body ?? {};
     const parsed = parseDomain(body?.domain);
     if (!parsed.ok) return NextResponse.json(parsed.body, { status: parsed.status });
+    if (isNotForSaleDomain(parsed.domain)) {
+      return NextResponse.json(
+        { status: "RESERVED", reason: "NOT_FOR_SALE", domain: parsed.domain },
+        { status: 409 }
+      );
+    }
     if ([quote_id, signature, publicKey, payment_tx].some((v) => typeof v !== "string" || !v)) {
       return NextResponse.json({ error: "missing_signature_or_quote" }, { status: 400 });
     }

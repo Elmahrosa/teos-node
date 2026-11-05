@@ -41,7 +41,7 @@ export default function Founder() {
       <div style={{ textAlign: "center", opacity: 0.6, marginBottom: 28 }}>{countries.length ? countries.join(" ") : "0"}</div>
 
       <form onSubmit={grant} style={{ display: "grid", gap: 10, border: "1px solid #333", borderRadius: 16, padding: 16 }}>
-        <b>Record a hand mint (Vodafone Cash / PayPal)</b>
+        <b>Record an authorized manual mint</b>
         <input style={field} placeholder="name (without .teos)" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
         <input style={field} placeholder="Solana wallet address" value={form.wallet} onChange={(e) => setForm({ ...form, wallet: e.target.value })} />
         {isReserved && <div style={{ fontSize: 13, color: "#fde68a" }}>Reserved founder name: will be recorded with allowReserved.</div>}
