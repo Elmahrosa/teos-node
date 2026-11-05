@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { parseDomain } from "../../../../lib/domain-rules";
@@ -14,11 +14,13 @@ export async function GET(req: Request, { params }: { params: Promise<{ name: st
     const name = parsed.domain;
     const tld = (new URL(req.url).searchParams.get("tld") || "teos").toLowerCase();
     if (!getTld(tld)) return NextResponse.json({ error: "not_found" }, { status: 404 });
+    
     const claim = await getClaim(fullName(name, tld));
-    if (!claim) return NextResponse.json({ error: "not_found" }, { status: 404 });
+    
     const crest = fs.existsSync(path.join(process.cwd(), "public", "crests", `${name}.${tld}.png`))
       ? `/crests/${name}.${tld}.png`
       : "/genesis-seal.png";
+
     return NextResponse.json({
       name: `${name.toUpperCase()}.${tld.toUpperCase()}`,
       symbol: "TEOS",
@@ -29,6 +31,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ name: st
         { trait_type: "Namespace", value: `.${tld}` },
         { trait_type: "Name", value: name },
         { trait_type: "Network", value: "Solana" },
+        { trait_type: "Status", value: claim ? "Claimed" : "Available" },
       ],
       properties: { category: "image", files: [{ uri: `${BASE}${crest}`, type: "image/png" }] },
     });
