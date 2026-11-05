@@ -3,7 +3,7 @@ import reservedData from "../../../domains/reserved-list.json";
 import { isSealedDomain } from "../../../lib/sealed";
 import { isClaimed, getSoldCount } from "../../../lib/registry";
 import { priceForName } from "../../../lib/pricing";
-import { parseDomain, isReservedWord } from "../../../lib/domain-rules";
+import { parseDomain, isReservedWord, isNotForSaleDomain } from "../../../lib/domain-rules";
 import path from "path";
 import fs from "fs";
 
@@ -50,6 +50,14 @@ export async function GET(req: NextRequest) {
     const parsed = parseDomain(req.nextUrl.searchParams.get("domain"));
     if (!parsed.ok) return NextResponse.json(parsed.body, { status: parsed.status });
     const domain = parsed.domain;
+    if (isNotForSaleDomain(domain)) {
+      return NextResponse.json({
+        available: false,
+        reason: "NOT_FOR_SALE",
+        domain,
+        status: "RESERVED"
+      });
+    }
     if (isReservedWord(domain)) {
       return NextResponse.json({ available: false, reason: "reserved", domain });
     }

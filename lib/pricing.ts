@@ -1,13 +1,16 @@
 // USD price tiers, converted to SOL with a live rate. Fails closed: no rate, no quote.
-export const PROMO_LIMIT = 100;
-export const PROMO_USD = 10;
-export const MARKET_USD = { long: 30, four: 150, short: 400 } as const; // 5+ letters, 4 letters, 3 letters
+export const MARKET_USD = { one: 2000, long: 30, four: 150, short: 400 } as const;
 
-export type Price = { usd: number; isPromo: boolean; tier: "promo" | "market_5plus" | "premium_4" | "premium_3" };
+export type Price = {
+  usd: number;
+  isPromo: false;
+  tier: "premium_1" | "market_5plus" | "premium_4" | "premium_3";
+};
 
-export function priceForName(name: string, sold: number, promoLimit = PROMO_LIMIT, promoUsd = PROMO_USD): Price {
+export function priceForName(name: string, _sold = 0): Price {
   const len = name.toLowerCase().replace(/\.teos$/, "").trim().length;
-  if (sold < promoLimit && len >= 5) return { usd: promoUsd, isPromo: true, tier: "promo" };
+
+  if (len === 1) return { usd: MARKET_USD.one, isPromo: false, tier: "premium_1" };
   if (len <= 3) return { usd: MARKET_USD.short, isPromo: false, tier: "premium_3" };
   if (len === 4) return { usd: MARKET_USD.four, isPromo: false, tier: "premium_4" };
   return { usd: MARKET_USD.long, isPromo: false, tier: "market_5plus" };

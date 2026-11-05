@@ -4,7 +4,6 @@ import PricingLogic from "../components/PricingLogic";
 import Bidi from "../components/Bidi";
 import Image from "next/image";
 import FounderSeal from "../components/FounderSeal";
-import FoundersBanner from "../components/FoundersBanner";
 import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopup";
 import CountryDropdown from "../components/CountryDropdown";
 import AymanContact from "../components/AymanContact";
@@ -16,7 +15,7 @@ import TrustSection from "../components/TrustSection";
 import PaymentOptions from "../components/PaymentOptions";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import FounderIntro from "../components/FounderIntro";
+
 import TeosChatbot from "../components/TeosChatbot";
 import BuildSiteAfterPurchase from "../components/BuildSiteAfterPurchase";
 import LiveTicker from "../components/LiveTicker";
@@ -25,6 +24,7 @@ import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt, type Lang } from "../lib/i18n";
 import { useLang } from "../lib/useLang";
 import { SOCIAL } from "../lib/social";
+import { priceForName } from "../lib/pricing";
 
 declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
@@ -63,7 +63,7 @@ export default function Home() {
 
   const open = stats?.registration_open === true && stats?.mint_ready !== false;
   const clean = name.trim().toLowerCase().replace(/\.[a-z]{2,6}$/, "");
-  const tldInfo = (t: string) => stats?.tlds?.find((x: any) => x.tld === t);
+
   const all: any[] = stats?.tlds ?? [];
 
   async function run(fn: () => Promise<void>) {
@@ -93,7 +93,7 @@ export default function Home() {
     setTimeout(() => document.getElementById("n")?.focus(), 400);
   };
   const connectWallet = () => setVisible(true);
-  const tiers = { promo: stats?.promo_usd ?? 10, long: stats?.market_usd?.long ?? 30, four: stats?.market_usd?.four ?? 150, short: stats?.market_usd?.short ?? 400 };
+  const tiers = { one: stats?.market_usd?.one ?? 2000, long: stats?.market_usd?.long ?? 30, four: stats?.market_usd?.four ?? 150, short: stats?.market_usd?.short ?? 400 };
 
   return (
     <>
@@ -129,17 +129,8 @@ export default function Home() {
             ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 124 دولة - saloma.teos يفتح saloma.eg"
             : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 124 countries - saloma.teos unlocks saloma.eg"}
         </p>
-        <p style={{ margin: "16px 0 0" }}><b style={{ color: "#fef3c7" }}>10$ للـ 100 مؤسس مقفولين فقط {stats?.sol_usd ? <bdi dir="ltr"> (~{(10 / stats.sol_usd).toFixed(3)} SOL)</bdi> : null} - بعدها $30 / $150 / $400</b></p>
         <button onClick={goSearch} style={{ ...btn, fontSize: 20, padding: "14px 34px", marginTop: 14 }}>{t("hero.getKey")}</button>
       </header>
-      
-      <FounderIntro t={L} rtl={rtl} tlds={all.length} solUsd={stats?.sol_usd ?? null} />
-
-      {stats && !open && (
-        <div style={{ ...card, borderColor: "#b8860b" }}>
-          {stats.registration_open === true ? <><b>{L.paused}</b> {L.checkNow}</> : <><b>{L.pioneerNote}</b> {L.checkNow} <a href={SOCIAL.whatsapp} target="_blank" rel="noopener noreferrer" style={{ color: "#fbbf24", fontWeight: 700 }}>{L.pioneerCta}</a></>}
-        </div>
-      )}
 
       <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px" }}>
         <div aria-hidden="true" style={{ position: "absolute", inset: 0, opacity: 0.15, backgroundImage: "repeating-linear-gradient(0deg,#6b5a3e 0 1px,transparent 1px 38px),repeating-linear-gradient(90deg,#6b5a3e 0 1px,transparent 1px 64px),radial-gradient(circle at 30% 20%,#8a7550,transparent 60%)" }} />
@@ -157,13 +148,13 @@ export default function Home() {
                 <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={56} /></div>
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.teos</div>
                 <div dir="auto" style={{ fontSize: 12, color: "#7f1d1d", fontWeight: 700 }}>{L.sovereignKey}</div>
-                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>${tldInfo("teos")?.promo_usd ?? 10}</div>
+                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${priceForName(clean).usd}` : "—"}</div>
               </div>
               <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
                 <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
                 <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
-                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>${tldInfo(selectedTld)?.promo_usd ?? 10}</div>
+                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${priceForName(clean).usd}` : "—"}</div>
               </div>
             </div>
             <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>
@@ -188,7 +179,6 @@ export default function Home() {
       <PricingTable t={L} tiers={tiers} solUsd={stats?.sol_usd ?? null} />
       <PricingLogic t={t} tlds={all} />
       <Divider />
-      <FoundersBanner t={L} rtl={rtl} left={typeof tldInfo("teos")?.promo_left === "number" ? tldInfo("teos").promo_left : null} />
       <div style={{ textAlign: "center", margin: "8px 0 8px" }}><button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button></div>
       <PaymentOptions t={L} rtl={rtl} />
       <Divider />
