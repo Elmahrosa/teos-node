@@ -1,12 +1,11 @@
-﻿"use client";
+"use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import BuildSiteAfterPurchase from "./BuildSiteAfterPurchase";
 import FounderSeal from "./FounderSeal";
 import { fmt, type Dict } from "../lib/i18n";
-import { SOCIAL } from "../lib/social";
 
-type TldInfo = { tld: string; label: string; name?: string; region?: string; flag: string; live: boolean; promo_usd: number };
-type Row = { tld: string; available: boolean; reason: string | null; price_usd: number; is_promo: boolean };
+type TldInfo = { tld: string; label: string; name?: string; region?: string; flag: string; live: boolean };
+type Row = { tld: string; available: boolean; reason: string | null; price_usd: number };
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const MONO = "ui-monospace, monospace";
@@ -152,7 +151,7 @@ export default function DomainSearchPopup(props: {
               </div>
               {teos && (
                 <div style={{ fontFamily: MONO, marginBottom: 10 }}>
-                  ${teos.price_usd} {teos.is_promo ? t.foundersPrice : t.standardPrice}
+                  ${teos.price_usd} {t.standardPrice}
                 </div>
               )}
               {teosFree && (
@@ -160,13 +159,10 @@ export default function DomainSearchPopup(props: {
                   {fmt(t.carve, { n: name })}
                 </button>
               )}
-              {teosFree && !open && <div style={{ fontSize: 13, marginTop: 8 }}>{t.pioneerNote} <a href={SOCIAL.whatsapp} target="_blank" rel="noopener noreferrer" style={{ color: "#7f1d1d", fontWeight: 700 }}>{t.pioneerCta}</a></div>}
+
               {ownsTeos && !teosFree && <div style={{ fontSize: 13, color: "#14532d", fontWeight: 700 }}>{fmt(t.holdTeos, { n: name })}</div>}
 
-              {/* === ابني موقعك بعد الشراء - هنا === */}
-              <div style={{ marginTop: 14, display:"block !important" }}><div style={{fontSize:11,color:"#eab308",marginBottom:6}}>🔓 FOUNDER PREVIEW - {name}.teos</div>
                 <BuildSiteAfterPurchase domain={`${name}.teos`} />
-              </div>
             </div>
 
             <Arrow />

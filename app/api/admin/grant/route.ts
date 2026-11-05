@@ -3,6 +3,7 @@ import bs58 from "bs58";
 import { verifySession } from "../../../../lib/founderAuth";
 import { claimDomain, isClaimed, incrSold, recordMint, logPendingMint } from "../../../../lib/registry";
 import { isSealedDomain } from "../../../../lib/sealed";
+import { isNotForSaleDomain } from "../../../../lib/domain-rules";
 import { mintTeosAsset } from "../../../../lib/mint";
 
 export const dynamic = "force-dynamic";
@@ -19,7 +20,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
   const body = await req.json().catch(() => ({}));
-  const name = String(body.name || "").toLowerCase().trim().replace(/\.teos$/, "").replace(/[^a-z0-9-]/g, "");
+  const rawName = String(body.name || "").toLowerCase().trim();
+  if (isNotForSaleDomain(rawName)) return NextResponse.json({ ok: false, error: "name is reserved" }, { status: 400 });
+  const name = rawName.replace(/\.teos$/, "").replace(/[^a-z0-9-]/g, "");
   const wallet = String(body.wallet || "").trim();
   const ref = String(body.ref || "manual").slice(0, 100);
   if (!name || !wallet) return NextResponse.json({ ok: false, error: "name and wallet required" }, { status: 400 });
