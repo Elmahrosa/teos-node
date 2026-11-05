@@ -1,11 +1,13 @@
+﻿import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 import { parseDomain } from "../../../lib/domain-rules";
 import { parseTlds, liveTlds } from "../../../lib/tlds";
 import { checkTlds } from "../../../lib/check";
 import { getSolUsd } from "../../../lib/pricing";
-
 // GET /api/check?name=ahmed&tlds=teos,eg,sa  (tlds optional: defaults to every live TLD)
 export async function GET(req: NextRequest) {
+  const rl = await checkRateLimit("check", 60, 60);
+  if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
   try {
     const parsed = parseDomain(req.nextUrl.searchParams.get("name"));
     if (!parsed.ok) return NextResponse.json(parsed.body, { status: parsed.status });

@@ -1,9 +1,12 @@
+﻿import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { NextResponse } from "next/server";
 import { env } from "../../../../lib/env";
 import { passwordOk, signSession } from "../../../../lib/founderAuth";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
+  const rl = await checkRateLimit("founder-login", 5, 300);
+  if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
   if (!env("FOUNDER_PASSWORD") || !env("FOUNDER_SESSION_SECRET"))
     return NextResponse.json({ error: "not_configured" }, { status: 500 });
   const { password } = await req.json().catch(() => ({}));
@@ -21,5 +24,7 @@ export async function DELETE() {
 }
 
 export async function GET() {
+  const rl = await checkRateLimit("founder-login", 5, 300);
+  if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
   return NextResponse.json({ configured: !!(env("FOUNDER_PASSWORD") && env("FOUNDER_SESSION_SECRET")) });
 }
