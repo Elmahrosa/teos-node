@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { parseDomain } from "../../../lib/domain-rules";
+import { parseDomain, isNotForSaleDomain } from "../../../lib/domain-rules";
 import { parseTlds, liveTlds } from "../../../lib/tlds";
 import { checkTlds } from "../../../lib/check";
 import { getSolUsd } from "../../../lib/pricing";
@@ -9,6 +9,12 @@ export async function GET(req: NextRequest) {
   try {
     const parsed = parseDomain(req.nextUrl.searchParams.get("name"));
     if (!parsed.ok) return NextResponse.json(parsed.body, { status: parsed.status });
+    if (isNotForSaleDomain(parsed.domain)) {
+      return NextResponse.json(
+        { name: parsed.domain, status: "RESERVED", reason: "NOT_FOR_SALE" },
+        { status: 409 }
+      );
+    }
     const raw = req.nextUrl.searchParams.get("tlds");
     const tlds = raw ? parseTlds(raw) : liveTlds().map((t) => t.tld);
     if (!tlds) return NextResponse.json({ error: "invalid_tlds" }, { status: 400 });

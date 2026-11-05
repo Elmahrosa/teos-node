@@ -1,6 +1,6 @@
 import all from "../tlds/all.json";
 
-export type Tld = { tld: string; label: string; flag: string; live: boolean; promo_limit: number; promo_usd: number; name?: string; region?: string };
+export type Tld = { tld: string; label: string; flag: string; live: boolean; name?: string; region?: string };
 
 // All TLDs are Metaplex Core assets minted by the same mint key, like .teos. A TLD is sold only when live is true in tlds/<tld>.json.
 export const TLDS: Tld[] = all as Tld[];

@@ -4,6 +4,7 @@ import { generateSigner, keypairIdentity, publicKey } from "@metaplex-foundation
 import { base58 } from "@metaplex-foundation/umi/serializers";
 import bs58 from "bs58";
 import { env } from "./env";
+import { isNotForSaleDomain } from "./domain-rules";
 
 export type MintResult = { asset: string; signature: string };
 
@@ -26,6 +27,7 @@ function rpc(): string {
 // Mints a Metaplex Core asset (into the TEOS collection if COLLECTION_ADDRESS is set), owned by the buyer.
 // Returns null when minting is not configured (the registration stays "pending_mint").
 export async function mintTeosAsset(domain: string, owner: string, tld = "teos"): Promise<MintResult | null> {
+  if (isNotForSaleDomain(domain)) return null;
   if (!mintConfigured()) return null;
   const umi = createUmi(rpc()).use(mplCore());
   const kp = umi.eddsa.createKeypairFromSecretKey(secretKeyBytes());

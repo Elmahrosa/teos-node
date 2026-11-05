@@ -1,5 +1,5 @@
 import { Redis } from "@upstash/redis";
-import { parseDomain } from "./domain-rules";
+import { parseDomain, isNotForSaleDomain } from "./domain-rules";
 import { env } from "./env";
 import { getSolUsd, usdToLamports } from "./pricing";
 import { checkTlds } from "./check";
@@ -52,6 +52,13 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown): Promis
   const parsed = parseDomain(rawDomain);
   if (!parsed.ok) return { ok: false, status: parsed.status, body: parsed.body };
   const domain = parsed.domain;
+  if (isNotForSaleDomain(domain)) {
+    return {
+      ok: false,
+      status: 409,
+      body: { status: "RESERVED", reason: "NOT_FOR_SALE", domain },
+    };
+  }
   const tlds = rawTlds === undefined ? ["teos"] : parseTlds(rawTlds);
   if (!tlds) return { ok: false, status: 400, body: { error: "invalid_tlds" } };
   const checks = await checkTlds(domain, tlds);

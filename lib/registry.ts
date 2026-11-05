@@ -1,5 +1,6 @@
 import { Redis } from "@upstash/redis";
 import { env } from "./env";
+import { isNotForSaleDomain } from "./domain-rules";
 
 const redis =
   env("UPSTASH_REDIS_REST_URL") && env("UPSTASH_REDIS_REST_TOKEN")
@@ -36,8 +37,10 @@ const dKey = (d: string) => `teos:domain:${d.toLowerCase()}`;
 const tKey = (s: string) => `teos:tx:${s}`;
 
 export const isClaimed = (domain: string) => has(dKey(domain));
-export const claimDomain = (domain: string, owner: string, tx: string) =>
-  setNx(dKey(domain), JSON.stringify({ owner, tx, at: Date.now() }));
+export const claimDomain = async (domain: string, owner: string, tx: string): Promise<boolean> => {
+  if (isNotForSaleDomain(domain)) return false;
+  return setNx(dKey(domain), JSON.stringify({ owner, tx, at: Date.now() }));
+};
 export const releaseDomain = (domain: string) => del(dKey(domain));
 export const claimTx = (sig: string, domain: string) => setNx(tKey(sig), domain.toLowerCase());
 export const releaseTx = (sig: string) => del(tKey(sig));

@@ -4,6 +4,7 @@ import { verifySession } from "../../../../lib/founderAuth";
 import { claimDomain, isClaimed, incrSold, recordMint, logPendingMint } from "../../../../lib/registry";
 import { isSealedDomain } from "../../../../lib/sealed";
 import { mintTeosAsset } from "../../../../lib/mint";
+import { parseDomain, isNotForSaleDomain } from "../../../../lib/domain-rules";
 
 export const dynamic = "force-dynamic";
 
@@ -13,18 +14,24 @@ function validWallet(w: string): boolean {
   try { return bs58.decode(w).length === 32; } catch { return false; }
 }
 
-// Records a hand sale (Vodafone Cash / PayPal): claims the name in the registry, then mints it to the buyer's wallet.
+// Records an authorized manual admin grant: claims the name in the registry, then mints it to the buyer's wallet.
 export async function POST(req: Request) {
   if (!verifySession(req.headers.get("cookie"))) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
   const body = await req.json().catch(() => ({}));
-  const name = String(body.name || "").toLowerCase().trim().replace(/\.teos$/, "").replace(/[^a-z0-9-]/g, "");
+  const rawName = String(body.name || "").toLowerCase().trim().replace(/\.teos$/, "");
+  const parsedName = parseDomain(rawName);
+  if (!parsedName.ok) return NextResponse.json({ ok: false, error: "invalid_name" }, { status: 400 });
+  const name = parsedName.domain;
   const wallet = String(body.wallet || "").trim();
   const ref = String(body.ref || "manual").slice(0, 100);
   if (!name || !wallet) return NextResponse.json({ ok: false, error: "name and wallet required" }, { status: 400 });
   if (name.length < 3 || name.length > 30) return NextResponse.json({ ok: false, error: "invalid_name_length" }, { status: 400 });
   if (!validWallet(wallet)) return NextResponse.json({ ok: false, error: "invalid_wallet" }, { status: 400 });
+  if (isNotForSaleDomain(name)) {
+    return NextResponse.json({ ok: false, status: "RESERVED", reason: "NOT_FOR_SALE" }, { status: 409 });
+  }
   if (RESERVED.includes(name)) return NextResponse.json({ ok: false, error: "name is reserved" }, { status: 400 });
   if (isSealedDomain(name) || (await isClaimed(name))) return NextResponse.json({ ok: false, error: "unavailable" }, { status: 409 });
   if (!(await claimDomain(name, wallet, `manual:${ref}`))) return NextResponse.json({ ok: false, error: "unavailable" }, { status: 409 });

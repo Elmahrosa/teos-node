@@ -10,7 +10,7 @@ const b64 = (u: Uint8Array) => btoa(String.fromCharCode(...Array.from(u)));
 const gold: React.CSSProperties = { background: "linear-gradient(90deg,#b45309,#ca8a04)", color: "#000", border: "2px solid #713f12", borderRadius: 4, padding: "12px 18px", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: "0 4px 10px rgba(0,0,0,.5)" };
 const tablet: React.CSSProperties = { background: "#292321", color: "#f5e6c4", border: "1px solid #7a6540", borderRadius: 4, padding: "10px 16px", cursor: "pointer", fontSize: 15 };
 
-export type MintQuote = { quote_id: string; price_sol: number; price_usd?: number; expires_at: number; message_to_sign: string; pay_to: string | null; tlds?: string[] };
+export type MintQuote = { quote_id: string; price_sol: number; price_lamports: number; price_usd?: number; expires_at: number; message_to_sign: string; pay_to: string | null; tlds?: string[] };
 
 type Phase = "choose" | "approve" | "signing" | "paying" | "minting" | "error";
 
@@ -42,7 +42,17 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
   async function pay() {
     setErr("");
     try {
+      if (expired) throw new Error("quote_expired");
+      if (!Number.isSafeInteger(quote.price_lamports) || quote.price_lamports <= 0) {
+        throw new Error("invalid_quote_amount");
+      }
       if (!quote.pay_to) throw new Error("no_treasury");
+      let treasury: PublicKey;
+      try {
+        treasury = new PublicKey(quote.pay_to);
+      } catch {
+        throw new Error("invalid_treasury");
+      }
       if (!publicKey) throw new Error(t.mmNone);
       if (!signMessage) throw new Error(t.mmNoSign);
       setPhase("signing");
@@ -53,8 +63,9 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
       const bh = await fetch("/api/blockhash", { cache: "no-store" }).then((r) => r.json());
       if (!bh.blockhash) throw new Error("rpc_unavailable");
       const tx = new Transaction({ feePayer: pk, recentBlockhash: bh.blockhash }).add(
-        SystemProgram.transfer({ fromPubkey: pk, toPubkey: new PublicKey(quote.pay_to), lamports: Math.round(quote.price_sol * 1e9) }),
+        SystemProgram.transfer({ fromPubkey: pk, toPubkey: treasury, lamports: quote.price_lamports }),
       );
+      setPhase("paying");
       const payment_tx: string = await sendTransaction(tx, connection);
 
       setPhase("minting");
