@@ -16,9 +16,6 @@ export default function SiteFooter({ t }: { t: Dict }) {
         <a href={SOCIAL.whatsapp} target="_blank" rel="noopener noreferrer" style={pill("#25D366")}>WhatsApp</a>
       </div>
       <p style={{ color: "#D4AF37", fontSize: 14, margin: "18px 0 0" }}>{t.footerLine} - <a href={SOCIAL.website} target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>ayman.elmahrosa.org</a></p>
-      <p style={{ color: "#a1a1aa", fontSize: 13, margin: "12px 0 0" }}>
-        Vodafone Cash: <span dir="ltr" style={{ color: "#4ade80", fontFamily: "ui-monospace, monospace", fontWeight: 700 }}>{SOCIAL.vodafone}</span> | PayPal: <span dir="ltr" style={{ color: "#60a5fa" }}>{SOCIAL.paypal}</span>
-      </p>
       <p style={{ color: "#a89a80", fontSize: 13, margin: "10px 0 0" }}>
         {t.wallets} · <a href="/terms" style={{ color: "inherit" }}>{t.terms}</a> · <a href="/privacy" style={{ color: "inherit" }}>{t.privacy}</a>
       </p>
