@@ -6,11 +6,12 @@ import { passwordOk, signSession } from "../../../../lib/founderAuth";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
-  const rl = await checkRateLimit("founder-login", 5, 300);
-  if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
-
+  // F-02 FIX: Check lockout FIRST, so 423 shows instead of being hidden behind 429
   const lock = await isFounderLocked();
   if (lock.locked) return NextResponse.json({ error: "locked", retry_after: lock.retryAfter }, { status: 423 });
+
+  const rl = await checkRateLimit("founder-login", 5, 300);
+  if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
 
   if (!env("FOUNDER_PASSWORD") || !env("FOUNDER_SESSION_SECRET"))
     return NextResponse.json({ error: "not_configured" }, { status: 500 });
