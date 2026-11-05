@@ -1,4 +1,4 @@
-// USD price tiers, converted to SOL with a live rate. Fails closed: no rate, no quote.
+﻿// USD price tiers, converted to SOL with a live rate. Fails closed: no rate, no quote.
 export const MARKET_USD = { one: 2000, long: 30, four: 150, short: 400 } as const;
 
 export type Price = {
@@ -40,3 +40,4 @@ export async function getSolUsd(): Promise<number | null> {
 }
 
 export const usdToLamports = (usd: number, solUsd: number) => Math.ceil((usd / solUsd) * 1e9);
+
