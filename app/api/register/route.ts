@@ -1,17 +1,17 @@
-
+﻿import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { NextResponse } from "next/server";
 import {
-  parseDomain,
+parseDomain,
   isNotForSaleDomain,
 } from "../../../lib/domain-rules";
 import {
-  getQuote,
+getQuote,
   markUsed,
   GRACE_MS,
 } from "../../../lib/quoteStore";
 import { verifyWalletSignature } from "../../../lib/sig";
 import {
-  isClaimed,
+isClaimed,
   claimDomain,
   releaseDomain,
   recordMint,
@@ -26,7 +26,6 @@ import { env } from "../../../lib/env";
 import { verifyPayment } from "../../../lib/payment";
 import { mintTeosAsset, mintFunds } from "../../../lib/mint";
 import { fullName } from "../../../lib/tlds";
-
 const bad = (reason: string) =>
   NextResponse.json(
     { error: "invalid_quote", reason },
@@ -68,6 +67,8 @@ async function rollbackClaims(
 }
 
 export async function POST(req: Request) {
+  const rl = await checkRateLimit("register", 10, 60);
+  if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
   // Registration remains closed unless explicitly enabled.
   if (env("REGISTRATION_OPEN") !== "true") {
     return NextResponse.json(
