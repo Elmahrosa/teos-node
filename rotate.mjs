@@ -1,4 +1,4 @@
-﻿import fs from "fs";
+import fs from "fs";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { keypairIdentity, publicKey } from "@metaplex-foundation/umi";
 import { updateV1, fetchDigitalAsset } from "@metaplex-foundation/mpl-token-metadata";

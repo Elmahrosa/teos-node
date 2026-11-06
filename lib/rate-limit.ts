@@ -1,4 +1,4 @@
-﻿import { headers } from "next/headers";
+import { headers } from "next/headers";
 
 async function getClientIp(): Promise<string> {
   const h = await headers();

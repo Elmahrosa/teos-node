@@ -1,4 +1,4 @@
-﻿import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
+import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { isFounderLocked, recordFounderFail, clearFounderFails } from "@/lib/founder-lockout";
 import { NextResponse } from "next/server";
 import { env } from "../../../../lib/env";

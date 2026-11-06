@@ -1,4 +1,4 @@
-﻿import { env } from "./env";
+import { env } from "./env";
 
 // Only finalized Solana transactions are accepted.
 // Payments older than this window are rejected.

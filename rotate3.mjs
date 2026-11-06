@@ -1,4 +1,4 @@
-﻿import fs from "fs";
+import fs from "fs";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { keypairIdentity, publicKey } from "@metaplex-foundation/umi";
