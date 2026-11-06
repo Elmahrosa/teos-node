@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
-import BuildSiteAfterPurchase from "./BuildSiteAfterPurchase";
 import FounderSeal from "./FounderSeal";
 import { fmt, type Dict } from "../lib/i18n";
 
@@ -92,16 +91,16 @@ export default function DomainSearchPopup(props: {
     const free = r?.available;
     const bundle = teosFree && !unlocked;
     return (
-      <div key={c.tld} title={unlocked || bundle ? undefined : fmt(t.lockTip, { n: name })} style={{ background: "#241f1a", border: "1px solid #3d352a", padding: 12, boxShadow: "inset 0 2px 8px rgba(0,0,0,.5)" }}>
+      <div key={c.tld} style={{ background: "#241f1a", border: "1px solid #3d352a", padding: 12, boxShadow: "inset 0 2px 8px rgba(0,0,0,.5)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, fontSize: 13, color: unlocked ? "#4ade80" : "#a89a80" }}>
           <StepBadge n={2} /><b dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step2Title, { n: name, t: c.tld })}</b><span>{t.step2Tag}</span>
-          <span title={fmt(t.lockTip, { n: name })} style={{ marginInlineStart: "auto", fontSize: 18 }}>{unlocked ? "🔓" : "🔒"}</span>
+          <span style={{ marginInlineStart: "auto", fontSize: 18 }}>{unlocked ? "🔓" : "🔒"}</span>
         </div>
         <div style={{ fontSize: 12, color: unlocked ? "#4ade80" : "#fca5a5", marginBottom: 8 }}>{unlocked ? t.step2Open : t.step2Locked}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <Flag t={c} />
           <span dir="ltr" style={{ fontFamily: SERIF, fontSize: 18, flex: 1, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{name}.{c.tld} <span style={{ color: "#a89a80", fontSize: 13 }}>{c.name}{tag ? ` • ${tag}` : ""}</span></span>
-          <span style={{ fontFamily: MONO, fontSize: 12, color: !r ? "#a89a80" : free ? "#4ade80" : "#f87171" }}>{!r ? "..." : free ? t.availableU : t.takenU}</span>
+          <span style={{ fontFamily: MONO, fontSize: 12, color: !r ? "#a89a80" : free ? "#4ade80" : "#f87171" }}>{!r ? "..." : free ? t.availableU : unlocked ? t.takenU : t.lockedU}</span>
         </div>
         {free && (bundle || unlocked) && (
           <div style={{ marginTop: 8 }}>
@@ -138,18 +137,18 @@ export default function DomainSearchPopup(props: {
           <>
             <div style={{ background: "#d4c5a9", color: "#2a2520", border: "3px double #713f12", padding: 18, boxShadow: "0 8px 24px rgba(0,0,0,.6)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, fontSize: 13, fontWeight: 700 }}>
-                <StepBadge n={1} dark /><span dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step1Title, { n: name })}</span><span style={{ color: "#7f1d1d" }}>{t.step1Tag} 🔑</span>
+                <StepBadge n={1} dark />{teosFree && <span dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step1Title, { n: name })}</span>}<span style={{ color: "#7f1d1d" }}>{t.step1Tag} 🔑</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "baseline", flexWrap: "wrap" }}>
                 <span dir="ltr" style={{ fontFamily: SERIF, fontSize: 26, fontWeight: 700, color: "#451a03", wordBreak: "break-all" }}>{name}.teos</span>
-                <span style={{ fontFamily: MONO, fontWeight: 700, color: !teos ? "#57493a" : teosFree ? "#14532d" : "#7f1d1d" }}>
-                  {!teos ? t.checking : teosFree ? t.availableU : teos.reason === "reserved" ? t.reservedU : t.takenU}
+                <span style={{ fontFamily: MONO, fontWeight: 700, color: !teos ? "#57493a" : ownsTeos || teosFree ? "#14532d" : "#7f1d1d" }}>
+                  {!teos ? t.checking : ownsTeos ? t.youOwnU : teosFree ? t.availableU : teos.reason === "reserved" ? t.reservedU : t.takenU}
                 </span>
               </div>
               <div style={{ margin: "6px 0 10px" }}>
                 <span style={{ background: "#7f1d1d", color: "#fde68a", fontSize: 11, letterSpacing: "0.1em", padding: "2px 8px", fontWeight: 700 }}>{t.rootBadge}</span>
               </div>
-              {teos && (
+              {teos && teosFree && !ownsTeos && (
                 <div style={{ fontFamily: MONO, marginBottom: 10 }}>
                   ${teos.price_usd} {t.standardPrice}
                 </div>
@@ -160,11 +159,12 @@ export default function DomainSearchPopup(props: {
                 </button>
               )}
 
-              {ownsTeos && !teosFree && <div style={{ fontSize: 13, color: "#14532d", fontWeight: 700 }}>{fmt(t.holdTeos, { n: name })}</div>}
-
-                <BuildSiteAfterPurchase domain={`${name}.teos`} />
+              {ownsTeos && (
+                <button style={gold} onClick={() => window.open(`/u/${encodeURIComponent(name)}`, "_blank", "noopener")}>{t.openSite}</button>
+              )}
             </div>
 
+            {(teosFree || ownsTeos) && (<>
             <Arrow />
             <div>
               <div style={{ fontFamily: SERIF, letterSpacing: "0.15em", fontSize: 13, color: "#a89a80", marginBottom: 6 }}>{query.trim() ? t.otherCountry : t.yourCountry}</div>
@@ -184,6 +184,7 @@ export default function DomainSearchPopup(props: {
                 <div style={{ color: "#a89a80", fontSize: 13 }}>{t.ruleSub}</div>
               </div>
             </div>
+            </>)}
           </>
         )}
       </div>

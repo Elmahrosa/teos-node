@@ -18,7 +18,6 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 import TeosChatbot from "../components/TeosChatbot";
-import BuildSiteAfterPurchase from "../components/BuildSiteAfterPurchase";
 import LiveTicker from "../components/LiveTicker";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
@@ -50,6 +49,7 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
   const [popup, setPopup] = useState(false);
   const [owned, setOwned] = useState<string[]>([]);
+  const [myNames, setMyNames] = useState<string[]>([]);
   const [selectedTld, setSelectedTld] = useState("eg");
   const { publicKey } = useWallet();
   const { setVisible } = useWalletModal();
@@ -60,6 +60,15 @@ export default function Home() {
     const lc = localeCountry(); if (lc) setSelectedTld(lc);
     fetch("/api/stats").then((r) => r.json()).then(setStats).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    setMyNames([]);
+    if (!wallet) return;
+    let live = true;
+    fetch(`/api/owns-teos?wallet=${encodeURIComponent(wallet)}`, { cache: "no-store" })
+      .then((r) => r.json()).then((j) => { if (live && Array.isArray(j?.names)) setMyNames(j.names); }).catch(() => {});
+    return () => { live = false; };
+  }, [wallet]);
 
   const open = stats?.registration_open === true && stats?.mint_ready !== false;
   const clean = name.trim().toLowerCase().replace(/\.[a-z]{2,6}$/, "");
@@ -120,7 +129,7 @@ export default function Home() {
           {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : lang === "id" ? "TEOS Akar Berdaulat - Alexandria" : "TEOS Sovereign Root - Alexandria"}
         </h2>
         <p dir="auto" style={{ margin: 0, fontSize: 20, color: "#fbbf24", fontWeight: 700 }}>
-          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الويب دومين هو البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Domain Web Hanyalah Awal" : "1 Key Unlocks The Full System - Web Domain Is Just The Start"}
+          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الدومين السيادي هو البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Domain Berdaulat Hanyalah Awal" : "1 Key Unlocks The Full System - Sovereign Domain Is Just The Start"}
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 17, color: "#d6cbb5", lineHeight: 1.6 }}>
           {lang === "ar" 
@@ -160,7 +169,7 @@ export default function Home() {
                 <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
                 <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
-                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${getPrice(clean, selectedTld).toLocaleString("en-US")}` : "—"}</div>
+                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean && owned.includes(clean) ? `$${getPrice(clean, selectedTld).toLocaleString("en-US")}` : "—"}</div>
               </div>
             </div>
             <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>
@@ -169,7 +178,7 @@ export default function Home() {
         </div>
       </div>
 
-      {popup && (<DomainSearchPopup t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={owned.includes(clean)} founder={clean === "elmahrosa"} open={open} busy={busy} onBuy={mint} onClose={() => setPopup(false)} />)}
+      {popup && (<DomainSearchPopup t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={!!wallet && (myNames.includes(clean) || owned.includes(clean))} founder={clean === "elmahrosa"} open={open} busy={busy} onBuy={mint} onClose={() => setPopup(false)} />)}
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
