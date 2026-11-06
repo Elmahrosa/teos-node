@@ -15,7 +15,7 @@ export default function PricingLogic({ t, tlds }: { t: TFn; tlds: { tld: string;
   for (const x of countries) groups.set(x.region, (groups.get(x.region) ?? 0) + 1);
   const rows = Array.from(groups.entries()).sort((a, b) => b[1] - a[1]);
   useEffect(() => {
-    if (tlds.length && tlds.length !== 125 && process.env.NODE_ENV === "development") console.warn(`[tlds] expected 125 including .teos, found ${tlds.length}`);
+    if (tlds.length && tlds.length !== 127 && process.env.NODE_ENV === "development") console.warn(`[tlds] expected 127 including .teos, found ${tlds.length}`);
   }, [tlds.length]);
   return (
     <section aria-labelledby="how" style={box}>

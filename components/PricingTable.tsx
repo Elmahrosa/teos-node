@@ -14,9 +14,9 @@ export default function PricingTable({ t, solUsd }: { t: Dict; solUsd: number | 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }}>
         {PRICE_TIERS.map((tier) => (
           <section key={tier.id} aria-label={tier.id} style={{ border: "1px solid #3d352a", padding: 12 }}>
-            <h3 style={{ margin: 0, color: "#eab308", fontFamily: SERIF, letterSpacing: "0.08em", fontSize: 17 }}>{tier.id}</h3>
+            <h3 style={{ margin: 0, color: "#eab308", fontFamily: SERIF, letterSpacing: "0.08em", fontSize: 17 }}>{tier.id.toUpperCase()}</h3>
             <p dir="ltr" style={{ margin: "2px 0 8px", color: "#a89a80", fontSize: 12, overflowWrap: "anywhere" }}>
-              {tier.tlds === "*" ? "all other TLDs" : tier.tlds.map((x) => `.${x}`).join(" ")}
+              {tier.tlds === null ? "all other TLDs" : tier.tlds.map((x) => `.${x}`).join(" ")}
             </p>
             {tier.prices.map((usd, i) => (
               <div key={i} style={cell}>

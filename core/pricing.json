@@ -1,15 +1,22 @@
 {
-  "currency": "USD",
-  "payment": "One-time payment - No yearly renewal",
-  "lengths": ["1 char", "2 chars", "3 chars", "4 chars", "5+ chars"],
-  "tiers": [
-    { "id": "TEOS", "tlds": ["teos"], "prices": [2000, 600, 180, 80, 30] },
-    { "id": "GULF", "tlds": ["ae", "sa", "qa", "kw", "bh", "om"], "prices": [6000, 1800, 540, 240, 90] },
-    { "id": "ARAB", "tlds": ["eg", "jo", "lb", "sy", "iq", "ye", "ps", "sd", "ly", "tn", "dz", "ma", "mr"], "prices": [4000, 1200, 360, 160, 60] },
-    { "id": "AFRICA", "tlds": ["africa", "ng", "za", "ke", "gh", "et", "tz", "ug", "rw", "zm", "zw", "ao", "sn", "ci", "cm", "ml"], "prices": [3000, 900, 270, 120, 45] },
-    { "id": "EUROPE", "tlds": ["de", "fr", "uk", "it", "es", "pt", "nl", "be", "ch", "at", "se", "no", "dk", "fi", "pl", "gr", "cz", "hu", "ro", "ie"], "prices": [5000, 1500, 450, 200, 75] },
-    { "id": "AMERICAS", "tlds": ["us", "ca", "br", "mx", "ar", "cl", "co", "pe", "ve"], "prices": [5000, 1500, 450, 200, 75] },
-    { "id": "MENA", "tlds": ["mena"], "prices": [3500, 1050, 315, 140, 52] },
-    { "id": "GENERIC", "tlds": "*", "prices": [2000, 600, 180, 80, 30] }
-  ]
+  "tiers": {
+    "teos": [2000, 600, 180, 80, 30],
+    "gulf": [6000, 1800, 540, 240, 90],
+    "arab": [4000, 1200, 360, 160, 60],
+    "africa": [3000, 900, 270, 120, 45],
+    "europe": [5000, 1500, 450, 200, 75],
+    "americas": [5000, 1500, 450, 200, 75],
+    "mena": [3500, 1050, 315, 140, 52],
+    "generic": [2000, 600, 180, 80, 30]
+  },
+  "mapping": {
+    "ae": "gulf", "sa": "gulf", "qa": "gulf", "kw": "gulf", "bh": "gulf", "om": "gulf",
+    "eg": "arab", "jo": "arab", "lb": "arab", "sy": "arab", "iq": "arab", "ye": "arab", "ps": "arab", "sd": "arab", "ly": "arab", "tn": "arab", "dz": "arab", "ma": "arab", "mr": "arab",
+    "ng": "africa", "za": "africa", "ke": "africa", "gh": "africa", "et": "africa", "tz": "africa", "ug": "africa", "rw": "africa", "zm": "africa", "zw": "africa", "ao": "africa", "sn": "africa", "ci": "africa", "cm": "africa", "ml": "africa",
+    "de": "europe", "fr": "europe", "uk": "europe", "it": "europe", "es": "europe", "pt": "europe", "nl": "europe", "be": "europe", "ch": "europe", "at": "europe", "se": "europe", "no": "europe", "dk": "europe", "fi": "europe", "pl": "europe", "gr": "europe", "cz": "europe", "hu": "europe", "ro": "europe", "ie": "europe",
+    "us": "americas", "ca": "americas", "br": "americas", "mx": "americas", "ar": "americas", "cl": "americas", "co": "americas", "pe": "americas", "ve": "americas",
+    "mena": "mena",
+    "teos": "teos",
+    "africa": "africa"
+  }
 }

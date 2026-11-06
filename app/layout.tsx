@@ -1,12 +1,13 @@
 ﻿import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import Providers from "./providers";
+import pricing from "../core/pricing.json";
 
 const cairo = Cairo({ subsets: ["arabic", "latin"], weight: ["400", "700"], variable: "--font-cairo", display: "swap" });
 
 const SITE = "https://web4.elmahrosa.org";
 const TITLE = "TEOS Sovereign Root - From Alexandria, Egypt. Founded by Ayman Seif.";
-const DESC = "TEOS Sovereign Root - 125 Sovereign Namespaces. One Root Key. WEB4 Identity Infrastructure. .teos is the master root credential. Founded by Ayman Seif from Alexandria, Egypt. Genesis Access $10.";
+const DESC = "TEOS Sovereign Root - 125 Sovereign Namespaces. One Root Key. WEB4 Identity Infrastructure. .teos is the master root credential. Founded by Ayman Seif from Alexandria, Egypt.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -23,7 +24,7 @@ const jsonLd = {
   description: DESC,
   brand: { "@type": "Brand", name: "TEOS" },
   url: SITE,
-  offers: { "@type": "Offer", price: "10", priceCurrency: "USD", availability: "https://schema.org/InStock", url: SITE },
+  offers: { "@type": "AggregateOffer", lowPrice: String(Math.min(...Object.values(pricing.tiers).flat())), highPrice: String(Math.max(...Object.values(pricing.tiers).flat())), priceCurrency: "USD", availability: "https://schema.org/InStock", url: SITE },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

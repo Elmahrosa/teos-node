@@ -1,26 +1,25 @@
 import pricing from "../core/pricing.json";
 
-// Single source of truth: core/pricing.json. All prices are one-time USD, no renewal.
-export type PriceTier = { id: string; tlds: string[] | "*"; prices: number[] };
-export const PRICE_TIERS = pricing.tiers as PriceTier[];
-export const PAYMENT_LABEL: string = pricing.payment;
-export const LENGTH_LABELS: string[] = pricing.lengths;
+// Single source of truth: core/pricing.json (tiers + tld mapping). One-time USD prices, no renewal.
+export const PAYMENT_LABEL = "One-time payment - No yearly renewal";
+export const LENGTH_LABELS = ["1 char", "2 chars", "3 chars", "4 chars", "5+ chars"];
 
-const GENERIC = PRICE_TIERS.find((t) => t.tlds === "*")!;
-const BY_TLD = new Map<string, PriceTier>();
-for (const t of PRICE_TIERS) if (Array.isArray(t.tlds)) for (const x of t.tlds) BY_TLD.set(x, t);
+const TIERS = pricing.tiers as Record<string, number[]>;
+const MAPPING = pricing.mapping as Record<string, string>;
 
-export function tierForTld(tld: string): PriceTier {
-  return BY_TLD.get(tld.toLowerCase().trim().replace(/^\./, "")) ?? GENERIC;
-}
+// Display list: one entry per tier with the TLDs that map to it (generic = every other TLD).
+export const PRICE_TIERS = Object.entries(TIERS).map(([id, prices]) => ({
+  id,
+  prices,
+  tlds: id === "generic" ? null : Object.keys(MAPPING).filter((k) => MAPPING[k] === id),
+}));
 
 export function getPrice(name: string, tld: string): number {
   const t = tld.toLowerCase().trim().replace(/^\./, "");
+  const tier = TIERS[MAPPING[t] ?? "generic"] ?? TIERS.generic;
   let n = name.toLowerCase().trim();
   if (n.endsWith(`.${t}`)) n = n.slice(0, -(t.length + 1));
-  const len = n.length;
-  const prices = tierForTld(t).prices;
-  return prices[Math.min(Math.max(len, 1), 5) - 1];
+  return tier[Math.min(Math.max(n.length, 1), 5) - 1];
 }
 
 export async function getSolUsd(): Promise<number> {
