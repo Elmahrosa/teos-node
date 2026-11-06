@@ -7,7 +7,7 @@ const cairo = Cairo({ subsets: ["arabic", "latin"], weight: ["400", "700"], vari
 
 const SITE = "https://web4.elmahrosa.org";
 const TITLE = "TEOS Sovereign Root - From Alexandria, Egypt. Founded by Ayman Seif.";
-const DESC = "TEOS Sovereign Root - 127 Sovereign Namespaces. One Root Key. Sovereign Identity Infrastructure. .teos is the master root credential. Founded by Ayman Seif from Alexandria, Egypt.";
+const DESC = "Own your .teos name forever. 1 char $2,000, 5+ chars $30. Live SOL price, no renewal.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
