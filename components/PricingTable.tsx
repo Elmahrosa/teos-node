@@ -35,7 +35,7 @@ export default function PricingTable({ t, solUsd, onBuy }: { t: Dict; solUsd: nu
               {tier.tlds === null ? "all other TLDs" : tier.tlds.map((x) => `.${x}`).join(" ")}
             </p>
             {tier.prices.map((usd, i) => (
-              <div key={i} className="pt-row" style={cell}>
+              <div key={i} dir="ltr" className="pt-row" style={cell}>
                 <bdi dir="ltr" className="pt-len" style={{ whiteSpace: "nowrap" }}>{LENGTH_LABELS[i]}</bdi>
                 <span dir="ltr" className="pt-amt" style={{ textAlign: "end" }}>
                   <span className="pt-usd" style={{ fontFamily: "ui-monospace, monospace" }}>{fmt(usd)}</span>

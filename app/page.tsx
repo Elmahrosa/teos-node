@@ -159,7 +159,7 @@ export default function Home() {
             <circle cx="200" cy="105" r="14" fill="#7f1d1d" stroke="#eab308" strokeWidth="4" />
           </svg>
           <div style={{ flex: "1 1 360px", textAlign: "center", minWidth: 0 }}>
-            <label htmlFor="n" style={{ display: "block", marginBottom: 10, fontFamily: SERIF, letterSpacing: "0.1em", fontSize: 18 }}>{L.find}</label>
+            <label htmlFor="n" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap" }}>{L.find}</label>
             <input id="n" dir="auto" style={{ ...input, fontSize: 21, padding: "16px 14px", textAlign: "center" }} value={name} placeholder={t("hero.searchPlaceholder")} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
             <div style={{ margin: "12px 0" }}><CountryDropdown tlds={all} selected={selectedTld} onSelect={setSelectedTld} placeholder={L.country} empty={L.dropdownEmpty} /></div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, textAlign: "center" }}>
