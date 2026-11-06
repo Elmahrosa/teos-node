@@ -43,7 +43,7 @@ export default function HeroVideo({ searchLabel, connectLabel, onSearch, onConne
         <p dir="ltr" style={{ margin: "12px 0 0", fontSize: "clamp(12px,2.2vw,16px)", color: "#d6cbb5", letterSpacing: "0.06em" }}>Pharaonic Sovereign Web - Secure - Decentralized - Sovereign</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", marginTop: 26 }}>
           <button style={btn} onClick={onSearch}>{searchLabel}</button>
-          <button style={ghost} onClick={onConnect}>{connectLabel}</button>
+          <button className="hero-connect" style={ghost} onClick={onConnect}>{connectLabel}</button>
         </div>
       </div>
     </section>
