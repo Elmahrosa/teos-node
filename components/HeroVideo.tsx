@@ -8,19 +8,16 @@ const VIDEO = "/videos/teos-architecture.mp4.mp4";
 const POSTER = "/videos/teos-architecture-poster.jpg";
 const SERIF = "Cinzel, Georgia, serif";
 
-// Hero: architecture video behind a 60% black layer. Phones (narrow screen, or Data Saver on) get the poster only,
-// so the 2 MB video is never requested there. The video file already ends with 2 s of the gold coin frame held,
+// Hero: architecture video behind a 60% black layer. Data Saver or reduced motion get the poster only.
+// Phones now play the same 2 MB muted, inline video. The video file already ends with 2 s of the gold coin frame held,
 // so plain `loop` shows it for 2 s before it restarts.
 export default function HeroVideo({ searchLabel, connectLabel, onSearch, onConnect, rtl }: { searchLabel: string; connectLabel: string; onSearch: () => void; onConnect: () => void; rtl: boolean }) {
   const [playVideo, setPlayVideo] = useState(false);
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 769px)");
     const saveData = (navigator as any).connection?.saveData === true;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const update = () => setPlayVideo(mq.matches && !saveData && !reduce);
+    const update = () => setPlayVideo(!saveData && !reduce);
     update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
   }, []);
 
   const btn: React.CSSProperties = { background: "linear-gradient(90deg,#b45309,#ca8a04)", color: "#000", border: "2px solid #713f12", borderRadius: 4, padding: "12px 26px", fontSize: 17, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 10px rgba(0,0,0,.5)" };
