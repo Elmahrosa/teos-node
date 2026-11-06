@@ -27,16 +27,17 @@ function withTimeout<T>(p: Promise<T>, ms = 4000): Promise<T> {
 // In-memory fallback: per instance, resets on restart.
 const mem = new Map<string, string>();
 
-// Atomic "set if not exists".
-async function setNx(key: string, value: string, exSec = 900): Promise<boolean> {
+// Atomic "set if not exists". exSec = null means the key never expires.
+async function setNx(key: string, value: string, exSec: number | null = 900): Promise<boolean> {
   if (redis) {
-    return (await withTimeout(redis.set(key, value, { nx: true, ex: exSec }))) === "OK";
+    const opts = exSec === null ? { nx: true as const } : { nx: true as const, ex: exSec };
+    return (await withTimeout(redis.set(key, value, opts))) === "OK";
   }
 
   if (mem.has(key)) return false;
 
   mem.set(key, value);
-  setTimeout(() => mem.delete(key), exSec * 1000).unref?.();
+  if (exSec !== null) setTimeout(() => mem.delete(key), exSec * 1000).unref?.();
   return true;
 }
 
@@ -48,6 +49,7 @@ async function has(key: string): Promise<boolean> {
   return mem.has(key);
 }
 
+const mKey = (domain: string) => `teos:mint:${domain.toLowerCase()}`;
 const dKey = (domain: string) => `teos:domain:${domain.toLowerCase()}`;
 const tKey = (signature: string) => `teos:tx:${signature}`;
 
@@ -67,7 +69,8 @@ function isBlockedDomain(domain: string): boolean {
   );
 }
 
-export const isClaimed = (domain: string) => has(dKey(domain));
+// A name is taken if it has a claim OR a mint record. Both are permanent, so a sold name stays claimed forever.
+export const isClaimed = async (domain: string) => (await has(dKey(domain))) || (await has(mKey(domain)));
 
 export async function claimDomain(
   domain: string,
@@ -82,7 +85,8 @@ export async function claimDomain(
       owner,
       tx,
       at: Date.now(),
-    })
+    }),
+    null // a sold name never expires
   );
 }
 
@@ -173,7 +177,6 @@ export async function releaseTx(
   return mem.delete(key);
 }
 
-const mKey = (domain: string) => `teos:mint:${domain.toLowerCase()}`;
 
 export async function getClaim(
   domain: string
