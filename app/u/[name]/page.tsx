@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: Promise<{ name: string 
   return (
     <main dir="rtl" lang="ar" className="min-h-screen flex items-center justify-center p-6">
       <section className="w-full max-w-xl rounded-2xl border border-yellow-700/40 bg-black/40 p-8 text-center">
-        <p className="text-sm text-yellow-400">TEOS WEB4 IDENTITY</p>
+        <p className="text-sm text-yellow-400">TEOS SOVEREIGN IDENTITY</p>
         <h1 className="mt-4 break-all text-4xl font-bold" style={{ fontFamily: "Cinzel, Georgia, serif" }}>
           {domain.toUpperCase()}.TEOS
         </h1>

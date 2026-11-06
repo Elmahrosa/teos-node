@@ -15,15 +15,13 @@ export default function PricingLogic({ t, tlds }: { t: TFn; tlds: { tld: string;
   for (const x of countries) groups.set(x.region, (groups.get(x.region) ?? 0) + 1);
   const rows = Array.from(groups.entries()).sort((a, b) => b[1] - a[1]);
   useEffect(() => {
-    if (tlds.length && tlds.length !== 125 && process.env.NODE_ENV === "development") console.warn(`[tlds] expected 125 including .teos, found ${tlds.length}`);
+    if (tlds.length && tlds.length !== 127 && process.env.NODE_ENV === "development") console.warn(`[tlds] expected 127 including .teos, found ${tlds.length}`);
   }, [tlds.length]);
   return (
     <section aria-labelledby="how" style={box}>
       <h2 id="how" style={h}>{t("pricing.howTitle")}</h2>
       <p dir="auto" style={p}><Bidi text={t("pricing.how1")} /></p>
       <p dir="auto" style={p}><Bidi text={t("pricing.how2")} /></p>
-      <h3 style={{ ...h, fontSize: 17, marginTop: 18 }}>{t("pricing.priceTitle")}</h3>
-      {["price1", "price23", "price4", "price5"].map((k) => <p key={k} dir="auto" style={p}><Bidi text={t(`pricing.${k}`)} /></p>)}
       <p dir="auto" style={p}><Bidi text={t("pricing.ownership")} /></p>
       {rows.length > 0 && (
         <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 14, fontSize: 15 }}>

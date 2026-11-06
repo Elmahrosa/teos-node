@@ -1,4 +1,4 @@
-﻿export default function NotFound() {
+export default function NotFound() {
   return (
     <main dir="rtl" lang="ar" className="min-h-screen flex items-center justify-center bg-black p-6 text-white">
       <section className="w-full max-w-xl text-center">

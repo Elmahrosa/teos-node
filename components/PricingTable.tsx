@@ -1,36 +1,78 @@
+"use client";
+import { useEffect, useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import type { Dict } from "../lib/i18n";
+import { PRICE_TIERS, LENGTH_LABELS } from "../lib/pricing";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
-const cell: React.CSSProperties = { padding: "10px 12px", borderTop: "1px solid #3d352a" };
+const cell: React.CSSProperties = { padding: "6px 0", borderTop: "1px solid #3d352a", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 };
 
-type Tiers = { one: number; long: number; four: number; short: number };
+const fmt = (n: number) => `$${n.toLocaleString("en-US")}`;
 
-export default function PricingTable({ t, tiers, solUsd }: { t: Dict; tiers: Tiers; solUsd: number | null }) {
-  const sol = (usd: number) => (solUsd ? ` (~${(usd / solUsd).toFixed(usd < 100 ? 3 : 2)} SOL)` : "");
-  const rows: [string, number][] = [
-    [t.p1, tiers.one],
-    [t.p23, tiers.short],
-    [t.p4, tiers.four],
-    [t.p5, tiers.long],
-  ];
+// Prices come only from core/pricing.json via lib/pricing.ts.
+export default function PricingTable({ t, onBuy }: { t: Dict; onBuy: () => void }) {
+  // Only the .teos prices are public. Country prices show once the connected wallet holds a .teos.
+  const { publicKey } = useWallet();
+  const [owns, setOwns] = useState(false);
+  const wallet = publicKey?.toBase58() ?? "";
+  useEffect(() => {
+    setOwns(false);
+    if (!wallet) return;
+    let live = true;
+    fetch(`/api/owns-teos?wallet=${encodeURIComponent(wallet)}`, { cache: "no-store" })
+      .then((r) => r.json()).then((j) => { if (live) setOwns(j?.owns === true); }).catch(() => {});
+    return () => { live = false; };
+  }, [wallet]);
+  // Live SOL estimate under each USD price: re-read every 30 s and whenever the tab regains focus.
+  const [solUsd, setSolUsd] = useState<number | null>(null);
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    let live = true;
+    const load = () => fetch("/api/sol-price", { cache: "no-store" }).then((r) => r.json()).then((j) => {
+      const v = Number(j?.sol_usd);
+      if (!live || !Number.isFinite(v) || v <= 0) return;
+      setSolUsd((prev) => { if (prev !== null && prev !== v) setTick((n) => n + 1); return v; });
+    }).catch(() => {});
+    load();
+    const iv = setInterval(load, 30_000);
+    window.addEventListener("focus", load);
+    return () => { live = false; clearInterval(iv); window.removeEventListener("focus", load); };
+  }, []);
+  const solOf = (usd: number) => (solUsd ? (usd / solUsd).toFixed(usd < 100 ? 3 : 2) : null);
+  const tiers = PRICE_TIERS.filter((x) => owns || x.id === "teos");
   return (
     <div style={{ background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #3d352a", borderRadius: 4, padding: 16, boxShadow: "inset 0 2px 12px rgba(0,0,0,.6)" }}>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr style={{ color: "#eab308", fontFamily: SERIF, letterSpacing: "0.08em", textAlign: "start" }}>
-            <th style={{ padding: "6px 12px", textAlign: "start" }}>{t.ptName}</th>
-            <th style={{ padding: "6px 12px", textAlign: "start" }}>{t.ptPrice}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(([label, usd]) => (
-            <tr key={label}>
-              <td style={cell}>{label}</td>
-              <td style={{ ...cell, fontFamily: "ui-monospace, monospace" }}>${usd}{sol(usd)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }}>
+        {tiers.map((tier) => (
+          <section key={tier.id} aria-label={tier.id} style={{ border: "1px solid #3d352a", padding: 12 }}>
+            <h3 style={{ margin: 0, color: "#eab308", fontFamily: SERIF, letterSpacing: "0.08em", fontSize: 17 }}>{tier.id.toUpperCase()}</h3>
+            <p dir="ltr" style={{ margin: "2px 0 8px", color: "#a89a80", fontSize: 12, overflowWrap: "anywhere" }}>
+              {tier.tlds === null ? "all other TLDs" : tier.tlds.map((x) => `.${x}`).join(" ")}
+            </p>
+            {tier.prices.map((usd, i) => (
+              <div key={i} dir="ltr" className="pt-row" style={cell}>
+                <bdi dir="ltr" className="pt-len" style={{ whiteSpace: "nowrap" }}>{LENGTH_LABELS[i]}</bdi>
+                <span dir="ltr" className="pt-amt" style={{ textAlign: "end" }}>
+                  <span className="pt-usd" style={{ fontFamily: "ui-monospace, monospace" }}>{fmt(usd)}</span>
+                  {solOf(usd) && (
+                    <span className="pt-live" aria-live="off" style={{ display: "block", fontSize: 12, color: "#4ade80", marginTop: 2 }}>
+                      <span className="pt-dot" aria-hidden="true" />Live: <span key={tick} className="pt-flash" style={{ fontFamily: "ui-monospace, monospace" }}>~{solOf(usd)} SOL</span>
+                    </span>
+                  )}
+                </span>
+              </div>
+            ))}
+          </section>
+        ))}
+      </div>
+      {!owns && (
+        <div role="region" aria-label="locked-country-prices" style={{ marginTop: 14, border: "1px solid #57493a", background: "rgba(10,8,6,.55)", padding: "18px 14px", textAlign: "center" }}>
+          <div style={{ fontSize: 32 }} aria-hidden="true">🔒</div>
+          <div dir="auto" style={{ color: "#f87171", fontWeight: 700, margin: "6px 0 4px" }}>{t.ptLockedHead}</div>
+          <div dir="auto" style={{ color: "#fbbf24", fontFamily: SERIF, fontSize: 18, marginBottom: 14 }}>{t.ptLockedSub}</div>
+          <button onClick={onBuy} style={{ background: "linear-gradient(90deg,#b45309,#ca8a04)", color: "#000", border: "2px solid #713f12", borderRadius: 4, padding: "12px 24px", fontSize: 16, fontWeight: 700, cursor: "pointer" }}>{t.ptBuy}</button>
+        </div>
+      )}
       <p style={{ margin: "12px 0 0", color: "#d6cbb5", fontSize: 14 }}>{t.ptNote}</p>
       <p style={{ margin: "4px 0 0", color: "#a89a80", fontSize: 13 }}>{t.ptPay}</p>
     </div>
