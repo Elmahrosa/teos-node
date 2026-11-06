@@ -33,7 +33,7 @@ export default function TeosChatbot({ t, rtl }: { t: Dict; rtl: boolean }) {
   const shown: Msg[] = [{ role: "assistant", content: t.chatHello }, ...messages];
   const side = { insetInlineStart: 20 };
   return (
-    <div dir={rtl ? "rtl" : "ltr"} style={{ position: "fixed", bottom: 20, zIndex: 9999, ...side }}>
+    <div dir={rtl ? "rtl" : "ltr"} className="chat-fab" style={{ position: "fixed", bottom: 20, zIndex: 9999, ...side }}>
       {!open && (
         <button onClick={() => setOpen(true)} aria-label={t.chatOpen} title={t.chatOpen} style={{ width: 56, height: 56, borderRadius: "50%", background: "#8B5A2B", border: "2px solid #1F3B44", color: "#fff", fontSize: 26, cursor: "pointer", boxShadow: "0 6px 20px rgba(0,0,0,.6)" }}>💬</button>
       )}

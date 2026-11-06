@@ -1,7 +1,6 @@
 import pricing from "../core/pricing.json";
 
-// Single source of truth: core/pricing.json (tiers + tld mapping). One-time USD prices, no renewal.
-export const PAYMENT_LABEL = "One-time payment - No yearly renewal";
+// Single source of truth: core/pricing.json (tiers + tld mapping). One-time USD prices.
 export const LENGTH_LABELS = ["1 char", "2 chars", "3 chars", "4 chars", "5+ chars"];
 
 const TIERS = pricing.tiers as Record<string, number[]>;
