@@ -3,6 +3,7 @@ import { getSoldCount } from "../../../lib/registry";
 import { TLDS } from "../../../lib/tlds";
 import { getSolUsd } from "../../../lib/pricing";
 import { env } from "../../../lib/env";
+import { mintAuthorityPublicKey } from "../../../lib/mint";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,8 @@ export async function GET() {
   const solUsd = await getSolUsd();
   // Same condition as the /api/quote gate: open only when REGISTRATION_OPEN is exactly "true".
   const registrationOpen = env("REGISTRATION_OPEN") === "true";
-  const mintReady = registrationOpen && !!env("MINT_AUTHORITY_KEYPAIR") && !!env("COLLECTION_ADDRESS");
+  // COLLECTION_ADDRESS is optional (minting works without a collection), so it is not part of mint_ready.
+  const mintReady = registrationOpen && !!env("MINT_AUTHORITY_KEYPAIR");
 
   const tlds = await Promise.all(
     TLDS.map(async (t) => {
@@ -34,6 +36,7 @@ export async function GET() {
     sol_usd: solUsd,
     registration_open: registrationOpen,
     mint_ready: mintReady,
+    mint_authority: mintAuthorityPublicKey(),
     total_sold: tlds.reduce((a, t) => a + (t.sold ?? 0), 0),
     founders: ["AYMAN.TEOS", "ELMAHROSA.TEOS"],
     mints: [
