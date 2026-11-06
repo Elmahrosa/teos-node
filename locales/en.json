@@ -24,10 +24,6 @@
     "how1": ".teos is the root key. A country name such as saloma.eg only unlocks if the wallet has saloma.teos, either in same purchase or already owned. Server enforces this.",
     "how2": "After .teos, buyer can unlock 124 country domains. List in tlds/all.json",
     "priceTitle": "Pricing",
-    "price1": "1-letter names: $2,000",
-    "price23": "2-3 letter names: $400",
-    "price4": "4-letter names: $150",
-    "price5": "5+ letter names: $30",
     "ownership": "Every name is a Metaplex Core asset on Solana, owned by buyer wallet. No renewal fee, tradable from Phantom, Solflare, Backpack"
   }
 }

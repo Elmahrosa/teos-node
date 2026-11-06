@@ -1,14 +1,15 @@
-﻿{
-  "charter": {
-    "enabled": true,
-    "discount": "50%",
-    "total_spots": 100,
-    "note": "After first 100 charter spots, full pricing applies."
-  },
+{
+  "currency": "USD",
+  "payment": "One-time payment - No yearly renewal",
+  "lengths": ["1 char", "2 chars", "3 chars", "4 chars", "5+ chars"],
   "tiers": [
-    { "name": "DIAMOND",  "chars": "1-2",  "price_charter": 50, "price_full": 100 },
-    { "name": "GOLD",     "chars": "3",    "price_charter": 30, "price_full": 60 },
-    { "name": "SILVER",   "chars": "4-5",  "price_charter": 15, "price_full": 30 },
-    { "name": "STANDARD", "chars": "6-20", "price_charter": 6,  "price_full": 10 }
+    { "id": "TEOS", "tlds": ["teos"], "prices": [2000, 600, 180, 80, 30] },
+    { "id": "GULF", "tlds": ["ae", "sa", "qa", "kw", "bh", "om"], "prices": [6000, 1800, 540, 240, 90] },
+    { "id": "ARAB", "tlds": ["eg", "jo", "lb", "sy", "iq", "ye", "ps", "sd", "ly", "tn", "dz", "ma", "mr"], "prices": [4000, 1200, 360, 160, 60] },
+    { "id": "AFRICA", "tlds": ["africa", "ng", "za", "ke", "gh", "et", "tz", "ug", "rw", "zm", "zw", "ao", "sn", "ci", "cm", "ml"], "prices": [3000, 900, 270, 120, 45] },
+    { "id": "EUROPE", "tlds": ["de", "fr", "uk", "it", "es", "pt", "nl", "be", "ch", "at", "se", "no", "dk", "fi", "pl", "gr", "cz", "hu", "ro", "ie"], "prices": [5000, 1500, 450, 200, 75] },
+    { "id": "AMERICAS", "tlds": ["us", "ca", "br", "mx", "ar", "cl", "co", "pe", "ve"], "prices": [5000, 1500, 450, 200, 75] },
+    { "id": "MENA", "tlds": ["mena"], "prices": [3500, 1050, 315, 140, 52] },
+    { "id": "GENERIC", "tlds": "*", "prices": [2000, 600, 180, 80, 30] }
   ]
 }
