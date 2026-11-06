@@ -415,7 +415,7 @@ const ar: Dict = {
   checking: "جارٍ الفحص...",
   availableU: "متاح",
   takenU: "محجوز",
-  youOwnU: "أنت تملكه",
+  youOwnU: "ده اسمك",
   openSite: "افتح موقعك",
   lockedU: "مقفول",
   reservedU: "محجوز مسبقاً",
