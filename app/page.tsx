@@ -7,7 +7,9 @@ import FounderSeal from "../components/FounderSeal";
 import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopup";
 import CountryDropdown from "../components/CountryDropdown";
 import AymanContact from "../components/AymanContact";
+import MusicToggle from "../components/MusicToggle";
 import SiteFooter from "../components/SiteFooter";
+import HeroVideo from "@/components/HeroVideo";
 import LanguageToggle from "../components/LanguageToggle";
 import Divider from "../components/Divider";
 import PricingTable from "../components/PricingTable";
@@ -16,8 +18,6 @@ import PaymentOptions from "../components/PaymentOptions";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
-import TeosChatbot from "../components/TeosChatbot";
-import BuildSiteAfterPurchase from "../components/BuildSiteAfterPurchase";
 import LiveTicker from "../components/LiveTicker";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
@@ -30,7 +30,6 @@ declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
 const imgStyle: React.CSSProperties = { borderRadius: 20, border: "1px solid #1F3B44" };
 const ALT = {
-  banner: { en: "TEOS sovereign gateway", ar: "بوابة TEOS السيادية", id: "Pintu masuk sovereign TEOS" } as Record<Lang, string>,
   gate: { en: "The TEOS gate - unlock your sovereign", ar: "بوابة TEOS - افتح اسمك السيادي", id: "Pintu masuk TEOS" } as Record<Lang, string>,
   certificate: { en: "TEOS dig certificate", ar: "شهادة التخذ TEOS", id: "Sertifikat TEOS" } as Record<Lang, string>,
 };
@@ -41,15 +40,17 @@ const tablet: React.CSSProperties = { background: "#292321", color: "#d6cbb5", b
 const input: React.CSSProperties = { background: "#c9b896", color: "#2a2520", border: "1px solid #8a7550", borderInline: "8px double #7a6540", borderRadius: 0, padding: "10px 12px", fontSize: 16, width: "100%", boxSizing: "border-box" };
 
 export default function Home() {
-  const { lang, setLang, L, t, rtl } = useLang();
+  const { lang, setLang, L, t, rtl, fading } = useLang();
   const [stats, setStats] = useState<any>(null);
   const [name, setName] = useState("");
   const [checked, setChecked] = useState<any>(null);
+  const [checkedFor, setCheckedFor] = useState("");
   const [quote, setQuote] = useState<MintQuote | null>(null);
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
   const [popup, setPopup] = useState(false);
   const [owned, setOwned] = useState<string[]>([]);
+  const [myNames, setMyNames] = useState<string[]>([]);
   const [selectedTld, setSelectedTld] = useState("eg");
   const { publicKey } = useWallet();
   const { setVisible } = useWalletModal();
@@ -60,6 +61,15 @@ export default function Home() {
     const lc = localeCountry(); if (lc) setSelectedTld(lc);
     fetch("/api/stats").then((r) => r.json()).then(setStats).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    setMyNames([]);
+    if (!wallet) return;
+    let live = true;
+    fetch(`/api/owns-teos?wallet=${encodeURIComponent(wallet)}`, { cache: "no-store" })
+      .then((r) => r.json()).then((j) => { if (live && Array.isArray(j?.names)) setMyNames(j.names); }).catch(() => {});
+    return () => { live = false; };
+  }, [wallet]);
 
   const open = stats?.registration_open === true && stats?.mint_ready !== false;
   const clean = name.trim().toLowerCase().replace(/\.[a-z]{2,6}$/, "");
@@ -76,7 +86,7 @@ export default function Home() {
     const r = await fetch(`/api/check?name=${encodeURIComponent(clean)}&tlds=teos`);
     const j = await r.json();
     if (!r.ok) { setPopup(false); throw new Error(j.error || "Invalid name"); }
-    setChecked(j);
+    setChecked(j); setCheckedFor(clean);
     if (!stats?.tlds) setStats(await fetch("/api/stats", { cache: "no-store" }).then((x) => x.json()).catch(() => stats));
   });
 
@@ -97,38 +107,48 @@ export default function Home() {
   return (
     <>
     <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
-    <nav style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
+    <nav className="site-nav" style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}><FounderSeal size={48} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.2em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-          <a href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
+          <a className="nav-dup" href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
           <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
-          <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}><Bidi text={t("header.tlds")} /></span>
+          <span className="nav-dup" style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}><Bidi text={t("header.tlds")} /></span>
         </span>
       </div>
     </nav>
-    <main dir={rtl ? "rtl" : "ltr"} lang={lang} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
-      <LanguageToggle lang={lang} onChange={setLang} />
+    <HeroVideo rtl={rtl} searchLabel={L.search} connectLabel={wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect} onSearch={goSearch} onConnect={connectWallet} />
+    <section aria-label={ALT.gate[lang]} style={{ boxSizing: "border-box", width: "100%", maxWidth: 1000, margin: "0 auto", padding: "20px 12px 0" }}>
+      <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} priority style={{ ...imgStyle, width: "100%", height: "auto", display: "block" }} sizes="(max-width: 1000px) 100vw, 1000px" />
+    </section>
+    <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "flex-end", alignItems: "center" }}>
+        <MusicToggle rtl={rtl} />
+        <LanguageToggle lang={lang} onChange={setLang} />
+      </div>
 
       {/* HERO V14 SOVEREIGN - DUAL PATH */}
       <header style={{ textAlign: "center", margin: "24px 0 8px" }}>
-        <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>
-          {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : "TEOS Sovereign Root - Alexandria"}
-        </h1>
+        <h2 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>
+          {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : lang === "id" ? "TEOS Akar Berdaulat - Alexandria" : "TEOS Sovereign Root - Alexandria"}
+        </h2>
         <p dir="auto" style={{ margin: 0, fontSize: 20, color: "#fbbf24", fontWeight: 700 }}>
-          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الويب دومين هو البداية فقط" : "1 Key Unlocks The Full System - Web Domain Is Just The Start"}
+          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الدومين السيادي هو البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Domain Berdaulat Hanyalah Awal" : "1 Key Unlocks The Full System - Sovereign Domain Is Just The Start"}
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 17, color: "#d6cbb5", lineHeight: 1.6 }}>
           {lang === "ar" 
             ? "عايز دومين تملكه للأبد - تسطبه - تتداوله - تعمل ديزاين؟ تقدر. عايز تخش المنظومة السيادية الكاملة - متصفح - جيت واي - عالمك الخاص؟ برضه تقدر."
+            : lang === "id"
+            ? "Mau domain yang Anda miliki selamanya - setup - trading - desain? Bisa. Mau sistem berdaulat penuh - browser - gateway - dunia Anda sendiri? Bisa juga."
             : "Want a domain you own forever - setup - trade - design? You can. Want the full sovereign system - browser - gateway - your own world? You can too."}
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 16, color: "#a89a80" }}>
           {lang === "ar" 
-            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 126 دولة - saloma.teos يفتح saloma.eg"
-            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 126 countries - saloma.teos unlocks saloma.eg"}
+            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 127 دولة - saloma.teos يفتح saloma.eg"
+            : lang === "id"
+            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 127 negara - saloma.teos membuka saloma.eg"
+            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 127 countries - saloma.teos unlocks saloma.eg"}
         </p>
-        <button onClick={goSearch} style={{ ...btn, fontSize: 20, padding: "14px 34px", marginTop: 14 }}>{t("hero.getKey")}</button>
       </header>
 
       <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px" }}>
@@ -143,20 +163,28 @@ export default function Home() {
             <input id="n" dir="auto" style={{ ...input, fontSize: 21, padding: "16px 14px", textAlign: "center" }} value={name} placeholder={t("hero.searchPlaceholder")} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
             <div style={{ margin: "12px 0" }}><CountryDropdown tlds={all} selected={selectedTld} onSelect={setSelectedTld} placeholder={L.country} empty={L.dropdownEmpty} /></div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, textAlign: "center" }}>
-              <div style={{ flex: "1 1 200px", background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, minWidth: 0 }}>
-                <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={56} /></div>
-                <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.teos</div>
-                <div dir="auto" style={{ fontSize: 12, color: "#7f1d1d", fontWeight: 700 }}>{L.sovereignKey}</div>
-                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${getPrice(clean, "teos").toLocaleString("en-US")}` : "—"}</div>
-                <div style={{ fontSize: 11 }}>One-time payment - No yearly renewal</div>
-              </div>
-              <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
-                <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
-                <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
-                <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
-                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${getPrice(clean, selectedTld).toLocaleString("en-US")}` : "—"}</div>
-                <div style={{ fontSize: 11, color: "#a89a80" }}>One-time payment - No yearly renewal</div>
-              </div>
+              {(() => {
+                const res = checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null;
+                const youOwn = !!res && !!wallet && (myNames.includes(clean) || owned.includes(clean));
+                const free = !!res?.available && !youOwn;
+                const state = !res ? "" : youOwn ? L.youOwnU : free ? L.availableU : res.reason === "reserved" ? L.reservedU : L.takenU;
+                return (<>
+                  <div style={{ flex: "1 1 200px", background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, minWidth: 0 }}>
+                    <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={56} /></div>
+                    <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.teos</div>
+                    <div dir="auto" style={{ fontSize: 12, color: res && !free && !youOwn ? "#7f1d1d" : youOwn || free ? "#14532d" : "#7f1d1d", fontWeight: 700 }}>{res ? state : L.sovereignKey}</div>
+                    {(!res || free) && <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{free && clean ? `$${getPrice(clean, "teos").toLocaleString("en-US")}` : "—"}</div>}
+                  </div>
+                  {(!res || free) && (
+                    <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
+                      <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
+                      <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
+                      <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
+                      <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean && owned.includes(clean) ? `$${getPrice(clean, selectedTld).toLocaleString("en-US")}` : "—"}</div>
+                    </div>
+                  )}
+                </>);
+              })()}
             </div>
             <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>
             <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? fmt(L.sovTlds, { n: all.length }) : ""} • {L.rule}</p>
@@ -164,20 +192,12 @@ export default function Home() {
         </div>
       </div>
 
-      <div style={{ width: "100%", maxWidth: "640px", margin: "0 auto", padding: "24px 0" }}>
-        <Image src="/images/teos-banner.webp" width={960} height={540} alt={ALT.banner[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "50vh", objectFit: "cover" }} sizes="(max-width: 640px) 100vw, 640px" priority />
-      </div>
-
-      {popup && (<DomainSearchPopup t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={owned.includes(clean)} founder={clean === "elmahrosa"} open={open} busy={busy} onBuy={mint} onClose={() => setPopup(false)} />)}
+      {popup && (<DomainSearchPopup t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={!!wallet && (myNames.includes(clean) || owned.includes(clean))} founder={clean === "elmahrosa"} open={open} busy={busy} onBuy={mint} onClose={() => setPopup(false)} />)}
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
-      <div style={{ width: "90%", maxWidth: "500px", margin: "0 auto", padding: "24px 0" }}>
-        <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "60vh", objectFit: "cover" }} sizes="(max-width: 768px) 90vw, 50vw" />
-      </div>
-
-      <WhyBuy t={L} countries={Math.max(0, all.length - 1)} onCta={goSearch} />
-      <PricingTable t={L} solUsd={stats?.sol_usd ?? null} />
+      <WhyBuy t={L} countries={all.length} onCta={goSearch} />
+      <PricingTable t={L} solUsd={stats?.sol_usd ?? null} onBuy={goSearch} />
       <PricingLogic t={t} tlds={all} />
       <Divider />
       <div style={{ textAlign: "center", margin: "8px 0 8px" }}><button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button></div>
@@ -191,7 +211,6 @@ export default function Home() {
       </div>
       <SiteFooter t={L} />
       <AymanContact t={L} rtl={rtl} />
-      <TeosChatbot t={L} rtl={rtl} />
     </main>
     </>
   );
