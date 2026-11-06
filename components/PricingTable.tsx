@@ -20,8 +20,8 @@ export default function PricingTable({ t, solUsd }: { t: Dict; solUsd: number | 
             </p>
             {tier.prices.map((usd, i) => (
               <div key={i} style={cell}>
-                <span>{LENGTH_LABELS[i]}</span>
-                <span style={{ textAlign: "end" }}>
+                <bdi dir="ltr" style={{ whiteSpace: "nowrap" }}>{LENGTH_LABELS[i]}</bdi>
+                <span dir="ltr" style={{ textAlign: "end" }}>
                   <span style={{ fontFamily: "ui-monospace, monospace" }}>{fmt(usd)}</span>
                   <small style={{ display: "block", color: "#a89a80", fontSize: 11 }}>{PAYMENT_LABEL}{sol(usd) ? ` · ${sol(usd)}` : ""}</small>
                 </span>

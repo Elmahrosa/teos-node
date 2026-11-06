@@ -22,7 +22,7 @@
   "pricing": {
     "howTitle": "How it works",
     "how1": ".teos is the root key. A country name such as saloma.eg only unlocks if the wallet has saloma.teos, either in same purchase or already owned. Server enforces this.",
-    "how2": "After .teos, buyer can unlock 124 country domains. List in tlds/all.json",
+    "how2": "After .teos, buyer can unlock 126 country domains. List in tlds/all.json",
     "priceTitle": "Pricing",
     "ownership": "Every name is a Metaplex Core asset on Solana, owned by buyer wallet. No renewal fee, tradable from Phantom, Solflare, Backpack"
   }
