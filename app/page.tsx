@@ -176,7 +176,7 @@ export default function Home() {
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
       <WhyBuy t={L} countries={all.length} onCta={goSearch} />
-      <PricingTable t={L} solUsd={stats?.sol_usd ?? null} />
+      <PricingTable t={L} solUsd={stats?.sol_usd ?? null} onBuy={goSearch} />
       <PricingLogic t={t} tlds={all} />
       <Divider />
       <div style={{ textAlign: "center", margin: "8px 0 8px" }}><button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button></div>
