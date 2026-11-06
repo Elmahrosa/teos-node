@@ -1,4 +1,4 @@
-﻿import fs from "fs";
+import fs from "fs";
 import readline from "readline";
 import { base58 } from "@metaplex-foundation/umi";
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });

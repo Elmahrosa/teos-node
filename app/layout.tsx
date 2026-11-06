@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import Providers from "./providers";
 import pricing from "../core/pricing.json";

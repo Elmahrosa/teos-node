@@ -39,7 +39,7 @@ Payment is in SOL on Solana. Quotes are locked for 5 minutes. Any non-.teos name
   }
 
   if (/payment|pay|دفع|الدفع|solana|sol/.test(s)) {
-    return `${hi}. The supported payment method for online domain registration is SOL on Solana through the connected wallet. Manual Vodafone Cash and PayPal payments are not offered through the website.`;
+    return `${hi}. The supported payment method for online domain registration is SOL on Solana through the connected wallet.`;
   }
 
   if (/domain only|just a domain|setup|trade|design|بيع|تداول|دومين بس/.test(s)) {
