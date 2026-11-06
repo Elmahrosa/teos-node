@@ -21,3 +21,4 @@ wallet.json
 
 !domains/*.json
 !public/**/*.json
+*.bak
