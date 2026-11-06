@@ -1,4 +1,4 @@
-﻿import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
+import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 import { parseDomain } from "../../../lib/domain-rules";
 import { parseTlds, liveTlds } from "../../../lib/tlds";
@@ -21,3 +21,4 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "internal_error" }, { status: 500 });
   }
 }
+

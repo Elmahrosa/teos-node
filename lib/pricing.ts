@@ -1,4 +1,4 @@
-﻿export const MARKET_USD = 10;
+export const MARKET_USD = 10;
 
 export async function getSolUsd(): Promise<number> {
   return 150;
@@ -28,3 +28,4 @@ export function isValidTeosName(name: string): boolean {
 export function priceForName(name: string, soldCount: number = 0): { usd: number; isPromo: boolean } {
   return { usd: getTeosPrice(name), isPromo: false };
 }
+

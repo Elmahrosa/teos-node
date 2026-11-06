@@ -1,4 +1,4 @@
-﻿import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
+import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import { NextResponse } from "next/server";
 import {
 parseDomain,
@@ -399,3 +399,4 @@ export async function POST(req: Request) {
     );
   }
 }
+
