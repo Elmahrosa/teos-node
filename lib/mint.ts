@@ -4,6 +4,7 @@ import { generateSigner, keypairIdentity, publicKey } from "@metaplex-foundation
 import { base58 } from "@metaplex-foundation/umi/serializers";
 import bs58 from "bs58";
 import { env } from "./env";
+import { isSaleTld } from "./tlds";
 
 export type MintResult = { asset: string; signature: string };
 
@@ -45,6 +46,7 @@ function rpc(): string {
 }
 
 export async function mintTeosAsset(domain: string, owner: string, tld = "teos"): Promise<MintResult | null> {
+  if (!isSaleTld(tld)) throw new Error("tld_blocked");
   if (!mintConfigured()) return null;
   let secret: Uint8Array | null = null;
   try {

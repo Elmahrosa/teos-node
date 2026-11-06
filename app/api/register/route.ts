@@ -25,7 +25,7 @@ isClaimed,
 import { env } from "../../../lib/env";
 import { verifyPayment } from "../../../lib/payment";
 import { mintTeosAsset, mintFunds } from "../../../lib/mint";
-import { fullName } from "../../../lib/tlds";
+import { fullName, isSaleTld } from "../../../lib/tlds";
 const bad = (reason: string) =>
   NextResponse.json(
     { error: "invalid_quote", reason },
@@ -192,6 +192,15 @@ export async function POST(req: Request) {
     }
 
     const tlds = quote.tlds ?? ["teos"];
+
+    // Older quotes may carry other TLDs: never register or mint them while sales are teos-only.
+    const blockedTld = tlds.find((t) => !isSaleTld(t));
+    if (blockedTld) {
+      return NextResponse.json(
+        { error: "registration_closed", message: "TLD blocked", tld: blockedTld },
+        { status: 503 }
+      );
+    }
 
     for (const tld of tlds) {
       if (await isClaimed(fullName(quote.domain, tld))) {
