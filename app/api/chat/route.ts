@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PRICE_TIERS, LENGTH_LABELS, PAYMENT_LABEL } from "../../../lib/pricing";
+import { PRICE_TIERS, LENGTH_LABELS } from "../../../lib/pricing";
 
 function getUser(b: any) {
   const w = b.wallet || b.walletAddress || "";
@@ -31,7 +31,7 @@ function chat(q: string, u: ReturnType<typeof getUser>) {
 
   if (/price|pricing|cost|سعر|اسعار|بكام|تكلفة/.test(s)) {
     const rows = PRICE_TIERS.map((t) => `- ${t.id.toUpperCase()} (${t.tlds === null ? "all other TLDs" : t.tlds.map((x) => "." + x).join(" ")}): ` + t.prices.map((p, i) => `${LENGTH_LABELS[i]} $${p}`).join(", ")).join("\n");
-    return `${hi}. TEOS prices by name length and region. ${PAYMENT_LABEL}.
+    return `${hi}. TEOS prices by name length and region. 
 
 ${rows}
 

@@ -3,7 +3,7 @@
     "search": "ابحث عن اسمك",
     "connect": "اربط محفظتك",
     "tlds": "١٢٧ مساحة سيادية",
-    "live": "مباشر • الإسكندرية • ١٢٧ نطاق • سوق ويب 4"
+    "live": "مباشر • الإسكندرية • ١٢٧ نطاق"
   },
   "hero": {
     "title": "TEOS Sovereign Root",
@@ -24,6 +24,6 @@
     "how1": "teos هو المفتاح الجذري. اسم دولة مثل saloma.eg لا يفتح إلا إذا كانت المحفظة تملك saloma.teos، سواء في نفس الشراء أو مملوك من قبل. السيرفر يفرض ذلك.",
     "how2": "بعد teos، يمكن للمشتري فتح 127 نطاق دولة. القائمة في tlds/all.json",
     "priceTitle": "التسعير",
-    "ownership": "كل اسم هو أصل Metaplex Core على Solana، مملوك لمحفظة المشتري. لا رسوم تجديد، قابل للتداول من Phantom و Solflare و Backpack"
+    "ownership": "كل اسم هو أصل Metaplex Core على Solana، مملوك لمحفظة المشتري، قابل للتداول من Phantom و Solflare و Backpack"
   }
 }

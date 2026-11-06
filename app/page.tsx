@@ -155,14 +155,12 @@ export default function Home() {
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.teos</div>
                 <div dir="auto" style={{ fontSize: 12, color: "#7f1d1d", fontWeight: 700 }}>{L.sovereignKey}</div>
                 <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${getPrice(clean, "teos").toLocaleString("en-US")}` : "—"}</div>
-                <div style={{ fontSize: 11 }}>One-time payment - No yearly renewal</div>
               </div>
               <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
                 <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
                 <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
                 <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${getPrice(clean, selectedTld).toLocaleString("en-US")}` : "—"}</div>
-                <div style={{ fontSize: 11, color: "#a89a80" }}>One-time payment - No yearly renewal</div>
               </div>
             </div>
             <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>

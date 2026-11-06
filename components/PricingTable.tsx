@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import type { Dict } from "../lib/i18n";
-import { PRICE_TIERS, LENGTH_LABELS, PAYMENT_LABEL } from "../lib/pricing";
+import { PRICE_TIERS, LENGTH_LABELS } from "../lib/pricing";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const cell: React.CSSProperties = { padding: "6px 0", borderTop: "1px solid #3d352a", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 };
@@ -40,7 +40,6 @@ export default function PricingTable({ t, solUsd, onBuy }: { t: Dict; solUsd: nu
                 <span dir="ltr" className="pt-amt" style={{ textAlign: "end" }}>
                   <span className="pt-usd" style={{ fontFamily: "ui-monospace, monospace" }}>{fmt(usd)}</span>
                   <small className="pt-sub" style={{ display: "block", color: "#a89a80", fontSize: 11 }}>
-                    <span className="pt-pay">{PAYMENT_LABEL}</span>
                     {sol(usd) ? <span className="pt-sol">{sol(usd)}</span> : null}
                   </small>
                 </span>

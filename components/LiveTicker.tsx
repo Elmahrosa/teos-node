@@ -37,7 +37,7 @@ export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; 
         .lt-bar:hover .lt-track{animation-play-state:paused}
         @keyframes lt-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
         @keyframes lt-pulse{0%,100%{opacity:1}50%{opacity:.25}}
-        @media(max-width:600px){.lt-bar{height:32px}.lt-full{display:none}.lt-short{display:inline}}
+        @media(max-width:600px){.lt-bar{height:32px}.lt-bar>div:first-child{padding:0 8px !important;font-size:10px !important;gap:5px !important}}
         @media(prefers-reduced-motion:reduce){.lt-track{animation:none}.lt-dot{animation:none}}
       `}</style>
     </div>
