@@ -1,4 +1,4 @@
-﻿/** @type {import(\x27next\x27).NextConfig} */
+/** @type {import(\x27next\x27).NextConfig} */
 const isProd = process.env.NODE_ENV === "production";
 const scriptSrc = `script-src \x27self\x27${isProd ? "" : " \x27unsafe-inline\x27 \x27unsafe-eval\x27"}`;
 
