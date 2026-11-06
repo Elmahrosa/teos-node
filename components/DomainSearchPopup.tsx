@@ -137,7 +137,7 @@ export default function DomainSearchPopup(props: {
           <>
             <div style={{ background: "#d4c5a9", color: "#2a2520", border: "3px double #713f12", padding: 18, boxShadow: "0 8px 24px rgba(0,0,0,.6)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, fontSize: 13, fontWeight: 700 }}>
-                <StepBadge n={1} dark />{teosFree && <span dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step1Title, { n: name })}</span>}<span style={{ color: "#7f1d1d" }}>{t.step1Tag} 🔑</span>
+                {teosFree && !ownsTeos && (<><StepBadge n={1} dark /><span dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step1Title, { n: name })}</span><span style={{ color: "#7f1d1d" }}>{t.step1Tag} 🔑</span></>)}
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "baseline", flexWrap: "wrap" }}>
                 <span dir="ltr" style={{ fontFamily: SERIF, fontSize: 26, fontWeight: 700, color: "#451a03", wordBreak: "break-all" }}>{name}.teos</span>
@@ -145,15 +145,15 @@ export default function DomainSearchPopup(props: {
                   {!teos ? t.checking : ownsTeos ? t.youOwnU : teosFree ? t.availableU : teos.reason === "reserved" ? t.reservedU : t.takenU}
                 </span>
               </div>
-              <div style={{ margin: "6px 0 10px" }}>
+              {teosFree && !ownsTeos && <div style={{ margin: "6px 0 10px" }}>
                 <span style={{ background: "#7f1d1d", color: "#fde68a", fontSize: 11, letterSpacing: "0.1em", padding: "2px 8px", fontWeight: 700 }}>{t.rootBadge}</span>
-              </div>
+              </div>}
               {teos && teosFree && !ownsTeos && (
                 <div style={{ fontFamily: MONO, marginBottom: 10 }}>
                   ${teos.price_usd} {t.standardPrice}
                 </div>
               )}
-              {teosFree && (
+              {teosFree && !ownsTeos && (
                 <button style={{ ...gold, opacity: canBuy ? 1 : 0.6 }} disabled={!canBuy} onClick={() => onBuy(["teos"])}>
                   {fmt(t.carve, { n: name })}
                 </button>
@@ -164,7 +164,7 @@ export default function DomainSearchPopup(props: {
               )}
             </div>
 
-            {(teosFree || ownsTeos) && (<>
+            {teosFree && !ownsTeos && (<>
             <Arrow />
             <div>
               <div style={{ fontFamily: SERIF, letterSpacing: "0.15em", fontSize: 13, color: "#a89a80", marginBottom: 6 }}>{query.trim() ? t.otherCountry : t.yourCountry}</div>
