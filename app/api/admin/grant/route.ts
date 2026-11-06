@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import bs58 from "bs58";
 import { verifySession } from "../../../../lib/founderAuth";
 import { claimDomain, isClaimed, incrSold, recordMint, logPendingMint } from "../../../../lib/registry";
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
   const wallet = String(body.wallet || "").trim();
   const ref = String(body.ref || "manual").slice(0, 100);
   if (!name || !wallet) return NextResponse.json({ ok: false, error: "name and wallet required" }, { status: 400 });
-  if (name.length < 3 || name.length > 30) return NextResponse.json({ ok: false, error: "invalid_name_length" }, { status: 400 });
+  if (name.length < 1 || name.length > 30) return NextResponse.json({ ok: false, error: "invalid_name_length" }, { status: 400 });
   if (!validWallet(wallet)) return NextResponse.json({ ok: false, error: "invalid_wallet" }, { status: 400 });
   if (RESERVED.includes(name)) return NextResponse.json({ ok: false, error: "name is reserved" }, { status: 400 });
   if (isSealedDomain(name) || (await isClaimed(name))) return NextResponse.json({ ok: false, error: "unavailable" }, { status: 409 });
@@ -43,3 +43,4 @@ export async function POST(req: Request) {
   if (!mint) await logPendingMint(name, "teos", wallet, `manual:${ref}`).catch(() => {});
   return NextResponse.json({ ok: true, name, wallet, result: mint ? "minted" : "recorded_pending_mint", asset: mint?.asset ?? null, pending_mint: !mint });
 }
+

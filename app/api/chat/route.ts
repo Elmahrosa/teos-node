@@ -32,8 +32,9 @@ function chat(q: string, u: ReturnType<typeof getUser>) {
     return `${hi}. Current TEOS one-time mint prices:
 
 - 1 character: $2,000
-- 2–3 characters: $400
-- 4 characters: $150
+- 2 characters: $600
+- 3 characters: $180
+- 4 characters: $80
 - 5+ characters: $30
 
 Prices are per name, not per TLD. Payment is in SOL on Solana. Quotes are locked for 5 minutes. There is no founder discount or $10 offer.`;
@@ -83,3 +84,5 @@ export async function POST(req: Request) {
     });
   }
 }
+
+
