@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import FounderSeal from "./FounderSeal";
 import { fmt, type Dict } from "../lib/i18n";
+import { getRouteForUser } from "../lib/domain";
 
 type TldInfo = { tld: string; label: string; name?: string; region?: string; flag: string; live: boolean };
 type Row = { tld: string; available: boolean; reason: string | null; price_usd: number };
@@ -46,13 +47,14 @@ export default function DomainSearchPopup(props: {
   teos: Row | null;
   tlds: TldInfo[];
   ownsTeos: boolean;
+  wallet: string;
   founder: boolean;
   open: boolean;
   busy: boolean;
   onBuy: (tlds: string[]) => void;
   onClose: () => void;
 }) {
-  const { t, rtl, homeTld, name, teos, tlds, ownsTeos, founder, open, busy, onBuy, onClose } = props;
+  const { t, rtl, homeTld, name, teos, tlds, ownsTeos, wallet, founder, open, busy, onBuy, onClose } = props;
   const [query, setQuery] = useState("");
   const [rows, setRows] = useState<Record<string, Row>>({});
   const fetched = useRef<Set<string>>(new Set());
@@ -160,7 +162,7 @@ export default function DomainSearchPopup(props: {
               )}
 
               {ownsTeos && (
-                <button style={gold} onClick={() => window.open(`/u/${encodeURIComponent(name)}`, "_blank", "noopener")}>{t.openSite}</button>
+                <button style={gold} onClick={() => window.open(getRouteForUser(name, ownsTeos ? wallet : null, wallet || null), "_blank", "noopener")}>{t.openSite}</button>
               )}
             </div>
 

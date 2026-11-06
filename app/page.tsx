@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PricingLogic from "../components/PricingLogic";
 import Bidi from "../components/Bidi";
 import Image from "next/image";
@@ -45,6 +45,7 @@ export default function Home() {
   const [name, setName] = useState("");
   const [checked, setChecked] = useState<any>(null);
   const [checkedFor, setCheckedFor] = useState("");
+  const checkSeq = useRef(0);
   const [quote, setQuote] = useState<MintQuote | null>(null);
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
@@ -82,9 +83,11 @@ export default function Home() {
   }
 
   const check = () => run(async () => {
-    setChecked(null); setQuote(null); setPopup(true);
+    const seq = ++checkSeq.current;
+    setChecked(null); setCheckedFor(""); setQuote(null); setPopup(true);
     const r = await fetch(`/api/check?name=${encodeURIComponent(clean)}&tlds=teos`);
     const j = await r.json();
+    if (seq !== checkSeq.current) return; // a newer search replaced this one
     if (!r.ok) { setPopup(false); throw new Error(j.error || "Invalid name"); }
     setChecked(j); setCheckedFor(clean);
     if (!stats?.tlds) setStats(await fetch("/api/stats", { cache: "no-store" }).then((x) => x.json()).catch(() => stats));
@@ -192,7 +195,7 @@ export default function Home() {
         </div>
       </div>
 
-      {popup && (<DomainSearchPopup t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={!!wallet && (myNames.includes(clean) || owned.includes(clean))} founder={clean === "elmahrosa"} open={open} busy={busy} onBuy={mint} onClose={() => setPopup(false)} />)}
+      {popup && (<DomainSearchPopup key={clean} t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={!!wallet && (myNames.includes(clean) || owned.includes(clean))} wallet={wallet} founder={clean === "elmahrosa"} open={open} busy={busy} onBuy={mint} onClose={() => setPopup(false)} />)}
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
