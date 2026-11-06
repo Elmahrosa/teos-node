@@ -1,6 +1,6 @@
-/** @type {import(\x27next\x27).NextConfig} */
+/** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === "production";
-const scriptSrc = `script-src \x27self\x27${isProd ? "" : " \x27unsafe-inline\x27 \x27unsafe-eval\x27"}`;
+const scriptSrc = `script-src 'self' 'unsafe-inline'${isProd ? "" : " 'unsafe-eval'"}`;
 
 const nextConfig = {
   poweredByHeader: false,
@@ -18,7 +18,7 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src \x27self\x27; img-src \x27self\x27 data: https:; style-src \x27self\x27 \x27unsafe-inline\x27 https://fonts.googleapis.com; font-src \x27self\x27 data: https://fonts.gstatic.com; " + scriptSrc + "; connect-src \x27self\x27 https://api.mainnet-beta.solana.com https://*.helius-rpc.com https://*.helius.xyz wss://*.walletconnect.com wss://*.walletconnect.org; frame-src \x27self\x27 https://*.walletconnect.com; frame-ancestors \x27self\x27",
+              "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; " + scriptSrc + "; connect-src 'self' https://api.mainnet-beta.solana.com https://*.helius-rpc.com https://*.helius.xyz wss://*.walletconnect.com wss://*.walletconnect.org; frame-src 'self' https://*.walletconnect.com; frame-ancestors 'self'",
           },
         ],
       },
