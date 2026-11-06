@@ -23,3 +23,6 @@ wallet.json
 !public/**/*.json
 *.bak
 !.env.example
+
+all-domains-list.txt
+BRANDS-ALL-127.txt
