@@ -3,7 +3,7 @@ import { parseDomain } from "./domain-rules";
 import { env } from "./env";
 import { getSolUsd, usdToLamports } from "./pricing";
 import { checkTlds } from "./check";
-import { parseTlds } from "./tlds";
+import { parseTlds, requestedTlds, isSaleTld } from "./tlds";
 import { mintFunds } from "./mint";
 
 export type Quote = {
@@ -52,6 +52,9 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown): Promis
   const parsed = parseDomain(rawDomain);
   if (!parsed.ok) return { ok: false, status: parsed.status, body: parsed.body };
   const domain = parsed.domain;
+  // Defense in depth: only sale TLDs ever get a quote, whatever the caller.
+  const blocked = requestedTlds(rawTlds).find((t) => !isSaleTld(t));
+  if (blocked) return { ok: false, status: 503, body: { error: "registration_closed", message: "TLD blocked", tld: blocked } };
   const tlds = rawTlds === undefined ? ["teos"] : parseTlds(rawTlds);
   if (!tlds) return { ok: false, status: 400, body: { error: "invalid_tlds" } };
   const checks = await checkTlds(domain, tlds);
