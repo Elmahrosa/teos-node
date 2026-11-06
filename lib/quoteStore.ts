@@ -85,7 +85,8 @@ export async function getQuote(id: string): Promise<Quote | null> {
   let q: Quote | null = null;
   if (redis) {
     const raw = await redis.get<string | Quote>(key(id));
-    q = raw ? (typeof raw === "string" ? JSON.parse(raw) : raw) : null;
+    if (!raw) return null;
+    try { q = typeof raw === "string" ? JSON.parse(raw) : (raw as Quote); } catch { return null; }
   } else {
     q = mem.get(id) ?? null;
   }
@@ -93,7 +94,24 @@ export async function getQuote(id: string): Promise<Quote | null> {
   return q;
 }
 
-export async function markUsed(id: string) {
-  const q = await getQuote(id);
-  if (q) await put({ ...q, used: true });
+export async function markUsed(id: string): Promise<boolean> {
+  if (redis) {
+    const res = await redis.eval(
+      `local raw = redis.call("GET", KEYS[1])
+       if not raw then return 0 end
+       local ok, q = pcall(cjson.decode, raw)
+       if not ok then return 0 end
+       if q.used then return 0 end
+       q.used = true
+       redis.call("SET", KEYS[1], cjson.encode(q), "KEEPTTL")
+       return 1`,
+      [key(id)],
+      []
+    );
+    return Number(res) === 1;
+  }
+  const q = mem.get(id);
+  if (!q || q.used) return false;
+  q.used = true;
+  return true;
 }

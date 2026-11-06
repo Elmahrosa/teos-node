@@ -28,14 +28,15 @@ function withTimeout<T>(p: Promise<T>, ms = 4000): Promise<T> {
 const mem = new Map<string, string>();
 
 // Atomic "set if not exists".
-async function setNx(key: string, value: string): Promise<boolean> {
+async function setNx(key: string, value: string, exSec = 900): Promise<boolean> {
   if (redis) {
-    return (await withTimeout(redis.set(key, value, { nx: true }))) === "OK";
+    return (await withTimeout(redis.set(key, value, { nx: true, ex: exSec }))) === "OK";
   }
 
   if (mem.has(key)) return false;
 
   mem.set(key, value);
+  setTimeout(() => mem.delete(key), exSec * 1000).unref?.();
   return true;
 }
 
@@ -139,7 +140,7 @@ export async function releaseDomain(
 }
 
 export const claimTx = (signature: string, domain: string) =>
-  setNx(tKey(signature), domain.toLowerCase());
+  setNx(tKey(signature), domain.toLowerCase(), 86400);
 
 // Release a payment transaction only if it still belongs to this domain.
 export async function releaseTx(
@@ -183,7 +184,7 @@ export async function getClaim(
 
   if (!raw) return null;
 
-  return typeof raw === "string" ? JSON.parse(raw) : (raw as any);
+  try { return typeof raw === "string" ? JSON.parse(raw) : (raw as any); } catch { return null; }
 }
 
 export async function recordMint(
@@ -245,6 +246,7 @@ export async function logPendingMint(
 
   if (redis) {
     await withTimeout(redis.lpush("teos:pending-mints", value));
+    await withTimeout(redis.ltrim("teos:pending-mints", 0, 999));
   } else {
     console.error("[pending-mint]", value);
   }
