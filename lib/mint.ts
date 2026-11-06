@@ -12,6 +12,21 @@ export function mintConfigured(): boolean {
   return !!env("MINT_AUTHORITY_KEYPAIR");
 }
 
+// Public key of the mint authority (never the secret). Lets operators check which wallet signs and pays for mints.
+export function mintAuthorityPublicKey(): string | null {
+  if (!mintConfigured()) return null;
+  let secret: Uint8Array | null = null;
+  try {
+    secret = secretKeyBytes();
+    const kp = createUmi("https://api.mainnet-beta.solana.com").eddsa.createKeypairFromSecretKey(secret);
+    return kp.publicKey.toString();
+  } catch {
+    return null;
+  } finally {
+    if (secret) secret.fill(0);
+  }
+}
+
 // --- F-03 GUARD: never let key material reach logs / errors ---
 function safeErrorMessage(e: any): string {
   const msg = String(e?.message ?? e ?? "unknown").slice(0, 200);
