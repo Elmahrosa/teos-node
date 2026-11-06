@@ -7,6 +7,7 @@ import FounderSeal from "../components/FounderSeal";
 import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopup";
 import CountryDropdown from "../components/CountryDropdown";
 import AymanContact from "../components/AymanContact";
+import MusicToggle from "../components/MusicToggle";
 import SiteFooter from "../components/SiteFooter";
 import HeroVideo from "@/components/HeroVideo";
 import LanguageToggle from "../components/LanguageToggle";
@@ -121,7 +122,10 @@ export default function Home() {
       <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} priority style={{ ...imgStyle, width: "100%", height: "auto", display: "block" }} sizes="(max-width: 1000px) 100vw, 1000px" />
     </section>
     <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
-      <LanguageToggle lang={lang} onChange={setLang} />
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "flex-end", alignItems: "center" }}>
+        <MusicToggle rtl={rtl} />
+        <LanguageToggle lang={lang} onChange={setLang} />
+      </div>
 
       {/* HERO V14 SOVEREIGN - DUAL PATH */}
       <header style={{ textAlign: "center", margin: "24px 0 8px" }}>
