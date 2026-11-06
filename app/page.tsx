@@ -17,7 +17,6 @@ import PaymentOptions from "../components/PaymentOptions";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
-import TeosChatbot from "../components/TeosChatbot";
 import LiveTicker from "../components/LiveTicker";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
@@ -208,7 +207,6 @@ export default function Home() {
       </div>
       <SiteFooter t={L} />
       <AymanContact t={L} rtl={rtl} />
-      <TeosChatbot t={L} rtl={rtl} />
     </main>
     </>
   );
