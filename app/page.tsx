@@ -41,7 +41,7 @@ const tablet: React.CSSProperties = { background: "#292321", color: "#d6cbb5", b
 const input: React.CSSProperties = { background: "#c9b896", color: "#2a2520", border: "1px solid #8a7550", borderInline: "8px double #7a6540", borderRadius: 0, padding: "10px 12px", fontSize: 16, width: "100%", boxSizing: "border-box" };
 
 export default function Home() {
-  const { lang, setLang, L, t, rtl } = useLang();
+  const { lang, setLang, L, t, rtl, fading } = useLang();
   const [stats, setStats] = useState<any>(null);
   const [name, setName] = useState("");
   const [checked, setChecked] = useState<any>(null);
@@ -107,26 +107,30 @@ export default function Home() {
         </span>
       </div>
     </nav>
-    <main dir={rtl ? "rtl" : "ltr"} lang={lang} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
+    <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
       <LanguageToggle lang={lang} onChange={setLang} />
 
       {/* HERO V14 SOVEREIGN - DUAL PATH */}
       <header style={{ textAlign: "center", margin: "24px 0 8px" }}>
         <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>
-          {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : "TEOS Sovereign Root - Alexandria"}
+          {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : lang === "id" ? "TEOS Akar Berdaulat - Alexandria" : "TEOS Sovereign Root - Alexandria"}
         </h1>
         <p dir="auto" style={{ margin: 0, fontSize: 20, color: "#fbbf24", fontWeight: 700 }}>
-          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الويب دومين هو البداية فقط" : "1 Key Unlocks The Full System - Web Domain Is Just The Start"}
+          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الويب دومين هو البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Domain Web Hanyalah Awal" : "1 Key Unlocks The Full System - Web Domain Is Just The Start"}
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 17, color: "#d6cbb5", lineHeight: 1.6 }}>
           {lang === "ar" 
             ? "عايز دومين تملكه للأبد - تسطبه - تتداوله - تعمل ديزاين؟ تقدر. عايز تخش المنظومة السيادية الكاملة - متصفح - جيت واي - عالمك الخاص؟ برضه تقدر."
+            : lang === "id"
+            ? "Mau domain yang Anda miliki selamanya - setup - trading - desain? Bisa. Mau sistem berdaulat penuh - browser - gateway - dunia Anda sendiri? Bisa juga."
             : "Want a domain you own forever - setup - trade - design? You can. Want the full sovereign system - browser - gateway - your own world? You can too."}
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 16, color: "#a89a80" }}>
           {lang === "ar" 
-            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 126 دولة - saloma.teos يفتح saloma.eg"
-            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 126 countries - saloma.teos unlocks saloma.eg"}
+            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 127 دولة - saloma.teos يفتح saloma.eg"
+            : lang === "id"
+            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 127 negara - saloma.teos membuka saloma.eg"
+            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 127 countries - saloma.teos unlocks saloma.eg"}
         </p>
         <button onClick={goSearch} style={{ ...btn, fontSize: 20, padding: "14px 34px", marginTop: 14 }}>{t("hero.getKey")}</button>
       </header>
@@ -176,7 +180,7 @@ export default function Home() {
         <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "60vh", objectFit: "cover" }} sizes="(max-width: 768px) 90vw, 50vw" />
       </div>
 
-      <WhyBuy t={L} countries={Math.max(0, all.length - 1)} onCta={goSearch} />
+      <WhyBuy t={L} countries={all.length} onCta={goSearch} />
       <PricingTable t={L} solUsd={stats?.sol_usd ?? null} />
       <PricingLogic t={t} tlds={all} />
       <Divider />
