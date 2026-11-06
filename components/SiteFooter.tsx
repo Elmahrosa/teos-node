@@ -19,7 +19,7 @@ export default function SiteFooter({ t }: { t: Dict }) {
       <p style={{ color: "#a89a80", fontSize: 13, margin: "10px 0 0" }}>
         {t.wallets} · <a href="/terms" style={{ color: "inherit" }}>{t.terms}</a> · <a href="/privacy" style={{ color: "inherit" }}>{t.privacy}</a>
       </p>
-      <p style={{ color: "#71717a", fontSize: 12, margin: "10px 0 0" }}>© 2026 ELMAHROSA - web4.elmahrosa.org</p>
+      <p style={{ color: "#71717a", fontSize: 12, margin: "10px 0 0" }}>© 2026 ELMAHROSA - elmahrosa.org</p>
     </footer>
   );
 }

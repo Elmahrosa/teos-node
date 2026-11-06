@@ -44,6 +44,7 @@ export default function Home() {
   const [stats, setStats] = useState<any>(null);
   const [name, setName] = useState("");
   const [checked, setChecked] = useState<any>(null);
+  const [checkedFor, setCheckedFor] = useState("");
   const [quote, setQuote] = useState<MintQuote | null>(null);
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
@@ -85,7 +86,7 @@ export default function Home() {
     const r = await fetch(`/api/check?name=${encodeURIComponent(clean)}&tlds=teos`);
     const j = await r.json();
     if (!r.ok) { setPopup(false); throw new Error(j.error || "Invalid name"); }
-    setChecked(j);
+    setChecked(j); setCheckedFor(clean);
     if (!stats?.tlds) setStats(await fetch("/api/stats", { cache: "no-store" }).then((x) => x.json()).catch(() => stats));
   });
 
@@ -159,18 +160,28 @@ export default function Home() {
             <input id="n" dir="auto" style={{ ...input, fontSize: 21, padding: "16px 14px", textAlign: "center" }} value={name} placeholder={t("hero.searchPlaceholder")} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
             <div style={{ margin: "12px 0" }}><CountryDropdown tlds={all} selected={selectedTld} onSelect={setSelectedTld} placeholder={L.country} empty={L.dropdownEmpty} /></div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, textAlign: "center" }}>
-              <div style={{ flex: "1 1 200px", background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, minWidth: 0 }}>
-                <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={56} /></div>
-                <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.teos</div>
-                <div dir="auto" style={{ fontSize: 12, color: "#7f1d1d", fontWeight: 700 }}>{L.sovereignKey}</div>
-                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${getPrice(clean, "teos").toLocaleString("en-US")}` : "—"}</div>
-              </div>
-              <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
-                <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
-                <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
-                <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
-                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean && owned.includes(clean) ? `$${getPrice(clean, selectedTld).toLocaleString("en-US")}` : "—"}</div>
-              </div>
+              {(() => {
+                const res = checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null;
+                const youOwn = !!res && !!wallet && (myNames.includes(clean) || owned.includes(clean));
+                const free = !!res?.available && !youOwn;
+                const state = !res ? "" : youOwn ? L.youOwnU : free ? L.availableU : res.reason === "reserved" ? L.reservedU : L.takenU;
+                return (<>
+                  <div style={{ flex: "1 1 200px", background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, minWidth: 0 }}>
+                    <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={56} /></div>
+                    <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.teos</div>
+                    <div dir="auto" style={{ fontSize: 12, color: res && !free && !youOwn ? "#7f1d1d" : youOwn || free ? "#14532d" : "#7f1d1d", fontWeight: 700 }}>{res ? state : L.sovereignKey}</div>
+                    {(!res || free) && <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{free && clean ? `$${getPrice(clean, "teos").toLocaleString("en-US")}` : "—"}</div>}
+                  </div>
+                  {(!res || free) && (
+                    <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
+                      <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
+                      <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
+                      <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
+                      <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean && owned.includes(clean) ? `$${getPrice(clean, selectedTld).toLocaleString("en-US")}` : "—"}</div>
+                    </div>
+                  )}
+                </>);
+              })()}
             </div>
             <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>
             <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? fmt(L.sovTlds, { n: all.length }) : ""} • {L.rule}</p>
