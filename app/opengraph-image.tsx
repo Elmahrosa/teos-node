@@ -13,7 +13,7 @@ export default function Image() {
         <div style={{ fontSize: 84, letterSpacing: 12, fontWeight: 700 }}>SOVEREIGN TEOS</div>
         <div style={{ fontSize: 38, color: "#d6cbb5", marginTop: 16 }}>Register .teos and country domains as Solana assets</div>
         <div style={{ fontSize: 34, color: "#D4AF37", marginTop: 28 }}>Sovereign Names - Transparent Price Tiers</div>
-        <div style={{ fontSize: 28, color: "#a89a80", marginTop: 20 }}>web4.elmahrosa.org</div>
+        <div style={{ fontSize: 28, color: "#a89a80", marginTop: 20 }}>elmahrosa.org</div>
       </div>
     ),
     size,
