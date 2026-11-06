@@ -30,7 +30,7 @@ function chat(q: string, u: ReturnType<typeof getUser>) {
   }
 
   if (/price|pricing|cost|سعر|اسعار|بكام|تكلفة/.test(s)) {
-    const rows = PRICE_TIERS.map((t) => `- ${t.id} (${t.tlds === "*" ? "all other TLDs" : t.tlds.map((x) => "." + x).join(" ")}): ` + t.prices.map((p, i) => `${LENGTH_LABELS[i]} $${p}`).join(", ")).join("\n");
+    const rows = PRICE_TIERS.map((t) => `- ${t.id.toUpperCase()} (${t.tlds === null ? "all other TLDs" : t.tlds.map((x) => "." + x).join(" ")}): ` + t.prices.map((p, i) => `${LENGTH_LABELS[i]} $${p}`).join(", ")).join("\n");
     return `${hi}. TEOS prices by name length and region. ${PAYMENT_LABEL}.
 
 ${rows}
