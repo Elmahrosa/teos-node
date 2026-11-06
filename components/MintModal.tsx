@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { useConnect } from "./ConnectProvider";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { fmt, type Dict } from "../lib/i18n";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
@@ -18,7 +18,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
   const { t, rtl, domain, quote, onClose, helpHref } = props;
   const { publicKey, connected, signMessage, sendTransaction, wallet } = useWallet();
   const { connection } = useConnection();
-  const openConnect = useConnect();
+  const { setVisible } = useWalletModal();
   const [phase, setPhase] = useState<Phase>("choose");
   const [err, setErr] = useState("");
   const [left, setLeft] = useState(() => Math.max(0, Math.floor((quote.expires_at - Date.now()) / 1000)));
@@ -101,12 +101,12 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
             <p style={{ margin: "0 0 8px", color: "#a89a80", fontSize: 14 }}>{t.mmTwice}</p>
             <div style={{ display: "grid", gap: 8 }}>
               {!connected ? (
-                <button style={gold} onClick={openConnect}>{t.connect}</button>
+                <button style={gold} onClick={() => setVisible(true)}>{t.connect}</button>
               ) : (
                 <>
                   <div dir="ltr" style={{ fontSize: 13, color: "#a89a80" }}>{wallet?.adapter.name}: {publicKey?.toBase58().slice(0, 4)}...{publicKey?.toBase58().slice(-4)}</div>
                   <button style={phase === "error" ? tablet : gold} onClick={pay}>{t.mmApprove}</button>
-                  <button style={tablet} onClick={openConnect}>{t.mmChoose}</button>
+                  <button style={tablet} onClick={() => setVisible(true)}>{t.mmChoose}</button>
                 </>
               )}
               {mobile && !connected && (
