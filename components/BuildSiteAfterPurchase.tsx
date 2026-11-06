@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 export default function BuildSiteAfterPurchase({ domain }: { domain: string }) {
   const short = domain.replace('.teos','');
   const buildUrl = `/u/${short}?build=${typeof window !== 'undefined' ? encodeURIComponent(location.href) : ''}`;

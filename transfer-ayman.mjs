@@ -1,4 +1,4 @@
-﻿import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
+import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
 import { keypairIdentity, publicKey } from '@metaplex-foundation/umi'
 import { updateV1 } from '@metaplex-foundation/mpl-core'
 import bs58 from 'bs58'
