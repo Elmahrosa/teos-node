@@ -37,7 +37,7 @@ export default function Founder() {
         {total}
         <div style={{ fontSize: 16, fontWeight: 400 }}>Real visitors</div>
       </div>
-      <div style={{ textAlign: "center", fontSize: 22, marginBottom: 8 }}>Countries unlocked {countries.length} / 125</div>
+      <div style={{ textAlign: "center", fontSize: 22, marginBottom: 8 }}>Countries unlocked {countries.length} / 127</div>
       <div style={{ textAlign: "center", opacity: 0.6, marginBottom: 28 }}>{countries.length ? countries.join(" ") : "0"}</div>
 
       <form onSubmit={grant} style={{ display: "grid", gap: 10, border: "1px solid #333", borderRadius: 16, padding: 16 }}>
