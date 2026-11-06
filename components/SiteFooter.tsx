@@ -6,7 +6,7 @@ const pill = (bg: string, color = "#fff"): React.CSSProperties => ({ background:
 // Footer: the four approved social links, WhatsApp, and the two public payment details.
 export default function SiteFooter({ t }: { t: Dict }) {
   return (
-    <footer style={{ background: "#000", borderTop: "2px solid #ca8a04", margin: "32px 0 96px", padding: "28px 16px 20px", textAlign: "center" }}>
+    <footer style={{ background: "#000", borderTop: "2px solid #ca8a04", margin: "32px 0 0", padding: "28px 16px 20px", textAlign: "center" }}>
       <p style={{ color: "#eab308", fontWeight: 900, fontSize: 14, letterSpacing: "0.2em", margin: "0 0 14px" }}>{t.followTitle}</p>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", alignItems: "center" }} className="soc">
         <a href={SOCIAL.x} target="_blank" rel="noopener noreferrer" style={pill("#fff", "#000")}>𝕏 KING_TEOS</a>
