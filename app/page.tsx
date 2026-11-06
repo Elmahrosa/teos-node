@@ -14,7 +14,7 @@ import PricingTable from "../components/PricingTable";
 import TrustSection from "../components/TrustSection";
 import PaymentOptions from "../components/PaymentOptions";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useConnect } from "@/components/ConnectProvider";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 import TeosChatbot from "../components/TeosChatbot";
 import BuildSiteAfterPurchase from "../components/BuildSiteAfterPurchase";
@@ -52,7 +52,7 @@ export default function Home() {
   const [owned, setOwned] = useState<string[]>([]);
   const [selectedTld, setSelectedTld] = useState("eg");
   const { publicKey } = useWallet();
-  const openConnect = useConnect();
+  const { setVisible } = useWalletModal();
   const wallet = publicKey?.toBase58() ?? "";
   
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function Home() {
     document.getElementById("search")?.scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => document.getElementById("n")?.focus(), 400);
   };
-  const connectWallet = openConnect;
+  const connectWallet = () => setVisible(true);
 
   return (
     <>

@@ -1,39 +1,40 @@
 "use client";
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
-import MobileWalletSheet from "./MobileWalletSheet";
-import { hasInjectedWallet, isMobileBrowser, MOBILE_WALLETS, type WalletId } from "@/lib/mobileWallet";
+import { MOBILE_WALLETS, type WalletId } from "@/lib/mobileWallet";
 
-const Ctx = createContext<() => void>(() => {});
-export const useConnect = () => useContext(Ctx);
-
-const LABELS = {
-  en: { title: "Connect a wallet", install: "Install {wallet}", other: "Other wallets", opening: "Opening...", close: "Close" },
-  ar: { title: "اربط محفظتك", install: "ثبّت {wallet}", other: "محافظ أخرى", opening: "جارٍ الفتح...", close: "إغلاق" },
-  id: { title: "Hubungkan dompet", install: "Pasang {wallet}", other: "Dompet lain", opening: "Membuka...", close: "Tutup" },
-} as const;
-
-// One entry point for "Connect wallet". Desktop and wallet in-app browsers get the standard modal.
-// Mobile Chrome (no wallet injected) gets the sheet that opens Phantom / Solflare / Trust by deep link.
-// Android Chrome also lists Solana Mobile Wallet Adapter under "Other wallets" (in the standard modal).
-// A site opened by a deep link carries ?connect=<wallet>: connect to it as soon as it is injected.
+// The provider runs with autoConnect={false}, and the wallet modal only *selects* a wallet; nothing connects it.
+// So after the user picks a wallet in the modal (modal closes with a wallet selected and not connected) we call
+// connect() ourselves. On mobile Chrome that connect() opens the wallet app (see deepLinked in providers.tsx).
+// A wallet remembered from an earlier visit is cleared on load, so it never reconnects by itself.
+//
+// A site opened by a wallet deep link carries ?connect=<wallet>: once that wallet's provider is injected
+// (the in-app browser injects it a moment after load), select it and connect, so the approval prompt shows.
 export default function ConnectProvider({ children }: { children: React.ReactNode }) {
-  const { setVisible } = useWalletModal();
   const { wallets, select, connect, connected, connecting, wallet } = useWallet();
-  const [sheet, setSheet] = useState(false);
-  const [lang, setLang] = useState<"en" | "ar" | "id">("en");
+  const { visible } = useWalletModal();
   const wanted = useRef<WalletId | null>(null);
-  const tried = useRef(false);
+  const modalSeen = useRef(false);
+  const connectedFor = useRef<string | null>(null);
+  const cleared = useRef(false);
 
-  const open = useCallback(() => {
-    if (isMobileBrowser() && !hasInjectedWallet()) {
-      const l = document.documentElement.lang;
-      setLang(l === "ar" || l === "id" ? l : "en");
-      setSheet(true);
-    } else setVisible(true);
-  }, [setVisible]);
+  useEffect(() => {
+    if (cleared.current) return;
+    cleared.current = true;
+    if (wallet && !connected && !new URL(location.href).searchParams.get("connect")) select(null);
+  }, [wallet, connected, select]);
+
+  useEffect(() => { if (visible) modalSeen.current = true; }, [visible]);
+  useEffect(() => { if (!wallet) connectedFor.current = null; }, [wallet]);
+  useEffect(() => {
+    if (visible || !modalSeen.current || !wallet || connected || connecting || wanted.current) return;
+    if (connectedFor.current === wallet.adapter.name) return;
+    connectedFor.current = wallet.adapter.name;
+    connect().catch(() => {});
+  }, [visible, wallet, connected, connecting, connect]);
+  const tried = useRef(false);
 
   useEffect(() => {
     const id = new URL(location.href).searchParams.get("connect") as WalletId | null;
@@ -47,11 +48,10 @@ export default function ConnectProvider({ children }: { children: React.ReactNod
     const w = wallets.find((x) => x.adapter.name === name);
     if (!w) return;
     if (wallet?.adapter.name !== name) { select(w.adapter.name); return; }
-    // The in-app browser injects its provider a moment after load: wait for it, up to 6s.
     let n = 0;
     const iv = setInterval(() => {
       n++;
-      if (w.readyState === WalletReadyState.Installed || w.adapter.readyState === WalletReadyState.Installed) {
+      if (w.adapter.readyState === WalletReadyState.Installed) {
         clearInterval(iv); tried.current = true;
         connect().catch(() => {}).finally(() => { const u = new URL(location.href); u.searchParams.delete("connect"); history.replaceState(null, "", u.toString()); });
       } else if (n > 30) { clearInterval(iv); tried.current = true; }
@@ -59,10 +59,5 @@ export default function ConnectProvider({ children }: { children: React.ReactNod
     return () => clearInterval(iv);
   }, [wallets, wallet, select, connect, connected, connecting]);
 
-  return (
-    <Ctx.Provider value={open}>
-      {children}
-      {sheet && <MobileWalletSheet rtl={lang === "ar"} labels={LABELS[lang]} onClose={() => setSheet(false)} onOther={() => { setSheet(false); setVisible(true); }} />}
-    </Ctx.Provider>
-  );
+  return <>{children}</>;
 }

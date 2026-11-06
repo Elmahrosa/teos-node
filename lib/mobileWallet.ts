@@ -45,3 +45,18 @@ export function walletLaunchHref(id: WalletId): string {
   const l = w.browse(siteUrlFor(id), location.origin);
   return isAndroid() ? `intent://${l.host}${l.path}#Intent;scheme=https;package=${w.pkg};end` : l.https;
 }
+
+export const needsDeepLink = () => isMobileBrowser() && !hasInjectedWallet();
+
+// Open the wallet app. If the page is still in the foreground 2s later the app is not installed:
+// offer the Play Store page (a plain confirm, so the connect modal keeps its design).
+export function launchWallet(id: WalletId) {
+  let t: ReturnType<typeof setTimeout>;
+  const stop = () => { if (document.visibilityState === "hidden") clearTimeout(t); };
+  document.addEventListener("visibilitychange", stop);
+  t = setTimeout(() => {
+    document.removeEventListener("visibilitychange", stop);
+    if (document.visibilityState === "visible" && window.confirm(`${MOBILE_WALLETS[id].label} not found. Install it from Google Play?`)) window.location.href = playStoreUrl(id);
+  }, 2000);
+  window.location.href = walletLaunchHref(id);
+}
