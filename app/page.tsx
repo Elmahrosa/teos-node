@@ -24,7 +24,7 @@ import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt, type Lang } from "../lib/i18n";
 import { useLang } from "../lib/useLang";
 import { SOCIAL } from "../lib/social";
-import { priceForName } from "../lib/pricing";
+import { getPrice } from "../lib/pricing";
 
 declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
@@ -93,7 +93,6 @@ export default function Home() {
     setTimeout(() => document.getElementById("n")?.focus(), 400);
   };
   const connectWallet = () => setVisible(true);
-  const tiers = { one: stats?.market_usd?.one ?? 2000, long: stats?.market_usd?.long ?? 30, four: stats?.market_usd?.four ?? 150, short: stats?.market_usd?.short ?? 400 };
 
   return (
     <>
@@ -148,13 +147,15 @@ export default function Home() {
                 <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={56} /></div>
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.teos</div>
                 <div dir="auto" style={{ fontSize: 12, color: "#7f1d1d", fontWeight: 700 }}>{L.sovereignKey}</div>
-                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${priceForName(clean).usd}` : "—"}</div>
+                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${getPrice(clean, "teos").toLocaleString("en-US")}` : "—"}</div>
+                <div style={{ fontSize: 11 }}>One-time payment - No yearly renewal</div>
               </div>
               <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
                 <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
                 <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
-                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${priceForName(clean).usd}` : "—"}</div>
+                <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean ? `$${getPrice(clean, selectedTld).toLocaleString("en-US")}` : "—"}</div>
+                <div style={{ fontSize: 11, color: "#a89a80" }}>One-time payment - No yearly renewal</div>
               </div>
             </div>
             <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>
@@ -176,7 +177,7 @@ export default function Home() {
       </div>
 
       <WhyBuy t={L} countries={Math.max(0, all.length - 1)} onCta={goSearch} />
-      <PricingTable t={L} tiers={tiers} solUsd={stats?.sol_usd ?? null} />
+      <PricingTable t={L} solUsd={stats?.sol_usd ?? null} />
       <PricingLogic t={t} tlds={all} />
       <Divider />
       <div style={{ textAlign: "center", margin: "8px 0 8px" }}><button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button></div>

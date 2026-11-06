@@ -2,16 +2,16 @@
   "header": {
     "search": "Cari nama Anda",
     "connect": "Sambungkan Dompet",
-    "tlds": "125 Namespace Berdaulat",
-    "live": "LIVE • ALEXANDRIA • 125 TLD • PASAR WEB4"
+    "tlds": "127 Namespace Berdaulat",
+    "live": "LIVE • ALEXANDRIA • 127 TLD • PASAR WEB4"
   },
   "hero": {
     "title": "TEOS Sovereign Root",
     "subtitle": "Dari Alexandria, Mesir",
-    "founded": "Didirikan oleh Ayman Seif • 125 ruang nama berdaulat • Satu kunci akar • Infrastruktur identitas WEB4",
+    "founded": "Didirikan oleh Ayman Seif • 127 ruang nama berdaulat • Satu kunci akar • Infrastruktur identitas WEB4",
     "desc1": "teos adalah kredensial akar utama ekosistem TEOS. Ini fondasi identitas berdaulat negara dan kepemilikan digital generasi berikutnya.",
     "desc2": "Ini bukan pasar domain. Kami tidak menjual domain. Kami membagikan kunci identitas berdaulat yang memberi akses ke ekosistem WEB4.",
-    "cta": "Dapatkan identitas berdaulat Anda. Miliki nama Anda di 125 negara.",
+    "cta": "Dapatkan identitas berdaulat Anda. Miliki nama Anda di 127 negara.",
     "welcome": "Selamat datang di pasar saya web4.elmahrosa.org",
     "searchPlaceholder": "Cari nama Anda",
     "mandatory": "Kunci Berdaulat - WAJIB",
@@ -24,10 +24,6 @@
     "how1": ".teos adalah kunci akar. Nama negara seperti saloma.eg hanya terbuka jika dompet memiliki saloma.teos, baik dalam pembelian yang sama atau sudah dimiliki. Server menegakkan ini.",
     "how2": "Setelah .teos, pembeli dapat membuka 124 domain negara. Daftar di tlds/all.json",
     "priceTitle": "Harga",
-    "price1": "Nama 1 huruf: $2,000",
-    "price23": "Nama 2-3 huruf: $400",
-    "price4": "Nama 4 huruf: $150",
-    "price5": "Nama 5+ huruf: $30",
     "ownership": "Setiap nama adalah aset Metaplex Core di Solana, dimiliki dompet pembeli. Tanpa biaya perpanjangan, dapat diperdagangkan dari Phantom, Solflare, Backpack"
   }
 }

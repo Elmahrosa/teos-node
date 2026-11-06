@@ -1238,5 +1238,35 @@
     "standard": "metaplex-core",
     "live": true,
     "chain": "solana"
+  },
+  {
+    "tld": "uk",
+    "label": ".UK",
+    "name": "United Kingdom",
+    "flag": "🇬🇧",
+    "region": "Europe",
+    "standard": "metaplex-core",
+    "live": true,
+    "chain": "solana"
+  },
+  {
+    "tld": "pe",
+    "label": ".PE",
+    "name": "Peru",
+    "flag": "🇵🇪",
+    "region": "South America",
+    "standard": "metaplex-core",
+    "live": true,
+    "chain": "solana"
+  },
+  {
+    "tld": "ve",
+    "label": ".VE",
+    "name": "Venezuela",
+    "flag": "🇻🇪",
+    "region": "South America",
+    "standard": "metaplex-core",
+    "live": true,
+    "chain": "solana"
   }
 ]
