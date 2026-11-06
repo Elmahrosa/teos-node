@@ -31,7 +31,6 @@ declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
 const imgStyle: React.CSSProperties = { borderRadius: 20, border: "1px solid #1F3B44" };
 const ALT = {
-  banner: { en: "TEOS sovereign gateway", ar: "بوابة TEOS السيادية", id: "Pintu masuk sovereign TEOS" } as Record<Lang, string>,
   gate: { en: "The TEOS gate - unlock your sovereign", ar: "بوابة TEOS - افتح اسمك السيادي", id: "Pintu masuk TEOS" } as Record<Lang, string>,
   certificate: { en: "TEOS dig certificate", ar: "شهادة التخذ TEOS", id: "Sertifikat TEOS" } as Record<Lang, string>,
 };
@@ -98,17 +97,20 @@ export default function Home() {
   return (
     <>
     <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
-    <nav style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
+    <nav className="site-nav" style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}><FounderSeal size={48} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.2em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-          <a href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
+          <a className="nav-dup" href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
           <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
-          <span style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}><Bidi text={t("header.tlds")} /></span>
+          <span className="nav-dup" style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}><Bidi text={t("header.tlds")} /></span>
         </span>
       </div>
     </nav>
     <HeroVideo rtl={rtl} searchLabel={L.search} connectLabel={wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect} onSearch={goSearch} onConnect={connectWallet} />
+    <section aria-label={ALT.gate[lang]} style={{ boxSizing: "border-box", width: "100%", maxWidth: 1000, margin: "0 auto", padding: "20px 12px 0" }}>
+      <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} priority style={{ ...imgStyle, width: "100%", height: "auto", display: "block" }} sizes="(max-width: 1000px) 100vw, 1000px" />
+    </section>
     <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
       <LanguageToggle lang={lang} onChange={setLang} />
 
@@ -169,17 +171,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div style={{ width: "100%", maxWidth: "640px", margin: "0 auto", padding: "24px 0" }}>
-        <Image src="/images/teos-banner.webp" width={960} height={540} alt={ALT.banner[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "50vh", objectFit: "cover" }} sizes="(max-width: 640px) 100vw, 640px" priority />
-      </div>
-
       {popup && (<DomainSearchPopup t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={owned.includes(clean)} founder={clean === "elmahrosa"} open={open} busy={busy} onBuy={mint} onClose={() => setPopup(false)} />)}
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
-
-      <div style={{ width: "90%", maxWidth: "500px", margin: "0 auto", padding: "24px 0" }}>
-        <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} style={{ ...imgStyle, width: "100%", height: "auto", maxHeight: "60vh", objectFit: "cover" }} sizes="(max-width: 768px) 90vw, 50vw" />
-      </div>
 
       <WhyBuy t={L} countries={all.length} onCta={goSearch} />
       <PricingTable t={L} solUsd={stats?.sol_usd ?? null} />
