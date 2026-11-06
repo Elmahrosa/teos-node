@@ -1,4 +1,4 @@
-﻿import { Redis } from "@upstash/redis";
+import { Redis } from "@upstash/redis";
 import { env } from "./env";
 
 export type OrderStatus = "PENDING" | "PAID" | "CLAIMED" | "MINTED";
