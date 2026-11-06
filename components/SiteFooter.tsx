@@ -20,6 +20,7 @@ export default function SiteFooter({ t }: { t: Dict }) {
         {t.wallets} · <a href="/terms" style={{ color: "inherit" }}>{t.terms}</a> · <a href="/privacy" style={{ color: "inherit" }}>{t.privacy}</a>
       </p>
       <p style={{ color: "#71717a", fontSize: 12, margin: "10px 0 0" }}>© 2026 ELMAHROSA - elmahrosa.org</p>
+      <p style={{ color: "#52525b", fontSize: 11, margin: "6px 0 0" }}>Music: <a href="https://commons.wikimedia.org/wiki/File:ArabicQanunSample.ogg" target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>Arabic qanun sample</a> by Ariel Qas, CC BY-SA 2.5, edited</p>
     </footer>
   );
 }
