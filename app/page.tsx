@@ -8,6 +8,7 @@ import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopu
 import CountryDropdown from "../components/CountryDropdown";
 import AymanContact from "../components/AymanContact";
 import SiteFooter from "../components/SiteFooter";
+import HeroVideo from "@/components/HeroVideo";
 import LanguageToggle from "../components/LanguageToggle";
 import Divider from "../components/Divider";
 import PricingTable from "../components/PricingTable";
@@ -107,14 +108,15 @@ export default function Home() {
         </span>
       </div>
     </nav>
+    <HeroVideo rtl={rtl} searchLabel={L.search} connectLabel={wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect} onSearch={goSearch} onConnect={connectWallet} />
     <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
       <LanguageToggle lang={lang} onChange={setLang} />
 
       {/* HERO V14 SOVEREIGN - DUAL PATH */}
       <header style={{ textAlign: "center", margin: "24px 0 8px" }}>
-        <h1 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>
+        <h2 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>
           {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : lang === "id" ? "TEOS Akar Berdaulat - Alexandria" : "TEOS Sovereign Root - Alexandria"}
-        </h1>
+        </h2>
         <p dir="auto" style={{ margin: 0, fontSize: 20, color: "#fbbf24", fontWeight: 700 }}>
           {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الويب دومين هو البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Domain Web Hanyalah Awal" : "1 Key Unlocks The Full System - Web Domain Is Just The Start"}
         </p>
@@ -132,7 +134,6 @@ export default function Home() {
             ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 127 negara - saloma.teos membuka saloma.eg"
             : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 127 countries - saloma.teos unlocks saloma.eg"}
         </p>
-        <button onClick={goSearch} style={{ ...btn, fontSize: 20, padding: "14px 34px", marginTop: 14 }}>{t("hero.getKey")}</button>
       </header>
 
       <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px" }}>
