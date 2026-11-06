@@ -1,6 +1,7 @@
 ﻿import { NextResponse } from "next/server";
 import { env } from "../../../lib/env";
 import { createQuote } from "../../../lib/quoteStore";
+import { requestedTlds, isSaleTld, getTld } from "../../../lib/tlds";
 
 export async function POST(req: Request) {
   try {
@@ -20,7 +21,23 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json().catch(() => ({}));
-    const r = await createQuote(body?.domain, body?.tlds);
+    // Accept "name.tld" in domain as well as a separate tlds field.
+    let rawDomain: unknown = body?.domain;
+    let rawTlds: unknown = body?.tlds;
+    if (typeof rawDomain === "string" && rawDomain.includes(".")) {
+      const i = rawDomain.lastIndexOf(".");
+      const suffix = rawDomain.slice(i + 1).trim().toLowerCase();
+      if (getTld(suffix)) { rawTlds = rawTlds ?? suffix; rawDomain = rawDomain.slice(0, i); }
+    }
+    // Only sale TLDs (teos) are open. Anything else is refused before any pricing or mint check.
+    const blockedTld = requestedTlds(rawTlds).find((t) => !isSaleTld(t));
+    if (blockedTld) {
+      return NextResponse.json(
+        { error: "registration_closed", message: "TLD blocked", tld: blockedTld },
+        { status: 503, headers: { "Retry-After": "3600" } }
+      );
+    }
+    const r = await createQuote(rawDomain, rawTlds);
     if (!r.ok) return NextResponse.json(r.body, { status: r.status });
     const q = r.quote;
     return NextResponse.json({
