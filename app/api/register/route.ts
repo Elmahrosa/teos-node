@@ -66,6 +66,32 @@ async function rollbackClaims(
   }
 }
 
+
+async function ownsTeosOnChain(wallet: string, domain: string): Promise<boolean | null> {
+  const explicit = env("MINT_RPC_URL") || env("HELIUS_RPC_URL");
+  const key = env("HELIUS_API_KEY");
+  const url = explicit || (key ? `https://mainnet.helius-rpc.com/?api-key=${key}` : null);
+  if (!url) return null;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: "owns-teos-check", method: "getAssetsByOwner", params: { ownerAddress: wallet, page: 1, limit: 1000 } }),
+      signal: AbortSignal.timeout(6000),
+    });
+    const json: any = await res.json();
+    const items: any[] = json?.result?.items ?? [];
+    const collection = env("COLLECTION_ADDRESS");
+    const want = `${domain.toLowerCase()}.teos`;
+    return items.some((a: any) => {
+      const name = String(a?.content?.metadata?.name ?? "").toLowerCase();
+      if (name !== want) return false;
+      if (!collection) return true;
+      return (a?.grouping ?? []).some((g: any) => g.group_key === "collection" && g.group_value === collection);
+    });
+  } catch { return null; }
+}
+
 export async function POST(req: Request) {
   const rl = await checkRateLimit("register", 10, 60);
   if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
@@ -179,17 +205,17 @@ export async function POST(req: Request) {
       }
     }
 
-    // Other TLDs require the matching .teos identity
-    // to be included in this basket or already owned.
+    // Other TLDs (e.g. .eg) require the matching .teos identity
+    // to be owned ON-CHAIN right now - not just in the old registry.
+    // This stops the original owner from claiming .eg after selling .teos.
     if (!tlds.includes("teos")) {
-      const own = await getClaim(quote.domain);
-
-      if (!own || own.owner !== publicKey) {
+      const ownsOnChain = await ownsTeosOnChain(publicKey, quote.domain);
+      if (ownsOnChain === null) {
+        return NextResponse.json({ error: "teos_check_unavailable" }, { status: 503 });
+      }
+      if (!ownsOnChain) {
         return NextResponse.json(
-          {
-            error: "teos_required",
-            message: "Register the .teos name first.",
-          },
+          { error: "teos_required", message: "Register the .teos name first." },
           { status: 403 }
         );
       }
@@ -245,6 +271,15 @@ export async function POST(req: Request) {
       );
     }
 
+    // Consume quote atomically BEFORE minting
+    if (!(await markUsed(quote_id))) {
+      // No domains claimed yet at this point - only payment_tx was claimed, it expires in 24h
+      return NextResponse.json(
+        { error: "invalid_quote", reason: "already_used" },
+        { status: 401 }
+      );
+    }
+
     const claimed: string[] = [];
 
     // Claim every requested TLD.
@@ -277,8 +312,7 @@ export async function POST(req: Request) {
       claimed.push(domainName);
     }
 
-    // Consume the quote after all claims have succeeded.
-    await markUsed(quote.id);
+    // markUsed already done atomically after claimTx
 
     // Update sales counters.
     for (const tld of tlds) {
