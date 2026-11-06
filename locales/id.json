@@ -24,10 +24,6 @@
     "how1": ".teos adalah kunci akar. Nama negara seperti saloma.eg hanya terbuka jika dompet memiliki saloma.teos, baik dalam pembelian yang sama atau sudah dimiliki. Server menegakkan ini.",
     "how2": "Setelah .teos, pembeli dapat membuka 124 domain negara. Daftar di tlds/all.json",
     "priceTitle": "Harga",
-    "price1": "Nama 1 huruf: $2,000",
-    "price23": "Nama 2-3 huruf: $400",
-    "price4": "Nama 4 huruf: $150",
-    "price5": "Nama 5+ huruf: $30",
     "ownership": "Setiap nama adalah aset Metaplex Core di Solana, dimiliki dompet pembeli. Tanpa biaya perpanjangan, dapat diperdagangkan dari Phantom, Solflare, Backpack"
   }
 }

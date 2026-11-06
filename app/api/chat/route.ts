@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { PRICE_TIERS, LENGTH_LABELS, PAYMENT_LABEL } from "../../../lib/pricing";
 
 function getUser(b: any) {
   const w = b.wallet || b.walletAddress || "";
@@ -29,15 +30,12 @@ function chat(q: string, u: ReturnType<typeof getUser>) {
   }
 
   if (/price|pricing|cost|سعر|اسعار|بكام|تكلفة/.test(s)) {
-    return `${hi}. Current TEOS one-time mint prices:
+    const rows = PRICE_TIERS.map((t) => `- ${t.id} (${t.tlds === "*" ? "all other TLDs" : t.tlds.map((x) => "." + x).join(" ")}): ` + t.prices.map((p, i) => `${LENGTH_LABELS[i]} $${p}`).join(", ")).join("\n");
+    return `${hi}. TEOS prices by name length and region. ${PAYMENT_LABEL}.
 
-- 1 character: $2,000
-- 2 characters: $600
-- 3 characters: $180
-- 4 characters: $80
-- 5+ characters: $30
+${rows}
 
-Prices are per name, not per TLD. Payment is in SOL on Solana. Quotes are locked for 5 minutes. There is no founder discount or $10 offer.`;
+Payment is in SOL on Solana. Quotes are locked for 5 minutes. Any non-.teos name requires the same name under .teos first.`;
   }
 
   if (/payment|pay|دفع|الدفع|solana|sol/.test(s)) {
