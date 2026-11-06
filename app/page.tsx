@@ -159,7 +159,7 @@ export default function Home() {
             <circle cx="200" cy="105" r="14" fill="#7f1d1d" stroke="#eab308" strokeWidth="4" />
           </svg>
           <div style={{ flex: "1 1 360px", textAlign: "center", minWidth: 0 }}>
-            <label htmlFor="n" style={{ display: "block", marginBottom: 10, fontFamily: SERIF, letterSpacing: "0.1em", fontSize: 18 }}>{L.find}</label>
+            <label htmlFor="n" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap" }}>{L.find}</label>
             <input id="n" dir="auto" style={{ ...input, fontSize: 21, padding: "16px 14px", textAlign: "center" }} value={name} placeholder={t("hero.searchPlaceholder")} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
             <div style={{ margin: "12px 0" }}><CountryDropdown tlds={all} selected={selectedTld} onSelect={setSelectedTld} placeholder={L.country} empty={L.dropdownEmpty} /></div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, textAlign: "center" }}>
@@ -197,7 +197,7 @@ export default function Home() {
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
       <WhyBuy t={L} countries={all.length} onCta={goSearch} />
-      <PricingTable t={L} solUsd={stats?.sol_usd ?? null} onBuy={goSearch} />
+      <PricingTable t={L} onBuy={goSearch} />
       <PricingLogic t={t} tlds={all} />
       <Divider />
       <div style={{ textAlign: "center", margin: "8px 0 8px" }}><button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button></div>
