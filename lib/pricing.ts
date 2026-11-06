@@ -21,11 +21,32 @@ export function getPrice(name: string, tld: string): number {
   return tier[Math.min(Math.max(n.length, 1), 5) - 1];
 }
 
-export async function getSolUsd(): Promise<number> {
-  return 150;
+// Live SOL/USD from public spot APIs. No fixed fallback price: a stale value is reused for at most
+// 10 minutes, after that null makes the quote route answer price_unavailable.
+const SOURCES: Array<[string, (j: any) => number]> = [
+  ["https://api.coinbase.com/v2/prices/SOL-USD/spot", (j) => Number(j?.data?.amount)],
+  ["https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd", (j) => Number(j?.solana?.usd)],
+  ["https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT", (j) => Number(j?.price)],
+];
+let cached: { v: number; at: number } | null = null;
+const FRESH_MS = 10_000;
+const STALE_MS = 600_000;
+
+export async function getSolUsd(): Promise<number | null> {
+  const now = Date.now();
+  if (cached && now - cached.at < FRESH_MS) return cached.v;
+  for (const [url, pick] of SOURCES) {
+    try {
+      const r = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(3000) });
+      if (!r.ok) continue;
+      const v = pick(await r.json());
+      if (Number.isFinite(v) && v > 1 && v < 100000) { cached = { v, at: Date.now() }; return v; }
+    } catch { /* try next source */ }
+  }
+  return cached && now - cached.at < STALE_MS ? cached.v : null;
 }
 
-export function usdToLamports(usd: number, solUsd: number = 150): number {
+export function usdToLamports(usd: number, solUsd: number): number {
   return Math.round((usd / solUsd) * 1_000_000_000);
 }
 

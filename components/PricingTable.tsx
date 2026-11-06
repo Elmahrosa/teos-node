@@ -10,7 +10,7 @@ const cell: React.CSSProperties = { padding: "6px 0", borderTop: "1px solid #3d3
 const fmt = (n: number) => `$${n.toLocaleString("en-US")}`;
 
 // Prices come only from core/pricing.json via lib/pricing.ts.
-export default function PricingTable({ t, solUsd, onBuy }: { t: Dict; solUsd: number | null; onBuy: () => void }) {
+export default function PricingTable({ t, onBuy }: { t: Dict; onBuy: () => void }) {
   // Only the .teos prices are public. Country prices show once the connected wallet holds a .teos.
   const { publicKey } = useWallet();
   const [owns, setOwns] = useState(false);
@@ -23,8 +23,23 @@ export default function PricingTable({ t, solUsd, onBuy }: { t: Dict; solUsd: nu
       .then((r) => r.json()).then((j) => { if (live) setOwns(j?.owns === true); }).catch(() => {});
     return () => { live = false; };
   }, [wallet]);
+  // Live SOL estimate under each USD price: re-read every 30 s and whenever the tab regains focus.
+  const [solUsd, setSolUsd] = useState<number | null>(null);
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    let live = true;
+    const load = () => fetch("/api/sol-price", { cache: "no-store" }).then((r) => r.json()).then((j) => {
+      const v = Number(j?.sol_usd);
+      if (!live || !Number.isFinite(v) || v <= 0) return;
+      setSolUsd((prev) => { if (prev !== null && prev !== v) setTick((n) => n + 1); return v; });
+    }).catch(() => {});
+    load();
+    const iv = setInterval(load, 30_000);
+    window.addEventListener("focus", load);
+    return () => { live = false; clearInterval(iv); window.removeEventListener("focus", load); };
+  }, []);
+  const solOf = (usd: number) => (solUsd ? (usd / solUsd).toFixed(usd < 100 ? 3 : 2) : null);
   const tiers = PRICE_TIERS.filter((x) => owns || x.id === "teos");
-  const sol = (usd: number) => (solUsd ? `~${(usd / solUsd).toFixed(usd < 100 ? 3 : 2)} SOL` : "");
   return (
     <div style={{ background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #3d352a", borderRadius: 4, padding: 16, boxShadow: "inset 0 2px 12px rgba(0,0,0,.6)" }}>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }}>
@@ -39,9 +54,11 @@ export default function PricingTable({ t, solUsd, onBuy }: { t: Dict; solUsd: nu
                 <bdi dir="ltr" className="pt-len" style={{ whiteSpace: "nowrap" }}>{LENGTH_LABELS[i]}</bdi>
                 <span dir="ltr" className="pt-amt" style={{ textAlign: "end" }}>
                   <span className="pt-usd" style={{ fontFamily: "ui-monospace, monospace" }}>{fmt(usd)}</span>
-                  <small className="pt-sub" style={{ display: "block", color: "#a89a80", fontSize: 11 }}>
-                    {sol(usd) ? <span className="pt-sol">{sol(usd)}</span> : null}
-                  </small>
+                  {solOf(usd) && (
+                    <span className="pt-live" aria-live="off" style={{ display: "block", fontSize: 12, color: "#4ade80", marginTop: 2 }}>
+                      <span className="pt-dot" aria-hidden="true" />Live: <span key={tick} className="pt-flash" style={{ fontFamily: "ui-monospace, monospace" }}>~{solOf(usd)} SOL</span>
+                    </span>
+                  )}
                 </span>
               </div>
             ))}
