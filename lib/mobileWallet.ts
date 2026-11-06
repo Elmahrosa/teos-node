@@ -37,26 +37,27 @@ export function siteUrlFor(id: WalletId): string {
   return u.toString();
 }
 
-// Android: an intent pinned to the wallet's package, so nothing else can handle it. If the app is not
-// installed the page stays put, and the caller shows the Install button after a short wait.
-// iOS: the wallet's universal link, which is what the wallet-adapter itself uses.
+// Android: an intent pinned to the wallet's package, with the Play Store page as the fallback. If the wallet is
+// installed it opens at once (Phantom: https://phantom.app/ul/browse/<site>); if not, Chrome opens the store page.
+// iOS: the wallet's universal link, which opens the app, or the wallet's own install page when it is missing.
 export function walletLaunchHref(id: WalletId): string {
   const w = MOBILE_WALLETS[id];
   const l = w.browse(siteUrlFor(id), location.origin);
-  return isAndroid() ? `intent://${l.host}${l.path}#Intent;scheme=https;package=${w.pkg};end` : l.https;
+  return isAndroid() ? `intent://${l.host}${l.path}#Intent;scheme=https;package=${w.pkg};S.browser_fallback_url=${encodeURIComponent(playStoreUrl(id))};end` : l.https;
 }
 
 export const needsDeepLink = () => isMobileBrowser() && !hasInjectedWallet();
 
-// Open the wallet app. If the page is still in the foreground 2s later the app is not installed:
-// offer the Play Store page (a plain confirm, so the connect modal keeps its design).
+// Must run inside the tap handler: Chrome only follows an intent that comes from a user gesture.
 export function launchWallet(id: WalletId) {
-  let t: ReturnType<typeof setTimeout>;
-  const stop = () => { if (document.visibilityState === "hidden") clearTimeout(t); };
-  document.addEventListener("visibilitychange", stop);
-  t = setTimeout(() => {
-    document.removeEventListener("visibilitychange", stop);
-    if (document.visibilityState === "visible" && window.confirm(`${MOBILE_WALLETS[id].label} not found. Install it from Google Play?`)) window.location.href = playStoreUrl(id);
-  }, 2000);
   window.location.href = walletLaunchHref(id);
+}
+
+// Which deep-linked wallet a modal row is, by its visible name.
+export function walletIdFromLabel(label: string): WalletId | null {
+  const t = label.trim().toLowerCase();
+  if (t.startsWith("phantom")) return "phantom";
+  if (t.startsWith("solflare")) return "solflare";
+  if (t.startsWith("trust")) return "trust";
+  return null;
 }

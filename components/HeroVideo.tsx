@@ -27,9 +27,9 @@ export default function HeroVideo({ searchLabel, connectLabel, onSearch, onConne
   const ghost: React.CSSProperties = { ...btn, background: "rgba(10,8,6,.55)", color: "#fef3c7", border: "2px solid #ca8a04" };
 
   return (
-    <section aria-label="EL MAHROSA TEOS" style={{ position: "relative", overflow: "hidden", background: `#0a0806 url(${POSTER}) center/cover no-repeat`, minHeight: "clamp(420px, 62vh, 620px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <section aria-label="EL MAHROSA TEOS" style={{ position: "relative", width: "100%", margin: 0, overflow: "hidden", background: `#0a0806 url(${POSTER}) center/cover no-repeat`, minHeight: "clamp(420px, 62vh, 620px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
       {playVideo && (
-        <video autoPlay muted loop playsInline preload="auto" poster={POSTER} aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}>
+        <video autoPlay muted loop playsInline preload="auto" poster={POSTER} aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, inset: 0, width: "100%", height: "100%", minWidth: "100%", minHeight: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}>
           <source src={VIDEO} type="video/mp4" />
         </video>
       )}
