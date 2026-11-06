@@ -1,5 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { getRouteForUser } from "../../../lib/domain";
 
 type C = { tld: string; flag: string };
 
@@ -7,6 +10,25 @@ export default function BuyClient({ name, countries }: { name: string; countries
   const [sel, setSel] = useState<string | null>(countries[0]?.tld ?? null);
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const router = useRouter();
+  const { publicKey } = useWallet();
+  const wallet = publicKey?.toBase58() ?? "";
+
+  // Owner of this name (wallet holds name.teos) goes to the founder page instead of the buyer page.
+  useEffect(() => {
+    if (!wallet) return;
+    let live = true;
+    fetch(`/api/owns-teos?wallet=${encodeURIComponent(wallet)}`, { cache: "no-store" })
+      .then((r) => r.json())
+      .then((j) => {
+        if (!live || !Array.isArray(j?.names)) return;
+        const owner = j.names.includes(name) ? wallet : null;
+        const route = getRouteForUser(name, owner, wallet);
+        if (route !== `/buy/${name}`) router.replace(route);
+      })
+      .catch(() => {});
+    return () => { live = false; };
+  }, [wallet, name, router]);
 
   // Price comes only from the existing /api/quote (pricing.json + live SOL rate). Nothing is hardcoded here.
   async function mint() {
