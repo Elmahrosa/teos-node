@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSoldCount } from "../../../lib/registry";
 import { TLDS } from "../../../lib/tlds";
-import { getSolUsd, MARKET_USD } from "../../../lib/pricing";
+import { getSolUsd } from "../../../lib/pricing";
 
 export async function GET() {
   const sold = await getSoldCount().catch(() => null);
@@ -25,7 +25,6 @@ export async function GET() {
   return NextResponse.json({
     tlds,
     sold,
-    market_usd: MARKET_USD,
     sol_usd: solUsd,
     registration_open: false,
     mint_ready: false,

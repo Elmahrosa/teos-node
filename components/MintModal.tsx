@@ -15,27 +15,47 @@ export type MintQuote = { quote_id: string; price_sol: number; price_usd?: numbe
 type Phase = "choose" | "approve" | "signing" | "paying" | "minting" | "error";
 
 export default function MintModal(props: { t: Dict; rtl: boolean; domain: string; quote: MintQuote; onClose: () => void; helpHref: string }) {
-  const { t, rtl, domain, quote, onClose, helpHref } = props;
+  const { t, rtl, domain, onClose, helpHref } = props;
+  // The SOL amount follows the live market rate. Each quote price is held for 60 s, then a fresh one is fetched.
+  const [quote, setQuoteState] = useState<MintQuote>(props.quote);
   const { publicKey, connected, signMessage, sendTransaction, wallet } = useWallet();
   const { connection } = useConnection();
   const { setVisible } = useWalletModal();
   const [phase, setPhase] = useState<Phase>("choose");
   const [err, setErr] = useState("");
-  const [left, setLeft] = useState(() => Math.max(0, Math.floor((quote.expires_at - Date.now()) / 1000)));
+  const LOCK_MS = 60_000;
+  const [lockEnd, setLockEnd] = useState(() => Date.now() + LOCK_MS);
+  const [left, setLeft] = useState(60);
   const tlds = quote.tlds ?? ["teos"];
   const list = tlds.map((x) => `${domain}.${x}`).join(" + ");
 
   useEffect(() => {
-    const iv = setInterval(() => setLeft(Math.max(0, Math.floor((quote.expires_at - Date.now()) / 1000))), 1000);
+    const iv = setInterval(() => setLeft(Math.max(0, Math.ceil((lockEnd - Date.now()) / 1000))), 500);
     return () => clearInterval(iv);
-  }, [quote.expires_at]);
+  }, [lockEnd]);
   useEffect(() => {
     const k = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", k);
     return () => window.removeEventListener("keydown", k);
   }, [onClose]);
 
-  const expired = left <= 0;
+  const busy = phase === "signing" || phase === "paying" || phase === "minting";
+  useEffect(() => {
+    if (busy || left > 0) return;
+    let live = true;
+    (async () => {
+      try {
+        const r = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain, tlds: quote.tlds ?? ["teos"] }) });
+        const j = await r.json();
+        if (!live) return;
+        if (r.ok && j.quote_id) { setQuoteState(j); setLockEnd(Date.now() + LOCK_MS); setLeft(60); return; }
+      } catch { /* retry shortly */ }
+      if (live) setLockEnd(Date.now() + 5_000);
+    })();
+    return () => { live = false; };
+  }, [busy, left, domain, quote.tlds]);
+
+  const expired = Date.now() > quote.expires_at && !busy;
   const clock = useMemo(() => `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`, [left]);
   const mobile = typeof navigator !== "undefined" && /Android|iPhone|iPad/i.test(navigator.userAgent);
 
@@ -84,16 +104,15 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
     }
   }
 
-  const busy = phase === "signing" || phase === "paying" || phase === "minting";
   return (
     <div dir={rtl ? "rtl" : "ltr"} role="dialog" aria-modal="true" aria-label={fmt(t.mmTitle, { list })} onClick={busy ? undefined : onClose} style={{ position: "fixed", inset: 0, zIndex: 110, background: "rgba(5,4,3,.85)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, overflowY: "auto" }}>
       <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 460, background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #57493a", padding: 20, color: "#f5e6c4", position: "relative", boxShadow: "0 20px 60px rgba(0,0,0,.8)" }}>
         {!busy && <button onClick={onClose} aria-label={t.close} style={{ position: "absolute", top: 8, insetInlineEnd: 12, background: "none", border: 0, color: "#a89a80", fontSize: 24, cursor: "pointer" }}>×</button>}
         <h2 dir="ltr" style={{ fontFamily: SERIF, margin: "0 0 10px", color: "#fef3c7", fontSize: 22, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{fmt(t.mmTitle, { list })}</h2>
         <div style={{ background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, marginBottom: 12 }}>
-          <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18, fontWeight: 700 }}>{fmt(t.mmPrice, { usd: quote.price_usd ?? "", sol: quote.price_sol })}</div>
+          <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18, fontWeight: 700 }}>{fmt(t.mmPrice, { usd: (quote.price_usd ?? 0).toLocaleString("en-US"), sol: Number(quote.price_sol.toFixed(4)).toString() })}</div>
           <div style={{ fontSize: 13 }}>{t.mmLock}</div>
-          <div role="timer" style={{ fontFamily: "ui-monospace, monospace", fontWeight: 700, color: left < 60 ? "#7f1d1d" : "#451a03" }}>{expired ? t.mmExpired : fmt(t.mmTimer, { t: clock })}</div>
+          <div role="timer" style={{ fontFamily: "ui-monospace, monospace", fontWeight: 700, color: left < 10 ? "#7f1d1d" : "#451a03" }}>{expired ? t.mmExpired : fmt(t.mmTimer, { t: clock })}</div>
         </div>
 
         {!expired && (phase === "choose" || phase === "error") && (
