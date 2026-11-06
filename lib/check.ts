@@ -28,3 +28,4 @@ export async function checkTlds(name: string, tlds: string[]): Promise<TldCheck[
 }
 
 export { parseDomain };
+

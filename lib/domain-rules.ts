@@ -9,8 +9,8 @@ export function parseDomain(raw: unknown): DomainCheck {
   const domain = typeof raw === "string" ? raw.trim().toLowerCase() : "";
   if (!domain) return { ok: false, status: 400, body: { error: "domain required" } };
   if (domain.length > 30) return { ok: false, status: 400, body: { error: "domain_too_long" } };
-  if (!/^[a-z0-9-]{3,30}$/.test(domain)) {
-    return { ok: false, status: 400, body: { error: "invalid_format", message: "only lowercase a-z, 0-9, hyphen, 3-30 chars" } };
+  if (!/^[a-z0-9-]{1,30}$/.test(domain)) {
+    return { ok: false, status: 400, body: { error: "invalid_format", message: "only lowercase a-z, 0-9, hyphen, 1-30 chars" } };
   }
   return { ok: true, domain };
 }
@@ -24,3 +24,4 @@ export function isNotForSaleDomain(domain: string): boolean {
 export function isReservedWord(domain: string): boolean {
   return RESERVED_WORDS.includes(domain.toLowerCase());
 }
+
