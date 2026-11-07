@@ -2,17 +2,22 @@ import { NextResponse } from "next/server";
 import { Transaction } from "@solana/web3.js";
 import { env } from "../../../lib/env";
 import { checkRateLimit, rateLimitResponse } from "../../../lib/rate-limit";
+import { sameOrigin } from "../../../lib/origin";
 
 export const dynamic = "force-dynamic";
 
 // Same-origin JSON-RPC proxy for the browser wallet flow. The public api.mainnet-beta.solana.com endpoint
-// answers 403 to many browsers/IPs, which broke sendTransaction after the wallet had signed. This forwards
-// a small allowlist of methods to the Helius RPC the server already uses (key stays server-side).
-const ALLOWED = new Set([
-  "getLatestBlockhash", "getBlockHeight", "isBlockhashValid", "getSignatureStatuses", "getSignatureStatus",
-  "sendTransaction", "simulateTransaction", "getBalance", "getAccountInfo", "getFeeForMessage",
-  "getMinimumBalanceForRentExemption", "getSlot", "getVersion",
-]);
+// answers 403 to many browsers/IPs, which broke sendTransaction after the wallet had signed.
+//
+// This sits in front of the Helius key, so it is locked down:
+//  - same-origin browser requests only (Origin / Sec-Fetch-Site; a script can forge these, so they are not the real guard)
+//  - 4 methods only, one call per request, body under 4 KB
+//  - sendTransaction / simulateTransaction are forwarded only for the exact payment shape the frontend builds:
+//    legacy transaction, only System Program transfers, every one of them to TREASURY_WALLET
+//  - 20 requests per minute per client
+const ALLOWED = new Set(["sendTransaction", "simulateTransaction", "getSignatureStatuses", "getLatestBlockhash"]);
+const MAX_BODY = 4096;
+const SYSTEM_PROGRAM = "11111111111111111111111111111111";
 
 function upstream(): string {
   const explicit = env("HELIUS_RPC_URL");
@@ -42,14 +47,36 @@ function describeTx(encoded: unknown, encoding: unknown) {
   }
 }
 
+// True only for a legacy transaction whose every instruction is a System Program transfer to the treasury.
+function isTreasuryPayment(encoded: unknown, encoding: unknown): boolean {
+  const treasury = env("TREASURY_WALLET");
+  if (!treasury || typeof encoded !== "string" || (encoding !== undefined && encoding !== "base64")) return false;
+  try {
+    const tx = Transaction.from(Buffer.from(encoded, "base64"));
+    if (!tx.instructions.length || tx.instructions.length > 3) return false;
+    return tx.instructions.every(
+      (ix) => ix.programId.toBase58() === SYSTEM_PROGRAM && ix.data.length === 12 && ix.data.readUInt32LE(0) === 2 && ix.keys[1]?.pubkey.toBase58() === treasury,
+    );
+  } catch { return false; }
+}
+
 export async function POST(req: Request) {
-  const rl = await checkRateLimit("rpc", 120, 60);
+  if (!sameOrigin(req)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  const rl = await checkRateLimit("rpc", 20, 60);
   if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
-  const body: any = await req.json().catch(() => null);
-  const calls: any[] = Array.isArray(body) ? body : body ? [body] : [];
-  if (!calls.length || calls.length > 5 || calls.some((c) => !c || !ALLOWED.has(c.method))) {
+  const text0 = await req.text().catch(() => "");
+  if (!text0 || text0.length > MAX_BODY) return NextResponse.json({ error: "bad_request" }, { status: 400 });
+  let body: any = null;
+  try { body = JSON.parse(text0); } catch { /* handled below */ }
+  // One call per request: no batches.
+  if (!body || Array.isArray(body) || typeof body !== "object" || !ALLOWED.has(body.method)) {
     return NextResponse.json({ error: "method_not_allowed" }, { status: 403 });
   }
+  if ((body.method === "sendTransaction" || body.method === "simulateTransaction") && !isTreasuryPayment(body.params?.[0], body.params?.[1]?.encoding)) {
+    console.warn("[rpc] rejected_tx_shape", body.method, JSON.stringify(describeTx(body.params?.[0], body.params?.[1]?.encoding)).slice(0, 400));
+    return NextResponse.json({ error: "tx_not_allowed" }, { status: 403 });
+  }
+  const calls: any[] = [body];
   for (const c of calls) {
     if (c.method === "sendTransaction" || c.method === "simulateTransaction") {
       console.log("[rpc] tx", c.method, JSON.stringify({ opts: c.params?.[1], tx: describeTx(c.params?.[0], c.params?.[1]?.encoding) }));
