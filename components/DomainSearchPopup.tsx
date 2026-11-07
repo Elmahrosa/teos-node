@@ -52,9 +52,10 @@ export default function DomainSearchPopup(props: {
   open: boolean;
   busy: boolean;
   onBuy: (tlds: string[]) => void;
+  msg?: string;
   onClose: () => void;
 }) {
-  const { t, rtl, homeTld, name, teos, tlds, ownsTeos, wallet, founder, open, busy, onBuy, onClose } = props;
+  const { t, rtl, homeTld, name, teos, tlds, ownsTeos, wallet, founder, open, busy, onBuy, onClose, msg } = props;
   const [query, setQuery] = useState("");
   const [rows, setRows] = useState<Record<string, Row>>({});
   const fetched = useRef<Set<string>>(new Set());
@@ -160,13 +161,16 @@ export default function DomainSearchPopup(props: {
                   {fmt(t.carve, { n: name })}
                 </button>
               )}
+              {teosFree && !ownsTeos && !open && <div role="alert" style={{ marginTop: 8, color: "#7f1d1d", fontSize: 13, fontWeight: 700 }}>Minting is not available right now (registration closed or the mint wallet is not configured).</div>}
+              {msg && <div role="alert" style={{ marginTop: 8, color: "#7f1d1d", fontSize: 13, fontWeight: 700, wordBreak: "break-word" }}>{msg}</div>}
 
               {ownsTeos && (
                 <button style={gold} onClick={() => window.open(getRouteForUser(name, ownsTeos ? wallet : null, wallet || null), "_blank", "noopener")}>{t.openSite}</button>
               )}
             </div>
 
-            {teosFree && !ownsTeos && (<>
+            {/* Whitelisted 1.teos test: single 0.001 SOL purchase only, no $ bundle. */}
+            {teosFree && !ownsTeos && !teos?.test_price && (<>
             <Arrow />
             <div>
               <div style={{ fontFamily: SERIF, letterSpacing: "0.15em", fontSize: 13, color: "#a89a80", marginBottom: 6 }}>{query.trim() ? t.otherCountry : t.yourCountry}</div>
