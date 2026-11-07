@@ -23,6 +23,7 @@ isClaimed,
   logPendingMint,
 } from "../../../lib/registry";
 import { env } from "../../../lib/env";
+import { ownsTeosOnChain } from "../../../lib/ownership";
 import { verifyPayment } from "../../../lib/payment";
 import { mintTeosAsset, mintFunds } from "../../../lib/mint";
 import { fullName, isSaleTld } from "../../../lib/tlds";
@@ -66,31 +67,6 @@ async function rollbackClaims(
   }
 }
 
-
-async function ownsTeosOnChain(wallet: string, domain: string): Promise<boolean | null> {
-  const explicit = env("MINT_RPC_URL") || env("HELIUS_RPC_URL");
-  const key = env("HELIUS_API_KEY");
-  const url = explicit || (key ? `https://mainnet.helius-rpc.com/?api-key=${key}` : null);
-  if (!url) return null;
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ jsonrpc: "2.0", id: "owns-teos-check", method: "getAssetsByOwner", params: { ownerAddress: wallet, page: 1, limit: 1000 } }),
-      signal: AbortSignal.timeout(6000),
-    });
-    const json: any = await res.json();
-    const items: any[] = json?.result?.items ?? [];
-    const collection = env("COLLECTION_ADDRESS");
-    const want = `${domain.toLowerCase()}.teos`;
-    return items.some((a: any) => {
-      const name = String(a?.content?.metadata?.name ?? "").toLowerCase();
-      if (name !== want) return false;
-      if (!collection) return true;
-      return (a?.grouping ?? []).some((g: any) => g.group_key === "collection" && g.group_value === collection);
-    });
-  } catch { return null; }
-}
 
 export async function POST(req: Request) {
   const rl = await checkRateLimit("register", 10, 60);
