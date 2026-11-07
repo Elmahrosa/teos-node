@@ -30,18 +30,20 @@ const MSolflare = deepLinked(SolflareWalletAdapter, "solflare");
 const MTrust = deepLinked(TrustWalletAdapter, "trust");
 
 // Mainnet. Set NEXT_PUBLIC_SOLANA_RPC to a private endpoint if the public one rate-limits.
-const ENDPOINT = process.env.NEXT_PUBLIC_SOLANA_RPC || "https://api.mainnet-beta.solana.com";
+// In the browser every RPC call goes through our own /api/rpc proxy (Helius, key stays server-side).
+const FALLBACK_ENDPOINT = process.env.NEXT_PUBLIC_SOLANA_RPC || "https://api.mainnet-beta.solana.com";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   // Backpack, Glow, Brave and any other Wallet Standard wallet are detected automatically.
   // Ledger is left out on purpose: it cannot sign the message the server asks for.
   // Solana Mobile Wallet Adapter is added by WalletProvider itself on Android Chrome (wallet-adapter-react 0.15).
+  const endpoint = typeof window !== "undefined" ? `${window.location.origin}/api/rpc` : FALLBACK_ENDPOINT;
   const wallets = useMemo(() => [
     new MPhantom(), new MSolflare(), new MTrust(), new Coin98WalletAdapter(),
     new CoinbaseWalletAdapter(), new NightlyWalletAdapter(), new TokenPocketWalletAdapter(), new BitgetWalletAdapter(),
   ], []);
   return (
-    <ConnectionProvider endpoint={ENDPOINT}>
+    <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect={false}>
         <WalletModalProvider><ConnectProvider>{children}</ConnectProvider></WalletModalProvider>
       </WalletProvider>
