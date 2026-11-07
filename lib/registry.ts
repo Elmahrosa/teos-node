@@ -275,3 +275,14 @@ export async function pendingBacklog(): Promise<number | null> {
 }
 
 export const isMintRecorded = async (domain: string, tld: string) => has(mKey(fullName(domain, tld)));
+
+
+// The asset recorded for a name when this site minted it (null for names minted elsewhere, e.g. before the registry).
+export async function getMintAsset(domain: string): Promise<string | null> {
+  const raw = redis ? await withTimeout(redis.get<unknown>(mKey(domain))) : mem.get(mKey(domain));
+  if (!raw) return null;
+  try {
+    const v: any = typeof raw === "string" ? JSON.parse(raw) : raw;
+    return typeof v?.asset === "string" ? v.asset : null;
+  } catch { return null; }
+}
