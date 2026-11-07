@@ -2,6 +2,9 @@
 import { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import MintModal, { type MintQuote } from "../../../components/MintModal";
+import { useLang } from "../../../lib/useLang";
+import { SOCIAL } from "../../../lib/social";
 
 type Row = { tld: string; flag: string; label: string; domain: string; price_usd: number; status: "owned" | "available" | "reserved" };
 const b64 = (u: Uint8Array) => btoa(String.fromCharCode(...Array.from(u)));
@@ -9,6 +12,8 @@ const COLOR = { owned: "#555", available: "#16a34a", reserved: "#a16207" } as co
 
 export default function DashboardClient({ name }: { name: string }) {
   const { publicKey, signMessage } = useWallet();
+  const { L, rtl } = useLang();
+  const [mintQuote, setMintQuote] = useState<MintQuote | null>(null);
   const [rows, setRows] = useState<Row[] | null>(null);
   const [notOwner, setNotOwner] = useState(false);
   const [avail, setAvail] = useState<string | null>(null);
@@ -46,7 +51,7 @@ export default function DashboardClient({ name }: { name: string }) {
       const j = await r.json();
       if (!r.ok || j.error) setMsg(j.error === "registration_closed" ? "Registration is not open yet" : (j.error || "Quote unavailable"));
       else if (j.available === false) setMsg(`Not available: ${j.reason ?? ""}`);
-      else setMsg(`Price: $${j.price_usd} (${j.price_sol} SOL)`);
+      else setMintQuote(j); // MintModal pays exactly the server quote: pay_to and price_sol come from /api/quote, never from this page
     } catch { setMsg("Quote unavailable"); }
     setBusy(false);
   }
@@ -77,10 +82,11 @@ export default function DashboardClient({ name }: { name: string }) {
             ))}
           </div>
           <button disabled={!sel || busy} onClick={quote} style={{ background: "#ca8a04", color: "#000", padding: 15, width: "100%", marginTop: 20, fontSize: 18, fontWeight: 700 }}>
-            {sel ? `Get quote - ${sel.domain}` : "Select an available name"}
+            {sel ? `Buy ${sel.domain} - $${sel.price_usd}` : "Select an available name"}
           </button>
         </>
       )}
+      {mintQuote && <MintModal t={L} rtl={rtl} domain={name} quote={mintQuote} onClose={() => setMintQuote(null)} helpHref={SOCIAL.help} />}
     </div>
   );
 }
