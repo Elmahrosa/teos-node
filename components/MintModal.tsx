@@ -99,7 +99,8 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
       if (data.pending_mint) q.set("pending", "1");
       window.location.href = `/success?${q.toString()}`;
     } catch (e: any) {
-      setErr(e?.message || "Something went wrong");
+      console.error("[mint] pay_failed", e?.name, e?.message, e?.error?.message ?? e?.cause?.message ?? "");
+      setErr(e?.message || e?.error?.message || e?.name || "Something went wrong");
       setPhase("error");
     }
   }
