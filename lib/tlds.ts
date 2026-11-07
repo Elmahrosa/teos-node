@@ -1,4 +1,5 @@
 import all from "../tlds/all.json";
+import { getPriceOrNull } from "./pricing";
 
 export type Tld = { tld: string; label: string; flag: string; live: boolean; name?: string; region?: string };
 
@@ -21,9 +22,13 @@ export function parseTlds(raw: unknown): string[] | null {
   return out;
 }
 
-// Sales are limited to these TLDs. Every other TLD is blocked for quote, register and mint until it is deliberately added here.
-export const SALE_TLDS: readonly string[] = ["teos"];
-export const isSaleTld = (t: string) => SALE_TLDS.includes(t.toLowerCase());
+// A TLD is for sale when it is live in tlds/all.json AND has an explicit price tier in core/pricing.json.
+// A live TLD without a price is never sold (see getPriceOrNull: there is no default tier).
+export const isSaleTld = (t: string) => {
+  const d = getTld(String(t));
+  return !!d && d.live && getPriceOrNull("abcde", d.tld) !== null;
+};
+export const SALE_TLDS: readonly string[] = TLDS.filter((x) => isSaleTld(x.tld)).map((x) => x.tld);
 
 // Raw tlds input ("eg", "teos,eg" or an array) to lowercase strings, without validating them. undefined means ["teos"].
 export function requestedTlds(raw: unknown): string[] {

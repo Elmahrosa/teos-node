@@ -6,19 +6,33 @@ export const LENGTH_LABELS = ["1 char", "2 chars", "3 chars", "4 chars", "5+ cha
 const TIERS = pricing.tiers as Record<string, number[]>;
 const MAPPING = pricing.mapping as Record<string, string>;
 
-// Display list: one entry per tier with the TLDs that map to it (generic = every other TLD).
+// Display list: one entry per tier with the TLDs that map to it.
 export const PRICE_TIERS = Object.entries(TIERS).map(([id, prices]) => ({
   id,
   prices,
-  tlds: id === "generic" ? null : Object.keys(MAPPING).filter((k) => MAPPING[k] === id),
+  tlds: Object.keys(MAPPING).filter((k) => MAPPING[k] === id),
 }));
 
-export function getPrice(name: string, tld: string): number {
+export class PriceMissingError extends Error {
+  constructor(public tld: string) { super(`price_missing:${tld}`); }
+}
+
+// Price for name.tld, or null when the TLD has no explicit tier in core/pricing.json.
+// There is deliberately no default tier: an unpriced TLD must never be sold at some other TLD's price.
+export function getPriceOrNull(name: string, tld: string): number | null {
   const t = tld.toLowerCase().trim().replace(/^\./, "");
-  const tier = TIERS[MAPPING[t] ?? "generic"] ?? TIERS.generic;
+  const tier = TIERS[MAPPING[t]];
+  if (!Array.isArray(tier) || tier.length !== 5) return null;
   let n = name.toLowerCase().trim();
   if (n.endsWith(`.${t}`)) n = n.slice(0, -(t.length + 1));
-  return tier[Math.min(Math.max(n.length, 1), 5) - 1];
+  const price = tier[Math.min(Math.max(n.length, 1), 5) - 1];
+  return Number.isFinite(price) && price > 0 ? price : null;
+}
+
+export function getPrice(name: string, tld: string): number {
+  const price = getPriceOrNull(name, tld);
+  if (price === null) throw new PriceMissingError(tld);
+  return price;
 }
 
 // Live SOL/USD from public spot APIs. No fixed fallback price: a stale value is reused for at most
