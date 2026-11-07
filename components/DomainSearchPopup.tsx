@@ -153,7 +153,7 @@ export default function DomainSearchPopup(props: {
               </div>}
               {teos && teosFree && !ownsTeos && (
                 <div style={{ fontFamily: MONO, marginBottom: 10 }}>
-                  {teos.test_price ? `${teos.price_sol} SOL - TEST PRICE (whitelisted wallet)` : <>${teos.price_usd} {t.standardPrice}</>}
+                  <>${teos.price_usd} {t.standardPrice}</>
                 </div>
               )}
               {teosFree && !ownsTeos && (
@@ -169,8 +169,7 @@ export default function DomainSearchPopup(props: {
               )}
             </div>
 
-            {/* Whitelisted 1.teos test: single 0.001 SOL purchase only, no $ bundle. */}
-            {teosFree && !ownsTeos && !teos?.test_price && (<>
+            {teosFree && !ownsTeos && (<>
             <Arrow />
             <div>
               <div style={{ fontFamily: SERIF, letterSpacing: "0.15em", fontSize: 13, color: "#a89a80", marginBottom: 6 }}>{query.trim() ? t.otherCountry : t.yourCountry}</div>
