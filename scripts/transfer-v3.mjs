@@ -5,7 +5,8 @@ import { keypairIdentity, publicKey } from '@metaplex-foundation/umi';
 import { transferV1 } from '@metaplex-foundation/mpl-core';
 
 const rpc = 'https://api.mainnet-beta.solana.com';
-const NEW_OWNER = 'FeuSA7hK2THkJ3ndvwkFjYgx9BYbYczD49zafKV3GQcP';
+const NEW_OWNER = process.env.NEW_OWNER;
+if (!NEW_OWNER) { console.error('Set NEW_OWNER=<destination wallet address> first (never reuse an address whose key was ever committed).'); process.exit(1); }
 
 const umi = createUmi(rpc).use(mplCore());
 const secret = JSON.parse(fs.readFileSync('wallet.json', 'utf8'));
