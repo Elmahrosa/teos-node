@@ -21,3 +21,10 @@ test("dashboard rows: claimed name shows owned", async () => {
   assert.equal(rows.find((r) => r.tld === "eg")!.status, "owned");
   assert.equal(rows.find((r) => r.tld === "sa")!.status, "available");
 });
+
+test("owner route goes to the dashboard, everyone else to /buy", async () => {
+  const { getRouteForUser } = await import("../lib/domain");
+  assert.equal(getRouteForUser("ahmed", "W1", "W1"), "/dashboard/ahmed");
+  assert.equal(getRouteForUser("ahmed.teos", "W1", "W2"), "/buy/ahmed");
+  assert.equal(getRouteForUser("ahmed", null, "W2"), "/buy/ahmed");
+});

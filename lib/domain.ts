@@ -12,6 +12,6 @@ export function cleanName(raw: string): string {
 
 export function getRouteForUser(name: string, ownerWallet: string | null, connectedWallet: string | null): string {
   const clean = cleanName(name);
-  if (ownerWallet && connectedWallet && ownerWallet.toLowerCase() === connectedWallet.toLowerCase()) return `/site/${clean}`;
+  if (ownerWallet && connectedWallet && ownerWallet.toLowerCase() === connectedWallet.toLowerCase()) return `/dashboard/${clean}`;
   return `/buy/${clean}`;
 }
