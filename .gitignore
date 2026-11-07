@@ -26,3 +26,13 @@ wallet.json
 
 all-domains-list.txt
 BRANDS-ALL-127.txt
+
+# Key material and one-off rotation tooling must never be committed
+NEW.json
+old-key.txt
+rotate*.mjs
+transfer-*.mjs.bak
+*.pem
+*.key
+id.json
+.teos-fix-conflicts/

@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /founder
+Disallow: /api/
+Allow: /
+
+Sitemap: https://web4.elmahrosa.org/sitemap.xml
