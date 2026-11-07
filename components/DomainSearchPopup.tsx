@@ -5,7 +5,7 @@ import { fmt, type Dict } from "../lib/i18n";
 import { getRouteForUser } from "../lib/domain";
 
 type TldInfo = { tld: string; label: string; name?: string; region?: string; flag: string; live: boolean };
-type Row = { tld: string; available: boolean; reason: string | null; price_usd: number };
+type Row = { tld: string; available: boolean; reason: string | null; price_usd: number; price_sol?: number; test_price?: boolean };
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const MONO = "ui-monospace, monospace";
@@ -152,7 +152,7 @@ export default function DomainSearchPopup(props: {
               </div>}
               {teos && teosFree && !ownsTeos && (
                 <div style={{ fontFamily: MONO, marginBottom: 10 }}>
-                  ${teos.price_usd} {t.standardPrice}
+                  {teos.test_price ? `${teos.price_sol} SOL - TEST PRICE (whitelisted wallet)` : <>${teos.price_usd} {t.standardPrice}</>}
                 </div>
               )}
               {teosFree && !ownsTeos && (
