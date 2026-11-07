@@ -31,7 +31,8 @@ export async function GET(req: Request) {
     mint_funds: (await mintFunds(1).catch(() => ({ ok: false }))).ok,
     sol_price: !!(await getSolUsd().catch(() => null)),
     founder_login: founderLoginConfigured(),
-    collection_address: !!env("COLLECTION_ADDRESS"),
+    // Optional: there is no collection. Unset = skipped (true); if someone sets it, it must at least look like a public key.
+    collection_address: !env("COLLECTION_ADDRESS") || /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(env("COLLECTION_ADDRESS")!),
     redis_ping: await redisPing(),
     pending_backlog_ok: backlog !== null && backlog <= MAX_PENDING_BACKLOG,
   };
