@@ -1,32 +1,42 @@
-import { headers } from "next/headers";
+import { getClientIp } from "./client-ip";
+import { redis } from "./redis";
 
-async function getClientIp(): Promise<string> {
-  const h = await headers();
-  const xff = h.get("x-forwarded-for");
-  if (xff) {
-    const parts = xff.split(",").map(s => s.trim()).filter(Boolean);
-    if (parts.length >= 2) return parts[parts.length - 2];
-    if (parts.length === 1) return parts[0];
+type Entry = { count: number; resetAt: number };
+const store = new Map<string, Entry>();
+
+// Pure in-memory fixed window. Used when Upstash is not configured or briefly unreachable.
+export function hitMemory(map: Map<string, Entry>, key: string, limit: number, windowSec: number, now = Date.now()) {
+  if (map.size > 5000) for (const [k, v] of map) if (now > v.resetAt) map.delete(k);
+  const e = map.get(key);
+  if (!e || now > e.resetAt) {
+    map.set(key, { count: 1, resetAt: now + windowSec * 1000 });
+    return { allowed: true, resetInSec: windowSec };
   }
-  return h.get("x-real-ip")?.trim() || "unknown";
+  const resetInSec = Math.max(1, Math.ceil((e.resetAt - now) / 1000));
+  if (e.count >= limit) return { allowed: false, resetInSec };
+  e.count++;
+  return { allowed: true, resetInSec };
 }
 
-const store = new Map<string, { count: number; resetAt: number }>();
+// Shared across all instances through Upstash (INCR + EXPIRE NX). Falls back to per-instance memory on Redis errors.
+export async function checkRateLimitKey(key: string, limit: number, windowSec: number) {
+  if (redis) {
+    try {
+      const k = `teos:rl:${key}`;
+      const res = await redis.pipeline().incr(k).expire(k, windowSec, "NX").ttl(k).exec<[number, number, number]>();
+      const count = Number(res[0]);
+      const ttl = Number(res[2]);
+      return { allowed: count <= limit, resetInSec: ttl > 0 ? ttl : windowSec };
+    } catch (e) {
+      console.error("[rate-limit] redis_error_fallback_to_memory");
+    }
+  }
+  return hitMemory(store, key, limit, windowSec);
+}
 
 export async function checkRateLimit(endpoint: string, limit: number, windowSec: number) {
   const ip = await getClientIp();
-  const key = `${ip}:${endpoint}`;
-  const now = Date.now();
-  const entry = store.get(key);
-  if (!entry || now > entry.resetAt) {
-    store.set(key, { count: 1, resetAt: now + windowSec * 1000 });
-    return { allowed: true, resetInSec: windowSec };
-  }
-  if (entry.count >= limit) {
-    return { allowed: false, resetInSec: Math.ceil((entry.resetAt - now) / 1000) };
-  }
-  entry.count++;
-  return { allowed: true, resetInSec: Math.ceil((entry.resetAt - now) / 1000) };
+  return checkRateLimitKey(`${endpoint}:${ip}`, limit, windowSec);
 }
 
 export function rateLimitResponse(resetInSec: number) {

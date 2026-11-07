@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 import { PRICE_TIERS, LENGTH_LABELS } from "../../../lib/pricing";
+import { checkRateLimit, rateLimitResponse } from "../../../lib/rate-limit";
 
+// Display only. Nothing the client sends here ever grants a title or privilege.
 function getUser(b: any) {
-  const w = b.wallet || b.walletAddress || "";
-  const t = b.teosName || b.name || "";
+  const w = typeof b.wallet === "string" ? b.wallet : typeof b.walletAddress === "string" ? b.walletAddress : "";
+  const t = typeof b.teosName === "string" ? b.teosName : typeof b.name === "string" ? b.name : "";
+  const safeName = /^[a-z0-9-]{1,63}$/i.test(t) ? t : "";
   return {
-    ok: !!w || !!t,
-    label: t || (w ? w.slice(0, 4) + ".." + w.slice(-4) : ""),
-    isFounder: t.toLowerCase().includes("ayman"),
+    ok: !!w || !!safeName,
+    label: safeName || (w ? w.slice(0, 4) + ".." + w.slice(-4) : ""),
+    isFounder: false,
   };
 }
 
@@ -67,12 +70,15 @@ What would you like to know?`;
 }
 
 export async function POST(req: Request) {
+  const rl = await checkRateLimit("chat", 30, 60);
+  if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
   try {
     const b = await req.json();
     let raw = b.message || b.text || b.prompt || "";
     if (b.messages?.length) {
       raw = b.messages[b.messages.length - 1]?.content || raw;
     }
+    raw = typeof raw === "string" ? raw.slice(0, 500) : "";
     const u = getUser(b);
     const r = chat(raw, u);
     return NextResponse.json({ reply: r, text: r });
@@ -82,5 +88,4 @@ export async function POST(req: Request) {
     });
   }
 }
-
 

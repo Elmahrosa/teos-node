@@ -2,10 +2,16 @@
 import { useMemo } from "react";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import {
-  PhantomWalletAdapter, SolflareWalletAdapter, TrustWalletAdapter, Coin98WalletAdapter,
-  CoinbaseWalletAdapter, NightlyWalletAdapter, TokenPocketWalletAdapter, BitgetWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
+// Individual adapter packages instead of the @solana/wallet-adapter-wallets bundle:
+// that bundle pulled in Trezor/Ledger/WalletConnect trees carrying a critical protobufjs RCE advisory.
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
+import { SolflareWalletAdapter } from "@solana/wallet-adapter-solflare";
+import { TrustWalletAdapter } from "@solana/wallet-adapter-trust";
+import { Coin98WalletAdapter } from "@solana/wallet-adapter-coin98";
+import { CoinbaseWalletAdapter } from "@solana/wallet-adapter-coinbase";
+import { NightlyWalletAdapter } from "@solana/wallet-adapter-nightly";
+import { TokenPocketWalletAdapter } from "@solana/wallet-adapter-tokenpocket";
+import { BitgetWalletAdapter } from "@solana/wallet-adapter-bitkeep";
 import ConnectProvider from "@/components/ConnectProvider";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { launchWallet, needsDeepLink, type WalletId } from "@/lib/mobileWallet";
@@ -42,4 +48,3 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     </ConnectionProvider>
   );
 }
-
