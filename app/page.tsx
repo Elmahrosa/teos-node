@@ -85,7 +85,7 @@ export default function Home() {
   const check = () => run(async () => {
     const seq = ++checkSeq.current;
     setChecked(null); setCheckedFor(""); setQuote(null); setPopup(true);
-    const r = await fetch(`/api/check?name=${encodeURIComponent(clean)}&tlds=teos`);
+    const r = await fetch(`/api/check?name=${encodeURIComponent(clean)}&tlds=teos${wallet ? `&wallet=${encodeURIComponent(wallet)}` : ""}`);
     const j = await r.json();
     if (seq !== checkSeq.current) return; // a newer search replaced this one
     if (!r.ok) { setPopup(false); throw new Error(j.error || "Invalid name"); }
