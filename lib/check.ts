@@ -1,7 +1,7 @@
 import { parseDomain, isReservedWord, isNotForSaleDomain } from "./domain-rules";
 import { isSealedDomain } from "./sealed";
 import { isClaimed, getSoldCount } from "./registry";
-import { getPrice } from "./pricing";
+import { getPriceOrNull } from "./pricing";
 import { fullName } from "./tlds";
 
 export type TldCheck = { tld: string; available: boolean; reason: string | null; price_usd: number; is_promo: boolean; sold: number };
@@ -13,13 +13,13 @@ export async function checkTlds(name: string, tlds: string[]): Promise<TldCheck[
   return Promise.all(
     tlds.map(async (tld) => {
       const sold = await getSoldCount(tld);
-      const price_usd = getPrice(name, tld);
+      const price = getPriceOrNull(name, tld);
       const taken = blocked ? false : await isClaimed(fullName(name, tld));
       return {
         tld,
-        available: !notForSale && !blocked && !taken,
-        reason: notForSale ? "NOT_FOR_SALE" : blocked ? "reserved" : taken ? "taken" : null,
-        price_usd,
+        available: !notForSale && !blocked && !taken && price !== null,
+        reason: notForSale ? "NOT_FOR_SALE" : blocked ? "reserved" : taken ? "taken" : price === null ? "price_unavailable" : null,
+        price_usd: price ?? 0,
         is_promo: false,
         sold,
       };
