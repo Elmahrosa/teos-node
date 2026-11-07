@@ -3,14 +3,20 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import InfoShell from "../../components/InfoShell";
 
+// Query params are attacker-controlled: only well-formed values are shown or put into links.
+const B58 = /^[1-9A-HJ-NP-Za-km-z]{32,100}$/;
+const pick = (v: string | null) => (v && B58.test(v) ? v : "");
+const NAMES = /^[A-Za-z0-9.,\- ]{1,200}$/;
+
 const a: React.CSSProperties = { color: "#eab308", wordBreak: "break-all" };
 
 function Body() {
   const q = useSearchParams();
-  const tx = q.get("tx") ?? "";
-  const pay = q.get("pay") ?? "";
-  const asset = q.get("asset") ?? "";
-  const names = q.get("names") ?? "";
+  const tx = pick(q.get("tx"));
+  const pay = pick(q.get("pay"));
+  const asset = pick(q.get("asset"));
+  const rawNames = q.get("names") ?? "";
+  const names = NAMES.test(rawNames) ? rawNames : "";
   const pending = q.get("pending") === "1";
   return (
     <InfoShell>

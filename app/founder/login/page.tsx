@@ -15,7 +15,7 @@ export default function FounderLogin() {
       const r = await fetch("/api/founder/login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ password: pw }) });
       if (r.ok) { window.location.href = "/founder"; return; }
       const j = await r.json().catch(() => ({}));
-      setErr(j.error === "not_configured" ? "Founder login is not configured on this server." : j.error === "rate_limited" ? "Too many tries. Wait a minute." : "Wrong password.");
+      setErr(r.status === 423 ? "Too many attempts. Try again later." : j.error === "rate_limited" ? "Too many tries. Wait a minute." : "Login failed.");
     } catch { setErr("Network error."); }
     setBusy(false);
   }

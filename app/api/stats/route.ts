@@ -3,7 +3,6 @@ import { getSoldCount } from "../../../lib/registry";
 import { TLDS } from "../../../lib/tlds";
 import { getSolUsd } from "../../../lib/pricing";
 import { env } from "../../../lib/env";
-import { mintAuthorityPublicKey } from "../../../lib/mint";
 
 export const dynamic = "force-dynamic";
 
@@ -36,7 +35,6 @@ export async function GET() {
     sol_usd: solUsd,
     registration_open: registrationOpen,
     mint_ready: mintReady,
-    mint_authority: mintAuthorityPublicKey(),
     total_sold: tlds.reduce((a, t) => a + (t.sold ?? 0), 0),
     founders: ["AYMAN.TEOS", "ELMAHROSA.TEOS"],
     mints: [
