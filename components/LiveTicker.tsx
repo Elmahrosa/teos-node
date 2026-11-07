@@ -5,7 +5,6 @@ import type { Dict } from "../lib/i18n";
 // Items come from real data: founder names minted, total sold (when the API reports it), TLD count.
 export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; rtl: boolean; founders: string[]; sold: number | null; tlds: number }) {
   const items = [
-    t.tkTop,
     ...founders.map((f) => `${f} ${t.tkMinted}`),
     ...(sold && sold > 0 ? [`${sold} ${t.tkSold}`] : []),
     t.tkGenesis,
@@ -14,7 +13,7 @@ export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; 
     t.tkRoot,
     t.tkRule,
   ];
-  const line = items.join("  •  ") + "  •  ";
+  const line = t.ticker + items.join("  •  ") + "  •  ";
   // The track holds the line twice and moves by half its width, so the loop has no jump.
   return (
     <div dir="ltr" className="lt-bar" style={{ display: "flex", width: "100%", overflow: "hidden", background: "#dc2626", color: "#fff", alignItems: "center" }}>
@@ -24,16 +23,17 @@ export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; 
         <span className="lt-short">{t.liveShort}</span>
       </div>
       <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
-        <div className="lt-track" dir={rtl ? "rtl" : "ltr"} style={{ display: "inline-flex", whiteSpace: "nowrap", fontSize: 13, fontWeight: 600 }}>
-          <span style={{ paddingInlineEnd: 0 }}>{line.repeat(3)}</span>
-          <span aria-hidden>{line.repeat(3)}</span>
+        <div className="lt-track" dir={rtl ? "rtl" : "ltr"} style={{ fontSize: 13, fontWeight: 600 }}>
+          <span className="lt-group">{line.repeat(3)}</span>
+          <span className="lt-group" aria-hidden>{line.repeat(3)}</span>
         </div>
       </div>
       <style>{`
         .lt-bar{height:36px}
         .lt-short{display:none}
         .lt-dot{animation:lt-pulse 1.4s ease-in-out infinite}
-        .lt-track{animation:lt-marquee 60s linear infinite}
+        .lt-track{display:flex;width:max-content;white-space:nowrap;will-change:transform;animation:lt-marquee 60s linear infinite}
+        .lt-group{flex-shrink:0;white-space:nowrap;padding-inline-end:3rem}
         .lt-bar:hover .lt-track{animation-play-state:paused}
         @keyframes lt-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
         @keyframes lt-pulse{0%,100%{opacity:1}50%{opacity:.25}}
