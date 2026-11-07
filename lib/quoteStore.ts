@@ -64,6 +64,7 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown): Promis
   const solUsd = await getSolUsd();
   if (!solUsd) return { ok: false, status: 503, body: { error: "price_unavailable" } };
   const publicUsd = checks.reduce((n, c) => n + c.price_usd, 0);
+  if (!(publicUsd > 0)) return { ok: false, status: 503, body: { error: "price_unavailable" } };
   // The price is always computed here from the public table; nothing the client sends can change it.
   const priceLamports = usdToLamports(publicUsd, solUsd);
   const totalUsd = publicUsd;

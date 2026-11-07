@@ -24,7 +24,7 @@ import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt, type Lang } from "../lib/i18n";
 import { useLang } from "../lib/useLang";
 import { SOCIAL } from "../lib/social";
-import { getPrice } from "../lib/pricing";
+import { getPriceOrNull } from "../lib/pricing";
 
 declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
@@ -176,14 +176,14 @@ export default function Home() {
                     <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={56} /></div>
                     <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.teos</div>
                     <div dir="auto" style={{ fontSize: 12, color: res && !free && !youOwn ? "#7f1d1d" : youOwn || free ? "#14532d" : "#7f1d1d", fontWeight: 700 }}>{res ? state : L.sovereignKey}</div>
-                    {(!res || free) && <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{free && clean ? `$${getPrice(clean, "teos").toLocaleString("en-US")}` : "—"}</div>}
+                    {(!res || free) && <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{free && clean ? `$${(getPriceOrNull(clean, "teos") ?? 0).toLocaleString("en-US")}` : "—"}</div>}
                   </div>
                   {(!res || free) && (
                     <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
                       <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
                       <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
                       <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
-                      <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean && owned.includes(clean) ? `$${getPrice(clean, selectedTld).toLocaleString("en-US")}` : "—"}</div>
+                      <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean && owned.includes(clean) ? `$${(getPriceOrNull(clean, selectedTld) ?? 0).toLocaleString("en-US")}` : "—"}</div>
                     </div>
                   )}
                 </>);

@@ -3,6 +3,7 @@ import { Redis } from "@upstash/redis";
 import { env } from "./env";
 import { isNotForSaleDomain, isReservedWord } from "./domain-rules";
 import { isSealedDomain } from "./sealed";
+import { fullName } from "./tlds";
 
 const redis =
   env("UPSTASH_REDIS_REST_URL") && env("UPSTASH_REDIS_REST_TOKEN")
@@ -232,7 +233,11 @@ export async function incrSold(tld = "teos"): Promise<void> {
   }
 }
 
-// Paid but not minted: a human or script must retry.
+export const PENDING_KEY = "teos:pending-mints";
+// Paid but not minted entries are never dropped. Past this length we only log loudly (and the worker alerts).
+export const PENDING_SOFT_CAP = 50_000;
+
+// Paid but not minted: lib/pendingMints.ts retries these every 5 minutes.
 export async function logPendingMint(
   domain: string,
   tld: string,
@@ -245,12 +250,28 @@ export async function logPendingMint(
     owner,
     tx,
     at: Date.now(),
+    attempts: 0,
   });
 
   if (redis) {
-    await withTimeout(redis.lpush("teos:pending-mints", value));
-    await withTimeout(redis.ltrim("teos:pending-mints", 0, 999));
+    const len = await withTimeout(redis.lpush(PENDING_KEY, value));
+    if (Number(len) > PENDING_SOFT_CAP) {
+      console.error("[pending-mint] ALERT over_soft_cap_kept_anyway", JSON.stringify({ len: Number(len), cap: PENDING_SOFT_CAP }));
+    }
+    console.error("[pending-mint] queued", JSON.stringify({ domain, tld, owner, tx, backlog: Number(len) }));
   } else {
     console.error("[pending-mint]", value);
   }
 }
+
+// Number of paid-but-unminted entries waiting for the retry worker. null when Redis is not configured or unreachable.
+export async function pendingBacklog(): Promise<number | null> {
+  if (!redis) return null;
+  try {
+    return Number(await withTimeout(redis.llen(PENDING_KEY)));
+  } catch {
+    return null;
+  }
+}
+
+export const isMintRecorded = async (domain: string, tld: string) => has(mKey(fullName(domain, tld)));
