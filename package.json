@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/*.test.ts",
+    "test": "tsx --test --experimental-test-module-mocks tests/*.test.ts",
     "audit:prod": "npm audit --omit=dev --audit-level=high",
     "hash-password": "node scripts/hash-password.mjs"
   },
