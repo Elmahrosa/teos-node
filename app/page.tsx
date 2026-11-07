@@ -195,7 +195,7 @@ export default function Home() {
         </div>
       </div>
 
-      {popup && (<DomainSearchPopup key={clean} t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={!!wallet && (myNames.includes(clean) || owned.includes(clean))} wallet={wallet} founder={clean === "elmahrosa"} open={open} busy={busy} onBuy={mint} onClose={() => setPopup(false)} />)}
+      {popup && (<DomainSearchPopup key={clean} t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={!!wallet && (myNames.includes(clean) || owned.includes(clean))} wallet={wallet} founder={clean === "elmahrosa"} open={open} busy={busy} msg={msg} onBuy={mint} onClose={() => setPopup(false)} />)}
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
