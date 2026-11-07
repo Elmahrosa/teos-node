@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
-const csp = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss: https://*.walletconnect.com https://*.walletconnect.org wss://*.walletconnect.com wss://*.walletconnect.org; frame-src 'self' https:; object-src 'none'";
+// The Content-Security-Policy is set per request in middleware.ts (it needs a fresh nonce each time).
+const prod = process.env.NODE_ENV === "production";
 
 const nextConfig = {
   poweredByHeader: false,
-  experimental: { serverActions: { allowedOrigins: ["web4.elmahrosa.org", "ayman.elmahrosa.org", "localhost:3000", "localhost:8080"] } },
+  experimental: {
+    serverActions: { allowedOrigins: prod ? ["web4.elmahrosa.org"] : ["web4.elmahrosa.org", "localhost:3000", "localhost:8080"] },
+  },
   async headers() {
     return [
       {
@@ -13,11 +16,9 @@ const nextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-          {
-            key: "Content-Security-Policy",
-            value: csp,
-          },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+          // allow-popups keeps wallet connect popups working while still isolating the page from other origins.
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
         ],
       },
     ];

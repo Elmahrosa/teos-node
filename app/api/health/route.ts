@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { env } from "../../../lib/env";
-import { verifySession } from "../../../lib/founderAuth";
+import { verifySession, founderLoginConfigured } from "../../../lib/founderAuth";
 import { registryPersistent } from "../../../lib/registry";
 import { mintFunds, mintConfigured } from "../../../lib/mint";
 import { getSolUsd } from "../../../lib/pricing";
@@ -18,7 +18,7 @@ export async function GET(req: Request) {
     mint_key: mintConfigured(),
     mint_funds: (await mintFunds(1).catch(() => ({ ok: false }))).ok,
     sol_price: !!(await getSolUsd().catch(() => null)),
-    founder_login: !!(env("FOUNDER_PASSWORD") && env("FOUNDER_SESSION_SECRET")),
+    founder_login: founderLoginConfigured(),
   };
   const ok = Object.values(checks).every(Boolean);
   if (!verifySession(req.headers.get("cookie"))) return NextResponse.json({ ok }, { status: ok ? 200 : 503 });
