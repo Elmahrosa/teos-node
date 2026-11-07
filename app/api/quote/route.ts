@@ -1,5 +1,6 @@
 ﻿import { NextResponse } from "next/server";
 import { env } from "../../../lib/env";
+import { checkRateLimit, rateLimitResponse } from "../../../lib/rate-limit";
 import { createQuote } from "../../../lib/quoteStore";
 import { requestedTlds, isSaleTld, getTld } from "../../../lib/tlds";
 
@@ -12,6 +13,10 @@ export async function POST(req: Request) {
         { status: 503, headers: { "Retry-After": "3600" } }
       );
     }
+
+    // Each quote costs a Redis write plus RPC and price lookups: cap it per client.
+    const rl = await checkRateLimit("quote", 20, 60);
+    if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
 
     // Fail closed: never hand a client a null payment address.
     const treasury = env("TREASURY_WALLET");
@@ -37,7 +42,7 @@ export async function POST(req: Request) {
         { status: 503, headers: { "Retry-After": "3600" } }
       );
     }
-    const r = await createQuote(rawDomain, rawTlds, body?.wallet);
+    const r = await createQuote(rawDomain, rawTlds);
     if (!r.ok) return NextResponse.json(r.body, { status: r.status });
     const q = r.quote;
     return NextResponse.json({

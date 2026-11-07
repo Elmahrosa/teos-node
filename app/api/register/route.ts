@@ -26,7 +26,6 @@ import { env } from "../../../lib/env";
 import { verifyPayment } from "../../../lib/payment";
 import { mintTeosAsset, mintFunds } from "../../../lib/mint";
 import { fullName, isSaleTld } from "../../../lib/tlds";
-import { isTestMintName, isTestMintWallet } from "../../../lib/testMint";
 const bad = (reason: string) =>
   NextResponse.json(
     { error: "invalid_quote", reason },
@@ -201,11 +200,6 @@ export async function POST(req: Request) {
         { error: "registration_closed", message: "TLD blocked", tld: blockedTld },
         { status: 503 }
       );
-    }
-
-    // 1.teos is whitelist-only: checked on the signed publicKey, before payment is read or consumed.
-    if ((isTestMintName(quote.domain, tlds) || quote.wallet) && (!isTestMintWallet(publicKey) || (quote.wallet && quote.wallet !== publicKey))) {
-      return NextResponse.json({ error: "whitelist_only" }, { status: 403 });
     }
 
     for (const tld of tlds) {
