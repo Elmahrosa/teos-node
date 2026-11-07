@@ -33,14 +33,14 @@
     "bs58": "^6.0.0",
     "next": "^15.5.28",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@metaplex-foundation/mpl-bubblegum": "^6.0.0",
     "@metaplex-foundation/mpl-token-metadata": "^3.4.0",
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
+    "@types/react-dom": "^19.3.0",
     "tsx": "^4.23.15",
     "typescript": "~5.8.3"
   },
