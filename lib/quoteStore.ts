@@ -5,7 +5,6 @@ import { getSolUsd, usdToLamports } from "./pricing";
 import { checkTlds } from "./check";
 import { parseTlds, requestedTlds, isSaleTld } from "./tlds";
 import { mintFunds } from "./mint";
-import { isTestMintName, isTestMintWallet, TEST_MINT_LAMPORTS } from "./testMint";
 
 export type Quote = {
   id: string;
@@ -17,7 +16,6 @@ export type Quote = {
   message: string; // exact bytes the wallet must sign
   expiresAt: number; // epoch ms
   used: boolean;
-  wallet?: string; // set on whitelist-only names: the only wallet allowed to register
 };
 
 export const PRICE_LAMPORTS = Number(process.env.TEOS_PRICE_LAMPORTS) || 50_000_000;
@@ -50,7 +48,7 @@ export type CreateResult =
   | { ok: true; quote: Quote }
   | { ok: false; status: number; body: Record<string, unknown> };
 
-export async function createQuote(rawDomain: unknown, rawTlds?: unknown, wallet?: unknown): Promise<CreateResult> {
+export async function createQuote(rawDomain: unknown, rawTlds?: unknown): Promise<CreateResult> {
   const parsed = parseDomain(rawDomain);
   if (!parsed.ok) return { ok: false, status: parsed.status, body: parsed.body };
   const domain = parsed.domain;
@@ -59,12 +57,6 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown, wallet?
   if (blocked) return { ok: false, status: 503, body: { error: "registration_closed", message: "TLD blocked", tld: blocked } };
   const tlds = rawTlds === undefined ? ["teos"] : parseTlds(rawTlds);
   if (!tlds) return { ok: false, status: 400, body: { error: "invalid_tlds" } };
-  // 1.teos: whitelisted wallet only, refused before any availability or price work.
-  const testMint = isTestMintName(domain, tlds);
-  if (testMint && !isTestMintWallet(wallet)) {
-    return { ok: false, status: 403, body: { error: "whitelist_only", message: "1.teos is reserved for a whitelisted wallet. Connect it and try again." } };
-  }
-  if (testMint && tlds.length !== 1) return { ok: false, status: 400, body: { error: "invalid_tlds" } };
   const checks = await checkTlds(domain, tlds);
   const bad = checks.find((c) => !c.available);
   if (bad) return { ok: false, status: 200, body: { available: false, reason: bad.reason, domain, tld: bad.tld } };
@@ -72,9 +64,9 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown, wallet?
   const solUsd = await getSolUsd();
   if (!solUsd) return { ok: false, status: 503, body: { error: "price_unavailable" } };
   const publicUsd = checks.reduce((n, c) => n + c.price_usd, 0);
-  // Test price applies to the whitelisted 1.teos only; the public price table is untouched.
-  const priceLamports = testMint ? TEST_MINT_LAMPORTS : usdToLamports(publicUsd, solUsd);
-  const totalUsd = testMint ? Number(((TEST_MINT_LAMPORTS / 1e9) * solUsd).toFixed(4)) : publicUsd;
+  // The price is always computed here from the public table; nothing the client sends can change it.
+  const priceLamports = usdToLamports(publicUsd, solUsd);
+  const totalUsd = publicUsd;
   const id = crypto.randomUUID();
   const expiresAt = Date.now() + TTL_SECONDS * 1000;
   // Single .teos keeps the original message format.
@@ -89,7 +81,6 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown, wallet?
     message: `teos://register/${domain}.${suffix}/${id}/${expiresAt}`,
     expiresAt,
     used: false,
-    ...(testMint ? { wallet: String(wallet) } : {}),
   };
   await put(quote);
   return { ok: true, quote };
