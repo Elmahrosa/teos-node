@@ -94,9 +94,9 @@ export default function Home() {
   });
 
   const mint = (tlds: string[]) => run(async () => {
-    const q = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain: clean, tlds }) });
+    const q = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain: clean, tlds, wallet: wallet || undefined }) });
     const qj = await q.json();
-    if (!q.ok) throw new Error(qj.error || "Could not get a price");
+    if (!q.ok) throw new Error(qj.message || qj.error || "Could not get a price");
     if (qj.available === false) throw new Error(`.${qj.tld} is ${qj.reason}`);
     setQuote(qj); setPopup(false);
   });
