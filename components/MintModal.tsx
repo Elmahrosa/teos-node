@@ -45,7 +45,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
     let live = true;
     (async () => {
       try {
-        const r = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain, tlds: quote.tlds ?? ["teos"] }) });
+        const r = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain, tlds: quote.tlds ?? ["teos"], wallet: publicKey?.toBase58() }) });
         const j = await r.json();
         if (!live) return;
         if (r.ok && j.quote_id) { setQuoteState(j); setLockEnd(Date.now() + LOCK_MS); setLeft(60); return; }
@@ -53,7 +53,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
       if (live) setLockEnd(Date.now() + 5_000);
     })();
     return () => { live = false; };
-  }, [busy, left, domain, quote.tlds]);
+  }, [busy, left, domain, quote.tlds, publicKey]);
 
   const expired = Date.now() > quote.expires_at && !busy;
   const clock = useMemo(() => `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`, [left]);

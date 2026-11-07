@@ -37,7 +37,7 @@ export async function POST(req: Request) {
         { status: 503, headers: { "Retry-After": "3600" } }
       );
     }
-    const r = await createQuote(rawDomain, rawTlds);
+    const r = await createQuote(rawDomain, rawTlds, body?.wallet);
     if (!r.ok) return NextResponse.json(r.body, { status: r.status });
     const q = r.quote;
     return NextResponse.json({
