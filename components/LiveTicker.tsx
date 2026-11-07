@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import type { Dict } from "../lib/i18n";
 
 // Top bar: fixed green "live" label on the left, red marquee on the right.
@@ -16,7 +16,7 @@ export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; 
   const line = t.ticker + items.join("  •  ") + "  •  ";
   // The track holds the line twice and moves by half its width, so the loop has no jump.
   return (
-    <div dir="ltr" className="lt-bar" style={{ display: "flex", width: "100%", overflow: "hidden", background: "#dc2626", color: "#fff", alignItems: "center" }}>
+    <div dir={rtl ? "rtl" : "ltr"} className="lt-bar" style={{ display: "flex", width: "100%", overflow: "hidden", background: "#dc2626", color: "#fff", alignItems: "center" }}>
       <div style={{ background: "#10B981", color: "#fff", padding: "0 14px", height: "100%", display: "flex", alignItems: "center", gap: 8, fontSize: 12, fontWeight: 700, letterSpacing: "0.04em", flexShrink: 0, zIndex: 2, whiteSpace: "nowrap" }}>
         <span className="lt-dot" style={{ width: 8, height: 8, borderRadius: "50%", background: "#fff", display: "inline-block" }} />
         <span className="lt-full">{t.liveLabel}</span>
@@ -33,9 +33,11 @@ export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; 
         .lt-short{display:none}
         .lt-dot{animation:lt-pulse 1.4s ease-in-out infinite}
         .lt-track{display:flex;width:max-content;white-space:nowrap;will-change:transform;animation:lt-marquee 120s linear infinite}
+        .lt-track[dir="rtl"]{animation-name:lt-marquee-rtl}
         .lt-group{flex-shrink:0;white-space:nowrap;padding-inline-end:3rem}
         .lt-bar:hover .lt-track{animation-play-state:paused}
         @keyframes lt-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+        @keyframes lt-marquee-rtl{from{transform:translateX(0)}to{transform:translateX(50%)}}
         @keyframes lt-pulse{0%,100%{opacity:1}50%{opacity:.25}}
         @media(max-width:600px){.lt-bar{height:32px}.lt-bar>div:first-child{padding:0 8px !important;font-size:10px !important;gap:5px !important}}
         @media(prefers-reduced-motion:reduce){.lt-track{animation:none}.lt-dot{animation:none}}
