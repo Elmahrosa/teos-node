@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 const noStore = { "Cache-Control": "no-store" };
 
-export async function GET() {
+export async function GET(req: Request) {
   if (!verifySession((await headers()).get("cookie"))) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401, headers: noStore });
   }
@@ -19,10 +19,12 @@ export async function GET() {
   const rl = await checkRateLimit("founder-nfts", 30, 60);
   if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
 
-  const wallet = process.env.NEXT_PUBLIC_FOUNDER_WALLET?.trim() ?? "";
+  // ?wallet=family reads the server-only FAMILY_WALLET (never a client-supplied address).
+  const which = new URL(req.url).searchParams.get("wallet") === "family" ? "family" : "founder";
+  const wallet = (which === "family" ? process.env.FAMILY_WALLET : process.env.NEXT_PUBLIC_FOUNDER_WALLET)?.trim() ?? "";
   if (!wallet) {
     return NextResponse.json(
-      { wallet: "", total: 0, items: [], error: "founder_wallet_not_configured" },
+      { wallet: "", which, total: 0, items: [], error: which === "family" ? "family_wallet_not_configured" : "founder_wallet_not_configured" },
       { headers: noStore }
     );
   }
@@ -37,11 +39,11 @@ export async function GET() {
 
   try {
     const items = await getAssetsByOwner(wallet, key);
-    return NextResponse.json({ wallet, total: items.length, items }, { headers: noStore });
+    return NextResponse.json({ wallet, which, total: items.length, items }, { headers: noStore });
   } catch {
     // Never leak the upstream error (or the API key) to the client; the page renders an empty state.
     return NextResponse.json(
-      { wallet, total: 0, items: [], error: "helius_unavailable" },
+      { wallet, which, total: 0, items: [], error: "helius_unavailable" },
       { headers: noStore }
     );
   }

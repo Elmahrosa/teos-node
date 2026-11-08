@@ -14,11 +14,13 @@ export async function checkTlds(name: string, tlds: string[]): Promise<TldCheck[
     tlds.map(async (tld) => {
       const sold = await getSoldCount(tld);
       const price = getPriceOrNull(name, tld);
-      const taken = blocked ? false : await isClaimed(fullName(name, tld));
+      // A minted name is "taken" even when it is also sealed (family names), so the UI
+      // reports the truth after a founder/family mint instead of a permanent "reserved".
+      const taken = await isClaimed(fullName(name, tld));
       return {
         tld,
         available: !notForSale && !blocked && !taken && price !== null,
-        reason: notForSale ? "NOT_FOR_SALE" : blocked ? "reserved" : taken ? "taken" : price === null ? "price_unavailable" : null,
+        reason: taken ? "taken" : notForSale ? "NOT_FOR_SALE" : blocked ? "reserved" : price === null ? "price_unavailable" : null,
         price_usd: price ?? 0,
         is_promo: false,
         sold,
