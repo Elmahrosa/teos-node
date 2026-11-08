@@ -26,20 +26,22 @@ export function JoinedBadge({ lang }: { lang: Lang }) {
 const cardBase: React.CSSProperties = { display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", textDecoration: "none", background: "#17130f", border: "1px solid #3d352a", borderRadius: 6, color: "#f1e7cf", boxSizing: "border-box" };
 const linkBtn: React.CSSProperties = { marginTop: "auto", padding: "8px 16px", border: `1px solid ${GOLD}`, borderRadius: 4, color: "#d9c48a", fontSize: 13, fontWeight: 700, letterSpacing: "0.04em" };
 
-// Home: Founder Family, one compact row of small cards. Each opens that member's profile, never a purchase.
+const ALL_FAMILY = { en: "All Family", ar: "كل العائلة", id: "Semua Keluarga" } as const;
+
+// Home: Founder Family strip. Each plate opens that member's profile, never a purchase.
 export function FounderFamily({ lang }: { lang: Lang }) {
-  const names = ["ayman", "elmahrosa", "ashraf", ...OTHERS];
-  const plate: React.CSSProperties = { ...cardBase, padding: "10px 8px", width: 118, flex: "0 0 auto" };
+  const plate: React.CSSProperties = { ...cardBase, padding: "14px 10px", width: 132, flex: "0 0 auto" };
   return (
     <section aria-labelledby="family" style={{ margin: "36px 0 28px" }}>
-      <h2 id="family" dir="auto" style={{ fontFamily: SERIF, letterSpacing: "0.12em", color: "#f1e7cf", textAlign: "center", margin: "0 0 16px", fontWeight: 400 }}>{FOUNDER_TITLE[lang]}</h2>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
-        {names.map((n) => (
+      <h2 id="family" dir="auto" style={{ fontFamily: SERIF, letterSpacing: "0.12em", color: "#f1e7cf", textAlign: "center", margin: "0 0 18px", fontWeight: 400 }}>{FOUNDER_TITLE[lang]}</h2>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
+        {OTHERS.map((n) => (
           <Link key={n} href={`/u/${n}`} style={plate}>
-            <div dir="ltr" style={{ fontFamily: SERIF, fontSize: 12, letterSpacing: "0.04em", overflowWrap: "anywhere" }}>{n.toUpperCase()}.TEOS</div>
-            <div style={{ fontSize: 11, color: "#d9c48a", marginTop: 6, fontWeight: 700 }}>{VIEW_PROFILE[lang]} →</div>
+            <div aria-hidden="true" style={{ width: 64, height: 64, borderRadius: "50%", border: `2px solid ${GOLD}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 28, color: "#d9c48a", background: "radial-gradient(circle at 35% 30%,#2a2316,#14110d)" }}>{n[0].toUpperCase()}</div>
+            <div dir="ltr" style={{ fontFamily: SERIF, fontSize: 14, letterSpacing: "0.08em", margin: "10px 0 0" }}>{n.toUpperCase()}</div>
           </Link>
         ))}
+        <Link href="/joined" style={{ ...plate, justifyContent: "center", border: `1px solid ${GOLD}`, color: "#d9c48a", fontWeight: 700, letterSpacing: "0.06em" }}>{ALL_FAMILY[lang]} →</Link>
       </div>
     </section>
   );
