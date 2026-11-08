@@ -66,9 +66,10 @@ export type VisitorStats = { total: number; nations: number; joined: number; top
 export function buildStats(counts: Record<string, number>, members = MEMBERS, topN = 10): VisitorStats {
   const joinedBy: Record<string, number> = {};
   for (const m of members) if (m.joined) joinedBy[m.country] = (joinedBy[m.country] ?? 0) + 1;
-  const codes = new Set([...Object.keys(counts), ...Object.keys(joinedBy)]);
-  const rows: CountryRow[] = [...codes]
-    .filter((c) => c !== UNKNOWN)
+  // Only countries that actually have visits are listed (joined-only rows read as "0 visits - 9 joined").
+  // Unknown (no geo header) is listed too, so the rows always add up to the total.
+  const rows: CountryRow[] = Object.keys(counts)
+    .filter((c) => (counts[c] ?? 0) > 0)
     .map((code) => ({ code, name: countryName(code), flag: flagOf(code), visits: counts[code] ?? 0, joined: joinedBy[code] ?? 0 }))
     .sort((a, b) => b.visits - a.visits || b.joined - a.joined || a.code.localeCompare(b.code));
   return {
