@@ -27,9 +27,10 @@ test("memory rate limiter blocks after the limit and resets after the window", (
   assert.equal(hitMemory(m, "other", 5, 60, t0).allowed, true);
 });
 
-test("client IP is taken from the end of X-Forwarded-For (spoofed prefixes are ignored)", () => {
-  assert.equal(pickClientIp("1.1.1.1, 9.9.9.9, 10.0.0.1", null), "9.9.9.9");
-  assert.equal(pickClientIp("6.6.6.6, 1.1.1.1, 9.9.9.9, 10.0.0.1", null), "9.9.9.9");
+test("client IP prefers x-real-ip, else the last X-Forwarded-For hop (spoofed prefixes are ignored)", () => {
+  assert.equal(pickClientIp("1.1.1.1, 9.9.9.9, 10.0.0.1", null), "10.0.0.1");
+  assert.equal(pickClientIp("6.6.6.6, 1.1.1.1, 9.9.9.9, 10.0.0.1", null), "10.0.0.1");
+  assert.equal(pickClientIp("1.1.1.1, 10.0.0.1", "2.2.2.2"), "2.2.2.2");
   assert.equal(pickClientIp(null, "2.2.2.2"), "2.2.2.2");
   assert.equal(pickClientIp(null, null), "unknown");
 });
