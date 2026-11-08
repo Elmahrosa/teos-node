@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 
 // Gated server-side by middleware.ts (no valid founder session = redirect) and again by /api/visits.
-// The NFT / cNFT list is read-only for the configured founder wallet and sits behind the same password gate.
+// Both NFT lists are read-only. The Mint Wallet is display-only: it is NOT a founder identity
+// and is never used for auth.
 
 type NftItem = {
   id: string;
@@ -13,20 +14,98 @@ type NftItem = {
   interface: string;
 };
 
-type NftResponse = { wallet?: string; total?: number; items?: NftItem[]; error?: string };
+type FounderResponse = { wallet?: string; total?: number; items?: NftItem[]; error?: string };
+type MintResponse = { wallet?: string; balanceSol?: number | null; total?: number; items?: NftItem[]; error?: string };
 
-const NFT_ERROR_TEXT: Record<string, string> = {
+const ERROR_TEXT: Record<string, string> = {
   founder_wallet_not_configured: "Founder wallet not configured in Railway",
+  mint_wallet_not_configured: "Mint wallet not configured in Railway",
   helius_not_configured: "HELIUS_API_KEY not configured in Railway",
-  helius_unavailable: "Could not load NFTs / cNFTs right now",
+  helius_unavailable: "Could not load on-chain data right now",
 };
+
+const short = (w: string) => (w ? `${w.slice(0, 4)}...${w.slice(-4)}` : "");
+
+function NftSection({
+  title,
+  wallet,
+  items,
+  balanceSol,
+  solUsd,
+  badge,
+  error,
+  loading,
+}: {
+  title: string;
+  wallet: string;
+  items: NftItem[] | null;
+  balanceSol?: number | null;
+  solUsd?: number | null;
+  badge?: string;
+  error: string;
+  loading: boolean;
+}) {
+  const usd = balanceSol !== undefined && balanceSol !== null && solUsd ? ` (~$${(balanceSol * solUsd).toFixed(2)})` : "";
+  const meta = [
+    wallet ? `Wallet: ${short(wallet)}` : "",
+    balanceSol !== undefined && balanceSol !== null ? `Balance: ${balanceSol.toFixed(4)} SOL${usd}` : "",
+    items ? `Total: ${items.length} NFT / cNFT` : "",
+  ]
+    .filter(Boolean)
+    .join(" — ");
+
+  return (
+    <section style={{ marginTop: 28 }} aria-label={title}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <h2 style={{ fontSize: 18, margin: "0 0 4px" }}>{title}</h2>
+        {badge && (
+          <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 0.5, padding: "2px 8px", borderRadius: 9999, background: badge === "READY TO MINT" ? "#166534" : "#374151" }}>
+            {badge}
+          </span>
+        )}
+      </div>
+      <div style={{ fontSize: 13, opacity: 0.7, marginBottom: 12 }}>{meta}</div>
+
+      {error && <p role="alert" style={{ color: "#f87171", margin: "8px 0" }}>{error}</p>}
+      {!error && loading && <p style={{ opacity: 0.7 }}>Loading your NFTs / cNFTs...</p>}
+      {!error && !loading && items !== null && items.length === 0 && <p style={{ opacity: 0.7 }}>No NFTs found</p>}
+
+      {items !== null && items.length > 0 && (
+        <div className="founder-nft-grid">
+          {items.map((n, i) => (
+            <article key={n.id || `${n.name}-${i}`} style={{ border: "1px solid #333", borderRadius: 12, overflow: "hidden", background: "#0a0a0a" }}>
+              {n.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={n.image} alt={n.name || "NFT"} loading="lazy" style={{ width: "100%", aspectRatio: "1 / 1", objectFit: "cover", display: "block", background: "#111" }} />
+              ) : (
+                <div style={{ width: "100%", aspectRatio: "1 / 1", background: "#111", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, opacity: 0.5 }}>No image</div>
+              )}
+              <div style={{ padding: 10 }}>
+                <div style={{ fontWeight: 700, fontSize: 14, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{n.name || "Unnamed"}</div>
+                <div style={{ display: "inline-block", marginTop: 6, padding: "2px 8px", borderRadius: 9999, fontSize: 11, fontWeight: 700, background: n.compressed ? "#1d4ed8" : "#374151" }}>
+                  {n.compressed ? "cNFT - Compressed" : "NFT"}
+                </div>
+                <div style={{ marginTop: 6, fontSize: 11, fontFamily: "ui-monospace, monospace", opacity: 0.7 }}>
+                  {n.id ? `${n.id.slice(0, 4)}...${n.id.slice(-4)}` : ""}
+                </div>
+                {n.collection && <div style={{ marginTop: 4, fontSize: 11, opacity: 0.7, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{n.collection}</div>}
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
 
 export default function Founder() {
   const [total, setTotal] = useState<number | null>(null);
   const [countries, setCountries] = useState<string[]>([]);
-  const [nfts, setNfts] = useState<NftItem[] | null>(null);
-  const [nftWallet, setNftWallet] = useState("");
-  const [nftError, setNftError] = useState("");
+  const [founder, setFounder] = useState<FounderResponse | null>(null);
+  const [mint, setMint] = useState<MintResponse | null>(null);
+  const [founderError, setFounderError] = useState("");
+  const [mintError, setMintError] = useState("");
+  const [solUsd, setSolUsd] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/visits").then((r) => (r.ok ? r.json() : Promise.reject(r.status))).then((d) => { setTotal(typeof d.total === "number" ? d.total : null); setCountries(d.countries || []); }).catch((s) => { if (s === 401) window.location.href = "/founder/login"; });
@@ -34,23 +113,32 @@ export default function Founder() {
 
   useEffect(() => {
     let alive = true;
-    fetch("/api/founder/nfts")
-      .then(async (r) => {
-        const d: NftResponse = await r.json().catch(() => ({}));
+    const get = (url: string) =>
+      fetch(url).then(async (r) => {
+        const d = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(d.error || `http_${r.status}`);
         return d;
-      })
-      .then((d) => {
-        if (!alive) return;
-        setNftWallet(d.wallet || "");
-        setNfts(Array.isArray(d.items) ? d.items : []);
-        setNftError(d.error ? NFT_ERROR_TEXT[d.error] || d.error : "");
-      })
-      .catch((e) => {
-        if (!alive) return;
-        setNfts([]);
-        setNftError(e?.message === "unauthorized" ? "" : "Could not load NFTs / cNFTs right now");
       });
+
+    Promise.allSettled([get("/api/founder/nfts"), get("/api/founder/mint"), get("/api/sol-price")]).then(([f, m, p]) => {
+      if (!alive) return;
+      if (p.status === "fulfilled" && typeof p.value.sol_usd === "number") setSolUsd(p.value.sol_usd);
+      if (f.status === "fulfilled") {
+        setFounder(f.value);
+        setFounderError(f.value.error ? ERROR_TEXT[f.value.error] || f.value.error : "");
+      } else {
+        setFounder({ wallet: "", items: [] });
+        setFounderError("Could not load NFTs / cNFTs right now");
+      }
+      if (m.status === "fulfilled") {
+        setMint(m.value);
+        setMintError(m.value.error ? ERROR_TEXT[m.value.error] || m.value.error : "");
+      } else {
+        setMint({ wallet: "", balanceSol: null, items: [] });
+        setMintError("Could not load the mint wallet right now");
+      }
+    });
+
     return () => { alive = false; };
   }, []);
 
@@ -77,42 +165,25 @@ export default function Founder() {
         <div style={{ textAlign: "center", opacity: 0.6, marginBottom: 28 }}>{countries.length ? countries.join(" ") : "0"}</div>
       </div>
 
-      <section style={{ marginTop: 8 }} aria-label="Founder NFTs and cNFTs">
-        <h2 style={{ fontSize: 18, margin: "0 0 4px" }}>NFTs / cNFTs</h2>
-        <div style={{ fontSize: 13, opacity: 0.7, marginBottom: 12 }}>
-          {nftWallet ? `Wallet: ${nftWallet.slice(0, 4)}...${nftWallet.slice(-4)}` : ""}
-          {nfts ? ` — Total: ${nfts.length} NFT / cNFT` : ""}
-        </div>
+      <NftSection
+        title="Founder Vault"
+        wallet={founder?.wallet ?? ""}
+        items={founder?.items ?? null}
+        badge="READ ONLY"
+        error={founderError}
+        loading={founder === null}
+      />
 
-        {nftError && <p role="alert" style={{ color: "#f87171", margin: "8px 0" }}>{nftError}</p>}
-        {!nftError && nfts === null && <p style={{ opacity: 0.7 }}>Loading your NFTs / cNFTs...</p>}
-        {!nftError && nfts !== null && nfts.length === 0 && <p style={{ opacity: 0.7 }}>No NFTs found</p>}
-
-        {nfts !== null && nfts.length > 0 && (
-          <div className="founder-nft-grid">
-            {nfts.map((n, i) => (
-              <article key={n.id || `${n.name}-${i}`} style={{ border: "1px solid #333", borderRadius: 12, overflow: "hidden", background: "#0a0a0a" }}>
-                {n.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={n.image} alt={n.name || "NFT"} loading="lazy" style={{ width: "100%", aspectRatio: "1 / 1", objectFit: "cover", display: "block", background: "#111" }} />
-                ) : (
-                  <div style={{ width: "100%", aspectRatio: "1 / 1", background: "#111", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, opacity: 0.5 }}>No image</div>
-                )}
-                <div style={{ padding: 10 }}>
-                  <div style={{ fontWeight: 700, fontSize: 14, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{n.name || "Unnamed"}</div>
-                  <div style={{ display: "inline-block", marginTop: 6, padding: "2px 8px", borderRadius: 9999, fontSize: 11, fontWeight: 700, background: n.compressed ? "#1d4ed8" : "#374151" }}>
-                    {n.compressed ? "cNFT - Compressed" : "NFT"}
-                  </div>
-                  <div style={{ marginTop: 6, fontSize: 11, fontFamily: "ui-monospace, monospace", opacity: 0.7 }}>
-                    {n.id ? `${n.id.slice(0, 4)}...${n.id.slice(-4)}` : ""}
-                  </div>
-                  {n.collection && <div style={{ marginTop: 4, fontSize: 11, opacity: 0.7, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{n.collection}</div>}
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
+      <NftSection
+        title="Mint Wallet"
+        wallet={mint?.wallet ?? ""}
+        items={mint?.items ?? null}
+        balanceSol={mint?.balanceSol ?? null}
+        solUsd={solUsd}
+        badge={mint === null ? "" : (mint.balanceSol ?? 0) > 0 ? "READY TO MINT" : "NO FUNDS"}
+        error={mintError}
+        loading={mint === null}
+      />
     </div>
   );
 }
