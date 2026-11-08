@@ -6,10 +6,12 @@ import PharaohMark from "../components/PharaohMark";
 import PharaohStyles from "../components/PharaohStyles";
 import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopup";
 import CountryDropdown from "../components/CountryDropdown";
-import MusicToggle from "../components/MusicToggle";
 import SiteFooter from "../components/SiteFooter";
 import HeroVideo from "@/components/HeroVideo";
-import LangMenu from "../components/LangMenu";
+import Link from "next/link";
+import TopIcons from "../components/TopIcons";
+import FounderSpotlight from "../components/FounderSpotlight";
+import AboutUs from "../components/AboutUs";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
@@ -34,6 +36,7 @@ const ALT = {
   certificate: { en: "TEOS dig certificate", ar: "شهادة التخذ TEOS", id: "Sertifikat TEOS" } as Record<Lang, string>,
 };
 const NAVL = { en: { joined: "Who Joined", world: "World" }, ar: { joined: "مين دخل", world: "العالم" }, id: { joined: "Bergabung", world: "Dunia" } } as Record<Lang, { joined: string; world: string }>;
+const JOIN_TXT = { en: { title: "Search your name", btn: "Join Now" }, ar: { title: "ابحث عن اسمك", btn: "انضم الآن" }, id: { title: "Cari nama Anda", btn: "Gabung Sekarang" } } as Record<Lang, { title: string; btn: string }>;
 const ABOUT = { en: "About", ar: "عن النظام", id: "Tentang" } as Record<Lang, string>;
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const card: React.CSSProperties = { background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #3d352a", borderRadius: 4, padding: 20, margin: "16px 0", boxShadow: "inset 0 2px 12px rgba(0,0,0,.6)" };
@@ -132,19 +135,19 @@ export default function Home() {
     <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
     <nav className="site-nav" style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-        <div dir="ltr" style={{ display: "flex", alignItems: "center", gap: 8 }}><LangMenu lang={lang} onChange={setLang} /><MusicToggle rtl={rtl} /></div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}><PharaohMark size={40} /><div><div style={{ fontFamily: SERIF, fontSize: 20, letterSpacing: "0.14em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a className="nav-dup" href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
-          <a className="nav-dup" href="/joined" style={{ ...tablet, textDecoration: "none" }}>{NAVL[lang].joined}</a>
-          <a className="nav-dup" href="/world" style={{ ...tablet, textDecoration: "none" }}>{NAVL[lang].world}</a>
-          <a className="nav-dup" href="/system" style={{ ...tablet, textDecoration: "none" }}>{ABOUT[lang]}</a>
+          <Link className="nav-dup" href="/joined" style={{ ...tablet, textDecoration: "none" }}>{NAVL[lang].joined}</Link>
+          <Link className="nav-dup" href="/world" style={{ ...tablet, textDecoration: "none" }}>{NAVL[lang].world}</Link>
+          <Link className="nav-dup" href="/system" style={{ ...tablet, textDecoration: "none" }}>{ABOUT[lang]}</Link>
           <button style={{ ...btn, padding: "0 14px", height: 34, fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
         </span>
       </div>
     </nav>
-    <HeroVideo rtl={rtl} searchLabel={L.search} connectLabel={wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect} onSearch={goSearch} onConnect={connectWallet} />
-    <StatsBar nations={NATIONS} joined={JOINED.length} lang={lang} />
+    <HeroVideo rtl={rtl} searchLabel={L.search} connectLabel={wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect} onSearch={goSearch} onConnect={connectWallet}>
+      <TopIcons lang={lang} setLang={setLang} rtl={rtl} onWallet={connectWallet} />
+    </HeroVideo>
     <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px 56px" }}>
 
       <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px", border: "3px double #ca8a04", borderRadius: 8, boxShadow: "0 0 42px rgba(234,179,8,.12), inset 0 2px 12px rgba(0,0,0,.6)" }}>
@@ -156,7 +159,7 @@ export default function Home() {
             <circle cx="200" cy="105" r="14" fill="#7f1d1d" stroke="#eab308" strokeWidth="4" />
           </svg>
           <div style={{ flex: "1 1 360px", textAlign: "center", minWidth: 0 }}>
-            <label htmlFor="n" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap" }}>{L.find}</label>
+            <label htmlFor="n" style={{ fontFamily: SERIF, fontSize: 22, letterSpacing: "0.1em", color: "#fef3c7", display: "block", margin: "0 0 12px" }}>{JOIN_TXT[lang].title}</label>
             <input id="n" dir="auto" style={{ ...input, fontSize: 21, padding: "16px 14px", textAlign: "center" }} value={name} placeholder={t("hero.searchPlaceholder")} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
             <div style={{ margin: "12px 0" }}><CountryDropdown tlds={all} selected={selectedTld} onSelect={setSelectedTld} placeholder={L.country} empty={L.dropdownEmpty} /></div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, textAlign: "center" }}>
@@ -183,7 +186,7 @@ export default function Home() {
                 </>);
               })()}
             </div>
-            <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>
+            <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{JOIN_TXT[lang].btn}</button></p>
             {joinedHit && (
               <p style={{ margin: "14px 0 0", display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center", justifyContent: "center" }}>
                 <JoinedBadge lang={lang} />
@@ -200,7 +203,10 @@ export default function Home() {
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
+      <StatsBar nations={NATIONS} joined={JOINED.length} lang={lang} />
+      <FounderSpotlight lang={lang} />
       <FounderFamily lang={lang} />
+      <AboutUs />
 
       <SiteFooter t={L} />
     </main>
