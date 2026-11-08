@@ -1,4 +1,5 @@
-import { OTHERS, FOUNDERS, CREST, BADGE, SECTION_TITLE, VIEW_PROFILE, FOUNDER_TITLE, FOUNDER_TAG, SEE_JOINED } from "../lib/joined";
+import Link from "next/link";
+import { OTHERS, CREST, BADGE, SECTION_TITLE, VIEW_PROFILE, FOUNDER_TITLE } from "../lib/joined";
 import CrestImage from "./CrestImage";
 import type { Lang } from "../lib/i18n";
 
@@ -25,24 +26,23 @@ export function JoinedBadge({ lang }: { lang: Lang }) {
 const cardBase: React.CSSProperties = { display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", textDecoration: "none", background: "#17130f", border: "1px solid #3d352a", borderRadius: 6, color: "#f1e7cf", boxSizing: "border-box" };
 const linkBtn: React.CSSProperties = { marginTop: "auto", padding: "8px 16px", border: `1px solid ${GOLD}`, borderRadius: 4, color: "#d9c48a", fontSize: 13, fontWeight: 700, letterSpacing: "0.04em" };
 
-// Home: the three Founder Family cards, large and equal. Cards open the profile, never a purchase.
+const ALL_FAMILY = { en: "All Family", ar: "كل العائلة", id: "Semua Keluarga" } as const;
+
+// Home: Founder Family strip. Each plate opens that member's profile, never a purchase.
 export function FounderFamily({ lang }: { lang: Lang }) {
+  const plate: React.CSSProperties = { ...cardBase, padding: "14px 10px", width: 132, flex: "0 0 auto" };
   return (
-    <section aria-labelledby="founders" style={{ margin: "40px 0 28px" }}>
-      <h2 id="founders" dir="auto" style={{ fontFamily: SERIF, letterSpacing: "0.12em", color: "#f1e7cf", textAlign: "center", margin: "0 0 18px", fontWeight: 400 }}>{FOUNDER_TITLE[lang]}</h2>
-      <div style={{ display: "grid", gap: 18, gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))" }}>
-        {FOUNDERS.map((n) => (
-          <a key={n} href={`/u/${n}`} style={{ ...cardBase, padding: 18, border: `1px solid ${GOLD}` }}>
-            <CrestImage src={CREST[n] ?? "/genesis-seal.png"} alt={`${n.toUpperCase()}.TEOS`} maxWidth={300} marginTop={0} />
-            <div dir="ltr" style={{ fontFamily: SERIF, fontSize: 22, letterSpacing: "0.08em", margin: "14px 0 6px", overflowWrap: "anywhere" }}>{n.toUpperCase()}.TEOS</div>
-            <div style={{ fontSize: 11, letterSpacing: "0.18em", color: "#d9c48a", margin: "0 0 14px" }}>{FOUNDER_TAG[lang]}</div>
-            <span style={linkBtn}>{VIEW_PROFILE[lang]} →</span>
-          </a>
+    <section aria-labelledby="family" style={{ margin: "36px 0 28px" }}>
+      <h2 id="family" dir="auto" style={{ fontFamily: SERIF, letterSpacing: "0.12em", color: "#f1e7cf", textAlign: "center", margin: "0 0 18px", fontWeight: 400 }}>{FOUNDER_TITLE[lang]}</h2>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
+        {OTHERS.map((n) => (
+          <Link key={n} href={`/u/${n}`} style={plate}>
+            <div aria-hidden="true" style={{ width: 64, height: 64, borderRadius: "50%", border: `2px solid ${GOLD}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontSize: 28, color: "#d9c48a", background: "radial-gradient(circle at 35% 30%,#2a2316,#14110d)" }}>{n[0].toUpperCase()}</div>
+            <div dir="ltr" style={{ fontFamily: SERIF, fontSize: 14, letterSpacing: "0.08em", margin: "10px 0 0" }}>{n.toUpperCase()}</div>
+          </Link>
         ))}
+        <Link href="/joined" style={{ ...plate, justifyContent: "center", border: `1px solid ${GOLD}`, color: "#d9c48a", fontWeight: 700, letterSpacing: "0.06em" }}>{ALL_FAMILY[lang]} →</Link>
       </div>
-      <p style={{ textAlign: "center", margin: "26px 0 0" }}>
-        <a href="/joined" style={{ display: "inline-block", padding: "12px 26px", background: GOLD, color: "#14110d", fontWeight: 700, letterSpacing: "0.06em", borderRadius: 4, textDecoration: "none" }}>{SEE_JOINED[lang]} →</a>
-      </p>
     </section>
   );
 }
@@ -55,7 +55,7 @@ export default function JoinedSection({ lang }: { lang: Lang }) {
       <h1 id="joined" dir="auto" style={{ fontFamily: SERIF, letterSpacing: "0.12em", color: "#f1e7cf", textAlign: "center", margin: "0 0 22px", fontWeight: 400 }}>{SECTION_TITLE[lang].toUpperCase()}</h1>
       <div style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }} className="joined-grid">
         {OTHERS.map((n) => (
-          <a key={n} href={`/u/${n}`} style={{ ...cardBase, padding: 14, minHeight: 230 }}>
+          <Link key={n} href={`/u/${n}`} style={{ ...cardBase, padding: 14, minHeight: 230 }}>
             {CREST[n] ? (
               <CrestImage src={CREST[n]} alt={`${n.toUpperCase()}.TEOS`} maxWidth={110} marginTop={0} />
             ) : (
@@ -64,7 +64,7 @@ export default function JoinedSection({ lang }: { lang: Lang }) {
             <div dir="ltr" style={{ fontFamily: SERIF, fontSize: 16, letterSpacing: "0.06em", margin: "12px 0 8px", overflowWrap: "anywhere" }}>{n.toUpperCase()}.TEOS</div>
             <div style={{ marginBottom: 12 }}><JoinedBadge lang={lang} /></div>
             <span style={linkBtn}>{VIEW_PROFILE[lang]} →</span>
-          </a>
+          </Link>
         ))}
       </div>
       <style>{`@media(max-width:560px){.joined-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}}`}</style>
