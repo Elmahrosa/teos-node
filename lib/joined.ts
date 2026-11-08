@@ -30,3 +30,11 @@ export const SECTION_TITLE = { en: "Who Joined El Mahrosa", ar: "مين دخل �
 export const VIEW_PROFILE = { en: "View Profile", ar: "عرض الملف", id: "Lihat Profil" } as const;
 
 export const isJoined = (name: string) => JOINED.includes(name.trim().toLowerCase().replace(/\.teos$/, ""));
+
+// Founder Family is shown on its own on the home page; everyone else is on /joined.
+export const FOUNDERS: string[] = ["ayman", "elmahrosa", "ashraf"];
+export const OTHERS: string[] = JOINED.filter((n) => !FOUNDERS.includes(n));
+export const FOUNDER_TITLE = { en: "Founder Family", ar: "عائلة المؤسس", id: "Keluarga Pendiri" } as const;
+export const FOUNDER_TAG = { en: "FOUNDER FAMILY", ar: "عائلة المؤسس", id: "KELUARGA PENDIRI" } as const;
+export const SEE_JOINED = { en: "See Who Joined", ar: "شوف مين دخل المحروسة", id: "Lihat Siapa yang Bergabung" } as const;
+export const WORLD_LINK = { en: "Where the world is joining from", ar: "منين دخلت المحروسة", id: "Dari mana dunia bergabung" } as const;

@@ -47,7 +47,7 @@ export default async function Page({ params }: { params: Promise<{ name: string 
   const crestFile = ["jpg", "png"]
     .map((ext) => `${domain}.teos.${ext}`)
     .find((f) => /^[a-z0-9-]+\.teos\.(jpg|png)$/.test(f) && fs.existsSync(path.join(process.cwd(), "public", "crests", f)));
-  const crestSrc = crestFile ? `/crests/${crestFile}` : "/genesis-seal.png";
+  const crestSrc = crestFile ? `/crests/${crestFile}` : null;
 
   const mint = MINTS[domain];
   const rows: { label: string; value: string; mono?: boolean; href?: string }[] = [
@@ -78,7 +78,12 @@ export default async function Page({ params }: { params: Promise<{ name: string 
           {domain.toUpperCase()}.TEOS
         </h1>
 
-        <CrestImage src={crestSrc} alt={`${domain.toUpperCase()}.TEOS`} />
+        {crestSrc ? (
+          <CrestImage src={crestSrc} alt={`${domain.toUpperCase()}.TEOS`} />
+        ) : (
+          // No crest file for this name: a plain initial plate, never a seal carrying someone else's name.
+          <div aria-hidden="true" style={{ margin: "24px auto 0", width: 160, height: 160, borderRadius: "50%", border: "2px solid #b8973f", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Cinzel, Georgia, serif", fontSize: 72, color: "#d9c48a", background: "radial-gradient(circle at 35% 30%,#2a2316,#14110d)" }}>{domain[0]?.toUpperCase()}</div>
+        )}
 
         {joined && (
           <div style={{ marginTop: 16 }}>

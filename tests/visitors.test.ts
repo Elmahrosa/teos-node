@@ -17,14 +17,16 @@ test("flag emoji", () => {
   assert.equal(flagOf(UNKNOWN), "🌐");
 });
 
-test("stats: sorted by visits, top 10, joined from members, unknown excluded from cards", () => {
+test("stats: sorted by visits, top 10, joined from members, unknown listed, no zero-visit rows", () => {
   const counts: Record<string, number> = { EG: 142, SA: 38, AE: 21, ZZ: 9 };
   for (let i = 0; i < 12; i++) counts[`Q${String.fromCharCode(65 + i)}`] = 1;
   const members = [{ name: "a", country: "EG", mint: null, joined: true as const, status: "sealed" as const }, { name: "b", country: "EG", mint: null, joined: true as const, status: "sealed" as const }];
   const s = buildStats(counts, members);
   assert.equal(s.top.length, 10);
   assert.deepEqual(s.top.slice(0, 3).map((r) => [r.code, r.visits, r.joined]), [["EG", 142, 2], ["SA", 38, 0], ["AE", 21, 0]]);
-  assert.ok(!s.top.some((r) => r.code === UNKNOWN));
+  assert.ok(s.top.some((r) => r.code === UNKNOWN));
+  assert.ok(s.top.every((r) => r.visits > 0));
+  assert.equal(buildStats({}, members).top.length, 0);
   assert.equal(s.total, 142 + 38 + 21 + 9 + 12);
   assert.equal(s.nations, 3 + 12);
   assert.equal(s.joined, 2);
