@@ -36,3 +36,5 @@ transfer-*.mjs.bak
 *.key
 id.json
 .teos-fix-conflicts/
+# Reserved-name blocklist must be committed (the *.json rule above would hide it)
+!data/reserved.json
