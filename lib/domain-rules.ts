@@ -1,3 +1,4 @@
+import { isBlockedName } from "./blocklist";
 export const RESERVED_WORDS = ["ayman","elmahrosa","teos","admin","api","www","mail","root","support","web4","app","test","nft","solana"];
 
 export type DomainCheck =
@@ -22,6 +23,6 @@ export function isNotForSaleDomain(domain: string): boolean {
 }
 
 export function isReservedWord(domain: string): boolean {
-  return RESERVED_WORDS.includes(domain.toLowerCase());
+  return RESERVED_WORDS.includes(domain.toLowerCase()) || isBlockedName(domain);
 }
 
