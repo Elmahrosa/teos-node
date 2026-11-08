@@ -44,48 +44,46 @@ export default async function Page({ params }: { params: Promise<{ name: string 
     .find((f) => /^[a-z0-9-]+\.teos\.(jpg|png)$/.test(f) && fs.existsSync(path.join(process.cwd(), "public", "crests", f)));
   const crestSrc = crestFile ? `/crests/${crestFile}` : "/genesis-seal.png";
 
+  const rows: { label: string; value: string; mono?: boolean }[] = [
+    { label: "حالة السجل", value: "مسجل في Registry" },
+    { label: "النطاق", value: `${displayValue(domain)}.teos`, mono: true },
+    { label: "عنوان المحفظة المسجل", value: shortWallet(claim.owner), mono: true },
+    { label: "تاريخ التسجيل", value: claimedAt ?? "لا توجد بيانات", mono: true },
+    { label: "توقيع معاملة التسجيل", value: displayValue(claim.tx), mono: true },
+    { label: "التحقق من ملكية NFT", value: "غير متحقق منها — يلزم فحص Metaplex Core على الشبكة." },
+  ];
+
+  const gold = "#facc15";
   return (
-    <main dir="rtl" lang="ar" className="min-h-screen flex items-center justify-center p-6">
-      <section className="w-full max-w-xl rounded-2xl border border-yellow-700/40 bg-black/40 p-8 text-center">
+    <main
+      dir="ltr"
+      style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "flex-start", padding: 24, background: "#0b0b0b", color: "#f5f5f5" }}
+    >
+      <section
+        style={{ width: "100%", maxWidth: 560, boxSizing: "border-box", padding: 32, textAlign: "center", border: "1px solid rgba(180,130,30,0.4)", borderRadius: 16, background: "rgba(0,0,0,0.4)" }}
+      >
+        <p style={{ margin: 0, fontSize: 13, letterSpacing: 2, color: gold }}>TEOS SOVEREIGN IDENTITY</p>
+        <h1 style={{ margin: "12px 0 0", fontSize: 36, fontWeight: 700, wordBreak: "break-all", fontFamily: "Cinzel, Georgia, serif" }}>
+          {domain.toUpperCase()}.TEOS
+        </h1>
+
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={crestSrc}
           alt={`${domain.toUpperCase()}.TEOS`}
-          className="mx-auto mb-6 w-full max-w-md rounded-xl object-contain"
+          style={{ display: "block", margin: "24px auto 0", width: "100%", maxWidth: 440, height: "auto", borderRadius: 12 }}
         />
-        <p className="text-sm text-yellow-400">TEOS SOVEREIGN IDENTITY</p>
-        <h1 className="mt-4 break-all text-4xl font-bold" style={{ fontFamily: "Cinzel, Georgia, serif" }}>
-          {domain.toUpperCase()}.TEOS
-        </h1>
 
-        <div className="mt-8 space-y-5 text-right">
-          <div>
-            <p className="text-sm text-yellow-400">حالة السجل</p>
-            <p className="mt-1">مسجل في Registry</p>
-          </div>
-          <div>
-            <p className="text-sm text-yellow-400">النطاق</p>
-            <p className="mt-1">{displayValue(domain)}.teos</p>
-          </div>
-          <div>
-            <p className="text-sm text-yellow-400">عنوان المحفظة المسجل</p>
-            <p dir="ltr" className="mt-1 text-left break-all">{shortWallet(claim.owner)}</p>
-          </div>
-          <div>
-            <p className="text-sm text-yellow-400">تاريخ التسجيل</p>
-            <p dir="ltr" className="mt-1 text-left">{claimedAt ?? "لا توجد بيانات"}</p>
-          </div>
-          <div>
-            <p className="text-sm text-yellow-400">توقيع معاملة التسجيل</p>
-            <p dir="ltr" className="mt-1 text-left break-all">{displayValue(claim.tx)}</p>
-          </div>
-          <div>
-            <p className="text-sm text-yellow-400">التحقق من ملكية NFT</p>
-            <p className="mt-1">غير متحقق منها — يلزم فحص Metaplex Core على الشبكة.</p>
-          </div>
-        </div>
+        <dl style={{ margin: "32px 0 0", padding: 0 }}>
+          {rows.map((r) => (
+            <div key={r.label} style={{ padding: "12px 0", borderTop: "1px solid rgba(180,130,30,0.2)" }}>
+              <dt dir="rtl" lang="ar" style={{ fontSize: 13, color: gold }}>{r.label}</dt>
+              <dd dir={r.mono ? "ltr" : "rtl"} lang={r.mono ? undefined : "ar"} style={{ margin: "4px 0 0", wordBreak: "break-all" }}>{r.value}</dd>
+            </div>
+          ))}
+        </dl>
 
-        <a href="/" className="inline-block mt-8 text-yellow-400">العودة إلى TEOS</a>
+        <a href="/" dir="rtl" lang="ar" style={{ display: "inline-block", marginTop: 24, color: gold }}>العودة إلى TEOS</a>
       </section>
     </main>
   );
