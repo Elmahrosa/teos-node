@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import type { Dict } from "../lib/i18n";
 import { PRICE_TIERS, LENGTH_LABELS } from "../lib/pricing";
+import PharaohStyles from "./PharaohStyles";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const cell: React.CSSProperties = { padding: "6px 0", borderTop: "1px solid #3d352a", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 };
@@ -42,10 +43,11 @@ export default function PricingTable({ t, onBuy }: { t: Dict; onBuy: () => void 
   const tiers = PRICE_TIERS.filter((x) => owns || x.id === "teos");
   return (
     <div style={{ background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #3d352a", borderRadius: 4, padding: 16, boxShadow: "inset 0 2px 12px rgba(0,0,0,.6)" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }}>
+      <PharaohStyles />
+      <div className="pharaoh-tier-grid">
         {tiers.map((tier) => (
-          <section key={tier.id} aria-label={tier.id} style={{ border: "1px solid #3d352a", padding: 12 }}>
-            <h3 style={{ margin: 0, color: "#eab308", fontFamily: SERIF, letterSpacing: "0.08em", fontSize: 17 }}>{tier.id.toUpperCase()}</h3>
+          <section key={tier.id} aria-label={tier.id} style={{ border: "2px solid #ca8a04", borderRadius: 8, padding: 18, background: "linear-gradient(160deg,#241f1a,#12100d)", boxShadow: "0 10px 26px rgba(0,0,0,.55),inset 0 1px 0 rgba(254,243,199,.12)" }}>
+            <h3 style={{ margin: 0, color: "#fbbf24", fontFamily: SERIF, letterSpacing: "0.1em", fontSize: 20 }}>{tier.id.toUpperCase()}</h3>
             <p dir="ltr" style={{ margin: "2px 0 8px", color: "#a89a80", fontSize: 12, overflowWrap: "anywhere" }}>
               {tier.tlds === null ? "all other TLDs" : tier.tlds.map((x) => `.${x}`).join(" ")}
             </p>
@@ -53,7 +55,7 @@ export default function PricingTable({ t, onBuy }: { t: Dict; onBuy: () => void 
               <div key={i} dir="ltr" className="pt-row" style={cell}>
                 <bdi dir="ltr" className="pt-len" style={{ whiteSpace: "nowrap" }}>{LENGTH_LABELS[i]}</bdi>
                 <span dir="ltr" className="pt-amt" style={{ textAlign: "end" }}>
-                  <span className="pt-usd" style={{ fontFamily: "ui-monospace, monospace" }}>{fmt(usd)}</span>
+                  <span className="pt-usd" style={{ fontFamily: "ui-monospace, monospace", fontSize: 18, fontWeight: 700, color: "#fde68a" }}>{fmt(usd)}</span>
                   {solOf(usd) && (
                     <span className="pt-live" aria-live="off" style={{ display: "block", fontSize: 12, color: "#4ade80", marginTop: 2 }}>
                       <span className="pt-dot" aria-hidden="true" />Live: <span key={tick} className="pt-flash" style={{ fontFamily: "ui-monospace, monospace" }}>~{solOf(usd)} SOL</span>

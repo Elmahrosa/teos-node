@@ -4,6 +4,8 @@ import PricingLogic from "../components/PricingLogic";
 import Bidi from "../components/Bidi";
 import Image from "next/image";
 import FounderSeal from "../components/FounderSeal";
+import PharaohMark from "../components/PharaohMark";
+import PharaohStyles from "../components/PharaohStyles";
 import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopup";
 import CountryDropdown from "../components/CountryDropdown";
 import AymanContact from "../components/AymanContact";
@@ -75,6 +77,10 @@ export default function Home() {
   const open = stats?.registration_open === true && stats?.mint_ready !== false;
   const clean = name.trim().toLowerCase().replace(/\.[a-z]{2,6}$/, "");
 
+  const teosRes = checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null;
+  const teosPrice = clean ? getPriceOrNull(clean, "teos") : null;
+  const canStickyBuy = !!open && !!teosRes?.available && !busy;
+
   const all: any[] = stats?.tlds ?? [];
 
   async function run(fn: () => Promise<void>) {
@@ -109,10 +115,11 @@ export default function Home() {
 
   return (
     <>
+    <PharaohStyles />
     <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
     <nav className="site-nav" style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><FounderSeal size={48} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.2em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><PharaohMark size={46} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.2em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a className="nav-dup" href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
           <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
@@ -124,7 +131,7 @@ export default function Home() {
     <section aria-label={ALT.gate[lang]} style={{ boxSizing: "border-box", width: "100%", maxWidth: 1000, margin: "0 auto", padding: "20px 12px 0" }}>
       <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} priority style={{ ...imgStyle, width: "100%", height: "auto", display: "block" }} sizes="(max-width: 1000px) 100vw, 1000px" />
     </section>
-    <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px" }}>
+    <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px 120px" }}>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "flex-end", alignItems: "center" }}>
         <MusicToggle rtl={rtl} />
         <LanguageToggle lang={lang} onChange={setLang} />
@@ -154,7 +161,8 @@ export default function Home() {
         </p>
       </header>
 
-      <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px" }}>
+      <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px", border: "3px double #ca8a04", borderRadius: 8, boxShadow: "0 0 42px rgba(234,179,8,.12), inset 0 2px 12px rgba(0,0,0,.6)" }}>
+        <div className="pharaoh-hiero" aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0 }} />
         <div aria-hidden="true" style={{ position: "absolute", inset: 0, opacity: 0.15, backgroundImage: "repeating-linear-gradient(0deg,#6b5a3e 0 1px,transparent 1px 38px),repeating-linear-gradient(90deg,#6b5a3e 0 1px,transparent 1px 64px),radial-gradient(circle at 30% 20%,#8a7550,transparent 60%)" }} />
         <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 24, alignItems: "center", justifyContent: "center" }}>
           <svg aria-hidden="true" viewBox="0 0 400 400" width="100%" style={{ maxWidth: 300, height: "auto", filter: "drop-shadow(0 0 22px rgba(234,179,8,.55))" }}>
@@ -215,6 +223,24 @@ export default function Home() {
       <SiteFooter t={L} />
       <AymanContact t={L} rtl={rtl} />
     </main>
+    <div className="pharaoh-sticky">
+      <div className="pharaoh-sticky-inner">
+        {canStickyBuy ? (
+          <button className="pharaoh-buy" onClick={() => mint(["teos"])} disabled={busy}>
+            {fmt(L.buyCountry, { n: clean, t: "teos", p: String(teosPrice ?? 0) })}
+          </button>
+        ) : (
+          <button className="pharaoh-buy" onClick={goSearch} style={{ background: "linear-gradient(90deg,#3d352a,#57493a)", color: "#fde68a" }}>
+            {lang === "en" ? "👆 Click a gold card to Buy" : L.reserveHint}
+          </button>
+        )}
+        {teosRes && (
+          <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", color: teosRes.available ? "#4ade80" : "#f87171" }}>
+            {teosRes.available ? L.availableU : teosRes.reason === "reserved" ? L.reservedU : L.takenU}
+          </span>
+        )}
+      </div>
+    </div>
     </>
   );
 }
