@@ -59,7 +59,7 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown): Promis
   if (!tlds) return { ok: false, status: 400, body: { error: "invalid_tlds" } };
   const checks = await checkTlds(domain, tlds);
   const bad = checks.find((c) => !c.available);
-  if (bad) return { ok: false, status: 200, body: { available: false, reason: bad.reason, domain, tld: bad.tld } };
+  if (bad) return { ok: false, status: 200, body: { available: false, reason: bad.reason, ...(bad.reason === "reserved" ? { message: "Name is reserved, not available for sale" } : {}), domain, tld: bad.tld } };
   if (!(await mintFunds(tlds.length)).ok) return { ok: false, status: 503, body: { error: "mint_unavailable" } };
   const solUsd = await getSolUsd();
   if (!solUsd) return { ok: false, status: 503, body: { error: "price_unavailable" } };
