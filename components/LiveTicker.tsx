@@ -13,7 +13,9 @@ export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; 
     t.tkRoot,
     t.tkRule,
   ];
-  const line = t.ticker + items.join("  •  ") + "  •  ";
+  // The green label already says "LIVE FROM ALEXANDRIA"; drop that leading phrase from the scrolling text so the two never collide.
+  const lead = t.ticker.includes("•") ? t.ticker.slice(t.ticker.indexOf("•") + 1).trim() + " " : t.ticker;
+  const line = lead + items.join("  •  ") + "  •  ";
   // The track holds the line twice and moves by half its width, so the loop has no jump.
   return (
     <div dir={rtl ? "rtl" : "ltr"} className="lt-bar" style={{ display: "flex", width: "100%", overflow: "hidden", background: "#dc2626", color: "#fff", alignItems: "center" }}>
@@ -24,17 +26,18 @@ export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; 
       </div>
       <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
         <div className="lt-track" dir={rtl ? "rtl" : "ltr"} style={{ fontSize: 13, fontWeight: 600 }}>
-          <span className="lt-group">{line.repeat(3)}</span>
-          <span className="lt-group" aria-hidden>{line.repeat(3)}</span>
+          <span className="lt-group">{line.repeat(2)}</span>
+          <span className="lt-group" aria-hidden>{line.repeat(2)}</span>
         </div>
       </div>
       <style>{`
         .lt-bar{height:36px}
         .lt-short{display:none}
         .lt-dot{animation:lt-pulse 1.4s ease-in-out infinite}
-        .lt-track{display:flex;width:max-content;white-space:nowrap;will-change:transform;animation:lt-marquee 120s linear infinite}
+        .lt-track{display:flex;width:max-content;white-space:nowrap;will-change:transform;animation:lt-marquee 170s linear infinite}
         .lt-track[dir="rtl"]{animation-name:lt-marquee-rtl}
-        .lt-group{flex-shrink:0;white-space:nowrap;padding-inline-end:3rem}
+        .lt-group{flex-shrink:0;white-space:nowrap;padding-inline:1.5rem 3rem;line-height:36px}
+        @media(max-width:600px){.lt-group{line-height:32px}}
         .lt-bar:hover .lt-track{animation-play-state:paused}
         @keyframes lt-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
         @keyframes lt-marquee-rtl{from{transform:translateX(0)}to{transform:translateX(50%)}}
