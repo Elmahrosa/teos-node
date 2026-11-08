@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { ourTeosNames } from "../lib/ownership";
+import { createHash } from "node:crypto";
+import { ourTeosNames, trustedAuthorities } from "../lib/ownership";
 import { recordMint } from "../lib/registry";
 
 test("ownership without a collection: authority or registry mint, look-alikes rejected", async () => {
@@ -14,4 +15,21 @@ test("ownership without a collection: authority or registry mint, look-alikes re
     { id: "X", content: { metadata: { name: "foo.sol" } }, authorities: [{ address: "AUTH1" }] },
   ];
   assert.deepEqual((await ourTeosNames(items)).sort(), ["1", "zed"]);
+});
+
+test("compromised authority (matched by SHA-256) fails closed instead of being trusted", async () => {
+  // Use a FAKE key; never put the real compromised key in the repo.
+  const fake = "11111111111111111111111111111111";
+  const prevAuth = process.env.TEOS_UPDATE_AUTHORITY;
+  const prevHash = process.env.COMPROMISED_AUTHORITY_HASH;
+  process.env.TEOS_UPDATE_AUTHORITY = fake;
+  process.env.COMPROMISED_AUTHORITY_HASH = createHash("sha256").update(fake, "utf8").digest("hex");
+  try {
+    await assert.rejects(trustedAuthorities(), /compromised authority/);
+  } finally {
+    if (prevAuth === undefined) delete process.env.TEOS_UPDATE_AUTHORITY;
+    else process.env.TEOS_UPDATE_AUTHORITY = prevAuth;
+    if (prevHash === undefined) delete process.env.COMPROMISED_AUTHORITY_HASH;
+    else process.env.COMPROMISED_AUTHORITY_HASH = prevHash;
+  }
 });
