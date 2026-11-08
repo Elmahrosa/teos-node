@@ -4,7 +4,6 @@ import { sameOrigin } from "../../../../lib/origin";
 import { verifyWalletSignature } from "../../../../lib/sig";
 import { isClaimed, adminClaimDomain, recordMint, incrSold, logPendingMint, useNonce } from "../../../../lib/registry";
 import { mintConfigured, mintFunds, mintTeosAsset } from "../../../../lib/mint";
-import { getPriceOrNull } from "../../../../lib/pricing";
 import { isNotForSaleDomain, isReservedWord } from "../../../../lib/domain-rules";
 import { isSealedDomain } from "../../../../lib/sealed";
 import { buildClaimMessage, familyWallet, founderWallet, isPublicKey, newNonce, nonceOk, parseClaimNames } from "../../../../lib/founderClaim";
@@ -84,7 +83,7 @@ export async function POST(req: Request) {
       return {
         name,
         domain,
-        price_usd: getPriceOrNull(name, "teos"),
+        price_usd: 0, // founder-signed family mint: no payment, gas only
         claimed,
         not_for_sale: notForSale,
         reserved,
