@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import FounderSeal from "./FounderSeal";
+import PharaohMark from "./PharaohMark";
+import PharaohStyles from "./PharaohStyles";
 import { fmt, type Dict } from "../lib/i18n";
 import { getRouteForUser } from "../lib/domain";
 
@@ -94,7 +96,7 @@ export default function DomainSearchPopup(props: {
     const free = r?.available;
     const bundle = teosFree && !unlocked;
     return (
-      <div key={c.tld} style={{ background: "#241f1a", border: "1px solid #3d352a", padding: 12, boxShadow: "inset 0 2px 8px rgba(0,0,0,.5)" }}>
+      <div key={c.tld} className="pharaoh-card">
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, fontSize: 13, color: unlocked ? "#4ade80" : "#a89a80" }}>
           <StepBadge n={2} /><b dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step2Title, { n: name, t: c.tld })}</b><span>{t.step2Tag}</span>
           <span style={{ marginInlineStart: "auto", fontSize: 18 }}>{unlocked ? "🔓" : "🔒"}</span>
@@ -103,7 +105,11 @@ export default function DomainSearchPopup(props: {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <Flag t={c} />
           <span dir="ltr" style={{ fontFamily: SERIF, fontSize: 18, flex: 1, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{name}.{c.tld} <span style={{ color: "#a89a80", fontSize: 13 }}>{c.name}{tag ? ` • ${tag}` : ""}</span></span>
-          <span style={{ fontFamily: MONO, fontSize: 12, color: !r ? "#a89a80" : free ? "#4ade80" : "#f87171" }}>{!r ? "..." : free ? t.availableU : unlocked ? t.takenU : t.lockedU}</span>
+          <span className="pharaoh-card-badge" style={{ fontFamily: MONO, background: !r ? "#374151" : free ? "#166534" : "#7f1d1d", color: "#fff" }}>{!r ? "..." : free ? t.availableU : unlocked ? t.takenU : t.lockedU}</span>
+        </div>
+        <div dir="ltr" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 8, margin: "6px 0 10px" }}>
+          <span style={{ fontFamily: MONO, fontSize: 24, fontWeight: 800, color: "#fde68a" }}>{r ? `$${r.price_usd.toLocaleString("en-US")}` : "—"}</span>
+          {c.name && <span style={{ fontSize: 12, color: "#a89a80" }}>{c.name}</span>}
         </div>
         {free && (bundle || unlocked) && (
           <div style={{ marginTop: 8 }}>
@@ -124,10 +130,16 @@ export default function DomainSearchPopup(props: {
 
   return (
     <div dir={rtl ? "rtl" : "ltr"} role="dialog" aria-modal="true" aria-label={name} onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(5,4,3,.82)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", overflowY: "auto", padding: "40px 16px" }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 620, background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #57493a", boxShadow: "0 20px 60px rgba(0,0,0,.8), inset 0 2px 12px rgba(0,0,0,.6)", padding: 20, color: "#f5e6c4", position: "relative" }}>
+      <div onClick={(e) => e.stopPropagation()} className="pharaoh-frame" style={{ width: "100%", maxWidth: 760, background: "linear-gradient(160deg,#2a2520,#1a1611)", boxShadow: "0 20px 60px rgba(0,0,0,.8), inset 0 2px 12px rgba(0,0,0,.6)", padding: 20, color: "#f5e6c4", position: "relative" }}>
+        <PharaohStyles />
         <button onClick={onClose} aria-label={t.close} style={{ position: "absolute", top: 8, insetInlineEnd: 10, background: "none", border: 0, color: "#a89a80", fontSize: 24, cursor: "pointer" }}>×</button>
-        <div style={{ fontFamily: SERIF, letterSpacing: "0.2em", color: "#a89a80", fontSize: 12 }}>{t.searched}</div>
-        <div dir="ltr" style={{ fontFamily: SERIF, fontSize: 28, color: "#fef3c7", marginBottom: 14, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{name}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6 }}>
+          <PharaohMark size={44} />
+          <div>
+            <div style={{ fontFamily: SERIF, letterSpacing: "0.2em", color: "#a89a80", fontSize: 12 }}>{t.searched}</div>
+            <div dir="ltr" style={{ fontFamily: SERIF, fontSize: 28, color: "#fef3c7", wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{name}</div>
+          </div>
+        </div>
 
         {founder ? (
           <div style={{ background: "linear-gradient(160deg,#3a2a08,#1a1611)", border: "3px double #eab308", padding: 20, textAlign: "center", boxShadow: "0 0 40px rgba(234,179,8,.25)" }}>
@@ -152,12 +164,12 @@ export default function DomainSearchPopup(props: {
                 <span style={{ background: "#7f1d1d", color: "#fde68a", fontSize: 11, letterSpacing: "0.1em", padding: "2px 8px", fontWeight: 700 }}>{t.rootBadge}</span>
               </div>}
               {teos && teosFree && !ownsTeos && (
-                <div style={{ fontFamily: MONO, marginBottom: 10 }}>
-                  <>${teos.price_usd} {t.standardPrice}</>
+                <div style={{ fontFamily: MONO, marginBottom: 10, fontSize: 26, fontWeight: 800, color: "#451a03" }}>
+                  <>${teos.price_usd} <span style={{ fontSize: 13, fontWeight: 600 }}>{t.standardPrice}</span></>
                 </div>
               )}
               {teosFree && !ownsTeos && (
-                <button style={{ ...gold, opacity: canBuy ? 1 : 0.6 }} disabled={!canBuy} onClick={() => onBuy(["teos"])}>
+                <button className="pharaoh-buy" style={{ opacity: canBuy ? 1 : 0.6 }} disabled={!canBuy} onClick={() => onBuy(["teos"])}>
                   {fmt(t.carve, { n: name })}
                 </button>
               )}
@@ -173,7 +185,7 @@ export default function DomainSearchPopup(props: {
             <Arrow />
             <div>
               <div style={{ fontFamily: SERIF, letterSpacing: "0.15em", fontSize: 13, color: "#a89a80", marginBottom: 6 }}>{query.trim() ? t.otherCountry : t.yourCountry}</div>
-              <div style={{ maxHeight: 340, overflowY: "auto", display: "grid", gap: 8 }}>
+              <div className="pharaoh-cards" style={{ maxHeight: 420, overflowY: "auto" }}>
                 {visible.map((c) => countryCard(c, c.tld === homeTld ? t.yourCountryTag : ""))}
                 {query.trim() && visible.length === 0 && <div style={{ color: "#a89a80", fontSize: 14 }}>{t.noMatch}</div>}
               </div>
