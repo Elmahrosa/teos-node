@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import CrestImage from "../../../components/CrestImage";
 import { notFound } from "next/navigation";
 import { getClaim } from "../../../lib/registry";
 import { isNotForSaleDomain } from "../../../lib/domain-rules";
@@ -67,12 +68,7 @@ export default async function Page({ params }: { params: Promise<{ name: string 
           {domain.toUpperCase()}.TEOS
         </h1>
 
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={crestSrc}
-          alt={`${domain.toUpperCase()}.TEOS`}
-          style={{ display: "block", margin: "24px auto 0", width: "100%", maxWidth: 440, height: "auto", borderRadius: 12 }}
-        />
+        <CrestImage src={crestSrc} alt={`${domain.toUpperCase()}.TEOS`} />
 
         <dl style={{ margin: "32px 0 0", padding: 0 }}>
           {rows.map((r) => (
