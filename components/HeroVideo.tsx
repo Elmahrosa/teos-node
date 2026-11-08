@@ -39,7 +39,6 @@ export default function HeroVideo({ searchLabel, connectLabel, onSearch, onConne
         <p dir="ltr" style={{ margin: 0, fontFamily: SERIF, fontSize: "clamp(15px,3vw,24px)", color: "#fbbf24", letterSpacing: "0.22em", fontWeight: 700 }}>SOVEREIGN SYSTEM ARCHITECTURE</p>
         <p dir="rtl" lang="ar" style={{ margin: "12px 0 0", fontSize: "clamp(16px,2.8vw,22px)", color: "#d6cbb5" }}>نظام النطاقات السيادية</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", marginTop: 26 }}>
-          <button style={btn} onClick={onSearch}>{searchLabel}</button>
           <button className="hero-connect" style={ghost} onClick={onConnect}>{connectLabel}</button>
         </div>
       </div>
