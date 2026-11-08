@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { verifySession } from "../../../../lib/founderAuth";
 import { checkRateLimit, rateLimitResponse } from "../../../../lib/rate-limit";
 import { getAssetsByOwner, getSolBalance } from "../../../../lib/das";
+import { mintAuthorityPublicKey } from "../../../../lib/mint";
 
 // GET /api/founder/mint - the Mint Wallet's SOL balance + NFTs / cNFTs.
 // Read-only and display-only: this wallet is NOT a founder identity and is never used for auth.
@@ -41,8 +42,26 @@ export async function GET() {
   const balanceSol = balance.status === "fulfilled" ? balance.value : null;
   const failed = assets.status === "rejected" || balance.status === "rejected";
 
+  // READY TO MINT must follow the wallet that actually signs and pays for mints
+  // (MINT_AUTHORITY_KEYPAIR), not the display-only NEXT_PUBLIC_MINT_WALLET.
+  const authorityWallet = mintAuthorityPublicKey();
+  const authorityBalance = authorityWallet
+    ? await getSolBalance(authorityWallet, key).catch(() => null)
+    : null;
+
   return NextResponse.json(
-    { wallet, balanceSol, total: items.length, items, ...(failed ? { error: "helius_unavailable" } : {}) },
+    {
+      wallet,
+      balanceSol,
+      total: items.length,
+      items,
+      authority: {
+        wallet: authorityWallet ?? "",
+        balanceSol: authorityBalance,
+        ready: (authorityBalance ?? 0) > 0,
+      },
+      ...(failed ? { error: "helius_unavailable" } : {}),
+    },
     { headers: noStore }
   );
 }
