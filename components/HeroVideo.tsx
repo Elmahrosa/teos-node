@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import OptImg from "./OptImg";
+import ALL_TLDS from "@/tlds/all.json";
 
+// Static count (not the async stats), so the badge is 127 / 127 from the first paint.
+const NATIONS = (ALL_TLDS as unknown[]).length;
 const VIDEO = "/videos/teos-architecture.mp4.mp4";
-const VIDEO_NEW = "/videos/hero-bg.mp4";
 const POSTER = "/videos/teos-architecture-poster.jpg";
 const SERIF = "Cinzel, Georgia, serif";
 
@@ -26,18 +27,18 @@ export default function HeroVideo({ searchLabel, connectLabel, onSearch, onConne
     <section aria-label="EL MAHROSA TEOS" style={{ position: "relative", width: "100%", margin: 0, overflow: "hidden", background: `#0a0806 url(${POSTER}) center/cover no-repeat`, minHeight: "clamp(420px, 62vh, 620px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
       {playVideo && (
         <video autoPlay muted loop playsInline preload="auto" poster={POSTER} aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, inset: 0, width: "100%", height: "100%", minWidth: "100%", minHeight: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}>
-          <source src={VIDEO_NEW} type="video/mp4" />
           <source src={VIDEO} type="video/mp4" />
         </video>
       )}
       <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.6)" }} />
+      <div dir="ltr" style={{ position: "absolute", top: 14, right: 14, padding: "6px 12px", border: "1px solid #ca8a04", background: "rgba(10,8,6,.7)", color: "#fbbf24", fontFamily: "ui-monospace, monospace", fontSize: 12, letterSpacing: "0.08em" }}>
+        {NATIONS} / {NATIONS} NATIONS SYNCHRONIZED
+      </div>
       <div dir={rtl ? "rtl" : "ltr"} style={{ position: "relative", textAlign: "center", padding: "56px 20px", maxWidth: 900 }}>
-        <h1 style={{ margin: 0, fontFamily: SERIF, fontWeight: 700, color: "#fef3c7", textShadow: "0 2px 10px rgba(0,0,0,.9)" }}>
-          <span dir="rtl" lang="ar" style={{ display: "block", fontFamily: "var(--font-cairo), Cairo, sans-serif", fontSize: "clamp(26px,5.4vw,52px)", lineHeight: 1.3 }}>تملك دومينك إلى الأبد - هويتك السيادية</span>
-          <span dir="ltr" lang="en" style={{ display: "block", marginTop: 10, fontSize: "clamp(18px,3.4vw,32px)", lineHeight: 1.25, color: "#e0b84a", letterSpacing: "0.04em" }}>Own Your Domain Forever - Your Sovereign Identity</span>
-        </h1>
+        <p dir="ltr" style={{ margin: "0 0 14px", fontFamily: SERIF, fontSize: "clamp(12px,2.2vw,16px)", color: "#d9c48a", letterSpacing: "0.3em" }}>EL MAHROSA TEOS</p>
+        <h1 dir="ltr" style={{ fontFamily: SERIF, fontWeight: 700, fontSize: "clamp(38px,8vw,78px)", lineHeight: 1.05, color: "#fef3c7", letterSpacing: "0.04em", margin: "0 0 12px", textShadow: "0 2px 10px rgba(0,0,0,.9)" }}>Partners, Not Rent</h1>
+        <h2 dir="ltr" style={{ margin: 0, fontFamily: SERIF, fontWeight: 700, fontSize: "clamp(18px,3.6vw,32px)", color: "#e0b84a", letterSpacing: "0.08em", textShadow: "0 2px 8px rgba(0,0,0,.9)" }}>Own Your Domain Forever</h2>
         {children}
-        <OptImg src="/images/hero-lighthouse.jpg" alt="Golden lighthouse with six doors: .QA .KW .SA .BH .AE .OM" style={{ display: "block", margin: "26px auto 0", maxWidth: "min(100%, 760px)", maxHeight: 320, width: "auto", height: "auto", borderRadius: 6, border: "1px solid #8a7335" }} />
       </div>
     </section>
   );
