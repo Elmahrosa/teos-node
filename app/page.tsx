@@ -5,13 +5,13 @@ import FounderSeal from "../components/FounderSeal";
 import PharaohMark from "../components/PharaohMark";
 import PharaohStyles from "../components/PharaohStyles";
 import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopup";
+import CountryDropdown from "../components/CountryDropdown";
 import SiteFooter from "../components/SiteFooter";
 import HeroVideo from "@/components/HeroVideo";
 import Link from "next/link";
 import TopIcons from "../components/TopIcons";
 import FounderSpotlight from "../components/FounderSpotlight";
 import AboutUs from "../components/AboutUs";
-import Products from "../components/Products";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
@@ -154,20 +154,39 @@ export default function Home() {
         <div className="pharaoh-hiero" aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0 }} />
         <div aria-hidden="true" style={{ position: "absolute", inset: 0, opacity: 0.15, backgroundImage: "repeating-linear-gradient(0deg,#6b5a3e 0 1px,transparent 1px 38px),repeating-linear-gradient(90deg,#6b5a3e 0 1px,transparent 1px 64px),radial-gradient(circle at 30% 20%,#8a7550,transparent 60%)" }} />
         <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 24, alignItems: "center", justifyContent: "center" }}>
+          <svg aria-hidden="true" viewBox="0 0 400 400" width="100%" style={{ maxWidth: 300, height: "auto", filter: "drop-shadow(0 0 22px rgba(234,179,8,.55))" }}>
+            <g fill="none" stroke="#eab308" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="200" cy="105" rx="52" ry="68" /><path d="M200 173V350M130 215H270" /><path d="M150 300c0 40 100 40 100 0M130 280l20 20M270 280l-20 20" strokeWidth="10" /></g>
+            <circle cx="200" cy="105" r="14" fill="#7f1d1d" stroke="#eab308" strokeWidth="4" />
+          </svg>
           <div style={{ flex: "1 1 360px", textAlign: "center", minWidth: 0 }}>
             <label htmlFor="n" style={{ fontFamily: SERIF, fontSize: 22, letterSpacing: "0.1em", color: "#fef3c7", display: "block", margin: "0 0 12px" }}>{JOIN_TXT[lang].title}</label>
             <input id="n" dir="auto" style={{ ...input, fontSize: 21, padding: "16px 14px", textAlign: "center" }} value={name} placeholder={t("hero.searchPlaceholder")} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && clean && check()} />
-            {(() => {
-              const res = checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null;
-              const youOwn = !!res && !!wallet && (myNames.includes(clean) || owned.includes(clean));
-              const free = !!res?.available && !youOwn;
-              const state = joinedHit ? BADGE_TXT : !res ? "" : youOwn ? L.youOwnU : free ? L.availableU : res.reason === "reserved" ? L.reservedU : L.takenU;
-              if (!state) return null;
-              return (<p dir="auto" role="status" style={{ margin: "12px 0 0", fontWeight: 700, fontSize: 15, color: free || youOwn ? "#4ade80" : "#f87171" }}>
-                <span dir="ltr" style={{ fontFamily: SERIF, color: "#fef3c7" }}>{clean}.teos</span> - {state}{free && clean ? ` - $${(getPriceOrNull(clean, "teos") ?? 0).toLocaleString("en-US")}` : ""}
-              </p>);
-            })()}
-            <p style={{ margin: "14px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{JOIN_TXT[lang].btn}</button></p>
+            <div style={{ margin: "12px 0" }}><CountryDropdown tlds={all} selected={selectedTld} onSelect={setSelectedTld} placeholder={L.country} empty={L.dropdownEmpty} /></div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, textAlign: "center" }}>
+              {(() => {
+                const res = checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null;
+                const youOwn = !!res && !!wallet && (myNames.includes(clean) || owned.includes(clean));
+                const free = !!res?.available && !youOwn;
+                const state = joinedHit ? BADGE_TXT : !res ? "" : youOwn ? L.youOwnU : free ? L.availableU : res.reason === "reserved" ? L.reservedU : L.takenU;
+                return (<>
+                  <div style={{ flex: "1 1 200px", background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, minWidth: 0 }}>
+                    <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={56} /></div>
+                    <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.teos</div>
+                    <div dir="auto" style={{ fontSize: 12, color: res && !free && !youOwn ? "#7f1d1d" : youOwn || free ? "#14532d" : "#7f1d1d", fontWeight: 700 }}>{res ? state : L.sovereignKey}</div>
+                    {(!res || free) && <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{free && clean ? `$${(getPriceOrNull(clean, "teos") ?? 0).toLocaleString("en-US")}` : "—"}</div>}
+                  </div>
+                  {(!res || free) && (
+                    <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
+                      <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
+                      <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
+                      <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
+                      <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean && owned.includes(clean) ? `$${(getPriceOrNull(clean, selectedTld) ?? 0).toLocaleString("en-US")}` : "—"}</div>
+                    </div>
+                  )}
+                </>);
+              })()}
+            </div>
+            <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{JOIN_TXT[lang].btn}</button></p>
             {joinedHit && (
               <p style={{ margin: "14px 0 0", display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center", justifyContent: "center" }}>
                 <JoinedBadge lang={lang} />
@@ -175,6 +194,7 @@ export default function Home() {
                 <span style={{ color: "#f87171", fontWeight: 700, fontSize: 13 }}>{L.takenU}</span>
               </p>
             )}
+            <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? fmt(L.sovTlds, { n: all.length }) : ""} • {L.rule}</p>
           </div>
         </div>
       </div>
@@ -183,9 +203,9 @@ export default function Home() {
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
-      <FounderSpotlight />
+      <StatsBar nations={NATIONS} joined={JOINED.length} lang={lang} />
+      <FounderSpotlight lang={lang} />
       <FounderFamily lang={lang} />
-      <Products />
       <AboutUs />
 
       <SiteFooter t={L} />
