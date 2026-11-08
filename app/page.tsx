@@ -9,7 +9,7 @@ import CountryDropdown from "../components/CountryDropdown";
 import MusicToggle from "../components/MusicToggle";
 import SiteFooter from "../components/SiteFooter";
 import HeroVideo from "@/components/HeroVideo";
-import LanguageToggle from "../components/LanguageToggle";
+import LangMenu from "../components/LangMenu";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
@@ -17,7 +17,7 @@ import LiveTicker from "../components/LiveTicker";
 import { StatsBar } from "../components/VisitorSection";
 import { JOINED } from "../lib/joined";
 import { FounderFamily, JoinedBadge } from "../components/JoinedSection";
-import { isJoined, VIEW_PROFILE, BADGE, SEE_JOINED, WORLD_LINK } from "../lib/joined";
+import { isJoined, VIEW_PROFILE, BADGE } from "../lib/joined";
 import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt, type Lang } from "../lib/i18n";
 import { useLang } from "../lib/useLang";
@@ -33,6 +33,7 @@ const ALT = {
   gate: { en: "The TEOS gate - unlock your sovereign", ar: "بوابة TEOS - افتح اسمك السيادي", id: "Pintu masuk TEOS" } as Record<Lang, string>,
   certificate: { en: "TEOS dig certificate", ar: "شهادة التخذ TEOS", id: "Sertifikat TEOS" } as Record<Lang, string>,
 };
+const NAVL = { en: { joined: "Who Joined", world: "World" }, ar: { joined: "مين دخل", world: "العالم" }, id: { joined: "Bergabung", world: "Dunia" } } as Record<Lang, { joined: string; world: string }>;
 const ABOUT = { en: "About", ar: "عن النظام", id: "Tentang" } as Record<Lang, string>;
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const card: React.CSSProperties = { background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #3d352a", borderRadius: 4, padding: 20, margin: "16px 0", boxShadow: "inset 0 2px 12px rgba(0,0,0,.6)" };
@@ -131,24 +132,20 @@ export default function Home() {
     <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
     <nav className="site-nav" style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><PharaohMark size={46} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.2em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
+        <div dir="ltr" style={{ display: "flex", alignItems: "center", gap: 8 }}><LangMenu lang={lang} onChange={setLang} /><MusicToggle rtl={rtl} /></div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><PharaohMark size={40} /><div><div style={{ fontFamily: SERIF, fontSize: 20, letterSpacing: "0.14em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a className="nav-dup" href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
-          <a className="nav-dup" href="/joined" style={{ ...tablet, textDecoration: "none" }}>{SEE_JOINED[lang]}</a>
-          <a className="nav-dup" href="/world" style={{ ...tablet, textDecoration: "none" }}>{WORLD_LINK[lang]}</a>
+          <a className="nav-dup" href="/joined" style={{ ...tablet, textDecoration: "none" }}>{NAVL[lang].joined}</a>
+          <a className="nav-dup" href="/world" style={{ ...tablet, textDecoration: "none" }}>{NAVL[lang].world}</a>
           <a className="nav-dup" href="/system" style={{ ...tablet, textDecoration: "none" }}>{ABOUT[lang]}</a>
-          <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
-          <span className="nav-dup" style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}><Bidi text={t("header.tlds")} /></span>
+          <button style={{ ...btn, padding: "0 14px", height: 34, fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
         </span>
       </div>
     </nav>
     <HeroVideo rtl={rtl} searchLabel={L.search} connectLabel={wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect} onSearch={goSearch} onConnect={connectWallet} />
     <StatsBar nations={NATIONS} joined={JOINED.length} lang={lang} />
     <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px 56px" }}>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "flex-end", alignItems: "center" }}>
-        <MusicToggle rtl={rtl} />
-        <LanguageToggle lang={lang} onChange={setLang} />
-      </div>
 
       <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px", border: "3px double #ca8a04", borderRadius: 8, boxShadow: "0 0 42px rgba(234,179,8,.12), inset 0 2px 12px rgba(0,0,0,.6)" }}>
         <div className="pharaoh-hiero" aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0 }} />
@@ -200,7 +197,7 @@ export default function Home() {
       </div>
 
       {popup && (<DomainSearchPopup key={clean} t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={!!wallet && (myNames.includes(clean) || owned.includes(clean))} wallet={wallet} founder={clean === "elmahrosa"} open={open} busy={busy} msg={msg} onBuy={mint} onClose={() => setPopup(false)} />)}
-      {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} />}
+      {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
       <FounderFamily lang={lang} />

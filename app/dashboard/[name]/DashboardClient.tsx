@@ -86,7 +86,7 @@ export default function DashboardClient({ name }: { name: string }) {
           </button>
         </>
       )}
-      {mintQuote && <MintModal t={L} rtl={rtl} domain={name} quote={mintQuote} onClose={() => setMintQuote(null)} />}
+      {mintQuote && <MintModal t={L} rtl={rtl} domain={name} quote={mintQuote} onClose={() => setMintQuote(null)} helpHref={SOCIAL.help} />}
     </div>
   );
 }
