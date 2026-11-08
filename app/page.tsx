@@ -83,6 +83,15 @@ export default function Home() {
 
   const all: any[] = stats?.tlds ?? [];
 
+  // Bottom bar: the idle hint hides itself after 3s and can be dismissed; it returns when there is something to buy.
+  const [stickyHidden, setStickyHidden] = useState(false);
+  useEffect(() => {
+    setStickyHidden(false);
+    if (canStickyBuy) return;
+    const id = setTimeout(() => setStickyHidden(true), 3000);
+    return () => clearTimeout(id);
+  }, [canStickyBuy, teosRes?.available]);
+
   async function run(fn: () => Promise<void>) {
     setBusy(true); setMsg("");
     try { await fn(); } catch (e: any) { setMsg(e?.message || "Something went wrong"); } finally { setBusy(false); }
@@ -211,7 +220,6 @@ export default function Home() {
       <PricingTable t={L} onBuy={goSearch} />
       <PricingLogic t={t} tlds={all} />
       <Divider />
-      <div style={{ textAlign: "center", margin: "8px 0 8px" }}><button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button></div>
       <PaymentOptions t={L} rtl={rtl} />
       <Divider />
       <TrustSection t={L} founders={stats?.founders ?? []} mints={stats?.mints ?? []} lang={lang} />
@@ -223,7 +231,7 @@ export default function Home() {
       <SiteFooter t={L} />
       <AymanContact t={L} rtl={rtl} />
     </main>
-    <div className="pharaoh-sticky">
+    {!stickyHidden && (<div className="pharaoh-sticky">
       <div className="pharaoh-sticky-inner">
         {canStickyBuy ? (
           <button className="pharaoh-buy" onClick={() => mint(["teos"])} disabled={busy}>
@@ -239,8 +247,9 @@ export default function Home() {
             {teosRes.available ? L.availableU : teosRes.reason === "reserved" ? L.reservedU : L.takenU}
           </span>
         )}
+        <button type="button" aria-label="Close" onClick={() => setStickyHidden(true)} style={{ background: "transparent", border: "1px solid #57493a", color: "#fde68a", borderRadius: 4, width: 32, height: 32, fontSize: 18, lineHeight: 1, cursor: "pointer" }}>×</button>
       </div>
-    </div>
+    </div>)}
     </>
   );
 }
