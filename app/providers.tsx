@@ -1,5 +1,5 @@
 "use client";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 // Individual adapter packages instead of the @solana/wallet-adapter-wallets bundle:
@@ -12,6 +12,7 @@ import { CoinbaseWalletAdapter } from "@solana/wallet-adapter-coinbase";
 import { NightlyWalletAdapter } from "@solana/wallet-adapter-nightly";
 import { TokenPocketWalletAdapter } from "@solana/wallet-adapter-tokenpocket";
 import { BitgetWalletAdapter } from "@solana/wallet-adapter-bitkeep";
+import { createSolanaClient } from "@metamask/connect-solana";
 import ConnectProvider from "@/components/ConnectProvider";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { launchWallet, needsDeepLink, type WalletId } from "@/lib/mobileWallet";
@@ -38,6 +39,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   // Ledger is left out on purpose: it cannot sign the message the server asks for.
   // Solana Mobile Wallet Adapter is added by WalletProvider itself on Android Chrome (wallet-adapter-react 0.15).
   const endpoint = typeof window !== "undefined" ? `${window.location.origin}/api/rpc` : FALLBACK_ENDPOINT;
+  // MetaMask (Solana) registers itself in the Wallet Standard registry, so it appears in the connect modal.
+  useEffect(() => {
+    createSolanaClient({ dapp: { name: "TEOS Domains", url: window.location.origin } }).catch(() => {});
+  }, []);
   const wallets = useMemo(() => [
     new MPhantom(), new MSolflare(), new MTrust(), new Coin98WalletAdapter(),
     new CoinbaseWalletAdapter(), new NightlyWalletAdapter(), new TokenPocketWalletAdapter(), new BitgetWalletAdapter(),
