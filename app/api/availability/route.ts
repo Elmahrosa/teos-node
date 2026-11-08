@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
     const upper = domain.toUpperCase();
     // Founder rule: ayman.<any tld> is never available. Reserved and sealed names are blocked on every TLD.
     if (isNotForSaleDomain(domain) || isReservedWord(domain) || isReserved(upper) || isSealedDomain(upper)) {
-      return NextResponse.json({ available: false, reason: "reserved", domain, tld });
+      return NextResponse.json({ available: false, reason: "reserved", message: "Name is reserved, not available for sale", domain, tld });
     }
     if (!isSaleTld(tld)) return NextResponse.json({ available: false, reason: "reserved", domain, tld });
     if (await isClaimed(fullName(domain, tld))) return NextResponse.json({ available: false, reason: "taken", domain, tld });
