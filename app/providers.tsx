@@ -14,6 +14,7 @@ import { TokenPocketWalletAdapter } from "@solana/wallet-adapter-tokenpocket";
 import { BitgetWalletAdapter } from "@solana/wallet-adapter-bitkeep";
 import { createSolanaClient } from "@metamask/connect-solana";
 import ConnectProvider from "@/components/ConnectProvider";
+import MusicProvider from "@/components/MusicProvider";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { launchWallet, needsDeepLink, type WalletId } from "@/lib/mobileWallet";
 import "@solana/wallet-adapter-react-ui/styles.css";
@@ -50,7 +51,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect={false}>
-        <WalletModalProvider><ConnectProvider>{children}</ConnectProvider></WalletModalProvider>
+        <WalletModalProvider><ConnectProvider><MusicProvider>{children}</MusicProvider></ConnectProvider></WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   );
