@@ -14,8 +14,8 @@ export type MintQuote = { quote_id: string; price_sol: number; price_usd?: numbe
 
 type Phase = "choose" | "approve" | "signing" | "paying" | "minting" | "error";
 
-export default function MintModal(props: { t: Dict; rtl: boolean; domain: string; quote: MintQuote; onClose: () => void }) {
-  const { t, rtl, domain, onClose } = props;
+export default function MintModal(props: { t: Dict; rtl: boolean; domain: string; quote: MintQuote; onClose: () => void; helpHref: string }) {
+  const { t, rtl, domain, onClose, helpHref } = props;
   // The SOL amount follows the live market rate. Each quote price is held for 60 s, then a fresh one is fetched.
   const [quote, setQuoteState] = useState<MintQuote>(props.quote);
   const { publicKey, connected, signMessage, sendTransaction, wallet } = useWallet();
@@ -137,6 +137,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
         )}
         {busy && <p role="status" style={{ fontWeight: 700 }}>{phase === "signing" ? t.mmSigning : phase === "paying" ? t.mmPaying : t.mmMinting}</p>}
         {phase === "error" && <p role="alert" style={{ color: "#f87171", wordBreak: "break-word" }}>{err}</p>}
+        <p style={{ margin: "14px 0 0", fontSize: 13 }}><a style={{ color: "#a89a80" }} href={helpHref} target="_blank" rel="noopener noreferrer">{t.needHelp}</a></p>
       </div>
     </div>
   );

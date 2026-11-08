@@ -1,7 +1,8 @@
 "use client";
 import PharaohStyles from "./PharaohStyles";
 import PharaohMark from "./PharaohMark";
-import LanguageToggle from "./LanguageToggle";
+import LangMenu from "./LangMenu";
+import MusicToggle from "./MusicToggle";
 import SiteFooter from "./SiteFooter";
 import { useLang } from "../lib/useLang";
 import type { Dict, Lang } from "../lib/i18n";
@@ -24,6 +25,7 @@ export default function PageShell({ children }: { children: (ctx: { lang: Lang; 
       <PharaohStyles />
       <nav style={{ background: "rgba(10,8,6,.94)", borderBottom: "1px solid #3d352a" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+          <div dir="ltr" style={{ display: "flex", alignItems: "center", gap: 8 }}><LangMenu lang={lang} onChange={setLang} /><MusicToggle rtl={rtl} /></div>
           <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
             <PharaohMark size={38} /><span style={{ fontFamily: SERIF, fontSize: 18, letterSpacing: "0.18em", color: "#f1e7cf" }}>TEOS</span>
           </a>
@@ -36,7 +38,6 @@ export default function PageShell({ children }: { children: (ctx: { lang: Lang; 
         </div>
       </nav>
       <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1000, margin: "0 auto", padding: "32px 20px 40px", fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif" }}>
-        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 18 }}><LanguageToggle lang={lang} onChange={setLang} /></div>
         {children({ lang, L, rtl })}
         <SiteFooter t={L} />
       </main>
