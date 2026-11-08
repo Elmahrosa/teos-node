@@ -1,35 +1,30 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import PricingLogic from "../components/PricingLogic";
 import Bidi from "../components/Bidi";
-import Image from "next/image";
 import FounderSeal from "../components/FounderSeal";
 import PharaohMark from "../components/PharaohMark";
 import PharaohStyles from "../components/PharaohStyles";
 import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopup";
 import CountryDropdown from "../components/CountryDropdown";
-import AymanContact from "../components/AymanContact";
 import MusicToggle from "../components/MusicToggle";
 import SiteFooter from "../components/SiteFooter";
 import HeroVideo from "@/components/HeroVideo";
-import LanguageToggle from "../components/LanguageToggle";
-import Divider from "../components/Divider";
-import PricingTable from "../components/PricingTable";
-import TrustSection from "../components/TrustSection";
-import PaymentOptions from "../components/PaymentOptions";
+import LangMenu from "../components/LangMenu";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 import LiveTicker from "../components/LiveTicker";
-import VisitorSection, { StatsBar, useVisitorStats } from "../components/VisitorSection";
-import JoinedSection, { JoinedBadge } from "../components/JoinedSection";
+import { StatsBar } from "../components/VisitorSection";
+import { JOINED } from "../lib/joined";
+import { FounderFamily, JoinedBadge } from "../components/JoinedSection";
 import { isJoined, VIEW_PROFILE, BADGE } from "../lib/joined";
-import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt, type Lang } from "../lib/i18n";
 import { useLang } from "../lib/useLang";
 import { SOCIAL } from "../lib/social";
 import { getPriceOrNull } from "../lib/pricing";
+import ALL_TLDS from "@/tlds/all.json";
+const NATIONS = (ALL_TLDS as unknown[]).length;
 
 declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
@@ -38,6 +33,8 @@ const ALT = {
   gate: { en: "The TEOS gate - unlock your sovereign", ar: "بوابة TEOS - افتح اسمك السيادي", id: "Pintu masuk TEOS" } as Record<Lang, string>,
   certificate: { en: "TEOS dig certificate", ar: "شهادة التخذ TEOS", id: "Sertifikat TEOS" } as Record<Lang, string>,
 };
+const NAVL = { en: { joined: "Who Joined", world: "World" }, ar: { joined: "مين دخل", world: "العالم" }, id: { joined: "Bergabung", world: "Dunia" } } as Record<Lang, { joined: string; world: string }>;
+const ABOUT = { en: "About", ar: "عن النظام", id: "Tentang" } as Record<Lang, string>;
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const card: React.CSSProperties = { background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #3d352a", borderRadius: 4, padding: 20, margin: "16px 0", boxShadow: "inset 0 2px 12px rgba(0,0,0,.6)" };
 const btn: React.CSSProperties = { background: "linear-gradient(90deg,#b45309,#ca8a04)", color: "#000", border: "2px solid #713f12", borderRadius: 4, padding: "10px 18px", fontSize: 16, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 10px rgba(0,0,0,.5)" };
@@ -123,7 +120,6 @@ export default function Home() {
     setQuote(qj); setPopup(false);
   });
 
-  const visitorStats = useVisitorStats();
   const goSearch = () => {
     document.getElementById("search")?.scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => document.getElementById("n")?.focus(), 400);
@@ -136,48 +132,20 @@ export default function Home() {
     <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
     <nav className="site-nav" style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><PharaohMark size={46} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.2em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
+        <div dir="ltr" style={{ display: "flex", alignItems: "center", gap: 8 }}><LangMenu lang={lang} onChange={setLang} /><MusicToggle rtl={rtl} /></div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><PharaohMark size={40} /><div><div style={{ fontFamily: SERIF, fontSize: 20, letterSpacing: "0.14em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a className="nav-dup" href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
-          <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
-          <span className="nav-dup" style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}><Bidi text={t("header.tlds")} /></span>
+          <a className="nav-dup" href="/joined" style={{ ...tablet, textDecoration: "none" }}>{NAVL[lang].joined}</a>
+          <a className="nav-dup" href="/world" style={{ ...tablet, textDecoration: "none" }}>{NAVL[lang].world}</a>
+          <a className="nav-dup" href="/system" style={{ ...tablet, textDecoration: "none" }}>{ABOUT[lang]}</a>
+          <button style={{ ...btn, padding: "0 14px", height: 34, fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
         </span>
       </div>
     </nav>
     <HeroVideo rtl={rtl} searchLabel={L.search} connectLabel={wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect} onSearch={goSearch} onConnect={connectWallet} />
-    <StatsBar stats={visitorStats} lang={lang} />
-    <section aria-label={ALT.gate[lang]} style={{ boxSizing: "border-box", width: "100%", maxWidth: 1000, margin: "0 auto", padding: "20px 12px 0" }}>
-      <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} priority style={{ ...imgStyle, width: "100%", height: "auto", display: "block" }} sizes="(max-width: 1000px) 100vw, 1000px" />
-    </section>
-    <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px 120px" }}>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "flex-end", alignItems: "center" }}>
-        <MusicToggle rtl={rtl} />
-        <LanguageToggle lang={lang} onChange={setLang} />
-      </div>
-
-      {/* HERO V14 SOVEREIGN - DUAL PATH */}
-      <header style={{ textAlign: "center", margin: "24px 0 8px" }}>
-        <h2 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>
-          {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : lang === "id" ? "TEOS Akar Berdaulat - Alexandria" : "TEOS Sovereign Root - Alexandria"}
-        </h2>
-        <p dir="auto" style={{ margin: 0, fontSize: 20, color: "#fbbf24", fontWeight: 700 }}>
-          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الدومين السيادي هو البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Domain Berdaulat Hanyalah Awal" : "1 Key Unlocks The Full System - Sovereign Domain Is Just The Start"}
-        </p>
-        <p dir="auto" style={{ margin: "12px 0 0", fontSize: 17, color: "#d6cbb5", lineHeight: 1.6 }}>
-          {lang === "ar" 
-            ? "عايز دومين تملكه للأبد - تسطبه - تتداوله - تعمل ديزاين؟ تقدر. عايز تخش المنظومة السيادية الكاملة - متصفح - جيت واي - عالمك الخاص؟ برضه تقدر."
-            : lang === "id"
-            ? "Mau domain yang Anda miliki selamanya - setup - trading - desain? Bisa. Mau sistem berdaulat penuh - browser - gateway - dunia Anda sendiri? Bisa juga."
-            : "Want a domain you own forever - setup - trade - design? You can. Want the full sovereign system - browser - gateway - your own world? You can too."}
-        </p>
-        <p dir="auto" style={{ margin: "12px 0 0", fontSize: 16, color: "#a89a80" }}>
-          {lang === "ar" 
-            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 127 دولة - saloma.teos يفتح saloma.eg"
-            : lang === "id"
-            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 127 negara - saloma.teos membuka saloma.eg"
-            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 127 countries - saloma.teos unlocks saloma.eg"}
-        </p>
-      </header>
+    <StatsBar nations={NATIONS} joined={JOINED.length} lang={lang} />
+    <main dir={rtl ? "rtl" : "ltr"} lang={lang} data-fading={fading ? "1" : undefined} style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px 56px" }}>
 
       <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px", border: "3px double #ca8a04", borderRadius: 8, boxShadow: "0 0 42px rgba(234,179,8,.12), inset 0 2px 12px rgba(0,0,0,.6)" }}>
         <div className="pharaoh-hiero" aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0 }} />
@@ -232,24 +200,11 @@ export default function Home() {
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
-      <JoinedSection lang={lang} />
-      <VisitorSection stats={visitorStats} lang={lang} />
-      <WhyBuy t={L} countries={all.length} onCta={goSearch} />
-      <PricingTable t={L} onBuy={goSearch} />
-      <PricingLogic t={t} tlds={all} />
-      <Divider />
-      <PaymentOptions t={L} rtl={rtl} />
-      <Divider />
-      <TrustSection t={L} founders={stats?.founders ?? []} mints={stats?.mints ?? []} lang={lang} />
-      <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px", textAlign: "center", margin: "16px 0" }}>
-        <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={72} ticker={false} /></div>
-        <h2 dir="auto" style={{ fontFamily: SERIF, margin: "10px 0 4px" }}>{L.certTitle}</h2>
-        <p dir="auto" style={{ margin: 0 }}>{L.certText}</p>
-      </div>
+      <FounderFamily lang={lang} />
+
       <SiteFooter t={L} />
-      <AymanContact t={L} rtl={rtl} />
     </main>
-    {!stickyHidden && (<div className="pharaoh-sticky">
+    {open && !stickyHidden && (<div className="pharaoh-sticky">
       <div className="pharaoh-sticky-inner">
         {canStickyBuy ? (
           <button className="pharaoh-buy" onClick={() => mint(["teos"])} disabled={busy}>

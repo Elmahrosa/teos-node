@@ -5,9 +5,9 @@ import type { VisitorStats } from "../lib/visitors";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
 const T = {
-  en: { title: "Where The World Is Joining From", nations: "Nations", joined: "Joined", visits: "Total Visits", v: "visits", j: "joined", privacy: "Anonymous - country only, no personal data stored" },
-  ar: { title: "منين دخلت المحروسة", nations: "دولة", joined: "انضم", visits: "إجمالي الزيارات", v: "زيارة", j: "انضم", privacy: "مجهول - الدولة فقط، لا يتم تخزين أي بيانات شخصية" },
-  id: { title: "Dari Mana Dunia Bergabung", nations: "Negara", joined: "Bergabung", visits: "Total Kunjungan", v: "kunjungan", j: "bergabung", privacy: "Anonim - hanya negara, tidak ada data pribadi disimpan" },
+  en: { title: "Where The World Is Joining From", nations: "Nations", joined: "Joined", visited: "Countries visited", visits: "Total Visits", v: "visits", v1: "visit", unknown: "Unknown", empty: "No visits recorded yet.", j: "joined", privacy: "Anonymous - country only, no personal data stored" },
+  ar: { title: "منين دخلت المحروسة", nations: "دولة", joined: "انضم", visited: "دول زارت", visits: "إجمالي الزيارات", v: "زيارة", v1: "زيارة", unknown: "غير معروف", empty: "لا توجد زيارات بعد.", j: "انضم", privacy: "مجهول - الدولة فقط، لا يتم تخزين أي بيانات شخصية" },
+  id: { title: "Dari Mana Dunia Bergabung", nations: "Negara", joined: "Bergabung", visited: "Negara pengunjung", visits: "Total Kunjungan", v: "kunjungan", v1: "kunjungan", unknown: "Tidak diketahui", empty: "Belum ada kunjungan.", j: "bergabung", privacy: "Anonim - hanya negara, tidak ada data pribadi disimpan" },
 } as const;
 
 const SESSION_KEY = "teos_visit_counted";
@@ -30,35 +30,49 @@ export function useVisitorStats(): VisitorStats | null {
   return stats;
 }
 
-const pill = { display: "inline-flex", gap: 8, alignItems: "center", padding: "8px 16px", border: "1px solid #ca8a04", borderRadius: 999, background: "rgba(202,138,4,.1)", color: "#fef3c7", fontSize: 14, fontWeight: 700 } as const;
+const pill = { display: "inline-flex", gap: 8, alignItems: "center", padding: "8px 16px", border: "1px solid #b8973f", borderRadius: 999, background: "rgba(184,151,63,.1)", color: "#f1e7cf", fontSize: 14, fontWeight: 700 } as const;
+const fmtN = (v: number | undefined) => (v === undefined ? "—" : v.toLocaleString("en-US"));
 
-export function StatsBar({ stats, lang }: { stats: VisitorStats | null; lang: Lang }) {
+// Home: ONE counter. Nations is the fixed sovereign-namespace count; Joined comes from the member list.
+export function StatsBar({ nations, joined, lang }: { nations: number; joined: number; lang: Lang }) {
   const t = T[lang];
-  const n = (v: number | undefined) => (v === undefined ? "—" : v.toLocaleString("en-US"));
   return (
-    <div dir={lang === "ar" ? "rtl" : "ltr"} style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", margin: "14px 0" }}>
-      <span style={pill}>🌍 {n(stats?.nations)} {t.nations}</span>
-      <span style={pill}>👥 {n(stats?.joined)} {t.joined}</span>
-      <span style={pill}>👁️ {t.visits}: {n(stats?.total)}</span>
+    <div dir={lang === "ar" ? "rtl" : "ltr"} style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", margin: "18px 0" }}>
+      <span style={pill}>🌍 {fmtN(nations)} {t.nations}</span>
+      <span style={pill}>👥 {fmtN(joined)} {t.joined}</span>
     </div>
   );
 }
 
-export default function VisitorSection({ stats, lang }: { stats: VisitorStats | null; lang: Lang }) {
+// World page: the real totals. Total visits is the sum of every row below (Unknown included).
+export function WorldTotals({ stats, lang }: { stats: VisitorStats | null; lang: Lang }) {
   const t = T[lang];
   return (
-    <section aria-labelledby="visitors" style={{ margin: "24px 0" }}>
-      <h2 id="visitors" dir="auto" style={{ fontFamily: SERIF, letterSpacing: "0.1em", color: "#fef3c7", textAlign: "center", margin: "0 0 14px" }}>{t.title}</h2>
-      <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))" }}>
-        {(stats?.top ?? []).map((c) => (
-          <div key={c.code} dir={lang === "ar" ? "rtl" : "ltr"} style={{ border: "1px solid #3d352a", borderRadius: 8, padding: 14, background: "rgba(20,16,10,.8)", textAlign: "center" }}>
+    <div dir={lang === "ar" ? "rtl" : "ltr"} style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", margin: "22px 0 0" }}>
+      <span style={pill}>🌍 {fmtN(stats?.nations)} {t.visited}</span>
+      <span style={pill}>👁️ {t.visits}: {fmtN(stats?.total)}</span>
+    </div>
+  );
+}
+
+export default function VisitorSection({ stats, lang, h1 = false }: { stats: VisitorStats | null; lang: Lang; h1?: boolean }) {
+  const t = T[lang];
+  const H = h1 ? "h1" : "h2";
+  const rows = stats?.top ?? [];
+  return (
+    <section aria-labelledby="visitors" style={{ margin: "8px 0" }}>
+      <H id="visitors" dir="auto" style={{ fontFamily: SERIF, fontWeight: 400, letterSpacing: "0.12em", color: "#f1e7cf", textAlign: "center", margin: "0 0 22px" }}>{t.title.toUpperCase()}</H>
+      {rows.length === 0 && stats && <p style={{ textAlign: "center", opacity: 0.7 }}>{t.empty}</p>}
+      <div style={{ display: "grid", gap: 14, gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))" }}>
+        {rows.map((c) => (
+          <div key={c.code} dir={lang === "ar" ? "rtl" : "ltr"} style={{ border: "1px solid #3d352a", borderRadius: 6, padding: 14, background: "#17130f", textAlign: "center" }}>
             <div style={{ fontSize: 30 }}>{c.flag}</div>
-            <div style={{ color: "#fef3c7", fontWeight: 700 }}>{c.name}</div>
-            <div style={{ color: "#fbbf24", fontSize: 14 }}>{c.visits.toLocaleString("en-US")} {t.v}{c.joined > 0 ? ` - ${c.joined} ${t.j}` : ""}</div>
+            <div style={{ color: "#f1e7cf", fontWeight: 700 }}>{c.code === "ZZ" ? t.unknown : c.name}</div>
+            <div style={{ color: "#d9c48a", fontSize: 14 }}>{c.visits.toLocaleString("en-US")} {c.visits === 1 ? t.v1 : t.v}{c.joined > 0 ? ` - ${c.joined} ${t.j}` : ""}</div>
           </div>
         ))}
       </div>
-      <p style={{ textAlign: "center", opacity: 0.7, fontSize: 12, margin: "12px 0 0" }}>{t.privacy}</p>
+      <p style={{ textAlign: "center", opacity: 0.7, fontSize: 12, margin: "16px 0 0" }}>{t.privacy}</p>
     </section>
   );
 }
