@@ -1,13 +1,10 @@
-"use client";
-import { useEffect, useState } from "react";
+﻿"use client";
 import type { Dict } from "../lib/i18n";
 
-// Top bar: a fixed label on the left and ONE message at a time on the right, fading between messages.
-// No scrolling text, so nothing can overlap. Items come from real data (founders minted, total sold, TLD count).
+// Top bar: fixed green "live" label on the left, red marquee on the right.
+// Items come from real data: founder names minted, total sold (when the API reports it), TLD count.
 export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; rtl: boolean; founders: string[]; sold: number | null; tlds: number }) {
-  const lead = t.ticker.split("•").map((s) => s.trim()).filter((s) => s && s !== t.liveLabel);
   const items = [
-    ...lead,
     ...founders.map((f) => `${f} ${t.tkMinted}`),
     ...(sold && sold > 0 ? [`${sold} ${t.tkSold}`] : []),
     t.tkGenesis,
@@ -15,29 +12,36 @@ export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; 
     ...(tlds ? [`${tlds} ${t.tkTlds}`] : []),
     t.tkRoot,
     t.tkRule,
-  ].filter(Boolean);
-
-  const [i, setI] = useState(0);
-  const [show, setShow] = useState(true);
-  useEffect(() => {
-    if (items.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => {
-      setShow(false);
-      setTimeout(() => { setI((n) => n + 1); setShow(true); }, 350);
-    }, 5500);
-    return () => clearInterval(id);
-  }, [items.length]);
-
+  ];
+  const line = t.ticker + items.join("  •  ") + "  •  ";
+  // The track holds the line twice and moves by half its width, so the loop has no jump.
   return (
-    <div dir={rtl ? "rtl" : "ltr"} className="lt-bar" style={{ display: "flex", width: "100%", overflow: "hidden", background: "#14110d", borderBottom: "1px solid #3d352a", color: "#d9c48a", alignItems: "center", height: 36 }}>
-      <div style={{ background: "#8a7335", color: "#14110d", padding: "0 14px", height: "100%", display: "flex", alignItems: "center", fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", flexShrink: 0, whiteSpace: "nowrap" }}>
+    <div dir={rtl ? "rtl" : "ltr"} className="lt-bar" style={{ display: "flex", width: "100%", overflow: "hidden", background: "#dc2626", color: "#fff", alignItems: "center" }}>
+      <div style={{ background: "#10B981", color: "#fff", padding: "0 14px", height: "100%", display: "flex", alignItems: "center", gap: 8, fontSize: 12, fontWeight: 700, letterSpacing: "0.04em", flexShrink: 0, zIndex: 2, whiteSpace: "nowrap" }}>
+        <span className="lt-dot" style={{ width: 8, height: 8, borderRadius: "50%", background: "#fff", display: "inline-block" }} />
         <span className="lt-full">{t.liveLabel}</span>
         <span className="lt-short">{t.liveShort}</span>
       </div>
-      <div aria-live="off" style={{ flex: 1, minWidth: 0, padding: "0 14px", fontSize: 13, fontWeight: 600, letterSpacing: "0.04em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", opacity: show ? 1 : 0, transition: "opacity .35s ease" }}>
-        {items[i % items.length]}
+      <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
+        <div className="lt-track" dir={rtl ? "rtl" : "ltr"} style={{ fontSize: 13, fontWeight: 600 }}>
+          <span className="lt-group">{line.repeat(3)}</span>
+          <span className="lt-group" aria-hidden>{line.repeat(3)}</span>
+        </div>
       </div>
-      <style>{`.lt-short{display:none}@media(max-width:600px){.lt-bar{height:32px !important}.lt-full{display:none}.lt-short{display:inline}.lt-bar>div:first-child{padding:0 8px !important;font-size:10px !important}}`}</style>
+      <style>{`
+        .lt-bar{height:36px}
+        .lt-short{display:none}
+        .lt-dot{animation:lt-pulse 1.4s ease-in-out infinite}
+        .lt-track{display:flex;width:max-content;white-space:nowrap;will-change:transform;animation:lt-marquee 120s linear infinite}
+        .lt-track[dir="rtl"]{animation-name:lt-marquee-rtl}
+        .lt-group{flex-shrink:0;white-space:nowrap;padding-inline-end:3rem}
+        .lt-bar:hover .lt-track{animation-play-state:paused}
+        @keyframes lt-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+        @keyframes lt-marquee-rtl{from{transform:translateX(0)}to{transform:translateX(50%)}}
+        @keyframes lt-pulse{0%,100%{opacity:1}50%{opacity:.25}}
+        @media(max-width:600px){.lt-bar{height:32px}.lt-bar>div:first-child{padding:0 8px !important;font-size:10px !important;gap:5px !important}}
+        @media(prefers-reduced-motion:reduce){.lt-track{animation:none}.lt-dot{animation:none}}
+      `}</style>
     </div>
   );
 }
