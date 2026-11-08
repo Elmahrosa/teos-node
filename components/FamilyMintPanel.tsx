@@ -161,7 +161,7 @@ export default function FamilyMintPanel() {
               {plan.map((r) => (
                 <tr key={r.name} style={{ borderTop: "1px solid #222" }}>
                   <td style={{ padding: 6, fontFamily: "ui-monospace, monospace" }}>{r.name}.teos</td>
-                  <td style={{ padding: 6 }}>{r.price_usd === null ? "—" : `$${r.price_usd.toLocaleString("en-US")}`}</td>
+                  <td style={{ padding: 6 }}>{r.price_usd === 0 ? "$0 (gas only)" : r.price_usd === null ? "—" : `$${r.price_usd.toLocaleString("en-US")}`}</td>
                   <td style={{ padding: 6, color: r.status === "free" ? "#4ade80" : "#f87171" }}>{r.status}</td>
                 </tr>
               ))}
