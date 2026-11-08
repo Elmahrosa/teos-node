@@ -91,6 +91,34 @@ export async function claimDomain(
   );
 }
 
+// Founder/family only. Same permanent claim as claimDomain, but sealed and reserved family
+// names are allowed through. Callers MUST verify the founder wallet signature first.
+// The founder identity itself (ayman) stays not-for-sale here too.
+export async function adminClaimDomain(
+  domain: string,
+  owner: string,
+  tx: string
+): Promise<boolean> {
+  const base = baseName(domain);
+  if (!base || isNotForSaleDomain(domain)) return false;
+
+  return setNx(
+    dKey(domain),
+    JSON.stringify({
+      owner,
+      tx,
+      at: Date.now(),
+      admin: true,
+    }),
+    null // a sold name never expires
+  );
+}
+
+// One-time nonce for founder claim signatures. Short TTL: a signature must be used promptly.
+export async function useNonce(nonce: string, ttlSec = 600): Promise<boolean> {
+  return setNx(`teos:nonce:${nonce}`, "1", ttlSec);
+}
+
 // Release only the exact claim created by this owner and transaction.
 // Redis comparison and deletion happen atomically.
 export async function releaseDomain(

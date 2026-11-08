@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import FamilyMintPanel from "../../components/FamilyMintPanel";
 
 // Gated server-side by middleware.ts (no valid founder session = redirect) and again by /api/visits.
 // Both NFT lists are read-only. The Mint Wallet is display-only: it is NOT a founder identity
@@ -14,11 +15,14 @@ type NftItem = {
   interface: string;
 };
 
+type Authority = { wallet?: string; balanceSol?: number | null; ready?: boolean };
 type FounderResponse = { wallet?: string; total?: number; items?: NftItem[]; error?: string };
-type MintResponse = { wallet?: string; balanceSol?: number | null; total?: number; items?: NftItem[]; error?: string };
+type MintResponse = { wallet?: string; balanceSol?: number | null; total?: number; items?: NftItem[]; error?: string; authority?: Authority };
+type FamilyResponse = { wallet?: string; total?: number; items?: NftItem[]; error?: string };
 
 const ERROR_TEXT: Record<string, string> = {
   founder_wallet_not_configured: "Founder wallet not configured in Railway",
+  family_wallet_not_configured: "Family wallet (FAMILY_WALLET) not configured in Railway",
   mint_wallet_not_configured: "Mint wallet not configured in Railway",
   helius_not_configured: "HELIUS_API_KEY not configured in Railway",
   helius_unavailable: "Could not load on-chain data right now",
@@ -35,6 +39,8 @@ function NftSection({
   badge,
   error,
   loading,
+  note,
+  holding,
 }: {
   title: string;
   wallet: string;
@@ -44,6 +50,8 @@ function NftSection({
   badge?: string;
   error: string;
   loading: boolean;
+  note?: string;
+  holding?: boolean;
 }) {
   const usd = balanceSol !== undefined && balanceSol !== null && solUsd ? ` (~$${(balanceSol * solUsd).toFixed(2)})` : "";
   const meta = [
@@ -65,6 +73,7 @@ function NftSection({
         )}
       </div>
       <div style={{ fontSize: 13, opacity: 0.7, marginBottom: 12 }}>{meta}</div>
+      {note && <div style={{ fontSize: 12, opacity: 0.7, marginTop: -8, marginBottom: 12 }}>{note}</div>}
 
       {error && <p role="alert" style={{ color: "#f87171", margin: "8px 0" }}>{error}</p>}
       {!error && loading && <p style={{ opacity: 0.7 }}>Loading your NFTs / cNFTs...</p>}
@@ -85,6 +94,11 @@ function NftSection({
                 <div style={{ display: "inline-block", marginTop: 6, padding: "2px 8px", borderRadius: 9999, fontSize: 11, fontWeight: 700, background: n.compressed ? "#1d4ed8" : "#374151" }}>
                   {n.compressed ? "cNFT - Compressed" : "NFT"}
                 </div>
+                {holding && (
+                  <div style={{ marginTop: 6, fontSize: 11, fontWeight: 700, color: "#fbbf24" }}>
+                    Holding for: {n.name || "Unnamed"} — Ready to Send
+                  </div>
+                )}
                 <div style={{ marginTop: 6, fontSize: 11, fontFamily: "ui-monospace, monospace", opacity: 0.7 }}>
                   {n.id ? `${n.id.slice(0, 4)}...${n.id.slice(-4)}` : ""}
                 </div>
@@ -103,8 +117,10 @@ export default function Founder() {
   const [countries, setCountries] = useState<string[]>([]);
   const [founder, setFounder] = useState<FounderResponse | null>(null);
   const [mint, setMint] = useState<MintResponse | null>(null);
+  const [family, setFamily] = useState<FamilyResponse | null>(null);
   const [founderError, setFounderError] = useState("");
   const [mintError, setMintError] = useState("");
+  const [familyError, setFamilyError] = useState("");
   const [solUsd, setSolUsd] = useState<number | null>(null);
 
   useEffect(() => {
@@ -120,7 +136,7 @@ export default function Founder() {
         return d;
       });
 
-    Promise.allSettled([get("/api/founder/nfts"), get("/api/founder/mint"), get("/api/sol-price")]).then(([f, m, p]) => {
+    Promise.allSettled([get("/api/founder/nfts"), get("/api/founder/mint"), get("/api/founder/nfts?wallet=family"), get("/api/sol-price")]).then(([f, m, fam, p]) => {
       if (!alive) return;
       if (p.status === "fulfilled" && typeof p.value.sol_usd === "number") setSolUsd(p.value.sol_usd);
       if (f.status === "fulfilled") {
@@ -136,6 +152,13 @@ export default function Founder() {
       } else {
         setMint({ wallet: "", balanceSol: null, items: [] });
         setMintError("Could not load the mint wallet right now");
+      }
+      if (fam.status === "fulfilled") {
+        setFamily(fam.value);
+        setFamilyError(fam.value.error ? ERROR_TEXT[fam.value.error] || fam.value.error : "");
+      } else {
+        setFamily({ wallet: "", items: [] });
+        setFamilyError("Could not load the family wallet right now");
       }
     });
 
@@ -180,10 +203,28 @@ export default function Founder() {
         items={mint?.items ?? null}
         balanceSol={mint?.balanceSol ?? null}
         solUsd={solUsd}
-        badge={mint === null ? "" : (mint.balanceSol ?? 0) > 0 ? "READY TO MINT" : "NO FUNDS"}
+        badge={mint === null ? "" : mint.authority?.ready ? "READY TO MINT" : "NO FUNDS"}
         error={mintError}
         loading={mint === null}
+        note={
+          mint?.authority?.wallet
+            ? `Mint authority: ${short(mint.authority.wallet)} — ${(mint.authority.balanceSol ?? 0).toFixed(4)} SOL (this wallet signs and pays for mints)`
+            : "Mint authority (MINT_AUTHORITY_KEYPAIR) not configured"
+        }
       />
+
+      <NftSection
+        title="Family Holding Wallet"
+        wallet={family?.wallet ?? ""}
+        items={family?.items ?? null}
+        badge="HOLDING"
+        error={familyError}
+        loading={family === null}
+        holding
+        note="Transfers must be signed by the family wallet itself — this dashboard cannot move them."
+      />
+
+      <FamilyMintPanel />
     </div>
   );
 }
