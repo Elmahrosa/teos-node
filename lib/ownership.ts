@@ -15,12 +15,47 @@ function rpcUrl(): string | null {
   return explicit || (key ? `https://mainnet.helius-rpc.com/?api-key=${key}` : null);
 }
 
-export function trustedAuthorities(): Set<string> {
+// P0-1 guard: a known-compromised authority (see commit 90b8cc0 / PR #109)
+// must never be trusted again. The plain address is intentionally NOT stored in
+// the repo - only its SHA-256. Extra hashes can be supplied at runtime via
+// COMPROMISED_AUTHORITY_HASH (comma separated, hex).
+const COMPROMISED_AUTHORITY_SHA256 = new Set([
+  "1dcfeca0efd5a5d1c426475ddef40435aa06ba1c1d2f6a2586ebb8e57d8aefe5",
+]);
+
+// Web Crypto (available in both Node 22 and the Edge runtime); avoids node:crypto,
+// which breaks the edge instrumentation bundle.
+async function sha256Hex(s: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+function compromisedHashes(): Set<string> {
+  const out = new Set(COMPROMISED_AUTHORITY_SHA256);
+  for (const h of (env("COMPROMISED_AUTHORITY_HASH") ?? "").split(",").map((s) => s.trim().toLowerCase()).filter(Boolean)) out.add(h);
+  return out;
+}
+
+export async function trustedAuthorities(): Promise<Set<string>> {
   const out = new Set<string>();
   const mk = mintAuthorityPublicKey();
   if (mk) out.add(mk);
   for (const a of (env("TEOS_UPDATE_AUTHORITY") ?? "").split(",").map((s) => s.trim()).filter(Boolean)) out.add(a);
+  const blocked = compromisedHashes();
+  for (const authority of out) {
+    const h = await sha256Hex(authority);
+    if (blocked.has(h)) {
+      throw new Error(
+        `[security] a compromised authority is configured (sha256 ${h.slice(0, 12)}...); rotate TEOS_UPDATE_AUTHORITY / MINT_AUTHORITY_KEYPAIR before serving ownership checks`
+      );
+    }
+  }
   return out;
+}
+
+// Called from instrumentation.ts so the server refuses to start with a leaked authority.
+export async function assertTrustedAuthoritiesSafe(): Promise<void> {
+  await trustedAuthorities();
 }
 
 // Assets held by the wallet, or null when the RPC cannot answer (callers fail closed).
@@ -36,7 +71,9 @@ export async function assetsOf(wallet: string): Promise<DasAsset[] | null> {
     });
     if (!res.ok) return null;
     const json: any = await res.json();
-    return json?.result ? (json.result.items ?? []) : null;
+    // A present-but-malformed result is an RPC failure, not "no assets" (fail closed -> 503).
+    if (!json?.result) return null;
+    return Array.isArray(json.result.items) ? json.result.items : null;
   } catch {
     return null;
   }
@@ -52,7 +89,7 @@ async function isOurs(a: DasAsset, name: string, trusted: Set<string>): Promise<
 
 // Names (without suffix) the wallet owns, from the assets it holds. Pure on its inputs plus the registry.
 export async function ourTeosNames(items: DasAsset[]): Promise<string[]> {
-  const trusted = trustedAuthorities();
+  const trusted = await trustedAuthorities();
   const names: string[] = [];
   for (const a of items) {
     const n = assetName(a);
