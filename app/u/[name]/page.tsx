@@ -1,5 +1,4 @@
 import fs from "fs";
-import Link from "next/link";
 import path from "path";
 import CrestImage from "../../../components/CrestImage";
 import { notFound } from "next/navigation";
@@ -31,7 +30,7 @@ export default async function Page({ params }: { params: Promise<{ name: string 
           <h1 className="text-3xl font-bold">نطاق محجوز</h1>
           <p className="mt-4">{domain}.teos</p>
           <p className="mt-3">هذا النطاق محجوز وغير متاح للبيع أو التسجيل.</p>
-          <Link href="/" className="inline-block mt-8 text-yellow-400">العودة إلى TEOS</Link>
+          <a href="/" className="inline-block mt-8 text-yellow-400">العودة إلى TEOS</a>
         </section>
       </main>
     );
@@ -102,7 +101,7 @@ export default async function Page({ params }: { params: Promise<{ name: string 
           ))}
         </dl>
 
-        <Link href="/" dir="rtl" lang="ar" style={{ display: "inline-block", marginTop: 24, color: gold }}>العودة إلى TEOS</Link>
+        <a href="/" dir="rtl" lang="ar" style={{ display: "inline-block", marginTop: 24, color: gold }}>العودة إلى TEOS</a>
       </section>
     </main>
   );
