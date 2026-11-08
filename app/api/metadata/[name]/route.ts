@@ -17,9 +17,11 @@ export async function GET(req: Request, { params }: { params: Promise<{ name: st
     
     const claim = await getClaim(fullName(name, tld));
     
-    const crest = fs.existsSync(path.join(process.cwd(), "public", "crests", `${name}.${tld}.png`))
-      ? `/crests/${name}.${tld}.png`
-      : "/genesis-seal.png";
+    const crestExt = ["png", "jpg"].find((ext) =>
+      fs.existsSync(path.join(process.cwd(), "public", "crests", `${name}.${tld}.${ext}`)),
+    );
+    const crest = crestExt ? `/crests/${name}.${tld}.${crestExt}` : "/genesis-seal.png";
+    const mime = crestExt === "jpg" ? "image/jpeg" : "image/png";
 
     return NextResponse.json({
       name: `${name.toUpperCase()}.${tld.toUpperCase()}`,
@@ -33,7 +35,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ name: st
         { trait_type: "Network", value: "Solana" },
         { trait_type: "Status", value: claim ? "Claimed" : "Available" },
       ],
-      properties: { category: "image", files: [{ uri: `${BASE}${crest}`, type: "image/png" }] },
+      properties: { category: "image", files: [{ uri: `${BASE}${crest}`, type: mime }] },
     });
   } catch {
     return NextResponse.json({ error: "internal_error" }, { status: 500 });
