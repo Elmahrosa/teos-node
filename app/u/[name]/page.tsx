@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { notFound } from "next/navigation";
 import { getClaim } from "../../../lib/registry";
 import { isNotForSaleDomain } from "../../../lib/domain-rules";
@@ -37,9 +39,20 @@ export default async function Page({ params }: { params: Promise<{ name: string 
       ? new Date(claim.at).toISOString()
       : null;
 
+  const crestFile = ["jpg", "png"]
+    .map((ext) => `${domain}.teos.${ext}`)
+    .find((f) => /^[a-z0-9-]+\.teos\.(jpg|png)$/.test(f) && fs.existsSync(path.join(process.cwd(), "public", "crests", f)));
+  const crestSrc = crestFile ? `/crests/${crestFile}` : "/genesis-seal.png";
+
   return (
     <main dir="rtl" lang="ar" className="min-h-screen flex items-center justify-center p-6">
       <section className="w-full max-w-xl rounded-2xl border border-yellow-700/40 bg-black/40 p-8 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={crestSrc}
+          alt={`${domain.toUpperCase()}.TEOS`}
+          className="mx-auto mb-6 w-full max-w-md rounded-xl object-contain"
+        />
         <p className="text-sm text-yellow-400">TEOS SOVEREIGN IDENTITY</p>
         <h1 className="mt-4 break-all text-4xl font-bold" style={{ fontFamily: "Cinzel, Georgia, serif" }}>
           {domain.toUpperCase()}.TEOS

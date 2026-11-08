@@ -1,0 +1,16 @@
+{
+  "name": "ASHRAF.TEOS",
+  "symbol": "TEOS",
+  "description": "ASHRAF.TEOS - Sovereign Domain. Part of TEOS Network - Elmahrosa family.",
+  "image": "https://web4.elmahrosa.org/crests/ashraf.teos.jpg",
+  "external_url": "https://web4.elmahrosa.org",
+  "attributes": [
+    {"trait_type": "Namespace", "value": ".teos"},
+    {"trait_type": "Name", "value": "ashraf"},
+    {"trait_type": "Network", "value": "Solana"}
+  ],
+  "properties": {
+    "category": "image",
+    "files": [{"uri": "https://web4.elmahrosa.org/crests/ashraf.teos.jpg", "type": "image/jpeg"}]
+  }
+}
