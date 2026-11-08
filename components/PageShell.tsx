@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import PharaohStyles from "./PharaohStyles";
 import PharaohMark from "./PharaohMark";
 import LangMenu from "./LangMenu";
@@ -26,14 +27,14 @@ export default function PageShell({ children }: { children: (ctx: { lang: Lang; 
       <nav style={{ background: "rgba(10,8,6,.94)", borderBottom: "1px solid #3d352a" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
           <div dir="ltr" style={{ display: "flex", alignItems: "center", gap: 8 }}><LangMenu lang={lang} onChange={setLang} /><MusicToggle rtl={rtl} /></div>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
             <PharaohMark size={38} /><span style={{ fontFamily: SERIF, fontSize: 18, letterSpacing: "0.18em", color: "#f1e7cf" }}>TEOS</span>
-          </a>
+          </Link>
           <span style={{ marginInlineStart: "auto", display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center" }}>
-            <a href="/" style={link}>{n.home}</a>
-            <a href="/joined" style={link}>{n.joined}</a>
-            <a href="/world" style={link}>{n.world}</a>
-            <a href="/system" style={link}>{n.about}</a>
+            <Link href="/" style={link}>{n.home}</Link>
+            <Link href="/joined" style={link}>{n.joined}</Link>
+            <Link href="/world" style={link}>{n.world}</Link>
+            <Link href="/system" style={link}>{n.about}</Link>
           </span>
         </div>
       </nav>
