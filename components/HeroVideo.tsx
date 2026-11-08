@@ -11,7 +11,7 @@ const SERIF = "Cinzel, Georgia, serif";
 // Hero: architecture video behind a 60% black layer. Data Saver or reduced motion get the poster only.
 // Phones now play the same 2 MB muted, inline video. The video file already ends with 2 s of the gold coin frame held,
 // so plain `loop` shows it for 2 s before it restarts.
-export default function HeroVideo({ searchLabel, connectLabel, onSearch, onConnect, rtl }: { searchLabel: string; connectLabel: string; onSearch: () => void; onConnect: () => void; rtl: boolean }) {
+export default function HeroVideo({ searchLabel, connectLabel, onSearch, onConnect, rtl, children }: { searchLabel: string; connectLabel: string; onSearch: () => void; onConnect: () => void; rtl: boolean; children?: React.ReactNode }) {
   const [playVideo, setPlayVideo] = useState(false);
   useEffect(() => {
     const saveData = (navigator as any).connection?.saveData === true;
@@ -35,12 +35,10 @@ export default function HeroVideo({ searchLabel, connectLabel, onSearch, onConne
         {NATIONS} / {NATIONS} NATIONS SYNCHRONIZED
       </div>
       <div dir={rtl ? "rtl" : "ltr"} style={{ position: "relative", textAlign: "center", padding: "56px 20px", maxWidth: 900 }}>
-        <h1 dir="ltr" style={{ fontFamily: SERIF, fontSize: "clamp(32px,7vw,64px)", color: "#fef3c7", letterSpacing: "0.1em", margin: "0 0 10px", textShadow: "0 2px 10px rgba(0,0,0,.9)" }}>EL MAHROSA TEOS</h1>
-        <p dir="ltr" style={{ margin: 0, fontFamily: SERIF, fontSize: "clamp(15px,3vw,24px)", color: "#fbbf24", letterSpacing: "0.22em", fontWeight: 700 }}>SOVEREIGN SYSTEM ARCHITECTURE</p>
-        <p dir="rtl" lang="ar" style={{ margin: "12px 0 0", fontSize: "clamp(16px,2.8vw,22px)", color: "#d6cbb5" }}>نظام النطاقات السيادية</p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", marginTop: 26 }}>
-          <button className="hero-connect" style={ghost} onClick={onConnect}>{connectLabel}</button>
-        </div>
+        <p dir="ltr" style={{ margin: "0 0 14px", fontFamily: SERIF, fontSize: "clamp(12px,2.2vw,16px)", color: "#d9c48a", letterSpacing: "0.3em" }}>EL MAHROSA TEOS</p>
+        <h1 dir="ltr" style={{ fontFamily: SERIF, fontWeight: 700, fontSize: "clamp(38px,8vw,78px)", lineHeight: 1.05, color: "#fef3c7", letterSpacing: "0.04em", margin: "0 0 12px", textShadow: "0 2px 10px rgba(0,0,0,.9)" }}>Partners, Not Rent</h1>
+        <h2 dir="ltr" style={{ margin: 0, fontFamily: SERIF, fontWeight: 700, fontSize: "clamp(18px,3.6vw,32px)", color: "#e0b84a", letterSpacing: "0.08em", textShadow: "0 2px 8px rgba(0,0,0,.9)" }}>Own Your Domain Forever</h2>
+        {children}
       </div>
     </section>
   );
