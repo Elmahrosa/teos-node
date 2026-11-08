@@ -21,6 +21,9 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 import LiveTicker from "../components/LiveTicker";
+import VisitorSection, { StatsBar, useVisitorStats } from "../components/VisitorSection";
+import JoinedSection, { JoinedBadge } from "../components/JoinedSection";
+import { isJoined, VIEW_PROFILE, BADGE } from "../lib/joined";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt, type Lang } from "../lib/i18n";
@@ -81,6 +84,8 @@ export default function Home() {
   const teosPrice = clean ? getPriceOrNull(clean, "teos") : null;
   const canStickyBuy = !!open && !!teosRes?.available && !busy;
 
+  const joinedHit = !!clean && isJoined(clean);
+  const BADGE_TXT = BADGE[lang];
   const all: any[] = stats?.tlds ?? [];
 
   // Bottom bar: the idle hint hides itself after 3s and can be dismissed; it returns when there is something to buy.
@@ -98,6 +103,8 @@ export default function Home() {
   }
 
   const check = () => run(async () => {
+    // A joined name is a member of the network: show its profile link, never a buy flow.
+    if (isJoined(clean)) { setChecked(null); setCheckedFor(""); setQuote(null); setPopup(false); return; }
     const seq = ++checkSeq.current;
     setChecked(null); setCheckedFor(""); setQuote(null); setPopup(true);
     const r = await fetch(`/api/check?name=${encodeURIComponent(clean)}&tlds=teos${wallet ? `&wallet=${encodeURIComponent(wallet)}` : ""}`);
@@ -116,6 +123,7 @@ export default function Home() {
     setQuote(qj); setPopup(false);
   });
 
+  const visitorStats = useVisitorStats();
   const goSearch = () => {
     document.getElementById("search")?.scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => document.getElementById("n")?.focus(), 400);
@@ -137,6 +145,7 @@ export default function Home() {
       </div>
     </nav>
     <HeroVideo rtl={rtl} searchLabel={L.search} connectLabel={wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect} onSearch={goSearch} onConnect={connectWallet} />
+    <StatsBar stats={visitorStats} lang={lang} />
     <section aria-label={ALT.gate[lang]} style={{ boxSizing: "border-box", width: "100%", maxWidth: 1000, margin: "0 auto", padding: "20px 12px 0" }}>
       <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} priority style={{ ...imgStyle, width: "100%", height: "auto", display: "block" }} sizes="(max-width: 1000px) 100vw, 1000px" />
     </section>
@@ -187,7 +196,7 @@ export default function Home() {
                 const res = checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null;
                 const youOwn = !!res && !!wallet && (myNames.includes(clean) || owned.includes(clean));
                 const free = !!res?.available && !youOwn;
-                const state = !res ? "" : youOwn ? L.youOwnU : free ? L.availableU : res.reason === "reserved" ? L.reservedU : L.takenU;
+                const state = joinedHit ? BADGE_TXT : !res ? "" : youOwn ? L.youOwnU : free ? L.availableU : res.reason === "reserved" ? L.reservedU : L.takenU;
                 return (<>
                   <div style={{ flex: "1 1 200px", background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, minWidth: 0 }}>
                     <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={56} /></div>
@@ -207,6 +216,13 @@ export default function Home() {
               })()}
             </div>
             <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>
+            {joinedHit && (
+              <p style={{ margin: "14px 0 0", display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center", justifyContent: "center" }}>
+                <JoinedBadge lang={lang} />
+                <a href={`/u/${clean}`} style={{ color: "#fbbf24", fontWeight: 700 }}>JOINED - {VIEW_PROFILE[lang]} →</a>
+                <span style={{ color: "#f87171", fontWeight: 700, fontSize: 13 }}>{L.takenU}</span>
+              </p>
+            )}
             <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? fmt(L.sovTlds, { n: all.length }) : ""} • {L.rule}</p>
           </div>
         </div>
@@ -216,6 +232,8 @@ export default function Home() {
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
+      <JoinedSection lang={lang} />
+      <VisitorSection stats={visitorStats} lang={lang} />
       <WhyBuy t={L} countries={all.length} onCta={goSearch} />
       <PricingTable t={L} onBuy={goSearch} />
       <PricingLogic t={t} tlds={all} />
