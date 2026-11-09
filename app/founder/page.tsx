@@ -85,7 +85,7 @@ function NftSection({
             <article key={n.id || `${n.name}-${i}`} style={{ border: "1px solid #333", borderRadius: 12, overflow: "hidden", background: "#0a0a0a" }}>
               {n.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={n.image} alt={n.name || "NFT"} loading="lazy" style={{ width: "100%", aspectRatio: "1 / 1", objectFit: "cover", display: "block", background: "#111" }} />
+                <img src={n.image || "/seal.png"} onError={(e)=>{ (e.target as HTMLImageElement).src="/seal.png" }} alt={n.name || "NFT"} loading="lazy" style={{ width: "100%", aspectRatio: "1 / 1", objectFit: "cover", display: "block", background: "#111" }} />
               ) : (
                 <div style={{ width: "100%", aspectRatio: "1 / 1", background: "#111", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, opacity: 0.5 }}>No image</div>
               )}
@@ -228,3 +228,4 @@ export default function Founder() {
     </div>
   );
 }
+

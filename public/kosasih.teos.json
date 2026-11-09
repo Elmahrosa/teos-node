@@ -1,20 +1,48 @@
 ﻿{
-  "name": "KOSASIH.TEOS",
-  "symbol": "TEOS",
-  "description": "KOSASIH.TEOS - Sovereign Brand Domain. Part of TEOS Network - Elmahrosa family. Decentralized sovereign domain namespace on Solana.",
-  "image": "https://web4.elmahrosa.org/crests/kosasih.teos.png",
-  "external_url": "https://web4.elmahrosa.org",
-  "attributes": [
-    {"trait_type": "Namespace", "value": ".teos"},
-    {"trait_type": "Name", "value": "kosasih"},
-    {"trait_type": "Tier", "value": "Sovereign"},
-    {"trait_type": "Ownership", "value": "Permanent"},
-    {"trait_type": "Network", "value": "Solana"}
-  ],
-  "properties": {
-    "category": "image",
-    "creators": [{"address": "Aai9XYkpQMrVMLTP5CKHSin1UoJ12rU2FSupGwpNwMQ6", "share": 100}],
-    "files": [{"uri": "https://web4.elmahrosa.org/crests/kosasih.teos.png", "type": "image/png"}]
-  },
-  "collection": {"name": "TEOS Sovereign Domains", "family": "Elmahrosa"}
+    "name":  "KOSASIH.TEOS",
+    "symbol":  "TEOS",
+    "description":  "KOSASIH.TEOS - Sovereign Brand Domain. Part of TEOS Network - Elmahrosa family. Decentralized sovereign domain namespace on Solana.",
+    "image":  "https://raw.githubusercontent.com/Elmahrosa/teos-node/main/public/images/ELMAHROSA.TEOS.jpg",
+    "external_url":  "https://web4.elmahrosa.org",
+    "attributes":  [
+                       {
+                           "trait_type":  "Namespace",
+                           "value":  ".teos"
+                       },
+                       {
+                           "trait_type":  "Name",
+                           "value":  "kosasih"
+                       },
+                       {
+                           "trait_type":  "Tier",
+                           "value":  "Sovereign"
+                       },
+                       {
+                           "trait_type":  "Ownership",
+                           "value":  "Permanent"
+                       },
+                       {
+                           "trait_type":  "Network",
+                           "value":  "Solana"
+                       }
+                   ],
+    "properties":  {
+                       "category":  "image",
+                       "creators":  [
+                                        {
+                                            "address":  "Aai9XYkpQMrVMLTP5CKHSin1UoJ12rU2FSupGwpNwMQ6",
+                                            "share":  100
+                                        }
+                                    ],
+                       "files":  [
+                                     {
+                                         "uri":  "https://raw.githubusercontent.com/Elmahrosa/teos-node/main/public/images/ELMAHROSA.TEOS.jpg",
+                                         "type":  "image/png"
+                                     }
+                                 ]
+                   },
+    "collection":  {
+                       "name":  "TEOS Sovereign Domains",
+                       "family":  "Elmahrosa"
+                   }
 }
