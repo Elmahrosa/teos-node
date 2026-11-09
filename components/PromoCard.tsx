@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SOCIAL } from "../lib/social";
 
 // 72-hour Old Pioneers offer. Claimed by hand (proof sent to the founder, who mints manually), not through the site's checkout.
-const ENDS = Date.parse("2026-11-11T21:00:00Z");
+const ENDS = Date.parse("2026-11-12T21:00:00Z");
 
 export default function PromoCard() {
   const [phase, setPhase] = useState<"off" | "in" | "out">("off");
