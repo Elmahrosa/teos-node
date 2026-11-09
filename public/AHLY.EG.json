@@ -1,0 +1,19 @@
+﻿{
+  "name": "AHLY.EG",
+  "symbol": "TEOS",
+  "description": "TEOS - AHLY.EG - Metaplex Core cNFT on Solana. Part of the TEOS collection by Elmahrosa.",
+  "image": "https://raw.githubusercontent.com/Elmahrosa/teos-node/main/public/images/AHLY.EG.jpg",
+  "external_url": "https://github.com/Elmahrosa/teos-node",
+  "attributes": [
+    { "trait_type": "Collection", "value": "TEOS" },
+    { "trait_type": "Name", "value": "AHLY.EG" },
+    { "trait_type": "Standard", "value": "Metaplex Core" },
+    { "trait_type": "Chain", "value": "Solana" }
+  ],
+  "properties": {
+    "files": [
+      { "uri": "https://raw.githubusercontent.com/Elmahrosa/teos-node/main/public/images/AHLY.EG.jpg", "type": "image/jpeg" }
+    ],
+    "category": "image"
+  }
+}
