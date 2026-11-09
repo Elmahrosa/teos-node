@@ -17,7 +17,7 @@ function endpoint(key: string) {
 
 export function mapAsset(a: any): NftItem {
   const meta = a?.content?.metadata ?? {};
-  const image = a?.content?.links?.image || a?.content?.files?.[0]?.uri || "";
+  const image = a?.content?.links?.image || a?.content?.files?.[0]?.uri || "/seal.png";
   const grouping = Array.isArray(a?.grouping) ? a.grouping : [];
   const collection = grouping.find((g: any) => g?.group_key === "collection")?.group_value ?? "";
   return {
@@ -60,3 +60,4 @@ export async function getSolBalance(wallet: string, key: string): Promise<number
   const lamports = Number(result?.value);
   return Number.isFinite(lamports) ? lamports / 1e9 : 0;
 }
+
