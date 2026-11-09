@@ -184,7 +184,7 @@ export default function Founder() {
           {total ?? "—"}
           <div style={{ fontSize: 16, fontWeight: 400 }}>{total === null ? "Visitor tracking not enabled" : "Real visitors"}</div>
         </div>
-        <div style={{ textAlign: "center", fontSize: 22, marginBottom: 8 }}>Countries unlocked {countries.length} / 127</div>
+        <div style={{ textAlign: "center", fontSize: 22, marginBottom: 8 }}>Countries unlocked {countries.length} / 126</div>
         <div style={{ textAlign: "center", opacity: 0.6, marginBottom: 28 }}>{countries.length ? countries.join(" ") : "0"}</div>
       </div>
 
