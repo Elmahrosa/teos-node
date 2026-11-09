@@ -154,10 +154,10 @@ export default function Home() {
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 16, color: "#a89a80" }}>
           {lang === "ar" 
-            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 127 دولة - saloma.teos يفتح saloma.eg"
+            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 126 دولة - saloma.teos يفتح saloma.eg"
             : lang === "id"
-            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 127 negara - saloma.teos membuka saloma.eg"
-            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 127 countries - saloma.teos unlocks saloma.eg"}
+            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 126 negara - saloma.teos membuka saloma.eg"
+            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 126 countries - saloma.teos unlocks saloma.eg"}
         </p>
       </header>
 
@@ -207,7 +207,7 @@ export default function Home() {
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
 
-      <WhyBuy t={L} countries={all.length} onCta={goSearch} />
+      <WhyBuy t={L} countries={Math.max(all.length - 1, 0)} onCta={goSearch} />
       <PricingTable t={L} onBuy={goSearch} />
       <PricingLogic t={t} tlds={all} />
       <Divider />
