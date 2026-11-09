@@ -1,0 +1,19 @@
+﻿{
+  "name": "1.TEOS",
+  "symbol": "TEOS",
+  "description": "TEOS - 1.TEOS - Metaplex Core cNFT on Solana. Part of the TEOS collection by Elmahrosa.",
+  "image": "https://raw.githubusercontent.com/Elmahrosa/teos-node/main/public/images/1.TEOS.jpg",
+  "external_url": "https://github.com/Elmahrosa/teos-node",
+  "attributes": [
+    { "trait_type": "Collection", "value": "TEOS" },
+    { "trait_type": "Name", "value": "1.TEOS" },
+    { "trait_type": "Standard", "value": "Metaplex Core" },
+    { "trait_type": "Chain", "value": "Solana" }
+  ],
+  "properties": {
+    "files": [
+      { "uri": "https://raw.githubusercontent.com/Elmahrosa/teos-node/main/public/images/1.TEOS.jpg", "type": "image/jpeg" }
+    ],
+    "category": "image"
+  }
+}
