@@ -12,7 +12,7 @@ export type Quote = {
   priceLamports: number;
   priceUsd?: number;
   isPromo?: boolean;
-  tlds?: string[]; // absent on quotes made before multi-TLD: means ["teos"]
+  tlds?: string[]; // absent on quotes made before multi-namespace: means ["teos"]
   message: string; // exact bytes the wallet must sign
   expiresAt: number; // epoch ms
   used: boolean;
@@ -52,7 +52,7 @@ export async function createQuote(rawDomain: unknown, rawTlds?: unknown): Promis
   const parsed = parseDomain(rawDomain);
   if (!parsed.ok) return { ok: false, status: parsed.status, body: parsed.body };
   const domain = parsed.domain;
-  // Defense in depth: only sale TLDs ever get a quote, whatever the caller.
+  // Defense in depth: only sale namespaces ever get a quote, whatever the caller.
   const blocked = requestedTlds(rawTlds).find((t) => !isSaleTld(t));
   if (blocked) return { ok: false, status: 503, body: { error: "registration_closed", message: "TLD blocked", tld: blocked } };
   const tlds = rawTlds === undefined ? ["teos"] : parseTlds(rawTlds);

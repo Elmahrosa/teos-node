@@ -10,11 +10,11 @@ const j = async (path, init) => {
 };
 const post = (path, body, headers = {}) => j(path, { method: "POST", headers: { "content-type": "application/json", ...headers }, body: JSON.stringify(body) });
 
-// 1. Reserved / sealed names must be unbuyable on every TLD.
+// 1. Reserved / sealed names must be unbuyable on every namespace.
 for (const n of ["fed", "ecb", "cbe", "amira", "ashraf", "google", "anthropic"]) {
   const { body } = await j(`/api/check?name=${n}`);
   const all = body?.results?.length > 0 && body.results.every((x) => x.available === false);
-  ok(`check ${n}.* blocked on all TLDs`, all);
+  ok(`check ${n}.* blocked on all namespaces`, all);
   const q = await post("/api/quote", { domain: n });
   ok(`quote ${n} refused`, q.body?.available === false && !q.body?.quote_id);
 }

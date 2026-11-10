@@ -5,6 +5,7 @@ import { isClaimed } from "../../../lib/registry";
 import { ownsTeosOnChain } from "../../../lib/ownership";
 import { isNotForSaleDomain, isReservedWord } from "../../../lib/domain-rules";
 import { isSealedDomain } from "../../../lib/sealed";
+import { displayName } from "../../../lib/display";
 
 export const dynamic = "force-dynamic";
 
@@ -56,7 +57,7 @@ export default async function FounderSite({
           <ul style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(150px,1fr))", gap: 10, listStyle: "none", padding: 0 }}>
             {countries.map((c) => (
               <li key={c.tld} data-country={c.tld} className="border border-yellow-800 p-3">
-                {c.flag} {name}.{c.tld}
+                {c.flag} {displayName(name, c.tld)}
               </li>
             ))}
           </ul>

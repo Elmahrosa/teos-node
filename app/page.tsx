@@ -21,7 +21,6 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 import LiveTicker from "../components/LiveTicker";
-import PromoCard from "../components/PromoCard";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt, type Lang } from "../lib/i18n";
@@ -117,7 +116,8 @@ export default function Home() {
   return (
     <>
     <PharaohStyles />
-    <PromoCard />
+    {/* TODO(automated-discount): the manual Telegram "Old Pioneers" promo (send proof, founder mints by hand) was removed from the public UI.
+        An automated on-chain version plugs in here: check the wallet's on-chain TEOS holdings server-side in /api/quote, then show the discounted quote in the normal checkout. */}
     <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
     <nav className="site-nav" style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>

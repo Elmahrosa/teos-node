@@ -4,7 +4,7 @@ import { parseDomain } from "../../../lib/domain-rules";
 import { parseTlds, liveTlds } from "../../../lib/tlds";
 import { checkTlds } from "../../../lib/check";
 import { getSolUsd } from "../../../lib/pricing";
-// GET /api/check?name=ahmed&tlds=teos,eg,sa  (tlds optional: defaults to every live TLD)
+// GET /api/check?name=ahmed&tlds=teos,eg,sa  (tlds optional: defaults to every live namespace)
 export async function GET(req: NextRequest) {
   const rl = await checkRateLimit("check", 60, 60);
   if (!rl.allowed) return rateLimitResponse(rl.resetInSec);

@@ -1,5 +1,4 @@
 # ELM-INT-WEB4-001
-**LAW OVER CODE**
 
 Owner: AYMAN.TEOS
 Node: Genesis Node Alexandria 1/1
@@ -7,7 +6,9 @@ Network: Solana Mainnet
 Seal: seal.png
 Date: 25-10-2026 Alexandria, Egypt
 
-## Law
-1. Domains .TEOS are digital sovereignty
-2. Central Banks collection = 75 domains auction only
-3. Genesis domain AYMAN.TEOS is non-transferable seal
+## Rules
+1. TEOS names are digital identities inside the TEOS system on Solana. They are not internet domains.
+2. A reserved institutional collection (`domains/central-banks-reserve.json`) is auction only and is never sold through the public flow.
+3. Genesis name AYMAN.TEOS is a non-transferable seal.
+
+TEOS names are not internet TLDs, not the official domains of any country or government entity, and have no affiliation with ICANN or any national registry. Country codes such as .EG are internal namespace labels within TEOS only.

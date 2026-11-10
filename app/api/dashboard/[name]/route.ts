@@ -8,7 +8,7 @@ import { buildTldRows, dashboardMessage, DASHBOARD_MAX_AGE_MS } from "../../../.
 export const dynamic = "force-dynamic";
 
 // POST { publicKey, signature, ts }: the wallet signs teos://dashboard/<name>/<ts>. Only the wallet that
-// currently holds <name>.teos on-chain gets the full TLD list. Read-only; works while registration is closed.
+// currently holds <name>.teos on-chain gets the full namespace list. Read-only; works while registration is closed.
 export async function POST(req: Request, { params }: { params: Promise<{ name: string }> }) {
   const rl = await checkRateLimit("dashboard", 20, 60);
   if (!rl.allowed) return rateLimitResponse(rl.resetInSec);

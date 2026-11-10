@@ -16,7 +16,8 @@ wallet.json
 !package.json
 !package-lock.json
 !tsconfig.json
-!tlds/*.json
+!namespaces/*.json
+!tlds/all.json
 !locales/*.json
 
 !domains/*.json

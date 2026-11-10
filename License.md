@@ -34,7 +34,7 @@ c) No Commercial Redistribution without written license from syman@elmahrosa.org
 - Built in Alexandria, Egypt attribution must remain
 
 5. WEB4 RESERVATION:
-- The .teos TLD resolver logic and auction mechanism are proprietary
+- The TEOS namespace resolver logic and auction mechanism are proprietary
 - Community contributions require CLA signing via teos.elmahrosa.org
 
 6. WARRANTY DISCLAIMER:

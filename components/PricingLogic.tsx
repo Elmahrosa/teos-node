@@ -8,7 +8,7 @@ const box: React.CSSProperties = { background: "linear-gradient(160deg,#2a2520,#
 const h: React.CSSProperties = { fontFamily: SERIF, color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 10px", fontSize: 20 };
 const p: React.CSSProperties = { margin: "6px 0", color: "#e7dcc3", lineHeight: 1.6 };
 
-// How the root rule works, the price rules, and the country TLDs grouped by region (counted from tlds/all.json).
+// How the root rule works, the price rules, and the country namespaces grouped by region (counted from namespaces/all.json).
 export default function PricingLogic({ t, tlds }: { t: TFn; tlds: { tld: string; region: string }[] }) {
   const countries = tlds.filter((x) => x.tld !== "teos");
   const groups = new Map<string, number>();

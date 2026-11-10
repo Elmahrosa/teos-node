@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import Disclaimer from "./Disclaimer";
+import { displayName } from "../lib/display";
 import { fmt, type Dict } from "../lib/i18n";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
@@ -16,18 +18,18 @@ type Phase = "choose" | "approve" | "signing" | "paying" | "minting" | "error";
 
 export default function MintModal(props: { t: Dict; rtl: boolean; domain: string; quote: MintQuote; onClose: () => void; helpHref: string }) {
   const { t, rtl, domain, onClose, helpHref } = props;
-  // The SOL amount follows the live market rate. Each quote price is held for 60 s, then a fresh one is fetched.
+  // The SOL amount follows the live market rate. Each quote price is held for 5 minutes (matches the backend quote TTL in lib/quoteStore.ts), then a fresh one is fetched.
   const [quote, setQuoteState] = useState<MintQuote>(props.quote);
   const { publicKey, connected, signMessage, sendTransaction, wallet } = useWallet();
   const { connection } = useConnection();
   const { setVisible } = useWalletModal();
   const [phase, setPhase] = useState<Phase>("choose");
   const [err, setErr] = useState("");
-  const LOCK_MS = 60_000;
+  const LOCK_MS = 300_000; // 5 minutes, same as QUOTE_TTL_SECONDS default (300) in lib/quoteStore.ts
   const [lockEnd, setLockEnd] = useState(() => Date.now() + LOCK_MS);
-  const [left, setLeft] = useState(60);
+  const [left, setLeft] = useState(300);
   const tlds = quote.tlds ?? ["teos"];
-  const list = tlds.map((x) => `${domain}.${x}`).join(" + ");
+  const list = tlds.map((x) => displayName(domain, x)).join(" + ");
 
   useEffect(() => {
     const iv = setInterval(() => setLeft(Math.max(0, Math.ceil((lockEnd - Date.now()) / 1000))), 500);
@@ -48,7 +50,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
         const r = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain, tlds: quote.tlds ?? ["teos"], wallet: publicKey?.toBase58() }) });
         const j = await r.json();
         if (!live) return;
-        if (r.ok && j.quote_id) { setQuoteState(j); setLockEnd(Date.now() + LOCK_MS); setLeft(60); return; }
+        if (r.ok && j.quote_id) { setQuoteState(j); setLockEnd(Date.now() + LOCK_MS); setLeft(300); return; }
       } catch { /* retry shortly */ }
       if (live) setLockEnd(Date.now() + 5_000);
     })();
@@ -137,6 +139,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
         )}
         {busy && <p role="status" style={{ fontWeight: 700 }}>{phase === "signing" ? t.mmSigning : phase === "paying" ? t.mmPaying : t.mmMinting}</p>}
         {phase === "error" && <p role="alert" style={{ color: "#f87171", wordBreak: "break-word" }}>{err}</p>}
+        <Disclaimer t={t} compact />
         <p style={{ margin: "14px 0 0", fontSize: 13 }}><a style={{ color: "#a89a80" }} href={helpHref} target="_blank" rel="noopener noreferrer">{t.needHelp}</a></p>
       </div>
     </div>

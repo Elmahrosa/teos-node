@@ -6,7 +6,7 @@ import { fullName } from "./tlds";
 
 export type TldCheck = { tld: string; available: boolean; reason: string | null; price_usd: number; is_promo: boolean; sold: number };
 
-// Checks one validated name under each TLD. Reserved and sealed names are blocked on every TLD.
+// Checks one validated name under each namespace. Reserved and sealed names are blocked on every namespace.
 export async function checkTlds(name: string, tlds: string[]): Promise<TldCheck[]> {
   const notForSale = isNotForSaleDomain(name);
   const blocked = isReservedWord(name) || isSealedDomain(name);

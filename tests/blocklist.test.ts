@@ -20,7 +20,7 @@ test("blocklist feeds isReservedWord (used by check, availability, claim)", () =
   assert.equal(isReservedWord("test123"), false);
 });
 
-test("sale check: reserved names unavailable on every TLD, minted ashraf unavailable, test123 available", async () => {
+test("sale check: reserved names unavailable on every namespace, minted ashraf unavailable, test123 available", async () => {
   for (const n of ["porn", "sharmota", "p0rn", "sex", "khawal"]) {
     for (const r of await checkTlds(n, ["teos", "eg", "sa"])) {
       assert.equal(r.available, false, `${n}.${r.tld}`);
