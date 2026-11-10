@@ -29,7 +29,7 @@ function chat(q: string, u: ReturnType<typeof getUser>) {
       : "Welcome";
 
   if (!raw || raw.length <= 3) {
-    return `${hi}. Ask me about a TEOS domain, pricing, or the sovereign system.`;
+    return `${hi}. Ask me about your sovereign digital identity, pricing, or the sovereign system.`;
   }
 
   if (/price|pricing|cost|سعر|اسعار|بكام|تكلفة/.test(s)) {
@@ -42,11 +42,11 @@ Payment is in SOL on Solana. Quotes are locked for 5 minutes. Any non-.teos name
   }
 
   if (/payment|pay|دفع|الدفع|solana|sol/.test(s)) {
-    return `${hi}. The supported payment method for online domain registration is SOL on Solana through the connected wallet.`;
+    return `${hi}. The supported payment method for online registration is SOL on Solana through the connected wallet.`;
   }
 
   if (/domain only|just a domain|setup|trade|design|بيع|تداول|دومين بس/.test(s)) {
-    return `${hi}. You can own a name.teos domain in your Solana wallet as a Metaplex Core asset. You can hold or trade the asset. The wider sovereign browser and gateway are separate parts of the TEOS ecosystem.`;
+    return `${hi}. You can own a name.teos sovereign digital identity in your Solana wallet as a Metaplex Core asset. You can hold or trade the asset. The wider sovereign browser and gateway are separate parts of the TEOS ecosystem.`;
   }
 
   if (/system|browser|gateway|منظومة|متصفح/.test(s)) {
@@ -62,7 +62,7 @@ Payment is in SOL on Solana. Quotes are locked for 5 minutes. Any non-.teos name
   }
 
   return `${hi}. I can help with:
-1. Domain availability and the current price tiers.
+1. Identity availability and the current price tiers.
 2. SOL payment and the five-minute quote.
 3. The .teos sovereign root and country-name requirements.
 

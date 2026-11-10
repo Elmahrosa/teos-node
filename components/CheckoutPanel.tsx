@@ -166,7 +166,7 @@ export function CheckoutPanel({ domain, tlds, durationYears = 2, treasury, amoun
       domain,
       tlds,
       display_names: tlds.map((t) => displayName(domain, t) + (needsBadge(t) ? " [inside TEOS / داخل منظومة TEOS]" : "")),
-      notice: "Inside the TEOS system, your TEOS ID works as a domain: it resolves to your wallet, your profile page / website, and your email. TEOS names are digital identities inside the TEOS system on Solana. They are not internet TLDs, not the official domains of any country or government entity, and have no affiliation with ICANN or any national registry.",
+      notice: "A sovereign digital identity. Make a profile, make a website for your company, do everything. It is yours, your keys. TEOS names are digital identities inside the TEOS system on Solana. They are not internet TLDs, not the official domains of any country or government entity, and have no affiliation with ICANN or any national registry.",
       quote_id: quote?.quote_id,
       payment_tx: payTx,
       mint_tx: mintTx,
@@ -256,7 +256,7 @@ export function CheckoutPanel({ domain, tlds, durationYears = 2, treasury, amoun
         )}
         {step === "mint" && (
           <button disabled={!!loading} onClick={register} className="w-full rounded-full bg-[#D4B779] py-3 font-bold text-black disabled:opacity-50">
-            {loading === "mint" ? "Minting on-chain…" : "Mint Domain"}
+            {loading === "mint" ? "Minting on-chain…" : "Mint Identity"}
           </button>
         )}
         {step === "done" && (

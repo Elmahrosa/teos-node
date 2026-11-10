@@ -146,22 +146,23 @@ export default function Home() {
           {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : lang === "id" ? "TEOS Akar Berdaulat - Alexandria" : "TEOS Sovereign Root - Alexandria"}
         </h2>
         <p dir="auto" style={{ margin: 0, fontSize: 20, color: "#fbbf24", fontWeight: 700 }}>
-          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الدومين السيادي هو البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Domain Berdaulat Hanyalah Awal" : "1 Key Unlocks The Full System - Sovereign Domain Is Just The Start"}
+          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الهوية السيادية الرقمية هي البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Identitas Digital Berdaulat Hanyalah Awal" : "1 Key Unlocks The Full System - Sovereign Digital Identity Is Just The Start"}
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 17, color: "#d6cbb5", lineHeight: 1.6 }}>
           {lang === "ar" 
-            ? "عايز دومين تملكه للأبد - تسطبه - تتداوله - تعمل ديزاين؟ تقدر. عايز تخش المنظومة السيادية الكاملة - متصفح - جيت واي - عالمك الخاص؟ برضه تقدر."
+            ? "عايز هوية سيادية رقمية تملكها للأبد - تسطبه - تتداوله - تعمل ديزاين؟ تقدر. عايز تخش المنظومة السيادية الكاملة - متصفح - جيت واي - عالمك الخاص؟ برضه تقدر."
             : lang === "id"
-            ? "Mau domain yang Anda miliki selamanya - setup - trading - desain? Bisa. Mau sistem berdaulat penuh - browser - gateway - dunia Anda sendiri? Bisa juga."
-            : "Want a domain you own forever - setup - trade - design? You can. Want the full sovereign system - browser - gateway - your own world? You can too."}
+            ? "Mau identitas digital berdaulat yang Anda miliki selamanya - setup - trading - desain? Bisa. Mau sistem berdaulat penuh - browser - gateway - dunia Anda sendiri? Bisa juga."
+            : "Want a sovereign digital identity you own forever - setup - trade - design? You can. Want the full sovereign system - browser - gateway - your own world? You can too."}
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 16, color: "#a89a80" }}>
           {lang === "ar" 
-            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 126 دولة - saloma.teos يفتح saloma.eg"
+            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 126 دولة - yourname.teos يفتح yourname.eg"
             : lang === "id"
-            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 126 negara - saloma.teos membuka saloma.eg"
-            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 126 countries - saloma.teos unlocks saloma.eg"}
+            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 126 negara - yourname.teos membuka yourname.eg"
+            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 126 countries - yourname.teos unlocks yourname.eg"}
         </p>
+        <p dir="auto" data-testid="hero-explainer" style={{ margin: "12px 0 0", fontSize: 16, color: "#eab308" }}>{L.teosIdWorks}</p>
       </header>
 
       <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px", border: "3px double #ca8a04", borderRadius: 8, boxShadow: "0 0 42px rgba(234,179,8,.12), inset 0 2px 12px rgba(0,0,0,.6)" }}>

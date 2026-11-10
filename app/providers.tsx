@@ -41,7 +41,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const endpoint = typeof window !== "undefined" ? `${window.location.origin}/api/rpc` : FALLBACK_ENDPOINT;
   // MetaMask (Solana) registers itself in the Wallet Standard registry, so it appears in the connect modal.
   useEffect(() => {
-    createSolanaClient({ dapp: { name: "TEOS Domains", url: window.location.origin } }).catch(() => {});
+    createSolanaClient({ dapp: { name: "TEOS", url: window.location.origin } }).catch(() => {});
   }, []);
   const wallets = useMemo(() => [
     new MPhantom(), new MSolflare(), new MTrust(), new Coin98WalletAdapter(),

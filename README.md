@@ -24,9 +24,9 @@
 **Seal date:** 25/10/2026 - Alexandria, Egypt
 **Repository:** web4.elmahrosa.org
 
-> Inside the TEOS system, your TEOS ID works as a domain: it resolves to your wallet, your profile page / website, and your email.
+> A sovereign digital identity. Make a profile, make a website for your company, do everything. It is yours, your keys. You enter the blockchain, you enter the ecosystem.
 >
-> داخل منظومة TEOS، هويتك بتشتغل كنطاق: بتوصل لمحفظتك وصفحتك / موقعك وإيميلك
+> هوية سيادية رقمية. تعمل بيها بروفايل، تعمل موقع لشركتك، تعمل كل حاجة. هتبقى بتاعتك، مفاتيحك. بتدخل البلوكتشين، بتدخل المنظومة.
 >
 > **Disclaimer.** TEOS names are digital identities inside the TEOS system on Solana. They are not internet TLDs, not the official domains of any country or government entity, and have no affiliation with ICANN or any national registry. Country codes such as .EG are internal namespace labels within TEOS only.
 >
@@ -38,18 +38,18 @@
 
 There is one root namespace, `.teos`, and 127 country namespaces listed in `namespaces/all.json`. A country namespace is unlocked for a buyer once they hold the same name under `.teos` (the root-unlock rule).
 
-Country names are shown in the short form, for example `AYMAN.EG [inside TEOS]` (Arabic badge: `داخل منظومة TEOS`). The full form `NAME.EG.TEOS` is the canonical technical name used in code and backend only and is never shown in the UI.
+Country names are shown in the short form, for example `YOURNAME.EG [inside TEOS]` (Arabic badge: `داخل منظومة TEOS`). The full form `NAME.EG.TEOS` is the canonical technical name used in code and backend only and is never shown in the UI.
 
 ## What the buyer gets
 
 - **Ownership:** minted as a Metaplex Core NFT to the buyer's Solana wallet. The buyer can transfer, sell or hold it. We do not lock it.
-- **Profile / website:** `AYMAN.EG [inside TEOS]` is a page inside TEOS (photo, work, links, shop).
+- **Profile / website:** `YOURNAME.EG [inside TEOS]` is your page on TEOS (photo, work, links, shop).
 - **Wallet resolution:** send to the TEOS ID instead of a long wallet address.
-- **Email:** `ayman@eg.teos`
-- **Sub-identities:** the buyer can create `SHOP.AYMAN.EG` and more under their own name.
+- **Email:** `yourname@eg.teos`
+- **Sub-identities:** the buyer can create `SHOP.YOURNAME.EG` and more under their own name.
 - **Freedom:** free to use, hold, sell and transfer. No lock, no manual approval.
 
-Inside the TEOS system, your TEOS ID works as a domain: it resolves to your wallet, your profile page / website, and your email.
+A sovereign digital identity. Make a profile, make a website for your company, do everything. It is yours, your keys. You enter the blockchain, you enter the ecosystem.
 
 ## Quotes and payment
 
@@ -88,7 +88,7 @@ View on `core.metaplex.com` - Standard: Metaplex Core (Phantom > Collectibles > 
 
 A TEOS name can be used as an email identity:
 
-`you@ayman.teos`
+`you@yourname.teos`
 `contact@elmahrosa.teos`
 
 ## Resolver
