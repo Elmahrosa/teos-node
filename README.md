@@ -17,13 +17,17 @@
 
 ## Overview
 
-`teos-node` is the application behind `web4.elmahrosa.org`. It sells and resolves **TEOS names**: digital identities inside the TEOS system on Solana, minted as Metaplex Core assets.
+`teos-node` is the application behind `web4.elmahrosa.org`. It sells and resolves **TEOS IDs**: digital identities inside the TEOS system on Solana, minted as Metaplex Core assets.
 
 **Owner:** `AYMAN.TEOS` - `3jDzy...GLzG`
 **Network:** Solana Mainnet - Metaplex Core
 **Seal date:** 25/10/2026 - Alexandria, Egypt
 **Repository:** web4.elmahrosa.org
 
+> Inside the TEOS system, your TEOS ID works as a domain: it resolves to your wallet, your profile page / website, and your email.
+>
+> داخل منظومة TEOS، هويتك بتشتغل كنطاق: بتوصل لمحفظتك وصفحتك / موقعك وإيميلك
+>
 > **Disclaimer.** TEOS names are digital identities inside the TEOS system on Solana. They are not internet TLDs, not the official domains of any country or government entity, and have no affiliation with ICANN or any national registry. Country codes such as .EG are internal namespace labels within TEOS only.
 >
 > أسماء TEOS هي هويات رقمية داخل منظومة TEOS على سولانا. وهي ليست نطاقات إنترنت من المستوى الأعلى (TLD)، وليست النطاقات الرسمية لأي دولة أو جهة حكومية، ولا ترتبط بأي صلة بـ ICANN أو بأي سجل وطني. رموز الدول مثل .EG هي تسميات لمساحات أسماء داخلية ضمن TEOS فقط.
@@ -34,7 +38,7 @@
 
 There is one root namespace, `.teos`, and 127 country namespaces listed in `namespaces/all.json`. A country namespace is unlocked for a buyer once they hold the same name under `.teos` (the root-unlock rule).
 
-Country names are always shown with their TEOS context, for example `NAME.EG.TEOS`, or `NAME.EG` next to an "inside TEOS" mark.
+Country names are shown in the short form, for example `AYMAN.EG [inside TEOS]` (Arabic badge: `داخل منظومة TEOS`). The full form `NAME.EG.TEOS` is the canonical technical name used in code and backend only and is never shown in the UI.
 
 ## Quotes and payment
 

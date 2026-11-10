@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { displayName } from "../lib/display";
+import InsideTeos from "./InsideTeos";
+import { displayName, needsBadge } from "../lib/display";
 import Disclaimer from "./Disclaimer";
 import { LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 
@@ -163,8 +164,8 @@ export function CheckoutPanel({ domain, tlds, durationYears = 2, treasury, amoun
     const receipt = {
       domain,
       tlds,
-      display_names: tlds.map((t) => displayName(domain, t)),
-      notice: "TEOS names are digital identities inside the TEOS system on Solana. They are not internet TLDs, not the official domains of any country or government entity, and have no affiliation with ICANN or any national registry.",
+      display_names: tlds.map((t) => displayName(domain, t) + (needsBadge(t) ? " [inside TEOS / داخل منظومة TEOS]" : "")),
+      notice: "Inside the TEOS system, your TEOS ID works as a domain: it resolves to your wallet, your profile page / website, and your email. TEOS names are digital identities inside the TEOS system on Solana. They are not internet TLDs, not the official domains of any country or government entity, and have no affiliation with ICANN or any national registry.",
       quote_id: quote?.quote_id,
       payment_tx: payTx,
       mint_tx: mintTx,
@@ -199,7 +200,7 @@ export function CheckoutPanel({ domain, tlds, durationYears = 2, treasury, amoun
         />
       </div>
 
-      <div className="mt-2 text-xs text-zinc-500">{tlds.map((t) => displayName(domain, t)).join(" + ")} • {durationYears}Y</div>
+      <div className="mt-2 text-xs text-zinc-500">{tlds.map((t) => (<span key={t} style={{ marginInlineEnd: 6 }}>{displayName(domain, t)}{needsBadge(t) && <InsideTeos />}</span>))} • {durationYears}Y</div>
       {quote && (
         <p className={`mt-2 font-mono text-xs ${expiry < 60 ? "text-red-400" : "text-[#D4B779]"}`}>
           Expires in {fmt(expiry)} • {domain}

@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { isSealedDomain } from "../lib/sealed";
-import { displayName } from "../lib/display";
+import { displayName, canonicalName } from "../lib/display";
 
 test("reserved institutional names stay unbuyable without being listed in the repo", () => {
   for (const n of ["cbe", "FED", "ecb.teos", "boj", "boe", "sama", "centralbanks"]) assert.equal(isSealedDomain(n), true, n);
@@ -15,9 +15,10 @@ test("public files carry no central bank names", () => {
   for (const f of files) assert.doesNotMatch(fs.readFileSync(f, "utf8"), /\b(CBE|FED|ECB|BOJ|BOE|PBOC|SAMA|FEDERALRESERVE|BUNDESBANK)\b/i, f);
 });
 
-test("country namespaces render in the full form", () => {
-  assert.equal(displayName("ahmed", "eg"), "ahmed.eg.teos");
-  assert.equal(displayName("ahmed", "teos"), "ahmed.teos");
+test("UI names use the short form; the full form is canonical only", () => {
+  assert.equal(displayName("ahmed", "eg"), "ahmed.eg");
+  assert.equal(canonicalName("ahmed", "eg"), "ahmed.eg.teos");
+  assert.equal(canonicalName("ahmed", "teos"), "ahmed.teos");
 });
 
 test("tlds/all.json alias still resolves to namespaces/all.json", () => {

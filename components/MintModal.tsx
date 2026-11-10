@@ -4,7 +4,8 @@ import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import Disclaimer from "./Disclaimer";
-import { displayName } from "../lib/display";
+import InsideTeos from "./InsideTeos";
+import { displayName, needsBadge } from "../lib/display";
 import { fmt, type Dict } from "../lib/i18n";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
@@ -111,7 +112,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
     <div dir={rtl ? "rtl" : "ltr"} role="dialog" aria-modal="true" aria-label={fmt(t.mmTitle, { list })} onClick={busy ? undefined : onClose} style={{ position: "fixed", inset: 0, zIndex: 110, background: "rgba(5,4,3,.85)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, overflowY: "auto" }}>
       <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 460, background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #57493a", padding: 20, color: "#f5e6c4", position: "relative", boxShadow: "0 20px 60px rgba(0,0,0,.8)" }}>
         {!busy && <button onClick={onClose} aria-label={t.close} style={{ position: "absolute", top: 8, insetInlineEnd: 12, background: "none", border: 0, color: "#a89a80", fontSize: 24, cursor: "pointer" }}>×</button>}
-        <h2 dir="ltr" style={{ fontFamily: SERIF, margin: "0 0 10px", color: "#fef3c7", fontSize: 22, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{fmt(t.mmTitle, { list })}</h2>
+        <h2 dir="ltr" style={{ fontFamily: SERIF, margin: "0 0 10px", color: "#fef3c7", fontSize: 22, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{fmt(t.mmTitle, { list })}{tlds.some(needsBadge) && <InsideTeos t={t} />}</h2>
         <div style={{ background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, marginBottom: 12 }}>
           <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18, fontWeight: 700 }}>{fmt(t.mmPrice, { usd: (quote.price_usd ?? 0).toLocaleString("en-US"), sol: Number(quote.price_sol.toFixed(4)).toString() })}</div>
           <div style={{ fontSize: 13 }}>{t.mmLock}</div>
