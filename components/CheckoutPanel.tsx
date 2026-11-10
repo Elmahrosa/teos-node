@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import WhatYouGet from "./WhatYouGet";
 import InsideTeos from "./InsideTeos";
 import { displayName, needsBadge } from "../lib/display";
 import Disclaimer from "./Disclaimer";
@@ -233,6 +234,7 @@ export function CheckoutPanel({ domain, tlds, durationYears = 2, treasury, amoun
         </div>
       )}
 
+      <WhatYouGet compact />
       <Disclaimer compact />
 
       {/* Actions - gated */}

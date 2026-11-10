@@ -10,6 +10,7 @@ import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopu
 import CountryDropdown from "../components/CountryDropdown";
 import AymanContact from "../components/AymanContact";
 import MusicToggle from "../components/MusicToggle";
+import WhatYouGet from "../components/WhatYouGet";
 import SiteFooter from "../components/SiteFooter";
 import HeroVideo from "@/components/HeroVideo";
 import LanguageToggle from "../components/LanguageToggle";
@@ -216,6 +217,7 @@ export default function Home() {
       <div style={{ textAlign: "center", margin: "8px 0 8px" }}><button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button></div>
       <PaymentOptions t={L} rtl={rtl} />
       <Divider />
+      <WhatYouGet />
       <TrustSection t={L} founders={stats?.founders ?? []} mints={stats?.mints ?? []} lang={lang} />
       <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px", textAlign: "center", margin: "16px 0" }}>
         <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={72} ticker={false} /></div>

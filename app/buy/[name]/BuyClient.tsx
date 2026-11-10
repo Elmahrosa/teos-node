@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import WhatYouGet from "../../../components/WhatYouGet";
 import InsideTeos from "../../../components/InsideTeos";
 import { displayName, needsBadge } from "../../../lib/display";
 import { useRouter } from "next/navigation";
@@ -61,6 +62,7 @@ export default function BuyClient({ name, countries }: { name: string; countries
         Mint Now - {displayName(name, sel ?? "teos")}{sel && needsBadge(sel) && <InsideTeos />}
       </button>
       {msg && <p className="mt-3 text-center">{msg}</p>}
+      <WhatYouGet />
     </>
   );
 }

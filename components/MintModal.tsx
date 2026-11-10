@@ -4,6 +4,7 @@ import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import Disclaimer from "./Disclaimer";
+import WhatYouGet from "./WhatYouGet";
 import InsideTeos from "./InsideTeos";
 import { displayName, needsBadge } from "../lib/display";
 import { fmt, type Dict } from "../lib/i18n";
@@ -140,6 +141,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
         )}
         {busy && <p role="status" style={{ fontWeight: 700 }}>{phase === "signing" ? t.mmSigning : phase === "paying" ? t.mmPaying : t.mmMinting}</p>}
         {phase === "error" && <p role="alert" style={{ color: "#f87171", wordBreak: "break-word" }}>{err}</p>}
+        <WhatYouGet compact collapsible />
         <Disclaimer t={t} compact />
         <p style={{ margin: "14px 0 0", fontSize: 13 }}><a style={{ color: "#a89a80" }} href={helpHref} target="_blank" rel="noopener noreferrer">{t.needHelp}</a></p>
       </div>

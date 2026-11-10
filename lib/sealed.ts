@@ -9,6 +9,8 @@ import { sha256Hex } from "./sha256";
 const sealed = new Set<string>((sealedNames as string[]).map(norm));
 
 // Reserved institutional names are auction-only: never sold through the public flow.
+// NOTE: hashes only hide names from casual reading. They are NOT cryptographic protection for short or guessable names
+// (anyone can hash a dictionary of candidates). Treat this as obfuscation, not secrecy.
 // The real names are kept out of the public repo; they are matched by SHA-256 hash (domains/protected-hashes.json).
 const protectedSet = new Set<string>((protectedHashes as { sha256: string[] }).sha256);
 (function walk(o: any) {
