@@ -17,7 +17,8 @@ console.log('from:', kp.publicKey.toString());
 const assets = await fetchAssetsByOwner(umi, kp.publicKey);
 console.log('found:', assets.length);
 
-const wanted = ['AYMAN.BH','AYMAN.KW','AYMAN.QA','ELMAHROSA.AE','ELMAHROSA.OM','ELMAHROSA.SA','FACEBOOK.EG'];
+// Extra asset names to move (not listed in the public repo): WANTED_EXTRA=NAME.EG,OTHER.EG
+const wanted = ['AYMAN.BH','AYMAN.KW','AYMAN.QA','ELMAHROSA.AE','ELMAHROSA.OM','ELMAHROSA.SA', ...(process.env.WANTED_EXTRA || '').split(',').map((s) => s.trim()).filter(Boolean)];
 
 for (const a of assets) {
   if (!wanted.includes(a.name)) continue;
