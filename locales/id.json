@@ -21,7 +21,7 @@
   },
   "pricing": {
     "howTitle": "Cara kerja",
-    "how1": ".teos adalah kunci akar. Nama negara seperti saloma.eg hanya terbuka jika dompet memiliki saloma.teos, baik dalam pembelian yang sama atau sudah dimiliki. Server menegakkan ini.",
+    "how1": ".teos adalah kunci akar. Nama negara hanya terbuka jika dompet memiliki saloma.teos, baik dalam pembelian yang sama atau sudah dimiliki. Server menegakkan ini.",
     "how2": "Setelah .teos, pembeli dapat membuka 127 namespace negara. Daftar di namespaces/all.json",
     "priceTitle": "Harga",
     "ownership": "Setiap nama adalah aset Metaplex Core di Solana, dimiliki dompet pembeli, dapat diperdagangkan dari Phantom, Solflare, Backpack"

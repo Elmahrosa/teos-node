@@ -12,6 +12,7 @@ import AymanContact from "../components/AymanContact";
 import MusicToggle from "../components/MusicToggle";
 import WhatYouGet from "../components/WhatYouGet";
 import SiteFooter from "../components/SiteFooter";
+import InsideTeos from "../components/InsideTeos";
 import HeroVideo from "@/components/HeroVideo";
 import LanguageToggle from "../components/LanguageToggle";
 import Divider from "../components/Divider";
@@ -193,7 +194,7 @@ export default function Home() {
                   {(!res || free) && (
                     <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
                       <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
-                      <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
+                      <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}<InsideTeos t={L} /></div>
                       <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
                       <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean && owned.includes(clean) ? `$${(getPriceOrNull(clean, selectedTld) ?? 0).toLocaleString("en-US")}` : "—"}</div>
                     </div>
