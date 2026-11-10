@@ -1,4 +1,5 @@
 "use client";
+import InsideTeos from "./InsideTeos";
 import { useEffect, useMemo, useRef, useState } from "react";
 import FounderSeal from "./FounderSeal";
 import PharaohMark from "./PharaohMark";
@@ -98,13 +99,13 @@ export default function DomainSearchPopup(props: {
     return (
       <div key={c.tld} className="pharaoh-card">
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, fontSize: 13, color: unlocked ? "#4ade80" : "#a89a80" }}>
-          <StepBadge n={2} /><b dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step2Title, { n: name, t: c.tld })}</b><span>{t.step2Tag}</span>
+          <StepBadge n={2} /><b dir="ltr" style={{ fontFamily: SERIF }}>{fmt(t.step2Title, { n: name, t: c.tld })}</b><InsideTeos t={t} /><span>{t.step2Tag}</span>
           <span style={{ marginInlineStart: "auto", fontSize: 18 }}>{unlocked ? "🔓" : "🔒"}</span>
         </div>
         <div style={{ fontSize: 12, color: unlocked ? "#4ade80" : "#fca5a5", marginBottom: 8 }}>{unlocked ? t.step2Open : t.step2Locked}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <Flag t={c} />
-          <span dir="ltr" style={{ fontFamily: SERIF, fontSize: 18, flex: 1, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{name}.{c.tld}.teos <span style={{ color: "#a89a80", fontSize: 13 }}>{c.name}{tag ? ` • ${tag}` : ""}</span></span>
+          <span dir="ltr" style={{ fontFamily: SERIF, fontSize: 18, flex: 1, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{name}.{c.tld}<InsideTeos t={t} /> <span style={{ color: "#a89a80", fontSize: 13 }}>{c.name}{tag ? ` • ${tag}` : ""}</span></span>
           <span className="pharaoh-card-badge" style={{ fontFamily: MONO, background: !r ? "#374151" : free ? "#166534" : "#7f1d1d", color: "#fff" }}>{!r ? "..." : free ? t.availableU : unlocked ? t.takenU : t.lockedU}</span>
         </div>
         <div dir="ltr" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 8, margin: "6px 0 10px" }}>

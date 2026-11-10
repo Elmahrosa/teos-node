@@ -1,6 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import InsideTeos from "../../components/InsideTeos";
 import InfoShell from "../../components/InfoShell";
 
 // Query params are attacker-controlled: only well-formed values are shown or put into links.
@@ -23,7 +24,7 @@ function Body() {
       {(t) => !tx ? <p>{t.sucMissing}</p> : (
         <>
           <h1 style={{ fontFamily: "Cinzel, Georgia, serif", color: "#fef3c7", marginTop: 0 }}>{t.sucTitle}</h1>
-          {names && <p dir="ltr" style={{ fontSize: 20, fontWeight: 700 }}>{names}</p>}
+          {names && <p dir="ltr" style={{ fontSize: 20, fontWeight: 700 }}>{names.split(/[, ]*\+[, ]*|,/).filter(Boolean).map((n) => (<span key={n} style={{ marginInlineEnd: 10 }}>{n}{!n.endsWith(".teos") && <InsideTeos t={t} />}</span>))}</p>}
           {pending && <p style={{ color: "#fbbf24" }}>{t.sucPending}</p>}
           {asset && <p>{t.sucAsset}: <code dir="ltr" style={{ wordBreak: "break-all" }}>{asset}</code><br /><a style={a} href={`https://solscan.io/token/${asset}`} target="_blank" rel="noopener noreferrer">{t.sucViewAsset}</a></p>}
           <p>{t.sucTx}: <code dir="ltr" style={{ wordBreak: "break-all" }}>{pay || tx}</code><br /><a style={a} href={`https://solscan.io/tx/${pay || tx}`} target="_blank" rel="noopener noreferrer">{t.sucViewTx}</a></p>
