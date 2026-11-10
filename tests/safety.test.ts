@@ -10,6 +10,13 @@ test("reserved institutional names stay unbuyable without being listed in the re
   assert.equal(isSealedDomain("test123xyz"), false);
 });
 
+test("brand names are sealed by hash and absent from public lists", () => {
+  for (const n of ["apple", "facebook", "adcb", "mastercard", "reserved-101"]) assert.equal(isSealedDomain(n), true, n);
+  const pub = fs.readFileSync("data/BRANDS-ONLY.txt", "utf8") + fs.readFileSync("domains/sealed-list.json", "utf8");
+  assert.doesNotMatch(pub, /\b(apple|facebook|mastercard|vodafone|aramco)\b/i);
+  assert.equal(fs.existsSync("domains/apple.teos.json"), false);
+});
+
 test("public files carry no central bank names", () => {
   const files = ["README.md", "ELM-STANDARD.md", "domains/central-banks-reserve.json", "domains/reserved-list.json"];
   for (const f of files) assert.doesNotMatch(fs.readFileSync(f, "utf8"), /\b(RESERVED-XX|RESERVED-XX|RESERVED-XX|RESERVED-XX|RESERVED-XX|RESERVED-XX|RESERVED-XX|RESERVED-XX|RESERVED-XX)\b/i, f);

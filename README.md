@@ -40,6 +40,17 @@ There is one root namespace, `.teos`, and 127 country namespaces listed in `name
 
 Country names are shown in the short form, for example `AYMAN.EG [inside TEOS]` (Arabic badge: `داخل منظومة TEOS`). The full form `NAME.EG.TEOS` is the canonical technical name used in code and backend only and is never shown in the UI.
 
+## What the buyer gets
+
+- **Ownership:** minted as a Metaplex Core NFT to the buyer's Solana wallet. The buyer can transfer, sell or hold it. We do not lock it.
+- **Profile / website:** `AYMAN.EG [inside TEOS]` is a page inside TEOS (photo, work, links, shop).
+- **Wallet resolution:** send to the TEOS ID instead of a long wallet address.
+- **Email:** `ayman@eg.teos`
+- **Sub-identities:** the buyer can create `SHOP.AYMAN.EG` and more under their own name.
+- **Freedom:** free to use, hold, sell and transfer. No lock, no manual approval.
+
+Inside the TEOS system, your TEOS ID works as a domain: it resolves to your wallet, your profile page / website, and your email.
+
 ## Quotes and payment
 
 Payment is in SOL at the live rate. A quote locks its price for **5 minutes** (`QUOTE_TTL_SECONDS`, default 300, in `lib/quoteStore.ts`). Pay and register inside that window or request a new quote.
