@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "PARTNER.TEOS",
+    "emails":  [
+                   "info@partner.teos",
+                   "sales@partner.teos",
+                   "admin@partner.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Franchise Partners",
+    "parent":  "ALEXANDRIA.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "3M/year",
+    "status":  "ACTIVE - SEALED"
+}

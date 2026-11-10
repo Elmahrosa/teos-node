@@ -1,0 +1,15 @@
+﻿{
+    "domain":  "MONEY.TEOS",
+    "emails":  [
+                   "info@money.teos",
+                   "sales@money.teos",
+                   "admin@money.teos"
+               ],
+    "note":  "Sealed 25/10/2026 02:38 AM - AYMAN.TEOS Genesis Node Alexandria",
+    "vertical":  "Treasury \u0026 Banks",
+    "parent":  "ALEXANDRIA.TEOS",
+    "type":  "EMPIRE CORE",
+    "owner":  "AYMAN.TEOS",
+    "value":  "75M Reserve",
+    "status":  "ACTIVE - SEALED"
+}
