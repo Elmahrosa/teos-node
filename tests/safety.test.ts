@@ -1,3 +1,4 @@
+import { sha256Hex } from "../lib/sha256";
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
@@ -13,10 +14,26 @@ test("reserved institutional names stay unbuyable without being listed in the re
 });
 
 test("brand names are sealed by hash and absent from public lists", () => {
-  for (const n of ["apple", "facebook", "adcb", "mastercard", "reserved-101"]) assert.equal(isSealedDomain(n), true, n);
-  const pub = fs.readFileSync("data/BRANDS-ONLY.txt", "utf8") + fs.readFileSync("domains/sealed-list.json", "utf8");
-  assert.doesNotMatch(pub, /\b(apple|facebook|mastercard|vodafone|aramco)\b/i);
-  assert.equal(fs.existsSync("domains/apple.teos.json"), false);
+  const hashes = new Set<string>(JSON.parse(fs.readFileSync("domains/protected-hashes.json", "utf8")).sha256);
+  assert.ok(hashes.size >= 100, "protected hash list should not be empty");
+  const norm = (s: string) => s.toUpperCase().trim().replace(/\.TEOS$/, "");
+  const protectedHit = (s: string) => hashes.has(sha256Hex(norm(s)));
+  // No plain brand names live in this test file. Optionally set BRAND_NAMES="a,b,c" locally to also assert specific names.
+  const extra = (process.env.BRAND_NAMES || "").split(",").map((x) => x.trim()).filter(Boolean);
+  for (const n of [...extra, "reserved-101"]) assert.equal(isSealedDomain(n), true, n);
+  // Every token in the public lists must NOT hash into the protected set (a real name would).
+  // These three are metadata file names that were sealed by basename; they are not institution names.
+  const fileNames = new Set(["central-banks-reserve", "reserved-list", "sealed-list"]);
+  const pubFiles = ["data/BRANDS-ONLY.txt", "domains/sealed-list.json"];
+  for (const f of pubFiles) {
+    for (const tok of fs.readFileSync(f, "utf8").split(/[^A-Za-z0-9-]+/).filter((t) => Boolean(t) && !fileNames.has(t))) {
+      assert.equal(protectedHit(tok), false, `${f} contains a protected name`);
+    }
+  }
+  // No per-brand file in domains/ may carry a protected name.
+  for (const f of fs.readdirSync("domains").filter((x) => x.endsWith(".teos.json"))) {
+    assert.equal(protectedHit(f.replace(/\.teos\.json$/, "")), false, `domains/${f} is a protected name`);
+  }
 });
 
 test("public files carry no central bank names", () => {
