@@ -28,8 +28,10 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
   const [phase, setPhase] = useState<Phase>("choose");
   const [err, setErr] = useState("");
   const LOCK_MS = 300_000; // 5 minutes, same as QUOTE_TTL_SECONDS default (300) in lib/quoteStore.ts
-  const [lockEnd, setLockEnd] = useState(() => Date.now() + LOCK_MS);
-  const [left, setLeft] = useState(300);
+  // Clamp the display to the server quote expiry: refresh 5 s BEFORE expires_at so "expired" never flashes at the 5-minute mark.
+  const lockFor = (q: MintQuote) => Math.max(Date.now() + 1000, Math.min(Date.now() + LOCK_MS, q.expires_at - 5_000));
+  const [lockEnd, setLockEnd] = useState(() => lockFor(props.quote));
+  const [left, setLeft] = useState(() => Math.max(0, Math.ceil((lockEnd - Date.now()) / 1000)));
   const tlds = quote.tlds ?? ["teos"];
   const list = tlds.map((x) => displayName(domain, x)).join(" + ");
 
@@ -52,7 +54,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
         const r = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain, tlds: quote.tlds ?? ["teos"], wallet: publicKey?.toBase58() }) });
         const j = await r.json();
         if (!live) return;
-        if (r.ok && j.quote_id) { setQuoteState(j); setLockEnd(Date.now() + LOCK_MS); setLeft(300); return; }
+        if (r.ok && j.quote_id) { setQuoteState(j); const le = lockFor(j); setLockEnd(le); setLeft(Math.max(0, Math.ceil((le - Date.now()) / 1000))); return; }
       } catch { /* retry shortly */ }
       if (live) setLockEnd(Date.now() + 5_000);
     })();
