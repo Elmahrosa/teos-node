@@ -10,7 +10,9 @@ import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopu
 import CountryDropdown from "../components/CountryDropdown";
 import AymanContact from "../components/AymanContact";
 import MusicToggle from "../components/MusicToggle";
+import WhatYouGet from "../components/WhatYouGet";
 import SiteFooter from "../components/SiteFooter";
+import InsideTeos from "../components/InsideTeos";
 import HeroVideo from "@/components/HeroVideo";
 import LanguageToggle from "../components/LanguageToggle";
 import Divider from "../components/Divider";
@@ -21,7 +23,6 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 import LiveTicker from "../components/LiveTicker";
-import PromoCard from "../components/PromoCard";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt, type Lang } from "../lib/i18n";
@@ -117,7 +118,8 @@ export default function Home() {
   return (
     <>
     <PharaohStyles />
-    <PromoCard />
+    {/* TODO(automated-discount): the manual Telegram "Old Pioneers" promo (send proof, founder mints by hand) was removed from the public UI.
+        An automated on-chain version plugs in here: check the wallet's on-chain TEOS holdings server-side in /api/quote, then show the discounted quote in the normal checkout. */}
     <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
     <nav className="site-nav" style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
@@ -145,22 +147,23 @@ export default function Home() {
           {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : lang === "id" ? "TEOS Akar Berdaulat - Alexandria" : "TEOS Sovereign Root - Alexandria"}
         </h2>
         <p dir="auto" style={{ margin: 0, fontSize: 20, color: "#fbbf24", fontWeight: 700 }}>
-          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الدومين السيادي هو البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Domain Berdaulat Hanyalah Awal" : "1 Key Unlocks The Full System - Sovereign Domain Is Just The Start"}
+          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الهوية السيادية الرقمية هي البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Identitas Digital Berdaulat Hanyalah Awal" : "1 Key Unlocks The Full System - Sovereign Digital Identity Is Just The Start"}
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 17, color: "#d6cbb5", lineHeight: 1.6 }}>
           {lang === "ar" 
-            ? "عايز دومين تملكه للأبد - تسطبه - تتداوله - تعمل ديزاين؟ تقدر. عايز تخش المنظومة السيادية الكاملة - متصفح - جيت واي - عالمك الخاص؟ برضه تقدر."
+            ? "عايز هوية سيادية رقمية تملكها للأبد - تسطبه - تتداوله - تعمل ديزاين؟ تقدر. عايز تخش المنظومة السيادية الكاملة - متصفح - جيت واي - عالمك الخاص؟ برضه تقدر."
             : lang === "id"
-            ? "Mau domain yang Anda miliki selamanya - setup - trading - desain? Bisa. Mau sistem berdaulat penuh - browser - gateway - dunia Anda sendiri? Bisa juga."
-            : "Want a domain you own forever - setup - trade - design? You can. Want the full sovereign system - browser - gateway - your own world? You can too."}
+            ? "Mau identitas digital berdaulat yang Anda miliki selamanya - setup - trading - desain? Bisa. Mau sistem berdaulat penuh - browser - gateway - dunia Anda sendiri? Bisa juga."
+            : "Want a sovereign digital identity you own forever - setup - trade - design? You can. Want the full sovereign system - browser - gateway - your own world? You can too."}
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 16, color: "#a89a80" }}>
           {lang === "ar" 
-            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 126 دولة - saloma.teos يفتح saloma.eg"
+            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 126 دولة - yourname.teos يفتح yourname.eg"
             : lang === "id"
-            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 126 negara - saloma.teos membuka saloma.eg"
-            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 126 countries - saloma.teos unlocks saloma.eg"}
+            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 126 negara - yourname.teos membuka yourname.eg"
+            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 126 countries - yourname.teos unlocks yourname.eg"}
         </p>
+        <p dir="auto" data-testid="hero-explainer" style={{ margin: "12px 0 0", fontSize: 16, color: "#eab308" }}>{L.teosIdWorks}</p>
       </header>
 
       <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px", border: "3px double #ca8a04", borderRadius: 8, boxShadow: "0 0 42px rgba(234,179,8,.12), inset 0 2px 12px rgba(0,0,0,.6)" }}>
@@ -191,7 +194,7 @@ export default function Home() {
                   {(!res || free) && (
                     <div style={{ flex: "1 1 200px", background: "#2a2520", border: "1px solid #57493a", padding: 12, minWidth: 0, opacity: owned.includes(clean) ? 1 : 0.85 }}>
                       <div style={{ fontSize: 28 }}>{owned.includes(clean) ? "🔓" : "🔒"}</div>
-                      <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}</div>
+                      <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 18, overflowWrap: "anywhere" }}>{clean || "name"}.{selectedTld}<InsideTeos t={L} /></div>
                       <div dir="auto" style={{ fontSize: 12, color: owned.includes(clean) ? "#4ade80" : "#f87171", fontWeight: 700 }}>{owned.includes(clean) ? "" : <Bidi text={t("hero.locked", { tld: ".teos" })} />}</div>
                       <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18 }}>{clean && owned.includes(clean) ? `$${(getPriceOrNull(clean, selectedTld) ?? 0).toLocaleString("en-US")}` : "—"}</div>
                     </div>
@@ -216,6 +219,7 @@ export default function Home() {
       <div style={{ textAlign: "center", margin: "8px 0 8px" }}><button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button></div>
       <PaymentOptions t={L} rtl={rtl} />
       <Divider />
+      <WhatYouGet />
       <TrustSection t={L} founders={stats?.founders ?? []} mints={stats?.mints ?? []} lang={lang} />
       <div style={{ background: "#d4c5a9", color: "#2a2520", border: "4px double #7a6540", padding: "24px 16px", textAlign: "center", margin: "16px 0" }}>
         <div style={{ display: "flex", justifyContent: "center" }}><FounderSeal size={72} ticker={false} /></div>

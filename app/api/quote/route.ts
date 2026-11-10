@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       const suffix = rawDomain.slice(i + 1).trim().toLowerCase();
       if (getTld(suffix)) { rawTlds = rawTlds ?? suffix; rawDomain = rawDomain.slice(0, i); }
     }
-    // Only sale TLDs (teos) are open. Anything else is refused before any pricing or mint check.
+    // Only sale namespaces (teos) are open. Anything else is refused before any pricing or mint check.
     const blockedTld = requestedTlds(rawTlds).find((t) => !isSaleTld(t));
     if (blockedTld) {
       return NextResponse.json(

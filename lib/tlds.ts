@@ -1,14 +1,14 @@
-import all from "../tlds/all.json";
+import all from "../namespaces/all.json";
 import { getPriceOrNull } from "./pricing";
 
 export type Tld = { tld: string; label: string; flag: string; live: boolean; name?: string; region?: string };
 
-// All TLDs are Metaplex Core assets minted by the same mint key, like .teos. A TLD is sold only when live is true in tlds/<tld>.json.
+// All namespaces are Metaplex Core assets minted by the same mint key, like .teos. A namespace is sold only when live is true in namespaces/all.json.
 export const TLDS: Tld[] = all as Tld[];
 export const liveTlds = () => TLDS.filter((t) => t.live);
 export const getTld = (t: string) => TLDS.find((x) => x.tld === t.toLowerCase());
 
-// Parses "teos,eg,sa": keeps live, known, unique TLDs. Returns null on any unknown or not-live value.
+// Parses "teos,eg,sa": keeps live, known, unique namespaces. Returns null on any unknown or not-live value.
 export function parseTlds(raw: unknown): string[] | null {
   const list = (Array.isArray(raw) ? raw.join(",") : typeof raw === "string" ? raw : "")
     .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
@@ -22,8 +22,8 @@ export function parseTlds(raw: unknown): string[] | null {
   return out;
 }
 
-// A TLD is for sale when it is live in tlds/all.json AND has an explicit price tier in core/pricing.json.
-// A live TLD without a price is never sold (see getPriceOrNull: there is no default tier).
+// A namespace is for sale when it is live in namespaces/all.json AND has an explicit price tier in core/pricing.json.
+// A live namespace without a price is never sold (see getPriceOrNull: there is no default tier).
 export const isSaleTld = (t: string) => {
   const d = getTld(String(t));
   return !!d && d.live && getPriceOrNull("abcde", d.tld) !== null;
@@ -38,5 +38,5 @@ export function requestedTlds(raw: unknown): string[] {
   return list.length ? list : ["__invalid__"];
 }
 
-// Registry key for a name under a TLD. .teos keeps its original key so existing claims stay valid.
+// Registry key for a name under a namespace. .teos keeps its original key so existing claims stay valid.
 export const fullName = (name: string, tld: string) => (tld === "teos" ? name : `${name}.${tld}`);

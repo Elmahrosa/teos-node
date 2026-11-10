@@ -1,97 +1,107 @@
- <p align="center">
-  <img src="./seal.png" width="350" alt="Sovereign Seal ELM-INT-WEB4-001" />
+<p align="center">
+  <img src="./seal.png" width="350" alt="Seal ELM-INT-WEB4-001" />
 </p>
 
 <h1 align="center">teos-node</h1>
-<p align="center"><strong>Genesis Node Alexandria - Web4 .teos Resolver on Solana</strong></p>
-<p align="center"><strong>ELM-INT-WEB4-001 | LAW OVER CODE</strong></p>
+<p align="center"><strong>Genesis Node Alexandria - TEOS name resolver on Solana</strong></p>
+<p align="center"><strong>ELM-INT-WEB4-001</strong></p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Chain-Solana-9945FF?style=for-the-badge&logo=solana" />
-  <img src="https://img.shields.io/badge/Web4-.teos-black?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Node-GENESIS_LIVE-FFD700?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Standard-Metaplex_Core-black?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Built%20in-Alexandria%2C%20Egypt-CE1126?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Seal-SOVEREIGN_ELM--INT--WEB4--001-000000?style=for-the-badge" />
   <img src="https://img.shields.io/badge/License-TESL_v5.1.1-red?style=for-the-badge" />
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/ELMAHROSA-International-FFD700?style=flat-square" />
-  <img src="https://img.shields.io/badge/Status-GENESIS_SEALED-success?style=flat-square" />
-  <img src="https://img.shields.io/badge/EST-2021-black?style=flat-square" />
-</p>
-
 ---
 
-## ELMAHROSA TEOS NODE | ELM-INT-WEB4-001
+## Overview
 
-### Alexandria Sovereign Node | Web4 Resolver
+`teos-node` is the application behind `web4.elmahrosa.org`. It sells and resolves **TEOS IDs**: digital identities inside the TEOS system on Solana, minted as Metaplex Core assets.
 
-> **This is not a logo. This is a Sovereign Seal.**
-> ELMAHROSA INTERNATIONAL • TEOS • EST. 2021
-> Founder of WEB4 | Sovereign Architect from Alexandria
-
-**Founder Type:** Individual Founder  
-**Owner:** `AYMAN.TEOS` - `3jDzy...GLzG`  
-**Network:** Solana Mainnet - Metaplex Core  
-**Seal Date:** 25/10/2026 - Alexandria, Egypt  
-**Standard:** ELM-INT-WEB4-001 - LAW OVER CODE  
-**Status:** SEALED 1/1 GENESIS  
+**Owner:** `AYMAN.TEOS` - `3jDzy...GLzG`
+**Network:** Solana Mainnet - Metaplex Core
+**Seal date:** 25/10/2026 - Alexandria, Egypt
 **Repository:** web4.elmahrosa.org
 
+> A sovereign digital identity. Make a profile, make a website for your company, do everything. It is yours, your keys. You enter the blockchain, you enter the ecosystem.
+>
+> هوية سيادية رقمية. تعمل بيها بروفايل، تعمل موقع لشركتك، تعمل كل حاجة. هتبقى بتاعتك، مفاتيحك. بتدخل البلوكتشين، بتدخل المنظومة.
+>
+> **Disclaimer.** TEOS names are digital identities inside the TEOS system on Solana. They are not internet TLDs, not the official domains of any country or government entity, and have no affiliation with ICANN or any national registry. Country codes such as .EG are internal namespace labels within TEOS only.
+>
+> أسماء TEOS هي هويات رقمية داخل منظومة TEOS على سولانا. وهي ليست نطاقات إنترنت من المستوى الأعلى (TLD)، وليست النطاقات الرسمية لأي دولة أو جهة حكومية، ولا ترتبط بأي صلة بـ ICANN أو بأي سجل وطني. رموز الدول مثل .EG هي تسميات لمساحات أسماء داخلية ضمن TEOS فقط.
+
 ---
 
-### 🔱 GENESIS COLLECTION
+## Namespaces
 
-| Domain | Purpose | Status |
+There is one root namespace, `.teos`, and 127 country namespaces listed in `namespaces/all.json`. A country namespace is unlocked for a buyer once they hold the same name under `.teos` (the root-unlock rule).
+
+Country names are shown in the short form, for example `YOURNAME.EG [inside TEOS]` (Arabic badge: `داخل منظومة TEOS`). The full form `NAME.EG.TEOS` is the canonical technical name used in code and backend only and is never shown in the UI.
+
+## What the buyer gets
+
+- **Ownership:** minted as a Metaplex Core NFT to the buyer's Solana wallet. The buyer can transfer, sell or hold it. We do not lock it.
+- **Profile / website:** `YOURNAME.EG [inside TEOS]` is your page on TEOS (photo, work, links, shop).
+- **Wallet resolution:** send to the TEOS ID instead of a long wallet address.
+- **Email:** `yourname@eg.teos`
+- **Sub-identities:** the buyer can create `SHOP.YOURNAME.EG` and more under their own name.
+- **Freedom:** free to use, hold, sell and transfer. No lock, no manual approval.
+
+A sovereign digital identity. Make a profile, make a website for your company, do everything. It is yours, your keys. You enter the blockchain, you enter the ecosystem.
+
+## Quotes and payment
+
+Payment is in SOL at the live rate. A quote locks its price for **5 minutes** (`QUOTE_TTL_SECONDS`, default 300, in `lib/quoteStore.ts`). Pay and register inside that window or request a new quote.
+
+---
+
+## Genesis collection
+
+| Name | Purpose | Status |
 | :--- | :--- | :--- |
 | **AYMAN.TEOS** | Genesis Seal - Non-transferable | SEALED |
 | **CONSENSUS.TEOS** | Voting & Governance | ACTIVE |
-| **EVENTS.TEOS** | Web4 Summits & Alexandria Events | ACTIVE |
+| **EVENTS.TEOS** | Summits & Alexandria Events | ACTIVE |
 | **MONEY.TEOS** | Treasury & Auction Payments `Aai9...MQ6` | ACTIVE |
-| **PARTNER.TEOS** | B2B Partnerships - Banks & Telcos | ACTIVE |
-| **RESERVED-XX.TEOS** | 75 Central Banks Reserve | AUCTION |
-| **RESERVED.TEOS** | 195 Premium EG + Global | RESERVED |
+| **PARTNER.TEOS** | B2B Partnerships | ACTIVE |
+| **RESERVED-ROOT.TEOS** | Reserved institutional collection | AUCTION |
+| **RESERVED.TEOS** | Premium EG + Global | RESERVED |
 
-**Total Sovereign Reserve:** 270 Domains
+### Reserved institutional collection
 
----
+`domains/central-banks-reserve.json` lists 15 reserved names under neutral labels (`RESERVED-01.TEOS` and so on). They are auction only and are never sold through the public flow. The real names behind them are kept out of this repository and matched by SHA-256 hash (`domains/protected-hashes.json`, checked in `lib/sealed.ts`).
 
-### 🏦 CENTRAL BANKS RESERVE - 75 DOMAINS
+### Individual founder package
 
-`domains/central-banks-reserve.json`
-
-**Value:** 75,000,000 EGP (1M per domain) - Auction Only  
-**Includes:** `RESERVED-XX.TEOS`, `RESERVED-XX.TEOS`, `RESERVED-XX.TEOS`, `RESERVED-XX.TEOS`, `RESERVED-XX.TEOS` + 70 more
-
----
-
-### 🌍 INDIVIDUAL FOUNDER PACKAGE
-
-**16 Domains - Owner Wallet: `3jDzy...GLzG`**
+16 names, owner wallet `3jDzy...GLzG`:
 
 `AYMAN.TEOS / .EG / .SA / .AE / .QA / .KW / .BH / .OM`
 `ELMAHROSA.TEOS / .EG / .SA / .AE / .QA / .KW / .BH / .OM`
 
-View on `core.metaplex.com` - Standard: Metaplex Core (Phantom > Collectibles > Core)
+View on `core.metaplex.com` - Standard: Metaplex Core (Phantom > Collectibles > Core).
 
 ---
 
-### 📧 TEOS EMAIL SYSTEM
+## TEOS email system
 
-Use your domain as Web4 Identity:
+A TEOS name can be used as an email identity:
 
-`you@ayman.teos`
+`you@yourname.teos`
 `contact@elmahrosa.teos`
-`gov@reserved-xx.teos`
 
-Resolver: `web4.elmahrosa.org/resolve/[domain]`
+## Resolver
+
+`web4.elmahrosa.org/resolve/[name]`
+
+## Development
+
+Node 22. `npm ci`, `npm run dev`, `npm test`.
+
+## License
+
+TESL v5.1.1 - TEOS ELMAHROSA Sovereign License. See `License.md`.
 
 ---
-
-### ⚖️ LICENSE - TESL v5.1.1
-
-TEOS ELMAHROSA Sovereign License. LAW OVER CODE.
-
----
-<p align="center"><strong>Built in Alexandria - ELMAHROSA INTERNATIONAL - EST. 2021</strong></p>
+<p align="center">Built in Alexandria - ELMAHROSA INTERNATIONAL</p>

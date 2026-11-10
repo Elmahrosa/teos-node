@@ -18,7 +18,7 @@ function forms(name: string, word: string): string[] {
 
 export const BLOCKED_MESSAGE = "Name is reserved, not available for sale";
 
-// True when the name must never be sold, on any TLD. Never throws.
+// True when the name must never be sold, on any namespace. Never throws.
 export function isBlockedName(rawName: string): boolean {
   if (typeof rawName !== "string" || !rawName) return false;
   const base = rawName.split(".")[0];

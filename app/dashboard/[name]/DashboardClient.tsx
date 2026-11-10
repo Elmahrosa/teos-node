@@ -5,6 +5,8 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import MintModal, { type MintQuote } from "../../../components/MintModal";
 import { useLang } from "../../../lib/useLang";
 import { SOCIAL } from "../../../lib/social";
+import InsideTeos from "../../../components/InsideTeos";
+import { displayName, needsBadge } from "../../../lib/display";
 
 type Row = { tld: string; flag: string; label: string; domain: string; price_usd: number; status: "owned" | "available" | "reserved" };
 const b64 = (u: Uint8Array) => btoa(String.fromCharCode(...Array.from(u)));
@@ -72,12 +74,12 @@ export default function DashboardClient({ name }: { name: string }) {
       {msg && <p className="mt-3 text-center">{msg}</p>}
       {rows && counts && (
         <>
-          <p className="mt-4 text-center">{rows.length} TLDs for {name}: {counts.available} available, {counts.owned} owned, {counts.reserved} reserved</p>
+          <p className="mt-4 text-center">{rows.length} namespaces for {name}: {counts.available} available, {counts.owned} owned, {counts.reserved} reserved</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(170px,1fr))", gap: 10, marginTop: 16 }}>
             {rows.map((r) => (
               <button key={r.tld} disabled={r.status !== "available"} onClick={() => setSel(r)} aria-pressed={sel?.tld === r.tld}
                 style={{ background: sel?.tld === r.tld ? "#ca8a04" : "#222", color: sel?.tld === r.tld ? "#000" : "#fff", padding: 12, border: `1px solid ${COLOR[r.status]}`, opacity: r.status === "available" ? 1 : 0.55, cursor: r.status === "available" ? "pointer" : "default", textAlign: "left" }}>
-                {r.flag} {r.domain}<br />${r.price_usd} - <span style={{ color: sel?.tld === r.tld ? "#000" : COLOR[r.status] }}>{r.status}</span>
+                {r.flag} {displayName(name, r.tld)}{needsBadge(r.tld) && <InsideTeos />}<br />${r.price_usd} - <span style={{ color: sel?.tld === r.tld ? "#000" : COLOR[r.status] }}>{r.status}</span>
               </button>
             ))}
           </div>

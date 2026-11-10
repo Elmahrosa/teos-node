@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { buildTldRows, isProtectedName } from "../lib/dashboard";
 import { claimDomain } from "../lib/registry";
 
-test("dashboard rows: all 127 TLDs, priced, founder names never available", async () => {
+test("dashboard rows: all 127 namespaces, priced, founder names never available", async () => {
   const rows = await buildTldRows("ahmedtest");
   assert.equal(rows.length, 127);
   assert.ok(rows.every((r) => r.price_usd > 0 && r.status === "available"));

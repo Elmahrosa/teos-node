@@ -3,14 +3,14 @@
     "search": "Search your name",
     "connect": "Connect Wallet",
     "tlds": "127 Sovereign Namespaces",
-    "live": "LIVE • ALEXANDRIA • 127 TLD"
+    "live": "LIVE • ALEXANDRIA • 127 NAMESPACES"
   },
   "hero": {
     "title": "TEOS Sovereign Root",
     "subtitle": "From Alexandria, Egypt.",
     "founded": "Founded by Ayman Seif • 127 Sovereign Namespaces • One Root Key • Sovereign Identity Infrastructure",
     "desc1": "teos is the master root credential of the TEOS ecosystem. It serves as the foundation for sovereign country identities and next-generation digital ownership.",
-    "desc2": "This is not a domain marketplace. We do not sell domains. We distribute sovereign identity keys that enable participation in the TEOS ecosystem.",
+    "desc2": "We sell sovereign digital identities. We distribute sovereign identity keys that enable participation in the TEOS ecosystem.",
     "cta": "Claim your sovereign identity. Own your name across 127 nations.",
     "welcome": "Welcome to my marketplace elmahrosa.org",
     "searchPlaceholder": "Search your name",
@@ -21,8 +21,8 @@
   },
   "pricing": {
     "howTitle": "How it works",
-    "how1": ".teos is the root key. A country name such as saloma.eg only unlocks if the wallet has saloma.teos, either in same purchase or already owned. Server enforces this.",
-    "how2": "After .teos, buyer can unlock 127 country domains. List in tlds/all.json",
+    "how1": ".teos is the root key. A country name only unlocks if the wallet has saloma.teos, either in same purchase or already owned. Server enforces this.",
+    "how2": "After .teos, buyer can unlock 127 country namespaces. List in namespaces/all.json",
     "priceTitle": "Pricing",
     "ownership": "Every name is a Metaplex Core asset on Solana, owned by buyer wallet, tradable from Phantom, Solflare, Backpack"
   }

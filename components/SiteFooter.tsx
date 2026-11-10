@@ -1,5 +1,6 @@
 import { SOCIAL } from "../lib/social";
 import type { Dict } from "../lib/i18n";
+import Disclaimer from "./Disclaimer";
 
 const pill = (bg: string, color = "#fff"): React.CSSProperties => ({ background: bg, color, padding: "8px 16px", borderRadius: 999, fontWeight: 700, fontSize: 14, textDecoration: "none", display: "inline-block" });
 
@@ -19,6 +20,7 @@ export default function SiteFooter({ t }: { t: Dict }) {
       <p style={{ color: "#a89a80", fontSize: 13, margin: "10px 0 0" }}>
         {t.wallets} · <a href="/terms" style={{ color: "inherit" }}>{t.terms}</a> · <a href="/privacy" style={{ color: "inherit" }}>{t.privacy}</a>
       </p>
+      <Disclaimer t={t} />
       <p style={{ color: "#71717a", fontSize: 12, margin: "10px 0 0" }}>© 2026 ELMAHROSA - elmahrosa.org</p>
       <p style={{ color: "#52525b", fontSize: 11, margin: "6px 0 0" }}>Music: <a href="https://commons.wikimedia.org/wiki/File:ArabicQanunSample.ogg" target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>Arabic qanun sample</a> by Ariel Qas, CC BY-SA 2.5, edited</p>
     </footer>

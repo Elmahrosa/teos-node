@@ -26,7 +26,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ name: st
     return NextResponse.json({
       name: `${name.toUpperCase()}.${tld.toUpperCase()}`,
       symbol: "TEOS",
-      description: `${name.toUpperCase()}.${tld.toUpperCase()} - a sovereign domain on the TEOS Network (Solana).`,
+      description: `${name.toUpperCase()}.${tld.toUpperCase()} - a TEOS ID - sovereign digital identity on Solana. | هوية TEOS - هوية سيادية رقمية على Solana`,
       image: `${BASE}${crest}`,
       external_url: BASE,
       attributes: [

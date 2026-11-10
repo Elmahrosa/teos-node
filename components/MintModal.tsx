@@ -3,6 +3,10 @@ import { useEffect, useMemo, useState } from "react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import Disclaimer from "./Disclaimer";
+import WhatYouGet from "./WhatYouGet";
+import InsideTeos from "./InsideTeos";
+import { displayName, needsBadge } from "../lib/display";
 import { fmt, type Dict } from "../lib/i18n";
 
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
@@ -16,18 +20,20 @@ type Phase = "choose" | "approve" | "signing" | "paying" | "minting" | "error";
 
 export default function MintModal(props: { t: Dict; rtl: boolean; domain: string; quote: MintQuote; onClose: () => void; helpHref: string }) {
   const { t, rtl, domain, onClose, helpHref } = props;
-  // The SOL amount follows the live market rate. Each quote price is held for 60 s, then a fresh one is fetched.
+  // The SOL amount follows the live market rate. Each quote price is held for 5 minutes (matches the backend quote TTL in lib/quoteStore.ts), then a fresh one is fetched.
   const [quote, setQuoteState] = useState<MintQuote>(props.quote);
   const { publicKey, connected, signMessage, sendTransaction, wallet } = useWallet();
   const { connection } = useConnection();
   const { setVisible } = useWalletModal();
   const [phase, setPhase] = useState<Phase>("choose");
   const [err, setErr] = useState("");
-  const LOCK_MS = 60_000;
-  const [lockEnd, setLockEnd] = useState(() => Date.now() + LOCK_MS);
-  const [left, setLeft] = useState(60);
+  const LOCK_MS = 300_000; // 5 minutes, same as QUOTE_TTL_SECONDS default (300) in lib/quoteStore.ts
+  // Clamp the display to the server quote expiry: refresh 5 s BEFORE expires_at so "expired" never flashes at the 5-minute mark.
+  const lockFor = (q: MintQuote) => Math.max(Date.now() + 1000, Math.min(Date.now() + LOCK_MS, q.expires_at - 5_000));
+  const [lockEnd, setLockEnd] = useState(() => lockFor(props.quote));
+  const [left, setLeft] = useState(() => Math.max(0, Math.ceil((lockEnd - Date.now()) / 1000)));
   const tlds = quote.tlds ?? ["teos"];
-  const list = tlds.map((x) => `${domain}.${x}`).join(" + ");
+  const list = tlds.map((x) => displayName(domain, x)).join(" + ");
 
   useEffect(() => {
     const iv = setInterval(() => setLeft(Math.max(0, Math.ceil((lockEnd - Date.now()) / 1000))), 500);
@@ -48,7 +54,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
         const r = await fetch("/api/quote", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ domain, tlds: quote.tlds ?? ["teos"], wallet: publicKey?.toBase58() }) });
         const j = await r.json();
         if (!live) return;
-        if (r.ok && j.quote_id) { setQuoteState(j); setLockEnd(Date.now() + LOCK_MS); setLeft(60); return; }
+        if (r.ok && j.quote_id) { setQuoteState(j); const le = lockFor(j); setLockEnd(le); setLeft(Math.max(0, Math.ceil((le - Date.now()) / 1000))); return; }
       } catch { /* retry shortly */ }
       if (live) setLockEnd(Date.now() + 5_000);
     })();
@@ -109,7 +115,7 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
     <div dir={rtl ? "rtl" : "ltr"} role="dialog" aria-modal="true" aria-label={fmt(t.mmTitle, { list })} onClick={busy ? undefined : onClose} style={{ position: "fixed", inset: 0, zIndex: 110, background: "rgba(5,4,3,.85)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, overflowY: "auto" }}>
       <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 460, background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #57493a", padding: 20, color: "#f5e6c4", position: "relative", boxShadow: "0 20px 60px rgba(0,0,0,.8)" }}>
         {!busy && <button onClick={onClose} aria-label={t.close} style={{ position: "absolute", top: 8, insetInlineEnd: 12, background: "none", border: 0, color: "#a89a80", fontSize: 24, cursor: "pointer" }}>×</button>}
-        <h2 dir="ltr" style={{ fontFamily: SERIF, margin: "0 0 10px", color: "#fef3c7", fontSize: 22, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{fmt(t.mmTitle, { list })}</h2>
+        <h2 dir="ltr" style={{ fontFamily: SERIF, margin: "0 0 10px", color: "#fef3c7", fontSize: 22, wordBreak: "break-all", textAlign: rtl ? "right" : "left" }}>{fmt(t.mmTitle, { list })}{tlds.some(needsBadge) && <InsideTeos t={t} />}</h2>
         <div style={{ background: "#d4c5a9", color: "#2a2520", border: "3px double #7a6540", padding: 12, marginBottom: 12 }}>
           <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 18, fontWeight: 700 }}>{fmt(t.mmPrice, { usd: (quote.price_usd ?? 0).toLocaleString("en-US"), sol: Number(quote.price_sol.toFixed(4)).toString() })}</div>
           <div style={{ fontSize: 13 }}>{t.mmLock}</div>
@@ -137,6 +143,8 @@ export default function MintModal(props: { t: Dict; rtl: boolean; domain: string
         )}
         {busy && <p role="status" style={{ fontWeight: 700 }}>{phase === "signing" ? t.mmSigning : phase === "paying" ? t.mmPaying : t.mmMinting}</p>}
         {phase === "error" && <p role="alert" style={{ color: "#f87171", wordBreak: "break-word" }}>{err}</p>}
+        <WhatYouGet compact collapsible />
+        <Disclaimer t={t} compact />
         <p style={{ margin: "14px 0 0", fontSize: 13 }}><a style={{ color: "#a89a80" }} href={helpHref} target="_blank" rel="noopener noreferrer">{t.needHelp}</a></p>
       </div>
     </div>

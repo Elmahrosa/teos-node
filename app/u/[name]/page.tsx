@@ -23,9 +23,9 @@ export default async function Page({ params }: { params: Promise<{ name: string 
     return (
       <main dir="rtl" lang="ar" className="min-h-screen flex items-center justify-center p-6">
         <section className="w-full max-w-xl text-center">
-          <h1 className="text-3xl font-bold">نطاق محجوز</h1>
+          <h1 className="text-3xl font-bold">هوية سيادية رقمية محجوزة</h1>
           <p className="mt-4">{domain}.teos</p>
-          <p className="mt-3">هذا النطاق محجوز وغير متاح للبيع أو التسجيل.</p>
+          <p className="mt-3">هذه الهوية محجوزة وغير متاح للبيع أو التسجيل.</p>
           <a href="/" className="inline-block mt-8 text-yellow-400">العودة إلى TEOS</a>
         </section>
       </main>
@@ -47,7 +47,7 @@ export default async function Page({ params }: { params: Promise<{ name: string 
 
   const rows: { label: string; value: string; mono?: boolean }[] = [
     { label: "حالة السجل", value: "مسجل في Registry" },
-    { label: "النطاق", value: `${displayValue(domain)}.teos`, mono: true },
+    { label: "الهوية السيادية الرقمية", value: `${displayValue(domain)}.teos`, mono: true },
     { label: "عنوان المحفظة المسجل", value: shortWallet(claim.owner), mono: true },
     { label: "تاريخ التسجيل", value: claimedAt ?? "لا توجد بيانات", mono: true },
     { label: "توقيع معاملة التسجيل", value: displayValue(claim.tx), mono: true },

@@ -1,11 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import all from "../tlds/all.json";
+import all from "../namespaces/all.json";
 import pricing from "../core/pricing.json";
 import { getPrice, getPriceOrNull, PriceMissingError } from "../lib/pricing";
 import { SALE_TLDS, isSaleTld } from "../lib/tlds";
 
-test("every live TLD in tlds/all.json has an explicit, existing price tier", () => {
+test("every live namespace in namespaces/all.json has an explicit, existing price tier", () => {
   const tiers = pricing.tiers as Record<string, number[]>;
   const mapping = pricing.mapping as Record<string, string>;
   assert.equal(all.length, 127);
@@ -17,14 +17,14 @@ test("every live TLD in tlds/all.json has an explicit, existing price tier", () 
   }
 });
 
-test("an unpriced TLD has no price and is not for sale (no .teos fallback)", () => {
+test("an unpriced namespace has no price and is not for sale (no .teos fallback)", () => {
   assert.equal(getPriceOrNull("ahmed", "zz"), null);
   assert.throws(() => getPrice("ahmed", "zz"), PriceMissingError);
   assert.equal(isSaleTld("zz"), false);
   assert.ok(!("generic" in (pricing.tiers as object)));
 });
 
-test("all 127 TLDs are for sale and .teos keeps its own price", () => {
+test("all 127 namespaces are for sale and .teos keeps its own price", () => {
   assert.equal(SALE_TLDS.length, 127);
   assert.equal(getPrice("a", "teos"), 2000);
   assert.equal(getPrice("ahmed", "teos"), 30);

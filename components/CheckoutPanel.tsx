@@ -2,6 +2,10 @@
 import { useEffect, useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import WhatYouGet from "./WhatYouGet";
+import InsideTeos from "./InsideTeos";
+import { displayName, needsBadge } from "../lib/display";
+import Disclaimer from "./Disclaimer";
 import { LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "https://teos-node.up.railway.app";
@@ -161,6 +165,8 @@ export function CheckoutPanel({ domain, tlds, durationYears = 2, treasury, amoun
     const receipt = {
       domain,
       tlds,
+      display_names: tlds.map((t) => displayName(domain, t) + (needsBadge(t) ? " [inside TEOS / داخل منظومة TEOS]" : "")),
+      notice: "A sovereign digital identity. Make a profile, make a website for your company, do everything. It is yours, your keys. TEOS names are digital identities inside the TEOS system on Solana. They are not internet TLDs, not the official domains of any country or government entity, and have no affiliation with ICANN or any national registry.",
       quote_id: quote?.quote_id,
       payment_tx: payTx,
       mint_tx: mintTx,
@@ -195,7 +201,7 @@ export function CheckoutPanel({ domain, tlds, durationYears = 2, treasury, amoun
         />
       </div>
 
-      <div className="mt-2 text-xs text-zinc-500">{domain} • {tlds.map((t) => `.${t}`).join(" + ")} • {durationYears}Y</div>
+      <div className="mt-2 text-xs text-zinc-500">{tlds.map((t) => (<span key={t} style={{ marginInlineEnd: 6 }}>{displayName(domain, t)}{needsBadge(t) && <InsideTeos />}</span>))} • {durationYears}Y</div>
       {quote && (
         <p className={`mt-2 font-mono text-xs ${expiry < 60 ? "text-red-400" : "text-[#D4B779]"}`}>
           Expires in {fmt(expiry)} • {domain}
@@ -228,6 +234,9 @@ export function CheckoutPanel({ domain, tlds, durationYears = 2, treasury, amoun
         </div>
       )}
 
+      <WhatYouGet compact />
+      <Disclaimer compact />
+
       {/* Actions - gated */}
       <div className="mt-6 space-y-3">
         {step === "quote" && (
@@ -247,7 +256,7 @@ export function CheckoutPanel({ domain, tlds, durationYears = 2, treasury, amoun
         )}
         {step === "mint" && (
           <button disabled={!!loading} onClick={register} className="w-full rounded-full bg-[#D4B779] py-3 font-bold text-black disabled:opacity-50">
-            {loading === "mint" ? "Minting on-chain…" : "Mint Domain"}
+            {loading === "mint" ? "Minting on-chain…" : "Mint Identity"}
           </button>
         )}
         {step === "done" && (

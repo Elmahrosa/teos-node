@@ -6,7 +6,7 @@ export const LENGTH_LABELS = ["1 char", "2 chars", "3 chars", "4 chars", "5+ cha
 const TIERS = pricing.tiers as Record<string, number[]>;
 const MAPPING = pricing.mapping as Record<string, string>;
 
-// Display list: one entry per tier with the TLDs that map to it.
+// Display list: one entry per tier with the namespaces that map to it.
 export const PRICE_TIERS = Object.entries(TIERS).map(([id, prices]) => ({
   id,
   prices,
@@ -17,8 +17,8 @@ export class PriceMissingError extends Error {
   constructor(public tld: string) { super(`price_missing:${tld}`); }
 }
 
-// Price for name.tld, or null when the TLD has no explicit tier in core/pricing.json.
-// There is deliberately no default tier: an unpriced TLD must never be sold at some other TLD's price.
+// Price for name.tld, or null when the namespace has no explicit tier in core/pricing.json.
+// There is deliberately no default tier: an unpriced namespace must never be sold at some other namespace's price.
 export function getPriceOrNull(name: string, tld: string): number | null {
   const t = tld.toLowerCase().trim().replace(/^\./, "");
   const tier = TIERS[MAPPING[t]];

@@ -1,30 +1,70 @@
 {
-  "collection": "RESERVED-XX.TEOS",
+  "collection": "RESERVED-INSTITUTIONAL.TEOS",
   "owner": "AYMAN.TEOS",
-  "total_domains": 75,
-  "total_value_EGP": "75,000,000",
+  "total_domains": 15,
   "status": "RESERVED - AUCTION ONLY",
-  "law": "LAW OVER CODE",
   "root": {
-    "domain": "RESERVED-XX.TEOS",
+    "domain": "RESERVED-ROOT.TEOS",
     "price_EGP": 500000
   },
-  "giants": [
-    {"domain": "RESERVED-XX.TEOS", "price": 1000000, "bank": "US Federal Reserve"},
-    {"domain": "RESERVED-XX.TEOS", "price": 1000000, "bank": "US Fed Short"},
-    {"domain": "RESERVED-XX.TEOS", "price": 1000000, "bank": "European Central Bank"},
-    {"domain": "RESERVED-XX.TEOS", "price": 1000000, "bank": "Bank of England"},
-    {"domain": "RESERVED-XX.TEOS", "price": 1000000, "bank": "Bank of Japan"},
-    {"domain": "RESERVED-XX.TEOS", "price": 1000000, "bank": "China"},
-    {"domain": "RESERVED-XX.TEOS", "price": 1000000, "bank": "Germany"}
+  "tier_a": [
+    {
+      "domain": "RESERVED-01.TEOS",
+      "price": 1000000
+    },
+    {
+      "domain": "RESERVED-02.TEOS",
+      "price": 1000000
+    },
+    {
+      "domain": "RESERVED-03.TEOS",
+      "price": 1000000
+    },
+    {
+      "domain": "RESERVED-04.TEOS",
+      "price": 1000000
+    },
+    {
+      "domain": "RESERVED-05.TEOS",
+      "price": 1000000
+    },
+    {
+      "domain": "RESERVED-06.TEOS",
+      "price": 1000000
+    },
+    {
+      "domain": "RESERVED-07.TEOS",
+      "price": 1000000
+    }
   ],
-  "mena": [
-    {"domain": "RESERVED-XX.TEOS", "note": "MOST IMPORTANT - Egypt HQ", "price": 500000},
-    {"domain": "RESERVED-XX.TEOS", "price": 500000, "bank": "Saudi"},
-    {"domain": "RESERVED-XX.TEOS", "price": 500000, "bank": "UAE"},
-    {"domain": "RESERVED-XX.TEOS", "price": 500000, "bank": "Qatar"},
-    {"domain": "RESERVED-XX.TEOS", "price": 500000, "bank": "Kuwait"},
-    {"domain": "RESERVED-XX.TEOS", "price": 500000, "bank": "Bahrain"},
-    {"domain": "RESERVED-XX.TEOS", "price": 500000, "bank": "Oman"}
+  "tier_b": [
+    {
+      "domain": "RESERVED-08.TEOS",
+      "price": 500000
+    },
+    {
+      "domain": "RESERVED-09.TEOS",
+      "price": 500000
+    },
+    {
+      "domain": "RESERVED-10.TEOS",
+      "price": 500000
+    },
+    {
+      "domain": "RESERVED-11.TEOS",
+      "price": 500000
+    },
+    {
+      "domain": "RESERVED-12.TEOS",
+      "price": 500000
+    },
+    {
+      "domain": "RESERVED-13.TEOS",
+      "price": 500000
+    },
+    {
+      "domain": "RESERVED-14.TEOS",
+      "price": 500000
+    }
   ]
 }

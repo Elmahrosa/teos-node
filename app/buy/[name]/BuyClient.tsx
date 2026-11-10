@@ -1,5 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
+import WhatYouGet from "../../../components/WhatYouGet";
+import InsideTeos from "../../../components/InsideTeos";
+import { displayName, needsBadge } from "../../../lib/display";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { getRouteForUser } from "../../../lib/domain";
@@ -50,15 +53,16 @@ export default function BuyClient({ name, countries }: { name: string; countries
         {countries.map((c) => (
           <button key={c.tld} onClick={() => setSel(c.tld)} aria-pressed={sel === c.tld}
             style={{ background: sel === c.tld ? "#ca8a04" : "#222", color: sel === c.tld ? "#000" : "#fff", padding: 14, border: "1px solid #57493a", cursor: "pointer" }}>
-            {c.flag} {name}.{c.tld}<br />{sel === c.tld ? "Selected" : "Select"}
+            {c.flag} {displayName(name, c.tld)}{needsBadge(c.tld) && <InsideTeos />}<br />{sel === c.tld ? "Selected" : "Select"}
           </button>
         ))}
       </div>
       <button disabled={!sel || busy} onClick={mint}
         style={{ background: "#ca8a04", color: "#000", padding: 15, width: "100%", marginTop: 20, fontSize: 18, fontWeight: 700 }}>
-        Mint Now - {name}.{sel}
+        Mint Now - {displayName(name, sel ?? "teos")}{sel && needsBadge(sel) && <InsideTeos />}
       </button>
       {msg && <p className="mt-3 text-center">{msg}</p>}
+      <WhatYouGet />
     </>
   );
 }

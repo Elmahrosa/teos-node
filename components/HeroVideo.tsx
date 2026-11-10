@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import ALL_TLDS from "@/tlds/all.json";
+import ALL_TLDS from "@/namespaces/all.json";
 
 // Static count (not the async stats), so the badge is 126 + root = 127 from the first paint.
-const TOTAL = (ALL_TLDS as unknown[]).length; // 127 TLDs
+const TOTAL = (ALL_TLDS as unknown[]).length; // 127 namespaces
 const NATIONS = TOTAL - 1; // minus the .teos root = 126 nations
 const VIDEO = "/videos/teos-architecture.mp4.mp4";
 const POSTER = "/videos/teos-architecture-poster.jpg";
@@ -33,12 +33,12 @@ export default function HeroVideo({ searchLabel, connectLabel, onSearch, onConne
       )}
       <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.6)" }} />
       <div dir="ltr" style={{ position: "absolute", top: 14, right: 14, padding: "6px 12px", border: "1px solid #ca8a04", background: "rgba(10,8,6,.7)", color: "#fbbf24", fontFamily: "ui-monospace, monospace", fontSize: 12, letterSpacing: "0.08em" }}>
-        {NATIONS} NATIONS LIVE + .TEOS ROOT = {TOTAL} TLDs
+        {NATIONS} NATIONS LIVE + .TEOS ROOT = {TOTAL} NAMESPACES
       </div>
       <div dir={rtl ? "rtl" : "ltr"} style={{ position: "relative", textAlign: "center", padding: "56px 20px", maxWidth: 900 }}>
         <h1 dir="ltr" style={{ fontFamily: SERIF, fontSize: "clamp(32px,7vw,64px)", color: "#fef3c7", letterSpacing: "0.1em", margin: "0 0 10px", textShadow: "0 2px 10px rgba(0,0,0,.9)" }}>EL MAHROSA TEOS</h1>
         <p dir="ltr" style={{ margin: 0, fontFamily: SERIF, fontSize: "clamp(15px,3vw,24px)", color: "#fbbf24", letterSpacing: "0.22em", fontWeight: 700 }}>SOVEREIGN SYSTEM ARCHITECTURE</p>
-        <p dir="rtl" lang="ar" style={{ margin: "12px 0 0", fontSize: "clamp(16px,2.8vw,22px)", color: "#d6cbb5" }}>نظام النطاقات السيادية</p>
+        <p dir="rtl" lang="ar" style={{ margin: "12px 0 0", fontSize: "clamp(16px,2.8vw,22px)", color: "#d6cbb5" }}>هوية سيادية رقمية</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", marginTop: 26 }}>
           <button style={btn} onClick={onSearch}>{searchLabel}</button>
           <button className="hero-connect" style={ghost} onClick={onConnect}>{connectLabel}</button>

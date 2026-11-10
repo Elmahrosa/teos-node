@@ -2,7 +2,7 @@
 import type { Dict } from "../lib/i18n";
 
 // Top bar: fixed green "live" label on the left, red marquee on the right.
-// Items come from real data: founder names minted, total sold (when the API reports it), TLD count.
+// Items come from real data: founder names minted, total sold (when the API reports it), namespace count.
 export default function LiveTicker({ t, rtl, founders, sold, tlds }: { t: Dict; rtl: boolean; founders: string[]; sold: number | null; tlds: number }) {
   const items = [
     ...founders.map((f) => `${f} ${t.tkMinted}`),
