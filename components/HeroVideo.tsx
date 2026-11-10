@@ -38,7 +38,7 @@ export default function HeroVideo({ searchLabel, connectLabel, onSearch, onConne
       <div dir={rtl ? "rtl" : "ltr"} style={{ position: "relative", textAlign: "center", padding: "56px 20px", maxWidth: 900 }}>
         <h1 dir="ltr" style={{ fontFamily: SERIF, fontSize: "clamp(32px,7vw,64px)", color: "#fef3c7", letterSpacing: "0.1em", margin: "0 0 10px", textShadow: "0 2px 10px rgba(0,0,0,.9)" }}>EL MAHROSA TEOS</h1>
         <p dir="ltr" style={{ margin: 0, fontFamily: SERIF, fontSize: "clamp(15px,3vw,24px)", color: "#fbbf24", letterSpacing: "0.22em", fontWeight: 700 }}>SOVEREIGN SYSTEM ARCHITECTURE</p>
-        <p dir="rtl" lang="ar" style={{ margin: "12px 0 0", fontSize: "clamp(16px,2.8vw,22px)", color: "#d6cbb5" }}>نظام النطاقات السيادية</p>
+        <p dir="rtl" lang="ar" style={{ margin: "12px 0 0", fontSize: "clamp(16px,2.8vw,22px)", color: "#d6cbb5" }}>هوية سيادية رقمية</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", marginTop: 26 }}>
           <button style={btn} onClick={onSearch}>{searchLabel}</button>
           <button className="hero-connect" style={ghost} onClick={onConnect}>{connectLabel}</button>

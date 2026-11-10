@@ -8,8 +8,8 @@ export default function WhatYouGet({ compact, collapsible }: { compact?: boolean
   const { L, rtl } = useLang();
   const withNames = (s: string): ReactNode[] =>
     s.split(/(\{n\}|\{s\})/).map((p, i) =>
-      p === "{n}" ? <span key={i} dir="ltr"><b>AYMAN.EG</b><InsideTeos t={L} /></span>
-      : p === "{s}" ? <span key={i} dir="ltr"><b>SHOP.AYMAN.EG</b><InsideTeos t={L} /></span>
+      p === "{n}" ? <span key={i} dir="ltr"><b>{rtl ? "اسمك.EG" : "YOURNAME.EG"}</b><InsideTeos t={L} /></span>
+      : p === "{s}" ? <span key={i} dir="ltr"><b>{rtl ? "SHOP.اسمك.EG" : "SHOP.YOURNAME.EG"}</b><InsideTeos t={L} /></span>
       : p);
   const rows: [string, string][] = [
     [L.gOwnH, L.gOwn], [L.gProfH, L.gProf], [L.gWalH, L.gWal], [L.gMailH, L.gMail], [L.gSubH, L.gSub], [L.gFreeH, L.gFree],

@@ -1,6 +1,6 @@
 import { DICTS, type Dict } from "../lib/i18n";
 
-// Badge shown directly next to every short-form country name, e.g. AYMAN.EG [inside TEOS].
+// Badge shown directly next to every short-form country name, e.g. YOURNAME.EG [inside TEOS].
 // With a dictionary it shows that language; without one it shows English and Arabic.
 export default function InsideTeos({ t }: { t?: Dict }) {
   const label = t ? t.insideTeos : `${DICTS.en.insideTeos} · ${DICTS.ar.insideTeos}`;
