@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     const q = req.nextUrl.searchParams;
     let rawName = q.get("name") ?? q.get("domain");
     let rawTld = (q.get("tld") ?? "").trim().toLowerCase().replace(/^\./, "");
-    // "ahmed.eg": split off a known TLD suffix when no tld was given.
+    // "ahmed.eg": split off a known namespace suffix when no tld was given.
     if (typeof rawName === "string" && rawName.includes(".")) {
       const i = rawName.lastIndexOf(".");
       const suffix = rawName.slice(i + 1).trim().toLowerCase();
@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
     const def = getTld(tld);
     if (!def || !def.live) return NextResponse.json({ error: "invalid_tld" }, { status: 400 });
     const upper = domain.toUpperCase();
-    // Founder rule: ayman.<any tld> is never available. Reserved and sealed names are blocked on every TLD.
+    // Founder rule: ayman.<any tld> is never available. Reserved and sealed names are blocked on every namespace.
     if (isNotForSaleDomain(domain) || isReservedWord(domain) || isReserved(upper) || isSealedDomain(upper)) {
       return NextResponse.json({ available: false, reason: "reserved", message: "Name is reserved, not available for sale", domain, tld });
     }

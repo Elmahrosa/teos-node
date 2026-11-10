@@ -16,12 +16,12 @@ function inReservedList(domainUpper: string): boolean {
   return lists.some((d: string) => String(d).toUpperCase() === domainUpper);
 }
 
-// Every protected name is "reserved" on every TLD, so a founder name never shows as available.
+// Every protected name is "reserved" on every namespace, so a founder name never shows as available.
 export function isProtectedName(name: string): boolean {
   return isNotForSaleDomain(name) || isReservedWord(name) || isSealedDomain(name.toUpperCase()) || isSealedDomain(name) || inReservedList(name.toUpperCase());
 }
 
-// One row per TLD in tlds/all.json for an already validated name. Price comes only from the public table.
+// One row per namespace in namespaces/all.json for an already validated name. Price comes only from the public table.
 export async function buildTldRows(name: string): Promise<TldRow[]> {
   const protectedName = isProtectedName(name);
   return Promise.all(

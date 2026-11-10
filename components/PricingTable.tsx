@@ -49,7 +49,7 @@ export default function PricingTable({ t, onBuy }: { t: Dict; onBuy: () => void 
           <section key={tier.id} aria-label={tier.id} style={{ border: "2px solid #ca8a04", borderRadius: 8, padding: 18, background: "linear-gradient(160deg,#241f1a,#12100d)", boxShadow: "0 10px 26px rgba(0,0,0,.55),inset 0 1px 0 rgba(254,243,199,.12)" }}>
             <h3 style={{ margin: 0, color: "#fbbf24", fontFamily: SERIF, letterSpacing: "0.1em", fontSize: 20 }}>{tier.id.toUpperCase()}</h3>
             <p dir="ltr" style={{ margin: "2px 0 8px", color: "#a89a80", fontSize: 12, overflowWrap: "anywhere" }}>
-              {tier.tlds === null ? "all other TLDs" : tier.tlds.map((x) => `.${x}`).join(" ")}
+              {tier.tlds === null ? "all other namespaces" : tier.tlds.map((x) => `.${x}`).join(" ")}
             </p>
             {tier.prices.map((usd, i) => (
               <div key={i} dir="ltr" className="pt-row" style={cell}>

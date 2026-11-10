@@ -3,7 +3,7 @@
     "search": "Cari nama Anda",
     "connect": "Sambungkan Dompet",
     "tlds": "127 Namespace Berdaulat",
-    "live": "LIVE • ALEXANDRIA • 127 TLD"
+    "live": "LIVE • ALEXANDRIA • 127 NAMESPACES"
   },
   "hero": {
     "title": "TEOS Sovereign Root",
@@ -22,7 +22,7 @@
   "pricing": {
     "howTitle": "Cara kerja",
     "how1": ".teos adalah kunci akar. Nama negara seperti saloma.eg hanya terbuka jika dompet memiliki saloma.teos, baik dalam pembelian yang sama atau sudah dimiliki. Server menegakkan ini.",
-    "how2": "Setelah .teos, pembeli dapat membuka 127 domain negara. Daftar di tlds/all.json",
+    "how2": "Setelah .teos, pembeli dapat membuka 127 namespace negara. Daftar di namespaces/all.json",
     "priceTitle": "Harga",
     "ownership": "Setiap nama adalah aset Metaplex Core di Solana, dimiliki dompet pembeli, dapat diperdagangkan dari Phantom, Solflare, Backpack"
   }

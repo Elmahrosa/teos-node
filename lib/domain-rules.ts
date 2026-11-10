@@ -16,7 +16,7 @@ export function parseDomain(raw: unknown): DomainCheck {
   return { ok: true, domain };
 }
 
-// Founder identity: never for sale, regardless of TLD.
+// Founder identity: never for sale, regardless of namespace.
 export function isNotForSaleDomain(domain: string): boolean {
   const normalized = domain.trim().toLowerCase();
   return normalized.split(".")[0] === "ayman";

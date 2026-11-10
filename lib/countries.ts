@@ -1,7 +1,7 @@
 import { liveTlds, fullName, type Tld } from "./tlds";
 import { isClaimed } from "./registry";
 
-// Priority order first, then the rest of the live registry TLDs. "teos" itself is the base name, not a country.
+// Priority order first, then the rest of the live registry namespaces. "teos" itself is the base name, not a country.
 const FIRST = ["eg", "sa", "ae", "qa", "kw", "us", "uk", "fr", "de", "tr", "in", "id"];
 
 export async function remainingCountries(name: string): Promise<Tld[]> {

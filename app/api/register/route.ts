@@ -169,7 +169,7 @@ export async function POST(req: Request) {
 
     const tlds = quote.tlds ?? ["teos"];
 
-    // Older quotes may carry other TLDs: never register or mint them while sales are teos-only.
+    // Older quotes may carry other namespaces: never register or mint them while sales are teos-only.
     const blockedTld = tlds.find((t) => !isSaleTld(t));
     if (blockedTld) {
       return NextResponse.json(
@@ -190,7 +190,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // Other TLDs (e.g. .eg) require the matching .teos identity
+    // Other namespaces (e.g. .eg) require the matching .teos identity
     // to be owned ON-CHAIN right now - not just in the old registry.
     // This stops the original owner from claiming .eg after selling .teos.
     if (!tlds.includes("teos")) {
@@ -267,7 +267,7 @@ export async function POST(req: Request) {
 
     const claimed: string[] = [];
 
-    // Claim every requested TLD.
+    // Claim every requested namespace.
     for (const tld of tlds) {
       const domainName = fullName(quote.domain, tld);
 

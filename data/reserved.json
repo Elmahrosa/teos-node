@@ -1,5 +1,5 @@
 {
- "_readme": "Reserved names, blocked for sale on every TLD. contains: blocked if the name contains the word. exact: blocked only if the name equals the word (optionally followed by digits). affix: blocked if the name starts or ends with the word. Matching ignores case and - _ . spaces, and maps 0->o 1->i 3->e 4->a 5->s 7->t. Changing this file needs a code change merged by the owner; there is no runtime un-reserve.",
+ "_readme": "Reserved names, blocked for sale on every namespace. contains: blocked if the name contains the word. exact: blocked only if the name equals the word (optionally followed by digits). affix: blocked if the name starts or ends with the word. Matching ignores case and - _ . spaces, and maps 0->o 1->i 3->e 4->a 5->s 7->t. Changing this file needs a code change merged by the owner; there is no runtime un-reserve.",
  "contains": [
   "porn",
   "porno",
