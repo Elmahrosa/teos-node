@@ -4,7 +4,7 @@ import Disclaimer from "./Disclaimer";
 
 const pill = (bg: string, color = "#fff"): React.CSSProperties => ({ background: bg, color, padding: "8px 16px", borderRadius: 999, fontWeight: 700, fontSize: 14, textDecoration: "none", display: "inline-block" });
 
-// Footer: the four approved social links, WhatsApp, and the two public payment details.
+// Footer: the approved social links and the two public payment details.
 export default function SiteFooter({ t }: { t: Dict }) {
   return (
     <footer style={{ background: "#000", borderTop: "2px solid #ca8a04", margin: "32px 0 0", padding: "28px 16px 20px", textAlign: "center" }}>
@@ -14,7 +14,6 @@ export default function SiteFooter({ t }: { t: Dict }) {
         <a href={SOCIAL.telegram} target="_blank" rel="noopener noreferrer" style={pill("#229ED9")}>Telegram</a>
         <a href={SOCIAL.facebook} target="_blank" rel="noopener noreferrer" style={pill("#1877F2")}>Facebook</a>
         <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer" style={pill("#0A66C2")}>LinkedIn</a>
-        <a href={SOCIAL.whatsapp} target="_blank" rel="noopener noreferrer" style={pill("#25D366")}>WhatsApp</a>
       </div>
       <p style={{ color: "#D4AF37", fontSize: 14, margin: "18px 0 0" }}>{t.footerLine} - <a href={SOCIAL.website} target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>ayman.elmahrosa.org</a></p>
       <p style={{ color: "#a89a80", fontSize: 13, margin: "10px 0 0" }}>

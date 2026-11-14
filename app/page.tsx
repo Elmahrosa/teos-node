@@ -7,7 +7,6 @@ import PharaohMark from "../components/PharaohMark";
 import PharaohStyles from "../components/PharaohStyles";
 import DomainSearchPopup, { localeCountry } from "../components/DomainSearchPopup";
 import CountryDropdown from "../components/CountryDropdown";
-import AymanContact from "../components/AymanContact";
 import MusicToggle from "../components/MusicToggle";
 import WhatYouGet from "../components/WhatYouGet";
 import SiteFooter from "../components/SiteFooter";
@@ -224,7 +223,6 @@ export default function Home() {
         <p dir="auto" style={{ margin: 0 }}>{L.certText}</p>
       </div>
       <SiteFooter t={L} />
-      <AymanContact t={L} rtl={rtl} />
     </main>
     </>
   );
