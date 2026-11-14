@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import PricingLogic from "../components/PricingLogic";
 import Bidi from "../components/Bidi";
 import Image from "next/image";
 import FounderSeal from "../components/FounderSeal";
@@ -22,7 +21,6 @@ import PaymentOptions from "../components/PaymentOptions";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
-import LiveTicker from "../components/LiveTicker";
 import WhyBuy from "../components/WhyBuy";
 import MintModal, { type MintQuote } from "../components/MintModal";
 import { fmt, type Lang } from "../lib/i18n";
@@ -120,7 +118,7 @@ export default function Home() {
     <PharaohStyles />
     {/* TODO(automated-discount): the manual Telegram "Old Pioneers" promo (send proof, founder mints by hand) was removed from the public UI.
         An automated on-chain version plugs in here: check the wallet's on-chain TEOS holdings server-side in /api/quote, then show the discounted quote in the normal checkout. */}
-    <LiveTicker t={L} rtl={rtl} founders={stats?.founders ?? []} sold={typeof stats?.total_sold === "number" ? stats.total_sold : null} tlds={all.length} />
+    <div role="status" style={{ background: "#10B981", color: "#fff", textAlign: "center", padding: "9px 12px", fontSize: 13, fontWeight: 700, letterSpacing: "0.04em" }}>LIVE FROM ALEXANDRIA - 126 NAMESPACES REGISTERED • 13 MINTED</div>
     <nav className="site-nav" style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}><PharaohMark size={46} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.2em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
@@ -158,10 +156,10 @@ export default function Home() {
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 16, color: "#a89a80" }}>
           {lang === "ar" 
-            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - نفس الاسم يفتح 126 دولة - yourname.teos يفتح yourname.eg"
+            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - yourname.teos هو مفتاحك الجذري. مساحات الدول تفتح قريبا."
             : lang === "id"
-            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - Nama yang sama membuka 126 negara - yourname.teos membuka yourname.eg"
-            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - Same name unlocks 126 countries - yourname.teos unlocks yourname.eg"}
+            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - yourname.teos adalah kunci akar Anda. Namespace negara segera dibuka."
+            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - yourname.teos is your root key. Country namespaces open soon."}
         </p>
         <p dir="auto" data-testid="hero-explainer" style={{ margin: "12px 0 0", fontSize: 16, color: "#eab308" }}>{L.teosIdWorks}</p>
       </header>
@@ -214,7 +212,6 @@ export default function Home() {
 
       <WhyBuy t={L} countries={Math.max(all.length - 1, 0)} onCta={goSearch} />
       <PricingTable t={L} onBuy={goSearch} />
-      <PricingLogic t={t} tlds={all} />
       <Divider />
       <div style={{ textAlign: "center", margin: "8px 0 8px" }}><button onClick={goSearch} style={{ ...btn, fontSize: 26, padding: "20px 48px", letterSpacing: "0.1em", fontFamily: SERIF, boxShadow: "0 0 30px rgba(202,138,4,.7), 0 6px 14px rgba(0,0,0,.6)" }}>{L.reserve}</button></div>
       <PaymentOptions t={L} rtl={rtl} />
@@ -229,24 +226,6 @@ export default function Home() {
       <SiteFooter t={L} />
       <AymanContact t={L} rtl={rtl} />
     </main>
-    <div className="pharaoh-sticky">
-      <div className="pharaoh-sticky-inner">
-        {canStickyBuy ? (
-          <button className="pharaoh-buy" onClick={() => mint(["teos"])} disabled={busy}>
-            {fmt(L.buyCountry, { n: clean, t: "teos", p: String(teosPrice ?? 0) })}
-          </button>
-        ) : (
-          <button className="pharaoh-buy" onClick={goSearch} style={{ background: "linear-gradient(90deg,#3d352a,#57493a)", color: "#fde68a" }}>
-            {lang === "en" ? "👆 Click a gold card to Buy" : L.reserveHint}
-          </button>
-        )}
-        {teosRes && (
-          <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", color: teosRes.available ? "#4ade80" : "#f87171" }}>
-            {teosRes.available ? L.availableU : teosRes.reason === "reserved" ? L.reservedU : L.takenU}
-          </span>
-        )}
-      </div>
-    </div>
     </>
   );
 }
