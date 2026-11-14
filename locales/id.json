@@ -25,5 +25,8 @@
     "how2": "Setelah .teos, pembeli dapat mendaftarkan nama di 126 namespace negara. Daftar di namespaces/all.json",
     "priceTitle": "Harga",
     "ownership": "Setiap nama adalah aset Metaplex Core di Solana, dimiliki dompet pembeli, dapat diperdagangkan dari Phantom, Solflare, Backpack"
+  },
+  "founder": {
+    "namespacesOpen": "Namespace terbuka untuk namamu {n} / 126"
   }
 }

@@ -201,7 +201,7 @@ export default function Home() {
             </div>
             <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>
             <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? fmt(L.sovTlds, { n: 126 }) : ""} • {L.rule}</p>
-            <p dir="auto" style={{ margin: "8px 0 0", color: "#fbbf24", fontSize: 14 }}>{L.ownLine}</p>
+            <p dir="auto" style={{ margin: "8px 0 0", color: "#fbbf24", fontSize: 14 }}><Bidi text={L.ownLine} /></p>
           </div>
         </div>
       </div>

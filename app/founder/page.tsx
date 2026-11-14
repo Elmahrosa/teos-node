@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import FamilyMintPanel from "../../components/FamilyMintPanel";
+import { useLang } from "../../lib/useLang";
 
 // Gated server-side by middleware.ts (no valid founder session = redirect) and again by /api/visits.
 // Both NFT lists are read-only. The Mint Wallet is display-only: it is NOT a founder identity
@@ -113,6 +114,7 @@ function NftSection({
 }
 
 export default function Founder() {
+  const { t } = useLang();
   const [total, setTotal] = useState<number | null>(null);
   const [countries, setCountries] = useState<string[]>([]);
   const [founder, setFounder] = useState<FounderResponse | null>(null);
@@ -184,7 +186,7 @@ export default function Founder() {
           {total ?? "—"}
           <div style={{ fontSize: 16, fontWeight: 400 }}>{total === null ? "Visitor tracking not enabled" : "Real visitors"}</div>
         </div>
-        <div style={{ textAlign: "center", fontSize: 22, marginBottom: 8 }}>Namespaces open for your name {countries.length} / 126</div>
+        <div style={{ textAlign: "center", fontSize: 22, marginBottom: 8 }}>{t("founder.namespacesOpen", { n: String(countries.length) })}</div>
         <div style={{ textAlign: "center", opacity: 0.6, marginBottom: 28 }}>{countries.length ? countries.join(" ") : "0"}</div>
       </div>
 

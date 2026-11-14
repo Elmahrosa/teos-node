@@ -25,5 +25,8 @@
     "how2": "After .teos, buyer can register your name in 126 country namespaces. List in namespaces/all.json",
     "priceTitle": "Pricing",
     "ownership": "Every name is a Metaplex Core asset on Solana, owned by buyer wallet, tradable from Phantom, Solflare, Backpack"
+  },
+  "founder": {
+    "namespacesOpen": "Namespaces open for your name {n} / 126"
   }
 }

@@ -25,5 +25,8 @@
     "how2": "بعد teos، يمكن للمشتري تسجيل اسمه في 126 مساحة اسم لدولة. القائمة في namespaces/all.json",
     "priceTitle": "التسعير",
     "ownership": "كل اسم هو أصل Metaplex Core على Solana، مملوك لمحفظة المشتري، قابل للتداول من Phantom و Solflare و Backpack"
+  },
+  "founder": {
+    "namespacesOpen": "النطاقات المفتوحة لاسمك {n} / 126"
   }
 }
