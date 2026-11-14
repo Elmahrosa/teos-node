@@ -22,8 +22,11 @@
   "pricing": {
     "howTitle": "كيف يعمل",
     "how1": "teos هو المفتاح الجذري. اسم الدولة لا يفتح إلا إذا كانت المحفظة تملك saloma.teos، سواء في نفس الشراء أو مملوك من قبل. السيرفر يفرض ذلك.",
-    "how2": "بعد teos، يمكن للمشتري فتح 127 هوية سيادية رقمية لدولة. القائمة في namespaces/all.json",
+    "how2": "بعد teos، يمكن للمشتري تسجيل اسمه في 126 مساحة اسم لدولة. القائمة في namespaces/all.json",
     "priceTitle": "التسعير",
     "ownership": "كل اسم هو أصل Metaplex Core على Solana، مملوك لمحفظة المشتري، قابل للتداول من Phantom و Solflare و Backpack"
+  },
+  "founder": {
+    "namespacesOpen": "النطاقات المفتوحة لاسمك {n} / 126"
   }
 }

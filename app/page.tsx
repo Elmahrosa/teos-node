@@ -144,7 +144,7 @@ export default function Home() {
           {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : lang === "id" ? "TEOS Akar Berdaulat - Alexandria" : "TEOS Sovereign Root - Alexandria"}
         </h2>
         <p dir="auto" style={{ margin: 0, fontSize: 20, color: "#fbbf24", fontWeight: 700 }}>
-          {lang === "ar" ? "مفتاح واحد يفتح المنظومة - الهوية السيادية الرقمية هي البداية فقط" : lang === "id" ? "1 Kunci Membuka Seluruh Sistem - Identitas Digital Berdaulat Hanyalah Awal" : "1 Key Unlocks The Full System - Sovereign Digital Identity Is Just The Start"}
+          {lang === "ar" ? "مفتاح TEOS واحد يفتح 126 مساحة اسم لاسمك" : lang === "id" ? "1 Kunci TEOS Membuka 126 Namespace Untuk Nama Anda" : "1 TEOS Key Opens 126 Namespaces For Your Name"}
         </p>
         <p dir="auto" style={{ margin: "12px 0 0", fontSize: 17, color: "#d6cbb5", lineHeight: 1.6 }}>
           {lang === "ar" 
@@ -200,7 +200,8 @@ export default function Home() {
               })()}
             </div>
             <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>
-            <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? fmt(L.sovTlds, { n: all.length }) : ""} • {L.rule}</p>
+            <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? fmt(L.sovTlds, { n: 126 }) : ""} • {L.rule}</p>
+            <p dir="auto" style={{ margin: "8px 0 0", color: "#fbbf24", fontSize: 14 }}><Bidi text={L.ownLine} /></p>
           </div>
         </div>
       </div>
