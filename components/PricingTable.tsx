@@ -40,7 +40,7 @@ export default function PricingTable({ t, onBuy }: { t: Dict; onBuy: () => void 
     return () => { live = false; clearInterval(iv); window.removeEventListener("focus", load); };
   }, []);
   const solOf = (usd: number) => (solUsd ? (usd / solUsd).toFixed(usd < 100 ? 3 : 2) : null);
-  const tiers = PRICE_TIERS.filter((x) => owns || x.id === "teos");
+  const tiers = PRICE_TIERS.filter((x) => x.id === "teos");
   return (
     <div style={{ background: "linear-gradient(160deg,#2a2520,#1a1611)", border: "1px solid #3d352a", borderRadius: 4, padding: 16, boxShadow: "inset 0 2px 12px rgba(0,0,0,.6)" }}>
       <PharaohStyles />
@@ -67,14 +67,6 @@ export default function PricingTable({ t, onBuy }: { t: Dict; onBuy: () => void 
           </section>
         ))}
       </div>
-      {!owns && (
-        <div role="region" aria-label="locked-country-prices" style={{ marginTop: 14, border: "1px solid #57493a", background: "rgba(10,8,6,.55)", padding: "18px 14px", textAlign: "center" }}>
-          <div style={{ fontSize: 32 }} aria-hidden="true">🔒</div>
-          <div dir="auto" style={{ color: "#f87171", fontWeight: 700, margin: "6px 0 4px" }}>{t.ptLockedHead}</div>
-          <div dir="auto" style={{ color: "#fbbf24", fontFamily: SERIF, fontSize: 18, marginBottom: 14 }}>{t.ptLockedSub}</div>
-          <button onClick={onBuy} style={{ background: "linear-gradient(90deg,#b45309,#ca8a04)", color: "#000", border: "2px solid #713f12", borderRadius: 4, padding: "12px 24px", fontSize: 16, fontWeight: 700, cursor: "pointer" }}>{t.ptBuy}</button>
-        </div>
-      )}
       <p style={{ margin: "12px 0 0", color: "#d6cbb5", fontSize: 14 }}>{t.ptNote}</p>
       <p style={{ margin: "4px 0 0", color: "#a89a80", fontSize: 13 }}>{t.ptPay}</p>
     </div>
