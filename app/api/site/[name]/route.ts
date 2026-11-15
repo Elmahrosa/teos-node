@@ -3,8 +3,8 @@ import { checkRateLimit, rateLimitResponse } from "../../../../lib/rate-limit";
 import { parseDomain } from "../../../../lib/domain-rules";
 import { verifyWalletSignature } from "../../../../lib/sig";
 import { ownsTeosOnChain } from "../../../../lib/ownership";
-import { sanitizeSite, siteMessage, SITE_MAX_AGE_MS } from "../../../../lib/sites";
-import { getSite, saveSite } from "../../../../lib/sites-store";
+import { sanitizeSite, siteMessage, SITE_MAX_AGE_MS, type StoredSite } from "../../../../lib/sites";
+import { getSite, isSiteStoreUnavailable, saveSite, SITE_STORE_UNAVAILABLE } from "../../../../lib/sites-store";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +19,13 @@ export async function GET(_: Request, { params }: { params: Promise<{ name: stri
   if (!rl.allowed) return rateLimitResponse(rl.resetInSec);
   const parsed = parseDomain((await params).name);
   if (!parsed.ok) return NextResponse.json(parsed.body, { status: parsed.status });
-  const site = await getSite(parsed.domain).catch(() => null);
+  let site: StoredSite | null;
+  try {
+    site = await getSite(parsed.domain);
+  } catch (err) {
+    if (isSiteStoreUnavailable(err)) return NextResponse.json({ error: SITE_STORE_UNAVAILABLE }, { status: 503 });
+    return NextResponse.json({ error: "internal_error" }, { status: 500 });
+  }
   if (!site) return NextResponse.json({ error: "no_site" }, { status: 404 });
   const { owner: _o, ...pub } = site;
   return NextResponse.json({ name: parsed.domain, site: pub }, { headers: { "cache-control": "no-store" } });
@@ -52,7 +58,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ name: s
     try { raw = JSON.parse(content); } catch { return NextResponse.json({ error: "bad_content" }, { status: 400 }); }
     const site = await saveSite(name, publicKey, sanitizeSite(raw));
     return NextResponse.json({ ok: true, url: `/s/${name}`, updatedAt: site.updatedAt }, { headers: { "cache-control": "no-store" } });
-  } catch {
+  } catch (err) {
+    if (isSiteStoreUnavailable(err)) return NextResponse.json({ error: SITE_STORE_UNAVAILABLE }, { status: 503 });
     return NextResponse.json({ error: "internal_error" }, { status: 500 });
   }
 }
