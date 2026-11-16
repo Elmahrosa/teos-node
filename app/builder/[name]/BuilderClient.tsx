@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import SiteView from "../../../components/SiteView";
-import { EMPTY_SITE, THEMES, importMessage, siteMessage, type SiteConfig } from "../../../lib/sites";
+import { EMPTY_SITE, THEMES, importMessage, sanitizeSite, sitePublishMessage, type SiteConfig } from "../../../lib/sites";
+import { snapshotOf } from "../../../lib/site-snapshot";
 
 const b64 = (u: Uint8Array) => btoa(String.fromCharCode(...Array.from(u)));
 async function sha256Hex(s: string) {
@@ -12,6 +13,9 @@ async function sha256Hex(s: string) {
 }
 const field: React.CSSProperties = { width: "100%", padding: 10, background: "#161616", color: "#fff", border: "1px solid #444", borderRadius: 8, marginTop: 4 };
 const btn: React.CSSProperties = { background: "#ca8a04", color: "#000", padding: "10px 18px", fontWeight: 700, borderRadius: 8 };
+const linkBtn: React.CSSProperties = { padding: "8px 12px", border: "1px solid #ca8a04", borderRadius: 8, color: "#facc15", textDecoration: "none", fontSize: 13 };
+
+type Manifest = { cid: string; sha256: string; bytes: number; signed: boolean; at: number };
 
 export default function BuilderClient({ name }: { name: string }) {
   const { publicKey, signMessage } = useWallet();
@@ -19,12 +23,17 @@ export default function BuilderClient({ name }: { name: string }) {
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [published, setPublished] = useState(false);
+  const [snap, setSnap] = useState<Manifest | null>(null);
+  const [copied, setCopied] = useState(false);
   const [importUrl, setImportUrl] = useState("");
   const [importBusy, setImportBusy] = useState(false);
   const [importMsg, setImportMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`/api/site/${name}`).then((r) => (r.ok ? r.json() : null)).then((j) => { if (j?.site) setSite({ ...EMPTY_SITE, ...j.site }); }).catch(() => {});
+    fetch(`/api/site/${name}`).then((r) => (r.ok ? r.json() : null)).then((j) => {
+      if (j?.site) setSite({ ...EMPTY_SITE, ...j.site });
+      if (j?.snapshot) setSnap(j.snapshot);
+    }).catch(() => {});
   }, [name]);
 
   const set = <K extends keyof SiteConfig>(k: K, v: SiteConfig[K]) => setSite((s) => ({ ...s, [k]: v }));
@@ -68,15 +77,37 @@ export default function BuilderClient({ name }: { name: string }) {
     if (!publicKey || !signMessage) { setMsg("Connect the wallet that holds this name"); return; }
     setBusy(true); setMsg(null);
     try {
-      const content = JSON.stringify(site);
+      // Publish the sanitized config so the CID the wallet signs is exactly what the server will
+      // render, and what every later verifier will hash.
+      const cfg = sanitizeSite(site);
+      const content = JSON.stringify(cfg);
+      const cid = snapshotOf(name, cfg).cid;
       const ts = Date.now();
-      const sig = await signMessage(new TextEncoder().encode(siteMessage(name, ts, await sha256Hex(content))));
-      const r = await fetch(`/api/site/${name}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ publicKey: publicKey.toBase58(), signature: b64(sig), ts, content }) });
+      const sig = await signMessage(new TextEncoder().encode(sitePublishMessage(name, ts, await sha256Hex(content), cid)));
+      const r = await fetch(`/api/site/${name}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ publicKey: publicKey.toBase58(), signature: b64(sig), ts, content, cid }) });
       const j = await r.json().catch(() => ({}));
-      if (r.ok) { setPublished(true); setMsg("Published."); }
-      else setMsg(j.error === "not_owner" ? `This wallet does not hold ${name}.teos` : j.error === "ownership_check_unavailable" ? "Ownership check unavailable, try again" : (j.error || "Failed"));
+      if (r.ok) {
+        setSite(cfg);
+        setPublished(true);
+        setSnap({ cid: j.cid ?? cid, sha256: j.sha256 ?? "", bytes: j.bytes ?? 0, signed: j.signed === true, at: ts });
+        setMsg("Published.");
+      } else {
+        const errors: Record<string, string> = {
+          not_owner: `This wallet does not hold ${name}.teos`,
+          ownership_check_unavailable: "Ownership check unavailable, try again",
+          invalid_cid: "Content ID could not be built, try again",
+          cid_mismatch: "The page changed while signing, try again",
+          too_large: "This page is too large to snapshot",
+        };
+        setMsg(errors[j.error] || j.error || "Failed");
+      }
     } catch { setMsg("Signing cancelled or failed"); }
     setBusy(false);
+  }
+
+  async function copyCid() {
+    if (!snap) return;
+    try { await navigator.clipboard.writeText(snap.cid); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch { setCopied(false); }
   }
 
   return (
@@ -136,6 +167,23 @@ export default function BuilderClient({ name }: { name: string }) {
           <button type="button" disabled={busy || !publicKey} onClick={publish} style={{ ...btn, width: "100%", padding: 14, fontSize: 18, opacity: busy || !publicKey ? 0.6 : 1 }}>{busy ? "Publishing..." : "Sign and publish"}</button>
           {msg && <p style={{ marginTop: 10 }}>{msg}</p>}
           {published && <p style={{ marginTop: 6 }}><a style={{ color: "#facc15" }} href={`/browser?q=${name}`}>Open in TEOS Browser</a></p>}
+          {snap && (
+            <div style={{ marginTop: 16, padding: 14, border: "1px solid #3d352a", borderRadius: 10, background: "rgba(0,0,0,0.25)" }}>
+              <p style={{ margin: 0, fontSize: 12, letterSpacing: 1, opacity: 0.7 }}>CONTENT ID (CID)</p>
+              <code dir="ltr" style={{ display: "block", marginTop: 6, padding: 8, background: "#111", borderRadius: 6, fontSize: 12, wordBreak: "break-all" }}>{snap.cid}</code>
+              <p style={{ margin: "8px 0 0", fontSize: 12, opacity: 0.7 }}>
+                {snap.bytes} bytes · sha256 {snap.sha256.slice(0, 16)}… · {snap.signed ? "signed by your wallet" : "not owner-signed (republish to sign)"}
+              </p>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+                <button type="button" onClick={copyCid} style={{ ...btn, padding: "8px 12px", fontSize: 13 }}>{copied ? "Copied" : "Copy CID"}</button>
+                <a style={linkBtn} href={`/api/site/${name}/snapshot?download=1`}>Download snapshot</a>
+                <a style={linkBtn} href={`/api/site/${name}/manifest`} target="_blank" rel="noreferrer">Manifest</a>
+              </div>
+              <p style={{ margin: "10px 0 0", fontSize: 12, opacity: 0.7, lineHeight: 1.5 }}>
+                This is a static copy of your page. Anyone can download it and check the hash against the CID without trusting this server. Pinning the same bytes on IPFS later keeps this CID unchanged.
+              </p>
+            </div>
+          )}
         </div>
       </div>
       <div style={{ border: "1px solid rgba(180,130,30,0.4)", borderRadius: 12, overflow: "hidden", alignSelf: "start" }}>

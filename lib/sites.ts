@@ -41,5 +41,8 @@ export function sanitizeSite(raw: any): SiteConfig {
 }
 
 export const siteMessage = (name: string, ts: number, hash: string) => `teos://site/${name}/${ts}/${hash}`;
+// Same publish, but the CID is inside the signed message. Only this form proves the owner chose the
+// exact content that hash addresses, without trusting the server to compute it for them.
+export const sitePublishMessage = (name: string, ts: number, hash: string, cid: string) => `${siteMessage(name, ts, hash)}/${cid}`;
 export const importMessage = (name: string, ts: number, hash: string) => `teos://import/${name}/${ts}/${hash}`;
 export const SITE_MAX_AGE_MS = 300_000;
