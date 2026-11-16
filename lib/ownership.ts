@@ -100,6 +100,27 @@ export async function ourTeosNames(items: DasAsset[]): Promise<string[]> {
   return names;
 }
 
+// SOL balance in SOL, or null when the RPC cannot answer (callers show "unavailable", never zero).
+export async function solBalanceOf(wallet: string): Promise<number | null> {
+  const url = rpcUrl();
+  if (!url) return null;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: "balance", method: "getBalance", params: [wallet] }),
+      signal: AbortSignal.timeout(6000),
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    const json: any = await res.json();
+    const lamports = Number(json?.result?.value);
+    return Number.isFinite(lamports) && lamports >= 0 ? lamports / 1e9 : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function ownsTeosOnChain(wallet: string, domain: string): Promise<boolean | null> {
   const items = await assetsOf(wallet);
   if (items === null) return null;

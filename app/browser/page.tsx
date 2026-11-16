@@ -2,6 +2,7 @@
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import SiteView from "../../components/SiteView";
+import TeosNav from "../../components/TeosNav";
 import type { SiteConfig } from "../../lib/sites";
 
 const clean = (v: string) => v.trim().toLowerCase().replace(/^(teos:\/\/|https?:\/\/)/, "").replace(/\/.*$/, "").replace(/(\.teos)+$/, "").replace(/[^a-z0-9]/g, "");
@@ -37,8 +38,8 @@ function Browser() {
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#0b0b0b", color: "#f5f5f5" }}>
+      <TeosNav />
       <form onSubmit={go} style={{ display: "flex", gap: 8, padding: 12, borderBottom: "1px solid rgba(180,130,30,0.4)", alignItems: "center" }}>
-        <a href="/" style={{ color: "#facc15", fontWeight: 700, textDecoration: "none" }}>TEOS</a>
         <input dir="ltr" value={input} onChange={(e) => setInput(e.target.value)} placeholder="teos://name.teos" aria-label="TEOS address" autoCapitalize="none" autoCorrect="off" spellCheck={false}
           style={{ flex: 1, minWidth: 0, padding: "10px 14px", borderRadius: 999, border: "1px solid #444", background: "#161616", color: "#fff", fontSize: 16 }} />
         <button type="submit" style={{ background: "#ca8a04", color: "#000", padding: "10px 18px", fontWeight: 700, borderRadius: 999 }}>Go</button>
