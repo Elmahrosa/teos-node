@@ -41,4 +41,5 @@ export function sanitizeSite(raw: any): SiteConfig {
 }
 
 export const siteMessage = (name: string, ts: number, hash: string) => `teos://site/${name}/${ts}/${hash}`;
+export const importMessage = (name: string, ts: number, hash: string) => `teos://import/${name}/${ts}/${hash}`;
 export const SITE_MAX_AGE_MS = 300_000;

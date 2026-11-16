@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import SiteView from "../../../components/SiteView";
-import { EMPTY_SITE, THEMES, siteMessage, type SiteConfig } from "../../../lib/sites";
+import { EMPTY_SITE, THEMES, importMessage, siteMessage, type SiteConfig } from "../../../lib/sites";
 
 const b64 = (u: Uint8Array) => btoa(String.fromCharCode(...Array.from(u)));
 async function sha256Hex(s: string) {
@@ -19,12 +19,50 @@ export default function BuilderClient({ name }: { name: string }) {
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [published, setPublished] = useState(false);
+  const [importUrl, setImportUrl] = useState("");
+  const [importBusy, setImportBusy] = useState(false);
+  const [importMsg, setImportMsg] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`/api/site/${name}`).then((r) => (r.ok ? r.json() : null)).then((j) => { if (j?.site) setSite({ ...EMPTY_SITE, ...j.site }); }).catch(() => {});
   }, [name]);
 
   const set = <K extends keyof SiteConfig>(k: K, v: SiteConfig[K]) => setSite((s) => ({ ...s, [k]: v }));
+
+  async function importFromSite() {
+    if (!publicKey || !signMessage) { setImportMsg("Connect the wallet that holds this name"); return; }
+    const url = importUrl.trim();
+    if (!/^https:\/\//i.test(url)) { setImportMsg("Use a full https:// address."); return; }
+    setImportBusy(true); setImportMsg(null);
+    try {
+      const ts = Date.now();
+      const sig = await signMessage(new TextEncoder().encode(importMessage(name, ts, await sha256Hex(url))));
+      const r = await fetch(`/api/site/${name}/import`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ publicKey: publicKey.toBase58(), signature: b64(sig), ts, url }) });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok && j.site) {
+        setSite(j.site);
+        setPublished(false);
+        setImportMsg("Imported. Review the fields, then publish.");
+      } else {
+        const errors: Record<string, string> = {
+          https_required: "Use a full https:// address.",
+          bad_url: "That address is not valid.",
+          private_host: "That address is not a public website.",
+          fetch_failed: "Could not reach that site.",
+          redirect_not_allowed: "That address redirects elsewhere. Use the final address.",
+          not_html: "That link is not an HTML page.",
+          too_large: "That page is too large to import.",
+          not_owner: `This wallet does not hold ${name}.teos`,
+          ownership_check_unavailable: "Ownership check unavailable, try again",
+          invalid_signature: "Signature check failed, try again",
+          signature_expired: "The signature expired, try again",
+          rate_limited: "Too many imports. Wait a minute.",
+        };
+        setImportMsg(errors[j.error] || j.error || "Import failed");
+      }
+    } catch { setImportMsg("Signing cancelled or failed"); }
+    setImportBusy(false);
+  }
 
   async function publish() {
     if (!publicKey || !signMessage) { setMsg("Connect the wallet that holds this name"); return; }
@@ -45,6 +83,29 @@ export default function BuilderClient({ name }: { name: string }) {
     <div className="mx-auto mt-6 grid max-w-6xl gap-6" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}>
       <div>
         <div style={{ marginBottom: 16 }}><WalletMultiButton /></div>
+        <div style={{ marginBottom: 20, padding: 14, border: "1px solid #3d352a", borderRadius: 10, background: "rgba(0,0,0,0.25)" }}>
+          <h3 style={{ margin: 0, fontWeight: 700 }}>Import from your existing website</h3>
+          <p style={{ margin: "6px 0 10px", fontSize: 13, opacity: 0.75, lineHeight: 1.5 }}>
+            We copy the title, text, image and links. No code from the other site runs here. This replaces the fields below.
+          </p>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            <input
+              dir="ltr"
+              style={{ ...field, marginTop: 0, flex: "1 1 220px", width: "auto" }}
+              value={importUrl}
+              onChange={(e) => setImportUrl(e.target.value)}
+              placeholder="https://your-company.com"
+              inputMode="url"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+            />
+            <button type="button" disabled={importBusy || !publicKey} onClick={importFromSite} style={{ ...btn, opacity: importBusy || !publicKey ? 0.6 : 1 }}>
+              {importBusy ? "Importing..." : "Import"}
+            </button>
+          </div>
+          {importMsg && <p style={{ margin: "8px 0 0", fontSize: 13 }}>{importMsg}</p>}
+        </div>
         <label>Title<input style={field} maxLength={80} value={site.title} onChange={(e) => set("title", e.target.value)} placeholder={`${name}.teos`} /></label>
         <label style={{ display: "block", marginTop: 12 }}>Tagline<input style={field} maxLength={160} value={site.tagline} onChange={(e) => set("tagline", e.target.value)} /></label>
         <label style={{ display: "block", marginTop: 12 }}>Header image (https URL)<input style={field} value={site.image} onChange={(e) => set("image", e.target.value)} placeholder="https://..." /></label>
