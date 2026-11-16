@@ -25,6 +25,7 @@ function Body() {
         <>
           <h1 style={{ fontFamily: "Cinzel, Georgia, serif", color: "#fef3c7", marginTop: 0 }}>{t.sucTitle}</h1>
           {names && <p dir="ltr" style={{ fontSize: 20, fontWeight: 700 }}>{names.split(/[, ]*\+[, ]*|,/).filter(Boolean).map((n) => (<span key={n} style={{ marginInlineEnd: 10 }}>{n}{!n.endsWith(".teos") && <InsideTeos t={t} />}</span>))}</p>}
+          {names && !pending && (() => { const first = names.split(/[, ]*\+[, ]*|,/).filter(Boolean)[0]?.toLowerCase().replace(/\.teos$/, "").replace(/[^a-z0-9]/g, ""); return first ? <p><a href={`/builder/${first}`} style={{ display: "inline-block", background: "#ca8a04", color: "#000", padding: "12px 24px", fontWeight: 700 }}>Design your {first}.teos site</a> <a style={a} href={`/browser?q=${first}`}>Open in TEOS Browser</a></p> : null; })()}
           {pending && <p style={{ color: "#fbbf24" }}>{t.sucPending}</p>}
           {asset && <p>{t.sucAsset}: <code dir="ltr" style={{ wordBreak: "break-all" }}>{asset}</code><br /><a style={a} href={`https://solscan.io/token/${asset}`} target="_blank" rel="noopener noreferrer">{t.sucViewAsset}</a></p>}
           <p>{t.sucTx}: <code dir="ltr" style={{ wordBreak: "break-all" }}>{pay || tx}</code><br /><a style={a} href={`https://solscan.io/tx/${pay || tx}`} target="_blank" rel="noopener noreferrer">{t.sucViewTx}</a></p>
