@@ -42,3 +42,50 @@ export async function saveSite(name: string, owner: string, cfg: SiteConfig): Pr
   else mem.set(key(name), json);
   return stored;
 }
+
+// ---- Static snapshot (IPFS-ready copy) -------------------------------------------------------
+// Kept in its own key: it holds rendered HTML, and it must never leak into the public site JSON
+// through sanitizeSite(), which only knows the config fields.
+export type SiteSnapshot = {
+  cid: string; // CIDv1 raw of `html`
+  sha256: string; // hex sha256 of `html`
+  bytes: number; // UTF-8 length of `html`
+  signed: boolean; // true when the owner's signature covered `cid`
+  at: number; // signature timestamp used at publish
+  signer: string; // wallet that published
+  html: string;
+};
+
+const snapKey = (name: string) => `teos:snapshot:${name}`;
+const SNAPSHOT_MAX_CHARS = 200_000;
+
+export async function saveSnapshot(name: string, snap: SiteSnapshot): Promise<void> {
+  assertStoreAvailable();
+  if (snap.html.length > SNAPSHOT_MAX_CHARS) throw new Error("snapshot_too_large");
+  const json = JSON.stringify(snap);
+  if (redis) await redis.set(snapKey(name), json);
+  else mem.set(snapKey(name), json);
+}
+
+export async function getSnapshot(name: string): Promise<SiteSnapshot | null> {
+  assertStoreAvailable();
+  const raw = redis ? await redis.get<unknown>(snapKey(name)) : mem.get(snapKey(name));
+  if (!raw) return null;
+  try {
+    const o: any = typeof raw === "string" ? JSON.parse(raw) : raw;
+    const html = typeof o?.html === "string" ? o.html : "";
+    if (!html || html.length > SNAPSHOT_MAX_CHARS) return null;
+    if (typeof o?.cid !== "string" || typeof o?.sha256 !== "string") return null;
+    return {
+      cid: o.cid,
+      sha256: o.sha256,
+      bytes: Number(o.bytes) || 0,
+      signed: o.signed === true,
+      at: Number(o.at) || 0,
+      signer: String(o.signer ?? ""),
+      html,
+    };
+  } catch {
+    return null;
+  }
+}
