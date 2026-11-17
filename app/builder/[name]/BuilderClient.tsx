@@ -5,8 +5,12 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import SiteView from "../../../components/SiteView";
 import { defaultSiteTemplate, EMPTY_SITE, THEMES, importMessage, isEmptyImportedSite, sanitizeSite, sitePublishMessage, type SiteConfig } from "../../../lib/sites";
 import { snapshotOf } from "../../../lib/site-snapshot";
+import { fetchJson, signatureToBase64, SIGN_REQUEST_TIMEOUT_MS, TimeoutError, withTimeout } from "../../../lib/sign-flow";
 
-const b64 = (u: Uint8Array) => btoa(String.fromCharCode(...Array.from(u)));
+// A wallet that never hands the signature back must not leave the page spinning (see lib/sign-flow.ts).
+const SIGN_FAILED = "Signing cancelled or failed";
+const SIGN_TIMEOUT = "MetaMask did not hand the signature back to this page. Keep this page open, then press the button once more. / لم يعد MetaMask بالتوقيع إلى الصفحة.";
+
 async function sha256Hex(s: string) {
   const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
   return Array.from(new Uint8Array(d), (b) => b.toString(16).padStart(2, "0")).join("");
@@ -73,10 +77,15 @@ export default function BuilderClient({ name }: { name: string }) {
     setImportBusy(true); setImportMsg(null);
     try {
       const ts = Date.now();
-      const sig = await signMessage(new TextEncoder().encode(importMessage(name, ts, await sha256Hex(url))));
-      const r = await fetch(`/api/site/${name}/import`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ publicKey: publicKey.toBase58(), signature: b64(sig), ts, url }) });
-      const j = await r.json().catch(() => ({}));
-      if (r.ok && j.site) {
+      const signed = await withTimeout(signMessage(new TextEncoder().encode(importMessage(name, ts, await sha256Hex(url)))), SIGN_REQUEST_TIMEOUT_MS, "sign");
+      const signature = signatureToBase64(signed);
+      if (!signature) { setImportMsg("The wallet returned no signature. Unlock the wallet, then press Import again."); return; }
+      const { ok, json: j } = await fetchJson(`/api/site/${name}/import`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ publicKey: publicKey.toBase58(), signature, ts, url }),
+      });
+      if (ok && j.site) {
         const imported = sanitizeSite(j.site);
         let hostname = "";
         try { hostname = new URL(url).hostname; } catch { /* URL was already validated above */ }
@@ -105,13 +114,18 @@ export default function BuilderClient({ name }: { name: string }) {
         };
         setImportMsg(errors[j.error] || j.error || "Import failed");
       }
-    } catch { setImportMsg("Signing cancelled or failed"); }
-    setImportBusy(false);
+    } catch (e) {
+      setImportMsg(e instanceof TimeoutError && e.phase === "sign" ? SIGN_TIMEOUT : SIGN_FAILED);
+    } finally {
+      setImportBusy(false);
+    }
   }
 
   async function publish() {
     if (!publicKey || !signMessage) { setMsg("Connect the wallet that holds this name"); return; }
     setBusy(true); setMsg(null);
+    const walletKey = publicKey.toBase58();
+    let handedOff = false;
     try {
       // Publish the sanitized config so the CID the wallet signs is exactly what the server will
       // render, and what every later verifier will hash.
@@ -119,27 +133,66 @@ export default function BuilderClient({ name }: { name: string }) {
       const content = JSON.stringify(cfg);
       const cid = snapshotOf(name, cfg).cid;
       const ts = Date.now();
-      const sig = await signMessage(new TextEncoder().encode(sitePublishMessage(name, ts, await sha256Hex(content), cid)));
-      const r = await fetch(`/api/site/${name}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ publicKey: publicKey.toBase58(), signature: b64(sig), ts, content, cid }) });
-      const j = await r.json().catch(() => ({}));
-      if (r.ok) {
-        setSite(cfg);
-        setPublished(true);
-        setSnap({ cid: j.cid ?? cid, sha256: j.sha256 ?? "", bytes: j.bytes ?? 0, signed: j.signed === true, at: ts });
-        setMsg("Published.");
-      } else if (j.error === "not_owner") {
-        setMsg(await notOwnerMessage());
-      } else {
-        const errors: Record<string, string> = {
-          ownership_check_unavailable: "Ownership check unavailable, try again",
-          invalid_cid: "Content ID could not be built, try again",
-          cid_mismatch: "The page changed while signing, try again",
-          too_large: "This page is too large to snapshot",
-        };
-        setMsg(errors[j.error] || j.error || "Failed");
-      }
-    } catch { setMsg("Signing cancelled or failed"); }
-    setBusy(false);
+      const pending = signMessage(new TextEncoder().encode(sitePublishMessage(name, ts, await sha256Hex(content), cid)));
+
+      const submit = async (signature: string) => {
+        setBusy(true);
+        try {
+          const { ok, json: j } = await fetchJson(`/api/site/${name}`, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ publicKey: walletKey, signature, ts, content, cid }),
+          });
+          if (ok) {
+            setSite(cfg);
+            setPublished(true);
+            setSnap({ cid: j.cid ?? cid, sha256: j.sha256 ?? "", bytes: j.bytes ?? 0, signed: j.signed === true, at: ts });
+            setMsg("Published.");
+          } else if (j.error === "not_owner") {
+            setMsg(await notOwnerMessage());
+          } else {
+            const errors: Record<string, string> = {
+              ownership_check_unavailable: "Ownership check unavailable, try again",
+              invalid_cid: "Content ID could not be built, try again",
+              cid_mismatch: "The page changed while signing, try again",
+              too_large: "This page is too large to snapshot",
+            };
+            setMsg(errors[j.error] || j.error || "Failed");
+          }
+        } catch (e) {
+          setMsg(e instanceof TimeoutError ? "Publishing is taking too long. Press Publish once more — the page is signed already." : "Could not reach the server. Press Publish once more.");
+        } finally {
+          setBusy(false);
+        }
+      };
+
+      // Mobile wallets can deliver the signature after this page stopped waiting. Publish then and
+      // there instead of asking for the same signature twice.
+      let answered = false;
+      pending.then(
+        (value) => {
+          if (answered) return;
+          answered = true;
+          const signature = signatureToBase64(value);
+          if (!signature) {
+            setMsg("The wallet returned no signature. Unlock the wallet, then press Publish again.");
+            setBusy(false);
+            return;
+          }
+          handedOff = true;
+          void submit(signature);
+        },
+        () => {
+          // Rejected by the user or failed in the wallet: the awaited path below reports it.
+        }
+      );
+
+      await withTimeout(pending, SIGN_REQUEST_TIMEOUT_MS, "sign");
+    } catch (e) {
+      setMsg(e instanceof TimeoutError ? SIGN_TIMEOUT : SIGN_FAILED);
+    } finally {
+      if (!handedOff) setBusy(false);
+    }
   }
 
   async function copyCid() {
