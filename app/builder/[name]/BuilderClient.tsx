@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import SiteView from "../../../components/SiteView";
-import { EMPTY_SITE, THEMES, importMessage, sanitizeSite, sitePublishMessage, type SiteConfig } from "../../../lib/sites";
+import { defaultSiteTemplate, EMPTY_SITE, THEMES, importMessage, isEmptyImportedSite, sanitizeSite, sitePublishMessage, type SiteConfig } from "../../../lib/sites";
 import { snapshotOf } from "../../../lib/site-snapshot";
 
 const b64 = (u: Uint8Array) => btoa(String.fromCharCode(...Array.from(u)));
@@ -38,6 +38,34 @@ export default function BuilderClient({ name }: { name: string }) {
 
   const set = <K extends keyof SiteConfig>(k: K, v: SiteConfig[K]) => setSite((s) => ({ ...s, [k]: v }));
 
+  // not_owner is shown accurately: only mention SOL when the wallet really holds this name (verified) and
+  // its balance is exactly 0. A name that is held but unverifiable says so instead of "does not hold".
+  async function notOwnerMessage(): Promise<string> {
+    const fallback = `This wallet does not hold ${name}.teos / هذا الاسم ليس في محفظتك`;
+    if (!publicKey) return fallback;
+    try {
+      const r = await fetch(`/api/wallet/summary?wallet=${encodeURIComponent(publicKey.toBase58())}`);
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !Array.isArray(j.names)) return fallback;
+      const held = j.names.find((n: any) => n?.name === `${name}.teos`);
+      if (held?.verified === true && j.balanceSol === 0) {
+        return `Ownership confirmed. This wallet has 0 SOL and needs ~0.01 SOL to pay network fees. / الاسم موجود في محفظتك، لكن الحساب غير مفعل لعدم وجود SOL`;
+      }
+      if (held && held.verified === false) {
+        return `This wallet holds ${name}.teos, but TEOS could not verify it was issued by us. / الاسم موجود في محفظتك، لكن تعذّر التحقق من أنه صادر من تيوس`;
+      }
+    } catch {
+      // Fall through to the plain message: a failed balance check must not invent a SOL reason.
+    }
+    return fallback;
+  }
+
+  function useTemplate() {
+    setSite(defaultSiteTemplate(name));
+    setPublished(false);
+    setImportMsg("Default template loaded. Review the fields, then publish. / تم تحميل قالب افتراضي. راجع الحقول ثم انشر.");
+  }
+
   async function importFromSite() {
     if (!publicKey || !signMessage) { setImportMsg("Connect the wallet that holds this name"); return; }
     const url = importUrl.trim();
@@ -49,9 +77,18 @@ export default function BuilderClient({ name }: { name: string }) {
       const r = await fetch(`/api/site/${name}/import`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ publicKey: publicKey.toBase58(), signature: b64(sig), ts, url }) });
       const j = await r.json().catch(() => ({}));
       if (r.ok && j.site) {
-        setSite(j.site);
-        setPublished(false);
-        setImportMsg("Imported. Review the fields, then publish.");
+        const imported = sanitizeSite(j.site);
+        let hostname = "";
+        try { hostname = new URL(url).hostname; } catch { /* URL was already validated above */ }
+        if (isEmptyImportedSite(imported, hostname)) {
+          setImportMsg("We could not read that site automatically. Fill the fields below manually. / لم نستطع قراءة الموقع تلقائياً، املأ الحقول يدوياً");
+        } else {
+          setSite(imported);
+          setPublished(false);
+          setImportMsg("Imported. Review the fields, then publish.");
+        }
+      } else if (j.error === "not_owner") {
+        setImportMsg(await notOwnerMessage());
       } else {
         const errors: Record<string, string> = {
           https_required: "Use a full https:// address.",
@@ -61,7 +98,6 @@ export default function BuilderClient({ name }: { name: string }) {
           redirect_not_allowed: "That address redirects elsewhere. Use the final address.",
           not_html: "That link is not an HTML page.",
           too_large: "That page is too large to import.",
-          not_owner: `This wallet does not hold ${name}.teos`,
           ownership_check_unavailable: "Ownership check unavailable, try again",
           invalid_signature: "Signature check failed, try again",
           signature_expired: "The signature expired, try again",
@@ -91,9 +127,10 @@ export default function BuilderClient({ name }: { name: string }) {
         setPublished(true);
         setSnap({ cid: j.cid ?? cid, sha256: j.sha256 ?? "", bytes: j.bytes ?? 0, signed: j.signed === true, at: ts });
         setMsg("Published.");
+      } else if (j.error === "not_owner") {
+        setMsg(await notOwnerMessage());
       } else {
         const errors: Record<string, string> = {
-          not_owner: `This wallet does not hold ${name}.teos`,
           ownership_check_unavailable: "Ownership check unavailable, try again",
           invalid_cid: "Content ID could not be built, try again",
           cid_mismatch: "The page changed while signing, try again",
@@ -134,6 +171,12 @@ export default function BuilderClient({ name }: { name: string }) {
             <button type="button" disabled={importBusy || !publicKey} onClick={importFromSite} style={{ ...btn, opacity: importBusy || !publicKey ? 0.6 : 1 }}>
               {importBusy ? "Importing..." : "Import"}
             </button>
+          </div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10, alignItems: "center" }}>
+            <button type="button" onClick={useTemplate} style={{ ...btn, background: "#222", color: "#facc15", border: "1px solid #ca8a04", padding: "8px 12px", fontSize: 13 }}>
+              Use a default template
+            </button>
+            <span style={{ fontSize: 12, opacity: 0.65 }}>Works without importing. Fills a title, tagline, one section and one link.</span>
           </div>
           {importMsg && <p style={{ margin: "8px 0 0", fontSize: 13 }}>{importMsg}</p>}
         </div>

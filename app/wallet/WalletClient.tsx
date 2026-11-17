@@ -8,9 +8,10 @@ import { useLang } from "../../lib/useLang";
 import type { Lang } from "../../lib/i18n";
 
 // Connected-wallet level only: the keys stay in Phantom/Solflare. TEOS reads the public address,
-// lists .teos names held on-chain, and relays a transfer the user signed in their own wallet.
+// lists the names it holds on-chain in every known namespace, and relays a transfer the user signed in their own wallet.
 
-type Summary = { names: string[]; balanceSol: number | null };
+type NameRow = { name: string; label: string; tld: string; verified: boolean; published: boolean };
+type Summary = { names: NameRow[]; balanceSol: number | null };
 type Status = { text: string; kind: "info" | "error" | "ok" };
 
 type Txt = {
@@ -22,6 +23,11 @@ type Txt = {
   balanceUnavailable: string;
   names: string;
   noNames: string;
+  published: string;
+  noSite: string;
+  designPublish: string;
+  onlyTeos: string;
+  unverified: string;
   openSite: string;
   design: string;
   send: string;
@@ -53,13 +59,18 @@ type Txt = {
 const TXT: Record<Lang, Txt> = {
   en: {
     title: "Your sovereign wallet",
-    intro: "Connect a Solana wallet you control. TEOS shows your .teos names and lets you send SOL — it never holds your keys.",
+    intro: "Connect a Solana wallet you control. TEOS shows the names your wallet holds on-chain and lets you send SOL — it never holds your keys.",
     connectHint: "Connect a wallet to see your names and balance.",
     connected: "Connected",
     balance: "SOL balance",
     balanceUnavailable: "Unavailable right now",
-    names: "Your .teos names",
-    noNames: "This wallet does not hold a .teos name yet.",
+    names: "Your on-chain names",
+    noNames: "This wallet does not hold a TEOS name yet.",
+    published: "Published",
+    noSite: "No site yet",
+    designPublish: "Design and publish",
+    onlyTeos: "Publishing currently supports .teos names only.",
+    unverified: "Ownership not verified",
     openSite: "Open site",
     design: "Design",
     send: "Send SOL",
@@ -89,13 +100,18 @@ const TXT: Record<Lang, Txt> = {
   },
   ar: {
     title: "محفظتك السيادية",
-    intro: "اربط محفظة Solana تملكها. تيوس يعرض أسماء .teos الخاصة بك ويتيح إرسال SOL — ولا يحتفظ بمفاتيحك أبدًا.",
+    intro: "اربط محفظة Solana تملكها. تيوس يعرض الأسماء الموجودة على الشبكة ويتيح إرسال SOL — ولا يحتفظ بمفاتيحك أبدًا.",
     connectHint: "اربط محفظة لعرض أسمائك ورصيدك.",
     connected: "متصل",
     balance: "رصيد SOL",
     balanceUnavailable: "غير متاح حاليًا",
-    names: "أسماء .teos الخاصة بك",
-    noNames: "هذه المحفظة لا تملك أي اسم .teos بعد.",
+    names: "أسماؤك على الشبكة",
+    noNames: "هذه المحفظة لا تملك أي اسم TEOS بعد.",
+    published: "منشور",
+    noSite: "لا موقع بعد",
+    designPublish: "صمّم وانشر",
+    onlyTeos: "النشر يدعم أسماء .teos فقط حالياً.",
+    unverified: "لم يتم التحقق من الملكية",
     openSite: "افتح الموقع",
     design: "صمّم",
     send: "إرسال SOL",
@@ -125,13 +141,18 @@ const TXT: Record<Lang, Txt> = {
   },
   id: {
     title: "Dompet kedaulatan Anda",
-    intro: "Hubungkan dompet Solana milik Anda. TEOS menampilkan nama .teos Anda dan mengirim SOL — TEOS tidak pernah menyimpan kunci Anda.",
+    intro: "Hubungkan dompet Solana milik Anda. TEOS menampilkan nama yang dipegang dompet Anda di rantai dan mengirim SOL — TEOS tidak pernah menyimpan kunci Anda.",
     connectHint: "Hubungkan dompet untuk melihat nama dan saldo Anda.",
     connected: "Terhubung",
     balance: "Saldo SOL",
     balanceUnavailable: "Tidak tersedia saat ini",
-    names: "Nama .teos Anda",
-    noNames: "Dompet ini belum memiliki nama .teos.",
+    names: "Nama on-chain Anda",
+    noNames: "Dompet ini belum memiliki nama TEOS.",
+    published: "Terbit",
+    noSite: "Belum ada situs",
+    designPublish: "Desain dan terbitkan",
+    onlyTeos: "Penerbitan saat ini hanya mendukung nama .teos.",
+    unverified: "Kepemilikan belum terverifikasi",
     openSite: "Buka situs",
     design: "Desain",
     send: "Kirim SOL",
@@ -177,6 +198,7 @@ const card: React.CSSProperties = {
 const field: React.CSSProperties = { width: "100%", padding: 10, background: "#161616", color: "#fff", border: "1px solid #444", borderRadius: 8, marginTop: 4, boxSizing: "border-box" };
 const btn: React.CSSProperties = { background: "#ca8a04", color: "#000", padding: "10px 18px", fontWeight: 700, borderRadius: 8, cursor: "pointer" };
 const nameLink: React.CSSProperties = { color: "#facc15", textDecoration: "none", fontWeight: 600 };
+const badge: React.CSSProperties = { display: "inline-block", fontSize: 11, padding: "2px 8px", borderRadius: 999, border: "1px solid #57493a", marginInlineEnd: 8 };
 
 function resolveError(code: string, t: Txt): string {
   switch (code) {
@@ -217,12 +239,16 @@ export default function WalletClient() {
       const r = await fetch(`/api/wallet/summary?wallet=${encodeURIComponent(w)}`);
       const j = await r.json().catch(() => ({}));
       if (!r.ok) {
-        setLoadError(j.error === "rpc_unavailable" ? "rpc_unavailable" : "failed");
+        setLoadError(j.error === "rpc_unavailable" || j.error === "ownership_unavailable" ? "rpc_unavailable" : "failed");
         setSummary(null);
         return;
       }
       setSummary({
-        names: Array.isArray(j.names) ? j.names.filter((n: unknown) => typeof n === "string") : [],
+        names: Array.isArray(j.names)
+          ? j.names
+              .filter((n: any) => n && typeof n.name === "string" && typeof n.label === "string" && typeof n.tld === "string")
+              .map((n: any) => ({ name: n.name, label: n.label, tld: n.tld, verified: n.verified === true, published: n.published === true }))
+          : [],
         balanceSol: typeof j.balanceSol === "number" ? j.balanceSol : null,
       });
     } catch {
@@ -402,11 +428,21 @@ export default function WalletClient() {
             {summary && summary.names.length > 0 && (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 10, marginTop: 10 }}>
                 {summary.names.map((n) => (
-                  <div key={n} style={{ border: "1px solid #3d352a", borderRadius: 10, padding: 12, background: "rgba(0,0,0,0.25)" }}>
-                    <div dir="ltr" style={{ fontWeight: 700, color: "#facc15", wordBreak: "break-word" }}>{n}.teos</div>
-                    <div style={{ display: "flex", gap: 14, marginTop: 8, fontSize: 13 }}>
-                      <Link href={`/s/${n}`} style={nameLink}>{t.openSite}</Link>
-                      <Link href={`/builder/${n}`} style={nameLink}>{t.design}</Link>
+                  <div key={n.name} style={{ border: "1px solid #3d352a", borderRadius: 10, padding: 12, background: "rgba(0,0,0,0.25)" }}>
+                    <div dir="ltr" style={{ fontWeight: 700, color: "#facc15", wordBreak: "break-word" }}>{n.name}</div>
+                    <div style={{ marginTop: 8 }}>
+                      <span style={{ ...badge, color: n.published ? "#86efac" : "#d6cbb5", borderColor: n.published ? "#3f6b4f" : "#57493a" }}>
+                        {n.published ? t.published : t.noSite}
+                      </span>
+                      {!n.verified && <span style={{ ...badge, color: "#fcd34d", borderColor: "#6b5a2a" }}>{t.unverified}</span>}
+                    </div>
+                    <div style={{ display: "flex", gap: 14, marginTop: 8, fontSize: 13, flexWrap: "wrap", alignItems: "center" }}>
+                      {n.published && n.tld === "teos" && <Link href={`/s/${n.label}`} style={nameLink}>{t.openSite}</Link>}
+                      {n.tld === "teos" ? (
+                        <Link href={`/builder/${n.label}`} style={nameLink}>{n.published ? t.design : t.designPublish}</Link>
+                      ) : (
+                        <span style={{ opacity: 0.55 }}>{t.onlyTeos}</span>
+                      )}
                     </div>
                   </div>
                 ))}
