@@ -19,6 +19,18 @@
     "checkNow": "Check Now",
     "getKey": "Claim your sovereign key"
   },
+  "home": {
+    "title": "Your Name. Your Identity. Your Ownership.",
+    "subtitle": "Own your digital name.",
+    "description": "One name represents your personal or business identity inside the TEOS ecosystem. Own it and share it with the world.",
+    "note": "You do not need to understand blockchain to get started.",
+    "disclaimer": "A TEOS name is an identity within the TEOS ecosystem. It is not currently a replacement for a traditional internet domain or website hosting.",
+    "ctaBook": "Book Your Name",
+    "ctaOwn": "I Already Own a Name",
+    "ctaDemo": "See a Live Example",
+    "demoUnavailable": "Live example is not available yet",
+    "tech": "Technical details"
+  },
   "pricing": {
     "howTitle": "How it works",
     "how1": ".teos is the root key. A country name only unlocks if the wallet has saloma.teos, either in same purchase or already owned. Server enforces this.",

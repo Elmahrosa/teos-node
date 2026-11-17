@@ -31,7 +31,7 @@ declare global { interface Window { solana?: any; phantom?: { solana?: any } } }
 
 const imgStyle: React.CSSProperties = { borderRadius: 20, border: "1px solid #1F3B44" };
 const ALT = {
-  gate: { en: "The TEOS gate - unlock your sovereign", ar: "بوابة TEOS - افتح اسمك السيادي", id: "Pintu masuk TEOS" } as Record<Lang, string>,
+  gate: { en: "TEOS gate", ar: "بوابة TEOS", id: "Pintu TEOS" } as Record<Lang, string>,
   certificate: { en: "TEOS dig certificate", ar: "شهادة التخذ TEOS", id: "Sertifikat TEOS" } as Record<Lang, string>,
 };
 const SERIF = "Cinzel, Georgia, 'Times New Roman', serif";
@@ -117,18 +117,16 @@ export default function Home() {
     <PharaohStyles />
     {/* TODO(automated-discount): the manual Telegram "Old Pioneers" promo (send proof, founder mints by hand) was removed from the public UI.
         An automated on-chain version plugs in here: check the wallet's on-chain TEOS holdings server-side in /api/quote, then show the discounted quote in the normal checkout. */}
-    <div role="status" style={{ background: "#10B981", color: "#fff", textAlign: "center", padding: "9px 12px", fontSize: 13, fontWeight: 700, letterSpacing: "0.04em" }}>LIVE FROM ALEXANDRIA - 126 NAMESPACES REGISTERED • 13 MINTED</div>
     <nav className="site-nav" style={{ position: "sticky", top: 0, zIndex: 40, background: "rgba(10,8,6,.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #3d352a" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "10px 20px", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><PharaohMark size={46} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.2em", color: "#fef3c7", lineHeight: 1 }}>TEOS Sovereign Root</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}><PharaohMark size={46} /><div><div style={{ fontFamily: SERIF, fontSize: 24, letterSpacing: "0.2em", color: "#fef3c7", lineHeight: 1 }}>TEOS</div><div style={{ fontSize: 10, letterSpacing: "0.25em", color: "#a89a80", marginTop: 4 }}>{L.tagline}</div></div></div>
         <span style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <a className="nav-dup" href="#search" style={{ ...tablet, textDecoration: "none" }}>{L.search}</a>
           <button style={{ ...btn, padding: "4px 14px", fontSize: 14 }} onClick={connectWallet}>{wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect}</button>
-          <span className="nav-dup" style={{ ...tablet, cursor: "default", fontFamily: "ui-monospace, monospace" }}><Bidi text={t("header.tlds")} /></span>
         </span>
       </div>
     </nav>
-    <HeroVideo rtl={rtl} searchLabel={L.search} connectLabel={wallet ? `${wallet.slice(0, 4)}...${wallet.slice(-4)}` : L.connect} onSearch={goSearch} onConnect={connectWallet} />
+    <HeroVideo t={t} lang={lang} rtl={rtl} onBook={goSearch} onOwn={goSearch} demoAvailable={false} />
     <section aria-label={ALT.gate[lang]} style={{ boxSizing: "border-box", width: "100%", maxWidth: 1000, margin: "0 auto", padding: "20px 12px 0" }}>
       <Image src="/images/teos-gate.webp" width={1600} height={1067} alt={ALT.gate[lang]} priority style={{ ...imgStyle, width: "100%", height: "auto", display: "block" }} sizes="(max-width: 1000px) 100vw, 1000px" />
     </section>
@@ -137,31 +135,6 @@ export default function Home() {
         <MusicToggle rtl={rtl} />
         <LanguageToggle lang={lang} onChange={setLang} />
       </div>
-
-      {/* HERO V14 SOVEREIGN - DUAL PATH */}
-      <header style={{ textAlign: "center", margin: "24px 0 8px" }}>
-        <h2 style={{ fontFamily: SERIF, fontSize: "clamp(26px,5vw,44px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>
-          {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : lang === "id" ? "TEOS Akar Berdaulat - Alexandria" : "TEOS Sovereign Root - Alexandria"}
-        </h2>
-        <p dir="auto" style={{ margin: 0, fontSize: 20, color: "#fbbf24", fontWeight: 700 }}>
-          {lang === "ar" ? "مفتاح TEOS واحد يفتح 126 مساحة اسم لاسمك" : lang === "id" ? "1 Kunci TEOS Membuka 126 Namespace Untuk Nama Anda" : "1 TEOS Key Opens 126 Namespaces For Your Name"}
-        </p>
-        <p dir="auto" style={{ margin: "12px 0 0", fontSize: 17, color: "#d6cbb5", lineHeight: 1.6 }}>
-          {lang === "ar" 
-            ? "عايز هوية سيادية رقمية تملكها للأبد - تسطبه - تتداوله - تعمل ديزاين؟ تقدر. عايز تخش المنظومة السيادية الكاملة - متصفح - جيت واي - عالمك الخاص؟ برضه تقدر."
-            : lang === "id"
-            ? "Mau identitas digital berdaulat yang Anda miliki selamanya - setup - trading - desain? Bisa. Mau sistem berdaulat penuh - browser - gateway - dunia Anda sendiri? Bisa juga."
-            : "Want a sovereign digital identity you own forever - setup - trade - design? You can. Want the full sovereign system - browser - gateway - your own world? You can too."}
-        </p>
-        <p dir="auto" style={{ margin: "12px 0 0", fontSize: 16, color: "#a89a80" }}>
-          {lang === "ar" 
-            ? ".teos هو الأصل - ملكية أبدية Metaplex Core على Solana - في محفظتك - yourname.teos هو مفتاحك الجذري. مساحات الدول تفتح قريبا."
-            : lang === "id"
-            ? ".teos adalah akarnya - Metaplex Core abadi di Solana - di dompet Anda - yourname.teos adalah kunci akar Anda. Namespace negara segera dibuka."
-            : ".teos is the root - Eternal Metaplex Core on Solana - in your wallet - yourname.teos is your root key. Country namespaces open soon."}
-        </p>
-        <p dir="auto" data-testid="hero-explainer" style={{ margin: "12px 0 0", fontSize: 16, color: "#eab308" }}>{L.teosIdWorks}</p>
-      </header>
 
       <div id="search" style={{ ...card, position: "relative", overflow: "hidden", padding: "28px 20px", border: "3px double #ca8a04", borderRadius: 8, boxShadow: "0 0 42px rgba(234,179,8,.12), inset 0 2px 12px rgba(0,0,0,.6)" }}>
         <div className="pharaoh-hiero" aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0 }} />
@@ -201,7 +174,6 @@ export default function Home() {
             </div>
             <p style={{ margin: "16px 0 0" }}><button style={{ ...btn, fontSize: 18, padding: "14px 28px" }} disabled={busy || !clean} onClick={check}>{L.checkBtn}</button></p>
             <p style={{ margin: "12px 0 0", color: "#a89a80", fontSize: 13, letterSpacing: "0.06em" }}>{all.length ? fmt(L.sovTlds, { n: 126 }) : ""} • {L.rule}</p>
-            <p dir="auto" style={{ margin: "8px 0 0", color: "#fbbf24", fontSize: 14 }}><Bidi text={L.ownLine} /></p>
           </div>
         </div>
       </div>
@@ -209,6 +181,27 @@ export default function Home() {
       {popup && (<DomainSearchPopup key={clean} t={L} rtl={lang === "ar"} homeTld={selectedTld} name={clean} teos={checked && checkedFor === clean ? checked.results?.find((x: any) => x.tld === "teos") ?? null : null} tlds={all} ownsTeos={!!wallet && (myNames.includes(clean) || owned.includes(clean))} wallet={wallet} founder={clean === "elmahrosa"} open={open} busy={busy} msg={msg} onBuy={mint} onClose={() => setPopup(false)} />)}
       {quote && <MintModal t={L} rtl={rtl} domain={clean} quote={quote} onClose={() => setQuote(null)} helpHref={SOCIAL.help} />}
       {msg && <p role="alert" style={{ color: "#f87171" }}>{msg}</p>}
+
+      {/* Technical details stay below the fold; the first screen is plain-language. */}
+      <details style={{ margin: "28px 0 8px", borderTop: "1px solid #3d352a", paddingTop: 16 }}>
+        <summary style={{ cursor: "pointer", color: "#a89a80", fontSize: 14, letterSpacing: "0.06em" }}>{t("home.tech")}</summary>
+        <header style={{ textAlign: "center", margin: "18px 0 8px" }}>
+          <h2 style={{ fontFamily: SERIF, fontSize: "clamp(24px,4vw,38px)", color: "#fef3c7", letterSpacing: "0.08em", margin: "0 0 8px", textShadow: "0 2px 6px rgba(0,0,0,.8)" }}>
+            {lang === "ar" ? "TEOS الجذر السيادي - من الإسكندرية" : lang === "id" ? "TEOS Akar Berdaulat - Alexandria" : "TEOS Sovereign Root - Alexandria"}
+          </h2>
+          <p dir="auto" style={{ margin: 0, fontSize: 18, color: "#fbbf24", fontWeight: 700 }}>
+            {lang === "ar" ? "مفتاح TEOS واحد يفتح 126 مساحة اسم لاسمك" : lang === "id" ? "1 Kunci TEOS Membuka 126 Namespace Untuk Nama Anda" : "1 TEOS Key Opens 126 Namespaces For Your Name"}
+          </p>
+          <p dir="auto" style={{ margin: "12px 0 0", fontSize: 15, color: "#a89a80" }}>
+            {lang === "ar"
+              ? ".teos هو الأصل - ملكية Metaplex Core على Solana - في محفظتك - yourname.teos هو مفتاحك الجذري."
+              : lang === "id"
+              ? ".teos adalah akarnya - Metaplex Core di Solana - di dompet Anda - yourname.teos adalah kunci akar Anda."
+              : ".teos is the root - Metaplex Core on Solana - in your wallet - yourname.teos is your root key."}
+          </p>
+          <p dir="auto" data-testid="hero-explainer" style={{ margin: "12px 0 0", fontSize: 15, color: "#eab308" }}>{L.teosIdWorks}</p>
+        </header>
+      </details>
 
       <WhyBuy t={L} countries={Math.max(all.length - 1, 0)} onCta={goSearch} />
       <PricingTable t={L} onBuy={goSearch} />

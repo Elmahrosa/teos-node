@@ -19,6 +19,18 @@
     "checkNow": "Cek Sekarang",
     "getKey": "Dapatkan Kunci Berdaulat Anda"
   },
+  "home": {
+    "title": "Nama Anda. Identitas Anda. Kepemilikan Anda.",
+    "subtitle": "Miliki nama digital Anda.",
+    "description": "Satu nama mewakili identitas pribadi atau bisnis Anda di dalam ekosistem TEOS. Miliki dan bagikan kepada dunia.",
+    "note": "Anda tidak perlu memahami blockchain untuk memulai.",
+    "disclaimer": "Nama TEOS adalah identitas di dalam ekosistem TEOS, dan saat ini bukan pengganti domain internet tradisional atau hosting situs web.",
+    "ctaBook": "Pesan Nama Anda",
+    "ctaOwn": "Saya Sudah Memiliki Nama",
+    "ctaDemo": "Lihat Contoh Langsung",
+    "demoUnavailable": "Contoh langsung belum tersedia",
+    "tech": "Detail teknis"
+  },
   "pricing": {
     "howTitle": "Cara kerja",
     "how1": ".teos adalah kunci akar. Nama negara hanya terbuka jika dompet memiliki saloma.teos, baik dalam pembelian yang sama atau sudah dimiliki. Server menegakkan ini.",
