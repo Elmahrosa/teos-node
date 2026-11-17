@@ -17,6 +17,37 @@ export type StoredSite = SiteConfig & { owner: string; updatedAt: number };
 
 export const EMPTY_SITE: SiteConfig = { title: "", tagline: "", theme: "gold", image: "", sections: [{ heading: "About", body: "" }], links: [] };
 
+// A safe starting point when an import cannot be read. Pure, so it also works before connecting a wallet.
+export function defaultSiteTemplate(name: string): SiteConfig {
+  const label = String(name ?? "").trim().toLowerCase();
+  return {
+    title: `${label}.teos`,
+    tagline: `The official home of ${label}.teos.`,
+    theme: "gold",
+    image: "",
+    sections: [{ heading: "About", body: `${label}.teos is a TEOS Web4 name on Solana. Edit this text to introduce yourself or your project.` }],
+    links: [{ label: `${label}.teos`, url: `https://${label}.teos` }],
+  };
+}
+
+// True when an import produced no usable content. A hostname fallback (importSiteFromUrl uses the URL host
+// when the page has no <title>/og:title) is not a real title, so callers may pass the imported hostname.
+// Used by the builder to say "read it manually" instead of claiming a successful import.
+export function isEmptyImportedSite(site: Partial<SiteConfig> | null | undefined, hostname?: string): boolean {
+  const has = (v: unknown) => typeof v === "string" && v.trim().length > 0;
+  const title = typeof site?.title === "string" ? site.title.trim() : "";
+  const host = String(hostname ?? "").trim().toLowerCase().replace(/\.$/, "");
+  const titleIsPlaceholder = !!host && title.toLowerCase().replace(/\.$/, "") === host;
+  const sections = Array.isArray(site?.sections) ? site.sections : [];
+  const links = Array.isArray(site?.links) ? site.links : [];
+  return (
+    (!title || titleIsPlaceholder) &&
+    !has(site?.tagline) &&
+    !sections.some((s) => has(s?.body)) &&
+    !links.some((l) => has(l?.label) && has(l?.url))
+  );
+}
+
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, "").trim().slice(0, max) : "");
 
 export function safeUrl(v: unknown): string {
