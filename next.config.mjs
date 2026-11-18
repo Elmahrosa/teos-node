@@ -21,6 +21,14 @@ const nextConfig = {
           { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
         ],
       },
+      // Pi domain verification: plain text, never cached.
+      {
+        source: "/validation-key.txt",
+        headers: [
+          { key: "Content-Type", value: "text/plain; charset=utf-8" },
+          { key: "Cache-Control", value: "no-cache" },
+        ],
+      },
     ];
   },
 };
