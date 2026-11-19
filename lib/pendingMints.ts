@@ -109,6 +109,9 @@ export async function retryPendingMints(): Promise<{ processed: number; minted: 
 let started = false;
 export function startPendingMintWorker() {
   if (started) return;
+  // Serverless invocations are short-lived: an interval either never fires or keeps a frozen lambda
+  // awake. The retry worker only makes sense on a long-running server (Railway / self-hosted).
+  if (process.env.VERCEL === "1") return;
   started = true;
   const tick = () => retryPendingMints().then((r) => { if (r && (r.processed || r.backlog)) console.log("[pending-mint] tick", JSON.stringify(r)); }).catch((e) => console.error("[pending-mint] worker_error", String(e?.message ?? e).slice(0, 200)));
   setTimeout(tick, 30_000).unref?.();

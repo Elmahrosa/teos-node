@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "tsx --test --experimental-test-module-mocks tests/*.test.ts",
     "audit:prod": "npm audit --omit=dev --audit-level=high",
-    "hash-password": "node scripts/hash-password.mjs"
+    "hash-password": "node scripts/hash-password.mjs",
+    "preflight": "node scripts/preflight.mjs"
   },
   "dependencies": {
     "@metamask/connect-solana": "^2.1.1",

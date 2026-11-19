@@ -5,7 +5,13 @@ const prod = process.env.NODE_ENV === "production";
 const nextConfig = {
   poweredByHeader: false,
   experimental: {
-    serverActions: { allowedOrigins: prod ? ["web4.elmahrosa.org"] : ["web4.elmahrosa.org", "localhost:3000", "localhost:8080"] },
+    // Server actions are not used today, but keep the allow-list correct for every host we actually
+    // serve from: the Railway domain, the free Vercel host (and its preview URLs), and the Pi proxy.
+    serverActions: {
+      allowedOrigins: prod
+        ? ["web4.elmahrosa.org", "teos-node.vercel.app", "*.vercel.app", "*.pinet.com"]
+        : ["web4.elmahrosa.org", "teos-node.vercel.app", "localhost:3000", "localhost:8080"],
+    },
   },
   async headers() {
     return [
