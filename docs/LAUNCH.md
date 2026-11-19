@@ -13,6 +13,16 @@ Code is the same everywhere; only environment variables differ.
 
 If Railway billing lapses, the site keeps serving from Vercel as long as the Vercel env is complete.
 
+## Deploy model (verified 2026-11-19)
+
+Both platforms are connected to the GitHub repo and deploy `main` automatically on push:
+
+- Railway: `railway-app[bot]` creates a `TEOS ID / production` deployment for every push.
+- Vercel: `teos-node.vercel.app` picked up `b330304` without any manual action.
+
+So there is nothing to "trigger" after a push; the only manual step is changing **environment variables**,
+because a platform never rebuilds an existing deployment when env changes. Use **Redeploy** after editing them.
+
 ## 1. Make Vercel fully functional (free)
 
 The Vercel deployment currently renders every page but its API routes return `503`
@@ -60,6 +70,15 @@ The Pi portal app URL must point at a deployment that serves the validation key.
 
 `next.config.mjs` already serves the key with `text/plain` and `no-cache`, and `middleware.ts`
 excludes `.txt` so the CSP never touches it.
+
+### What a judge sees inside Pi Browser
+
+Pi Browser is a mobile WebView with **no Solana wallet extension**. The app renders fully
+(hero, 3 languages, pricing, wallet modal), but connecting a wallet deep-links out to Phantom /
+Solflare / Trust. That is expected behaviour, not a bug: TEOS custody is on Solana, so signing
+must happen in a Solana wallet. If the hackathon requires a Pi-native sign-in
+(`Pi.authenticate`) or Pi payments, that is a separate integration and a separate CSP change
+(`script-src` must allow `https://sdk.minepi.com`).
 
 ## 3. Verify any deployment in one command
 

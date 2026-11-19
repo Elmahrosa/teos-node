@@ -6,7 +6,10 @@ import pricing from "../core/pricing.json";
 
 const cairo = Cairo({ subsets: ["arabic", "latin"], weight: ["400", "700"], variable: "--font-cairo", display: "swap" });
 
-const SITE = "https://web4.elmahrosa.org";
+// Canonical base follows the host we actually serve from (Vercel / Pi proxy / custom domain) so
+// canonical, OpenGraph and JSON-LD URLs never advertise a host that may be down. Falls back to
+// the primary custom domain when PUBLIC_BASE_URL is unset.
+const SITE = (process.env.PUBLIC_BASE_URL?.trim() || "https://web4.elmahrosa.org").replace(/\/+$/, "");
 const TITLE = "TEOS Sovereign Root - From Alexandria, Egypt. Founded by Ayman Seif.";
 const DESC = "Your name, your identity, your ownership. A sovereign digital identity on Solana: claim a name, own it with your keys, and use it across the TEOS ecosystem. Live SOL price, no renewal.";
 
